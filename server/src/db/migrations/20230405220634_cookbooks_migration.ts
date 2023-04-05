@@ -7,6 +7,7 @@ export async function up(knex: Knex): Promise<void> {
       table.string('username', 100).notNullable();
       table.string('email', 100).notNullable();
       table.string('password', 250).notNullable();
+      table.integer('is_readonly').notNullable().defaultTo(0)
       table.timestamps();
     })
     .createTable('cookbooks', function (table) {
