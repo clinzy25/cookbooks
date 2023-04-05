@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "install": "concurrently \"pnpm i --prefix client\" \"pnpm i --prefix server\"",
     "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
-    "migrate": "knex migrate:latest --knexfile server/src/db/knexfile.js"
+    "migrate:make": "cd server/src/db && knex migrate:make cookbooks_migration -x ts",
+    "migrate:up": "knex migrate:latest --knexfile server/src/db/knexfile.js",
+    "migrate:down": "knex migrate:down --knexfile server/src/db/knexfile.js"
   },
   "keywords": [],
   "author": "",
