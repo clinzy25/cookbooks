@@ -98,16 +98,5 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(knex: Knex): Promise<void> {
-  return knex.schema
-    .dropTable('users')
-    .dropTable('cookbook_members')
-    .dropTable('invites')
-    .dropTable('cookbooks')
-    .dropTable('recipes')
-    .dropTable('ingredients')
-    .dropTable('ingredient_types')
-    .dropTable('instructions')
-    .dropTable('notes')
-    .dropTable('tags')
-    .dropTable('tag_types');
+  await knex.raw('DROP TABLE users, cookbook_members, invites, cookbooks, recipes, ingredients, ingredient_types, instructions, notes, tags, tag_types CASCADE;')
 }

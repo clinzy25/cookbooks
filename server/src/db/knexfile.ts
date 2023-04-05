@@ -1,12 +1,16 @@
-import type { Knex } from "knex";
+import type { Knex } from 'knex';
+import path from 'path';
+require('dotenv').config({
+  path: path.resolve(__dirname, '..', '..', '..', '.env'),
+});
 
 const config: { [key: string]: Knex.Config } = {
   development: {
     client: 'postgresql',
     connection: {
-      database: 'cookbooks',
-      user: 'a4employee',
-      password: '8451',
+      database: process.env.DATABASE,
+      user: process.env.DEV_DB_USER,
+      password: process.env.DEV_DB_PASS,
     },
     pool: {
       min: 2,
