@@ -46,6 +46,9 @@ export async function up(knex: Knex): Promise<void> {
       table.foreign('user_id').references('users.id');
       table.string('recipe_name', 100).notNullable();
       table.string('image', 250);
+      table.string('source', 250);
+      table.string('source_type', 50).checkIn(['link', 'form', 'camera']);
+      table.jsonb('recipe_body');
       table.text('description', 'text');
       table.integer('servings');
       table.string('prep_time', 100);
@@ -57,7 +60,6 @@ export async function up(knex: Knex): Promise<void> {
     .createTable('ingredient_types', function (table) {
       table.increments('id').primary();
       table.string('ingredient_name', 100).notNullable();
-      table.timestamps();
     })
     .createTable('ingredients', function (table) {
       table.increments('id').primary();
@@ -67,26 +69,23 @@ export async function up(knex: Knex): Promise<void> {
       table.foreign('recipe_id').references('recipes.id');
       table.string('unit', 50).notNullable();
       table.integer('amount').notNullable();
-      table.timestamps();
     })
     .createTable('instructions', function (table) {
       table.increments('id').primary();
       table.integer('recipe_id').unsigned();
       table.foreign('recipe_id').references('recipes.id');
       table.text('instruction_body', 'text').notNullable();
-      table.timestamps();
+      table.integer('order')
     })
     .createTable('notes', function (table) {
       table.increments('id').primary();
       table.integer('recipe_id').unsigned();
       table.foreign('recipe_id').references('recipes.id');
       table.text('note_body', 'text').notNullable();
-      table.timestamps();
     })
     .createTable('tag_types', function (table) {
       table.increments('id').primary();
       table.string('tag_name', 50).notNullable();
-      table.timestamps();
     })
     .createTable('tags', function (table) {
       table.increments('id').primary();
@@ -94,7 +93,6 @@ export async function up(knex: Knex): Promise<void> {
       table.foreign('recipe_id').references('recipes.id');
       table.integer('tag_type_id').unsigned();
       table.foreign('tag_type_id').references('tag_types.id');
-      table.timestamps();
     });
 }
 
