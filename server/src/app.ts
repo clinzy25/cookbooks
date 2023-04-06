@@ -1,13 +1,15 @@
 import express, { Express, Request, Response } from 'express'
 import path from 'path'
-require('dotenv').config({
+import dotenv from 'dotenv'
+
+dotenv.config({
   path: path.resolve(__dirname, '..', '..', '.env'),
 })
 
 const app: Express = express()
-const port = 8080
+const port = process.env.SERVER_PORT
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (_req: Request, res: Response) => {
   res.send('Good to gooo')
 })
 
