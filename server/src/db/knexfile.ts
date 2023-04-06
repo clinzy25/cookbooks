@@ -1,8 +1,8 @@
-import type { Knex } from 'knex';
-import path from 'path';
+import type { Knex } from 'knex'
+import path from 'path'
 require('dotenv').config({
   path: path.resolve(__dirname, '..', '..', '..', '.env'),
-});
+})
 
 const config: { [key: string]: Knex.Config } = {
   development: {
@@ -52,6 +52,6 @@ const config: { [key: string]: Knex.Config } = {
       tableName: 'knex_migrations',
     },
   },
-};
+}
 
-module.exports = config;
+export default config

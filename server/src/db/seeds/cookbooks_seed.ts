@@ -1,16 +1,16 @@
-import { Knex } from 'knex';
-import fs from 'fs';
-import path from 'path';
+import { Knex } from 'knex'
+import fs from 'fs'
+import path from 'path'
 
 const getRecipe = (fileName: string): string => {
-  const file = path.join(__dirname, 'recipes', fileName);
-  return JSON.stringify(fs.readFileSync(file, 'utf8'));
-};
+  const file = path.join(__dirname, 'recipes', fileName)
+  return JSON.stringify(fs.readFileSync(file, 'utf8'))
+}
 
 export async function seed(knex: Knex): Promise<void> {
   await knex.raw(
     'TRUNCATE TABLE users, cookbook_members, invites, cookbooks, recipes, ingredients, ingredient_types, instructions, notes, tags, tag_types RESTART IDENTITY;'
-  );
+  )
 
   await knex('users').insert([
     {
@@ -37,7 +37,7 @@ export async function seed(knex: Knex): Promise<void> {
       created_at: knex.fn.now(),
       updated_at: knex.fn.now(),
     },
-  ]);
+  ])
   await knex('cookbooks').insert([
     {
       creator_user_id: 1,
@@ -51,7 +51,7 @@ export async function seed(knex: Knex): Promise<void> {
       created_at: knex.fn.now(),
       updated_at: knex.fn.now(),
     },
-  ]);
+  ])
   await knex('cookbook_members').insert([
     {
       creator_user_id: 1,
@@ -74,7 +74,7 @@ export async function seed(knex: Knex): Promise<void> {
       created_at: knex.fn.now(),
       updated_at: knex.fn.now(),
     },
-  ]);
+  ])
   await knex('recipes').insert([
     {
       cookbook_id: 1,
@@ -155,7 +155,7 @@ export async function seed(knex: Knex): Promise<void> {
       created_at: knex.fn.now(),
       updated_at: knex.fn.now(),
     },
-  ]);
+  ])
   await knex('ingredient_types').insert([
     { ingredient_name: 'rice noodles' },
     { ingredient_name: 'bean sprouts' },
@@ -168,7 +168,7 @@ export async function seed(knex: Knex): Promise<void> {
     { ingredient_name: 'ground beef' },
     { ingredient_name: 'ginger' },
     { ingredient_name: 'gochujang' },
-  ]);
+  ])
   await knex('ingredients').insert([
     {
       ingredient_type_id: 1,
@@ -224,7 +224,7 @@ export async function seed(knex: Knex): Promise<void> {
       amount: 1,
       unit: 'tsp',
     },
-  ]);
+  ])
   await knex('instructions').insert([
     {
       recipe_id: 1,
@@ -262,7 +262,7 @@ export async function seed(knex: Knex): Promise<void> {
       instruction_body:
         'Moisten hands and shape medium-small meatballs. Place them on a platter.',
     },
-  ]);
+  ])
   await knex('notes').insert([
     {
       recipe_id: 2,
@@ -274,7 +274,7 @@ export async function seed(knex: Knex): Promise<void> {
       note_body:
         'The broth can be made up to 4 days in advance.  It can be frozen for up to 2 months.',
     },
-  ]);
+  ])
   await knex('tag_types').insert([
     {
       tag_name: 'Asian',
@@ -291,7 +291,7 @@ export async function seed(knex: Knex): Promise<void> {
     {
       tag_name: 'Chicken',
     },
-  ]);
+  ])
   await knex('tags').insert([
     {
       recipe_id: 1,
@@ -317,5 +317,5 @@ export async function seed(knex: Knex): Promise<void> {
       recipe_id: 5,
       tag_type_id: 5,
     },
-  ]);
+  ])
 }

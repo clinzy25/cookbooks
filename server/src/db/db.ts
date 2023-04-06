@@ -1,3 +1,3 @@
-const knexConfig = require('./knexfile');
+import knexConfig from './knexfile'
 
-const knex = require('knex')(knexConfig[process.env.NODE_ENV!]);
+const knex = require('knex')(knexConfig[process.env.NODE_ENV!])
