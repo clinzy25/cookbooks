@@ -1,17 +1,16 @@
 import { Knex } from 'knex';
+import fs from 'fs';
+import path from 'path';
+
+const getRecipe = (fileName: string): string => {
+  const file = path.join(__dirname, 'recipes', fileName);
+  return JSON.stringify(fs.readFileSync(file, 'utf8'));
+};
 
 export async function seed(knex: Knex): Promise<void> {
-  await knex('users').del();
-  await knex('cookbooks').del();
-  await knex('cookbook_members').del();
-  await knex('invites').del();
-  await knex('recipes').del();
-  await knex('ingredient_types').del();
-  await knex('ingredients').del();
-  await knex('instructions').del();
-  await knex('notes').del();
-  await knex('tag_types').del();
-  await knex('tags').del();
+  await knex.raw(
+    'TRUNCATE TABLE users, cookbook_members, invites, cookbooks, recipes, ingredients, ingredient_types, instructions, notes, tags, tag_types RESTART IDENTITY;'
+  );
 
   await knex('users').insert([
     {
@@ -42,13 +41,13 @@ export async function seed(knex: Knex): Promise<void> {
   await knex('cookbooks').insert([
     {
       creator_user_id: 1,
-      name: 'Conner shared cookbook',
+      cookbook_name: 'Conner shared cookbook',
       created_at: knex.fn.now(),
       updated_at: knex.fn.now(),
     },
     {
       creator_user_id: 1,
-      name: 'Quinten family cookbook',
+      cookbook_name: 'Quinten family cookbook',
       created_at: knex.fn.now(),
       updated_at: knex.fn.now(),
     },
@@ -138,7 +137,7 @@ export async function seed(knex: Knex): Promise<void> {
       recipe_name: 'Authentic Jambalaya',
       source:
         'https://howtofeedaloon.com/authentic-jambalaya-shrimp-chicken-smoked-ham/',
-      recipe_body: JSON.stringify('./recipes/jumbalaya.json'),
+      recipe_body: getRecipe('jumbalaya.json'),
       source_type: 'link',
       is_private: 0,
       created_at: knex.fn.now(),
@@ -150,7 +149,7 @@ export async function seed(knex: Knex): Promise<void> {
       recipe_name: 'Slow-Cooker Chicken Chow Mein',
       source:
         'https://howtofeedaloon.com/slow-cooker-chicken-chow-mein-recipe/',
-      recipe_body: JSON.stringify('./recipes/chow_mein.json'),
+      recipe_body: getRecipe('chow_mein.json'),
       source_type: 'link',
       is_private: 0,
       created_at: knex.fn.now(),
@@ -174,47 +173,56 @@ export async function seed(knex: Knex): Promise<void> {
     {
       ingredient_type_id: 1,
       recipe_id: 2,
-      unit: '14 oz',
+      amount: 14,
+      unit: 'oz',
     },
     {
       ingredient_type_id: 2,
       recipe_id: 1,
-      unit: '1 cup',
+      amount: 1,
+      unit: 'cup',
     },
     {
       ingredient_type_id: 3,
       recipe_id: 2,
-      unit: '2 tbsp',
+      amount: 2,
+      unit: 'tbsp',
     },
     {
       ingredient_type_id: 4,
       recipe_id: 2,
-      unit: '1 cup',
+      amount: 1,
+      unit: 'cup',
     },
     {
       ingredient_type_id: 4,
       recipe_id: 1,
-      unit: '1/2 cup',
+      amount: 0.5,
+      unit: 'cup',
     },
     {
       ingredient_type_id: 6,
       recipe_id: 3,
-      unit: 'all',
+      amount: 1,
+      unit: 'tray',
     },
     {
       ingredient_type_id: 7,
       recipe_id: 3,
-      unit: '1 lb',
+      amount: 1,
+      unit: 'lb',
     },
     {
       ingredient_type_id: 8,
       recipe_id: 1,
-      unit: '2 tbsp',
+      amount: 2,
+      unit: 'tbsp',
     },
     {
       ingredient_type_id: 9,
       recipe_id: 1,
-      unit: '1 tsp',
+      amount: 1,
+      unit: 'tsp',
     },
   ]);
   await knex('instructions').insert([

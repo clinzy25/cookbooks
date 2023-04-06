@@ -68,7 +68,7 @@ export async function up(knex: Knex): Promise<void> {
       table.integer('recipe_id').unsigned();
       table.foreign('recipe_id').references('recipes.id');
       table.string('unit', 50).notNullable();
-      table.integer('amount').notNullable();
+      table.decimal('amount').notNullable();
     })
     .createTable('instructions', function (table) {
       table.increments('id').primary();
