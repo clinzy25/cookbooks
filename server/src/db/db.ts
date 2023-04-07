@@ -1,4 +1,6 @@
 import knexConfig from './knexfile'
-import knex from 'knex'
 
-knex(knexConfig[process.env.NODE_ENV ?? 'development'])
+// eslint-disable-next-line
+const knex = require('knex')(knexConfig[process.env.NODE_ENV ?? 'development'])
+
+export default knex

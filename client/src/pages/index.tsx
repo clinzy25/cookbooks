@@ -1,3 +1,3 @@
-const Home = () => <p>Helooooo</p>
+const LandingPage = () => <p>LandingPage</p>
 
-export default Home
+export default LandingPage
