@@ -1,14 +1,17 @@
+import Link from 'next/link'
 import styled from 'styled-components'
 
-const LandingPage = () => (
+const LandingPage: React.FC = () => (
   <Styles>
     <header>
       <h1>Cookbooks</h1>
       <p>Create a shared cookbook.</p>
     </header>
     <div id='btn-ctr'>
-      <button>Login</button>
-      <button>Signup</button>
+      <Link href='/cookbooks'>
+        <button>Login</button>
+        <button>Signup</button>
+      </Link>
     </div>
   </Styles>
 )
