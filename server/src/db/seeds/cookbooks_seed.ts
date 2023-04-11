@@ -9,7 +9,7 @@ const getRecipe = (fileName: string): string => {
 
 export async function seed(knex: Knex): Promise<void> {
   await knex.raw(
-    'TRUNCATE TABLE users, cookbook_members, invites, cookbooks, recipes, ingredients, ingredient_types, instructions, notes, tags, tag_types RESTART IDENTITY;'
+    'TRUNCATE TABLE users, cookbook_members, invites, cookbooks, recipes, ingredients, ingredient_types, tags, tag_types RESTART IDENTITY;'
   )
 
   await knex('users').insert([
@@ -223,56 +223,6 @@ export async function seed(knex: Knex): Promise<void> {
       recipe_id: 1,
       amount: 1,
       unit: 'tsp',
-    },
-  ])
-  await knex('instructions').insert([
-    {
-      recipe_id: 1,
-      order: 1,
-      instruction_body:
-        'Place a medium or large skillet over medium-high heat on the stovetop. When the skillet is hot, add the ground beef to the skillet, stirring and crumbling into small pieces with a wooden spoon, until cooked through. Drain off any excess liquid then return the skillet to the stove.',
-    },
-    {
-      recipe_id: 1,
-      order: 2,
-      instruction_body:
-        'While the beef is cooking, in a small bowl, whisk together the coconut aminos, honey, sesame oil, rice vinegar, garlic, red pepper flakes, and ginger. ',
-    },
-    {
-      recipe_id: 2,
-      order: 1,
-      instruction_body:
-        'Begin by cooking the noodles according to the package instructions. Drain once cooked.',
-    },
-    {
-      recipe_id: 2,
-      order: 2,
-      instruction_body:
-        'While the noodles are cooking, cut the tofu into cubes. Heat the oil in a large pan and place the tofu in the pan. Sear for 2 – 3 minutes per side. Once the tofu is seared, transfer it to a plate.',
-    },
-    {
-      recipe_id: 3,
-      order: 1,
-      instruction_body:
-        'In a large bowl, combine the beef, Italian sausage, eggs, onion, garlic, bread crumbs, cheese, and 1 teaspoon of salt and pepper (each). Mix until fully combined. ',
-    },
-    {
-      recipe_id: 3,
-      order: 2,
-      instruction_body:
-        'Moisten hands and shape medium-small meatballs. Place them on a platter.',
-    },
-  ])
-  await knex('notes').insert([
-    {
-      recipe_id: 2,
-      note_body:
-        'May substitute 3 tablespoons tamari (gluten-free) or low-sodium soy sauce + 3 tablespoons water for coconut aminos, if desired',
-    },
-    {
-      recipe_id: 3,
-      note_body:
-        'The broth can be made up to 4 days in advance.  It can be frozen for up to 2 months.',
     },
   ])
   await knex('tag_types').insert([
