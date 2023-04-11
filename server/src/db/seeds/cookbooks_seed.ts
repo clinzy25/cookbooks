@@ -78,7 +78,7 @@ export async function seed(knex: Knex): Promise<void> {
   await knex('recipes').insert([
     {
       cookbook_id: 1,
-      user_id: 1,
+      creator_user_id: 1,
       recipe_name: 'Korean beef bowls',
       image:
         'https://therealfooddietitians.com/wp-content/uploads/2022/05/Korean-Beef-Bowls-2.jpg',
@@ -97,7 +97,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       cookbook_id: 1,
-      user_id: 1,
+      creator_user_id: 1,
       recipe_name: '30-Minute Tofu Pad Thai',
       image:
         'https://www.simplyquinoa.com/wp-content/uploads/2022/01/30-minute-tofu-pad-thai-2-500x500.jpg',
@@ -115,7 +115,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       cookbook_id: 1,
-      user_id: 2,
+      creator_user_id: 2,
       recipe_name: 'Italian Wedding Soup',
       image:
         'https://howtofeedaloon.com/wp-content/uploads/2020/09/wedding-instagram-500x500.jpg',
@@ -133,7 +133,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       cookbook_id: 1,
-      user_id: 2,
+      creator_user_id: 2,
       recipe_name: 'Authentic Jambalaya',
       source:
         'https://howtofeedaloon.com/authentic-jambalaya-shrimp-chicken-smoked-ham/',
@@ -145,7 +145,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       cookbook_id: 1,
-      user_id: 1,
+      creator_user_id: 1,
       recipe_name: 'Slow-Cooker Chicken Chow Mein',
       source:
         'https://howtofeedaloon.com/slow-cooker-chicken-chow-mein-recipe/',

@@ -21,7 +21,9 @@ const CookbooksPage: React.FC = () => {
   return (
     <Styles>
       {cookbooks.map(cb => (
-        <Link href={`/cookbooks/${cb.guid}`} key={cb.guid}>{cb.cookbook_name}</Link>
+        <Link href={`/cookbooks/${cb.guid}`} key={cb.guid}>
+          {cb.cookbook_name}
+        </Link>
       ))}
     </Styles>
   )
