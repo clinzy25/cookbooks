@@ -4,9 +4,8 @@ import { IUser } from './@types.user'
 export type AppContextType = {
   cookbooks: ICookbook[]
   user: IUser
+  cookbooksLoading: boolean
+  cookbooksError: boolean
   setUser: (user: IUser) => void
-  createCookbook: (cookbook: ICookbook) => void
-  updateCookbook: (id: number) => void
-  deleteCookbook: (id: number) => void
-  setCookbooks: (cookbooks: ICookbook[]) => void
+  getCookbooks: (user_id: number) => void
 }

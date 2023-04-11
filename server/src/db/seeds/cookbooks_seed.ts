@@ -46,7 +46,7 @@ export async function seed(knex: Knex): Promise<void> {
       updated_at: knex.fn.now(),
     },
     {
-      creator_user_id: 1,
+      creator_user_id: 2,
       cookbook_name: 'Quinten family cookbook',
       created_at: knex.fn.now(),
       updated_at: knex.fn.now(),
