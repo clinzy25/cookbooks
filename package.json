@@ -23,5 +23,8 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "i": "^0.3.7",
     "npm": "^9.6.4"
+  },
+  "dependencies": {
+    "babel-preset-next": "^1.4.0"
   }
 }

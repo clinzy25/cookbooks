@@ -7,5 +7,5 @@ export type AppContextType = {
   cookbooksLoading: boolean
   cookbooksError: boolean
   setUser: (user: IUser) => void
-  getCookbooks: (user_id: number) => void
+  getCookbooks: (user_id: string) => void
 }

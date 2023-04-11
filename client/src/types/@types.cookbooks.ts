@@ -1,5 +1,6 @@
 export interface ICookbook {
   id: number
+  guid: string
   creator_user_id: number
   cookbook_name: string
   created_at: string

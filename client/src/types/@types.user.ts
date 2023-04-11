@@ -1,5 +1,6 @@
 export interface IUser {
   id: number
+  guid: string
   username: string
   email: string
   is_readonly: number
