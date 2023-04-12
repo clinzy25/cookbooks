@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import styled from 'styled-components'
 
 const LandingPage: React.FC = () => (
@@ -8,10 +7,10 @@ const LandingPage: React.FC = () => (
       <p>Create a shared cookbook with your friends and family.</p>
     </header>
     <div id='btn-ctr'>
-      <Link href='/cookbooks'>
-        <button>Login</button>
-        <button>Signup</button>
-      </Link>
+      <button>
+        <a href='/api/auth/login'>Login</a>
+      </button>
+      <button>Signup</button>
     </div>
   </Styles>
 )
