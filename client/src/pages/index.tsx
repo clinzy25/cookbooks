@@ -5,7 +5,7 @@ const LandingPage: React.FC = () => (
   <Styles>
     <header>
       <h1>Cookbooks</h1>
-      <p>Create a shared cookbook.</p>
+      <p>Create a shared cookbook with your friends and family.</p>
     </header>
     <div id='btn-ctr'>
       <Link href='/cookbooks'>

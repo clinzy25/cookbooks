@@ -8,8 +8,9 @@ import React, {
   FC,
   useState,
   PropsWithChildren,
-  useCallback,
+  useEffect,
 } from 'react'
+import useSWR from 'swr'
 
 export const AppContext = createContext<AppContextType | null>(null)
 
@@ -24,20 +25,17 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     updated_at: '',
   })
   const [cookbooks, setCookbooks] = useState<ICookbook[]>([])
-  const [cookbooksLoading, setCookbooksLoading] = useState(false)
   const [cookbooksError, setCookbooksError] = useState(false)
 
-  const getCookbooks = useCallback(async (user_guid: string) => {
-    try {
-      setCookbooksLoading(true)
-      const data = await fetcher(`${api}/cookbooks?user_guid=${user_guid}`)
-      setCookbooks(data)
-    } catch (e) {
-      console.error(e)
-      setCookbooksError(true)
-    }
-    setCookbooksLoading(false)
-  }, [])
+  const { data, error } = useSWR(
+    `${api}/cookbooks?user_guid=${user.guid}`,
+    fetcher
+  )
+
+  useEffect(() => {
+    data && setCookbooks(data)
+    error && setCookbooksError(error)
+  }, [data, error])
 
   return (
     <AppContext.Provider
@@ -45,8 +43,6 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
         cookbooks,
         user,
         setUser,
-        getCookbooks,
-        cookbooksLoading,
         cookbooksError,
       }}>
       {children}
