@@ -7,10 +7,9 @@ const LandingPage: React.FC = () => (
       <p>Create a shared cookbook with your friends and family.</p>
     </header>
     <div id='btn-ctr'>
-      <button>
-        <a href='/api/auth/login'>Login</a>
-      </button>
-      <button>Signup</button>
+      <a href='/api/auth/login'>
+        <button>Login / Signup</button>
+      </a>
     </div>
   </Styles>
 )
