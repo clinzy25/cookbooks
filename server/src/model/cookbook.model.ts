@@ -7,7 +7,7 @@ export async function getCookbook(guid: string) {
       .from('cookbooks as c')
       .join('users', 'users.id', '=', 'c.creator_user_id')
       .where({ 'users.guid': guid })
-  } catch (error) {
-    console.error(error)
+  } catch (e) {
+    console.error(e)
   }
 }

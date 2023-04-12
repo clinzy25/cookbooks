@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
+import RecipeCard from './components/RecipeCard'
 
 type Props = {
   recipes: IRecipe[]
@@ -31,8 +32,8 @@ const CookbooksDetailPage: React.FC<Props> = (props: Props) => {
   }
   return (
     <Styled>
-      {recipes.map(r => (
-        <p key={r.guid}>{r.recipe_name}</p>
+      {recipes.map((recipe: IRecipe) => (
+        <RecipeCard {...recipe} key={recipe.guid}></RecipeCard>
       ))}
     </Styled>
   )
@@ -46,6 +47,8 @@ export async function getServerSideProps(context: {
   return { props: { recipes } }
 }
 
-const Styled = styled.main``
+const Styled = styled.main`
+  display: grid;
+`
 
 export default CookbooksDetailPage
