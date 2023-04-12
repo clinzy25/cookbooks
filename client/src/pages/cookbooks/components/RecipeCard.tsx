@@ -7,14 +7,14 @@ const RecipeCard: React.FC<IRecipe> = recipe => {
   const { recipe_name, image, cook_time, prep_time, tags } = recipe
   return (
     <Style>
-      {image && (
-        <Image src={image} alt={recipe_name} width={300} height={300} />
-      )}
+      <div className='img-ctr'>
+        {image && <Image className='img' src={image} alt={recipe_name} fill />}
+      </div>
       <p>{recipe_name}</p>
-      <span>Cook Time: {cook_time}</span>
+      <span>Cook Time: {cook_time}</span>&nbsp;
       <span>Prep Time: {prep_time}</span>
       <p className='tags-ctr'>
-        {tags.split(',').map((tag: string) => (
+        {tags?.split(',').map((tag: string) => (
           <span key={tag}>#{tag} </span>
         ))}
       </p>
@@ -22,6 +22,16 @@ const RecipeCard: React.FC<IRecipe> = recipe => {
   )
 }
 
-const Style = styled.article``
+const Style = styled.article`
+  .img-ctr {
+    position: relative;
+    min-width: 200px;
+    height: 300px;
+    overflow: hidden;
+    .img {
+      object-fit: cover;
+    }
+  }
+`
 
 export default RecipeCard

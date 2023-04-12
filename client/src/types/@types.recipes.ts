@@ -18,4 +18,5 @@ export interface IRecipe {
   is_private: number
   created_at: string
   updated_at: string
+  tags: string
 }

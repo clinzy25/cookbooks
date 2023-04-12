@@ -33,7 +33,7 @@ const CookbooksDetailPage: React.FC<Props> = (props: Props) => {
   return (
     <Styled>
       {recipes.map((recipe: IRecipe) => (
-        <RecipeCard {...recipe} key={recipe.guid}/>
+          <RecipeCard {...recipe} key={recipe.guid} />
       ))}
     </Styled>
   )
@@ -49,6 +49,9 @@ export async function getServerSideProps(context: {
 
 const Styled = styled.main`
   display: grid;
+  gap: 20px;
+  grid-template-rows: repeat(1fr);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 `
 
 export default CookbooksDetailPage
