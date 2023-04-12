@@ -1,6 +1,8 @@
 import express from 'express'
-import { httpGetRecipes } from './recipe.controller'
+import { httpGetCookbookRecipes, httpGetRecipe, httpGetUserRecipes } from './recipe.controller'
 
 export const recipeRouter = express.Router()
 
-recipeRouter.get('/', httpGetRecipes)
+recipeRouter.get('/', httpGetRecipe)
+recipeRouter.get('/cookbook', httpGetCookbookRecipes)
+recipeRouter.get('/user', httpGetUserRecipes)

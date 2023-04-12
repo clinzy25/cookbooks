@@ -9,12 +9,14 @@ type Props = {
 }
 
 const RecipePage: React.FC<Props> = (props: Props) => {
+  const { recipe_name } = props.recipe
+
   const {
     query: { id },
   } = useRouter()
   const [recipe, setRecipe] = useState<IRecipe>(props.recipe)
   const { data, error } = useSWR<IRecipe, Error>(
-    `${api}/recipes?guid=${id}`,
+    `${api}/recipes?recipe_guid=${id}`,
     fetcher
   )
 
@@ -28,14 +30,14 @@ const RecipePage: React.FC<Props> = (props: Props) => {
   if (error) {
     return <p>error</p>
   }
-  return <div>{recipe.guid}</div>
+  return <p>{recipe_name}</p>
 }
 
 export async function getServerSideProps(context: {
   params: { id: string }
 }): Promise<{ props: Props }> {
   const id = context.params.id
-  const recipe: IRecipe = await fetcher(`${api}/recipes?guid=${id}`)
+  const recipe: IRecipe = await fetcher(`${api}/recipes?recipe_guid=${id}`)
   return { props: { recipe } }
 }
 

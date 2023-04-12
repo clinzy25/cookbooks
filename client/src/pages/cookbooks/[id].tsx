@@ -16,7 +16,7 @@ const CookbooksDetailPage: React.FC<Props> = (props: Props) => {
   } = useRouter()
   const [recipes, setRecipes] = useState<IRecipe[]>(props.recipes)
   const { data, error } = useSWR<IRecipe[], Error>(
-    `${api}/recipes?cookbook=${id}`,
+    `${api}/recipes/cookbook?cookbook=${id}`,
     fetcher
   )
 
@@ -43,7 +43,9 @@ export async function getServerSideProps(context: {
   params: { id: string }
 }): Promise<{ props: Props }> {
   const id = context.params.id
-  const recipes: IRecipe[] = await fetcher(`${api}/recipes?cookbook=${id}`)
+  const recipes: IRecipe[] = await fetcher(
+    `${api}/recipes/cookbook?cookbook=${id}`
+  )
   return { props: { recipes } }
 }
 
