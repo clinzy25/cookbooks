@@ -88,6 +88,10 @@ export async function seed(knex: Knex): Promise<void> {
       description:
         'These Korean-inspired beef bowls are packed with flavor, protein, and color and ready in under 30 minutes.',
       servings: 4,
+      instructions: JSON.stringify({
+        '1': 'Place a medium or large skillet over medium-high heat on the stovetop. When the skillet is hot, add the ground beef to the skillet, stirring and crumbling into small pieces with a wooden spoon, until cooked through. Drain off any excess liquid then return the skillet to the stove.',
+        '2': 'While the beef is cooking, in a small bowl, whisk together the coconut aminos, honey, sesame oil, rice vinegar, garlic, red pepper flakes, and ginger.',
+      }),
       prep_time: '15 minutes',
       cook_time: '10 minutes',
       author_name: 'therealfooddietitians',
@@ -106,6 +110,13 @@ export async function seed(knex: Knex): Promise<void> {
       description:
         'This super easy tofu pad thai recipe takes 30 minutes, is healthy, gluten-free and vegetarian. It tastes like takeout, but without any junk! Made with egg, peanut butter and coconut sugar!',
       servings: 4,
+      instructions: JSON.stringify({
+        '1': 'Begin by cooking the noodles according to the package instructions. Drain once cooked.',
+        '2': 'While the noodles are cooking, cut the tofu into cubes. Heat the oil in a large pan and place the tofu in the pan. Sear for 2 – 3 minutes per side. Once the tofu is seared, transfer it to a plate.',
+      }),
+      notes: JSON.stringify({
+        '1': 'May substitute 3 tablespoons tamari (gluten-free) or low-sodium soy sauce + 3 tablespoons water for coconut aminos, if desired',
+      }),
       prep_time: '25 minutes',
       cook_time: '30 minutes',
       author_name: 'Alyssa',
@@ -124,6 +135,13 @@ export async function seed(knex: Knex): Promise<void> {
       description:
         "This Italian Wedding Soup is the perfect marriage of veggies and meat. It will warm you to the bone and make you smile with every satisfying bite! Perfect for when loved one's are coming to visit!",
       servings: 4,
+      instructions: JSON.stringify({
+        '1': 'In a large bowl, combine the beef, Italian sausage, eggs, onion, garlic, bread crumbs, cheese, and 1 teaspoon of salt and pepper (each). Mix until fully combined. ',
+        '2': 'Moisten hands and shape medium-small meatballs. Place them on a platter.',
+      }),
+      notes: JSON.stringify({
+        '1': 'The broth can be made up to 4 days in advance.  It can be frozen for up to 2 months.',
+      }),
       prep_time: '25 minutes',
       cook_time: '30 minutes',
       author_name: 'Kris Longwell',

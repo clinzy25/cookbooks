@@ -16,7 +16,7 @@ export const AppContext = createContext<AppContextType | null>(null)
 export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   const [user, setUser] = useState<IUser>({
     id: 1,
-    guid: 'b1f1c425-9d0d-4c84-96b3-fab556df5a34',
+    guid: '9bf35a8e-699b-44d2-a4a0-935a5f916e3a',
     username: 'clinzy',
     email: 'clinzy1@protonmail.com',
     is_readonly: 0,
