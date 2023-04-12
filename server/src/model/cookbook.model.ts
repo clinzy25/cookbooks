@@ -1,6 +1,6 @@
 import knex from '../db/db'
 
-export async function getCookbook(guid: string) {
+export async function getCookbooks(guid: string) {
   try {
     return await knex
       .select('c.guid', 'c.cookbook_name', 'c.created_at', 'c.updated_at')
