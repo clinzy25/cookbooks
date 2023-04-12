@@ -45,7 +45,6 @@ export async function getRecipes(guid: string) {
         'r.created_at',
         'r.updated_at'
       )
-  
   } catch (e) {
     console.error(e)
   }

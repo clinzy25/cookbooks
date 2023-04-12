@@ -33,7 +33,7 @@ const CookbooksDetailPage: React.FC<Props> = (props: Props) => {
   return (
     <Styled>
       {recipes.map((recipe: IRecipe) => (
-        <RecipeCard {...recipe} key={recipe.guid}></RecipeCard>
+        <RecipeCard {...recipe} key={recipe.guid}/>
       ))}
     </Styled>
   )
