@@ -5,6 +5,7 @@ import styled from 'styled-components'
 const Navbar = () => {
   return (
     <Style>
+      <p>Cookbooks App</p>
       <a href='/api/auth/logout'>
         <button>Logout</button>
       </a>
@@ -13,7 +14,8 @@ const Navbar = () => {
 }
 
 const Style = styled.div`
-  width: 100vw;
+  display: flex;
+  justify-content: space-between;
   height: 75px;
 `
 
