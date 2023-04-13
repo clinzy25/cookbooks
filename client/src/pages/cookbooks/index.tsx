@@ -3,9 +3,14 @@ import styled from 'styled-components'
 import { AppContextType } from '@/types/@types.context'
 import Link from 'next/link'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
+import { AiFillPlusCircle } from 'react-icons/ai'
+import { useState } from 'react'
+import AddCookbookModal from './components/AddCookbookModal'
 
 const CookbooksPage: React.FC = () => {
   const { cookbooks, cookbooksError } = useAppContext() as AppContextType
+
+  const [modalOpen, setModalOpen] = useState(false)
 
   if (!cookbooks) {
     return <p>...loading</p>
@@ -15,6 +20,7 @@ const CookbooksPage: React.FC = () => {
   }
   return (
     <Styles>
+      {modalOpen && <AddCookbookModal setModalOpen={setModalOpen} />}
       <h1>Your Cookbooks</h1>
       <div id='cookbooks-ctr'>
         {cookbooks.map(cb => (
@@ -26,6 +32,10 @@ const CookbooksPage: React.FC = () => {
           </Link>
         ))}
       </div>
+      <AiFillPlusCircle
+        onClick={() => setModalOpen(true)}
+        id='add-cookbook-icon'
+      />
     </Styles>
   )
 }
@@ -43,6 +53,13 @@ const Styles = styled.main`
     height: 200px;
     width: 200px;
     border: 1px solid gray;
+  }
+  #add-cookbook-icon {
+    position: absolute;
+    right: 50px;
+    bottom: 50px;
+    font-size: 3.5rem;
+    cursor: pointer;
   }
 `
 

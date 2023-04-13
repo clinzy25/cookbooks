@@ -85,10 +85,12 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  height: 100%;
 }
 
 body {
-  margin: 30px 60px;
+  padding: 30px 60px;
+  position: relative;
   font-family: 'Nunito Sans', sans-serif;
 }
 
