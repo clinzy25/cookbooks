@@ -8,6 +8,7 @@ import RecipeCard from './components/RecipeCard'
 import { ICookbook } from '@/types/@types.cookbooks'
 import useAppContext from '@/context/app.context'
 import { AppContextType } from '@/types/@types.context'
+import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 
 type Props = {
   recipes: IRecipe[]
@@ -74,4 +75,4 @@ const Styled = styled.main`
   }
 `
 
-export default CookbookDetailPage
+export default withPageAuthRequired(CookbookDetailPage)

@@ -6,7 +6,7 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema
     .createTable('users', function (table) {
       table.increments('id').primary()
-      table.uuid('guid', { useBinaryUuid: true }).defaultTo(uuid(knex))
+      table.string('guid', 100)
       table.string('username', 100).notNullable()
       table.string('email', 100).notNullable()
       table.string('password', 250).notNullable()

@@ -1,5 +1,6 @@
 import { api, fetcher } from '@/api'
 import { IRecipe } from '@/types/@types.recipes'
+import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -64,4 +65,4 @@ const Style = styled.main`
   }
 `
 
-export default RecipePage
+export default withPageAuthRequired(RecipePage)

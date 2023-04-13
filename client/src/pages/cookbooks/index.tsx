@@ -2,12 +2,10 @@ import useAppContext from '@/context/app.context'
 import styled from 'styled-components'
 import { AppContextType } from '@/types/@types.context'
 import Link from 'next/link'
+import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 
 const CookbooksPage: React.FC = () => {
-  const {
-    cookbooks,
-    cookbooksError,
-  } = useAppContext() as AppContextType
+  const { cookbooks, cookbooksError } = useAppContext() as AppContextType
 
   if (!cookbooks) {
     return <p>...loading</p>
@@ -31,6 +29,8 @@ const CookbooksPage: React.FC = () => {
     </Styles>
   )
 }
+
+export const getServerSideProps = withPageAuthRequired()
 
 const Styles = styled.main`
   #cookbooks-ctr {

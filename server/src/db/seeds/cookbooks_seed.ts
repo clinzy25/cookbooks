@@ -14,6 +14,7 @@ export async function seed(knex: Knex): Promise<void> {
 
   await knex('users').insert([
     {
+      guid: 'auth0|64372a666cf43922a23a8e31',
       username: 'clinzy',
       email: 'email@email.com',
       password: 'asdfabisdfybiasfgd',
@@ -22,6 +23,7 @@ export async function seed(knex: Knex): Promise<void> {
       updated_at: knex.fn.now(),
     },
     {
+      guid: 'auth0|64372a666cf43922a23a8e32',
       username: 'qnt3n',
       email: 'email@email.com',
       password: 'asdfabisdfybiasfgd',
@@ -30,6 +32,7 @@ export async function seed(knex: Knex): Promise<void> {
       updated_at: knex.fn.now(),
     },
     {
+      guid: 'auth0|64372a666cf43922a23a8e33',
       username: 'curbins',
       email: 'email@email.com',
       password: 'asdfabisdfybiasfgd',
