@@ -1,6 +1,5 @@
 import React, { useRef, useState, FormEvent } from 'react'
 import {
-  AiFillCloseCircle,
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
 } from 'react-icons/ai'
