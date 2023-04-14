@@ -11,6 +11,7 @@ import { api } from '@/api'
 import axios from 'axios'
 import useAppContext from '@/context/app.context'
 import { AppContextType } from '@/types/@types.context'
+import Modal from '@/components/Modal'
 
 type Props = {
   setModalOpen: (bool: boolean) => void
@@ -67,121 +68,108 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
   }
 
   return (
-    <Style>
-      <AiFillCloseCircle id='close-btn' onClick={() => setModalOpen(false)} />
-      <h1>Create a new cookbook</h1>
-      <form autoComplete='off' onSubmit={e => handleSubmit(e)}>
-        {formSteps[step] === 'name' && (
-          <>
-            <div />
-            <div className='input-ctr'>
-              <label htmlFor='name'>
-                <h2>Name Your Cookbook</h2>
-                <input
-                  autoFocus
-                  placeholder='Type a name...'
-                  type='text'
-                  name='name'
-                  defaultValue={newCookbook.cookbook_name}
-                  ref={nameFieldRef}
-                />
-              </label>
-              {formError && (
-                <span className='error-msg'>Your cookbook needs a name!</span>
-              )}
-            </div>
-            <div className='btn-ctr'>
-              <button className='left-btn' onClick={() => setModalOpen(false)}>
-                Cancel
-              </button>
-              <button onClick={e => validateStep(e)}>
-                Next: Add Recipes
-                <AiOutlineArrowRight className='arrow-icon right' />
-              </button>
-            </div>
-          </>
-        )}
-        {formSteps[step] === 'recipes' && (
-          <>
-            <div />
-            <div>
-              <div className='cta-ctr'>
-                <h2>Add Recipes</h2>
-                <p>To get started, add some recipes.</p>
+    <Modal closeModal={() => setModalOpen(false)}>
+      <Style>
+        <h1>Create a new cookbook</h1>
+        <form autoComplete='off' onSubmit={e => handleSubmit(e)}>
+          {formSteps[step] === 'name' && (
+            <>
+              <div />
+              <div className='input-ctr'>
+                <label htmlFor='name'>
+                  <h2>Name Your Cookbook</h2>
+                  <input
+                    autoFocus
+                    placeholder='Type a name...'
+                    type='text'
+                    name='name'
+                    defaultValue={newCookbook.cookbook_name}
+                    ref={nameFieldRef}
+                  />
+                </label>
+                {formError && (
+                  <span className='error-msg'>Your cookbook needs a name!</span>
+                )}
               </div>
-              <div>
-                {Object.values(hoverStates).map(state => (
-                  <button
-                    key={state.btnText}
-                    onMouseOut={() => setHover('')}
-                    onMouseOver={() => setHover(state.hoverText)}>
-                    {state.btnText}
-                  </button>
-                ))}
-                <p className='hover-text'>{hover}</p>
-              </div>
-            </div>
-            <div className='btn-ctr'>
-              <button className='left-btn' onClick={() => setStep(0)}>
-                <AiOutlineArrowLeft className='arrow-icon left' />
-                Previous
-              </button>
-              <div>
-                <button onClick={() => setStep(2)}>Skip</button>
-                <button onClick={() => setStep(2)}>
-                  Next: Invite people{' '}
+              <div className='btn-ctr'>
+                <button
+                  className='left-btn'
+                  onClick={() => setModalOpen(false)}>
+                  Cancel
+                </button>
+                <button onClick={e => validateStep(e)}>
+                  Next: Add Recipes
                   <AiOutlineArrowRight className='arrow-icon right' />
                 </button>
               </div>
-            </div>
-          </>
-        )}
-        {formSteps[step] === 'invite' && (
-          <>
-            <div />
-            <div className='cta-ctr'>
-              <h2>Invite People</h2>
-              <p>Invite your friends and family to view and add recipes.</p>
-              <button>Copy link</button>
-            </div>
-            <div className='btn-ctr'>
-              <button className='left-btn' onClick={() => setStep(1)}>
-                <AiOutlineArrowLeft className='arrow-icon left' />
-                Previous
-              </button>
+            </>
+          )}
+          {formSteps[step] === 'recipes' && (
+            <>
+              <div />
               <div>
-                <button type='submit'>Skip</button>
-                <button type='submit'>Create cookbook</button>
+                <div className='cta-ctr'>
+                  <h2>Add Recipes</h2>
+                  <p>To get started, add some recipes.</p>
+                </div>
+                <div>
+                  {Object.values(hoverStates).map(state => (
+                    <button
+                      key={state.btnText}
+                      onMouseOut={() => setHover('')}
+                      onMouseOver={() => setHover(state.hoverText)}>
+                      {state.btnText}
+                    </button>
+                  ))}
+                  <p className='hover-text'>{hover}</p>
+                </div>
               </div>
-            </div>
-          </>
-        )}
-      </form>
-    </Style>
+              <div className='btn-ctr'>
+                <button className='left-btn' onClick={() => setStep(0)}>
+                  <AiOutlineArrowLeft className='arrow-icon left' />
+                  Previous
+                </button>
+                <div>
+                  <button onClick={() => setStep(2)}>Skip</button>
+                  <button onClick={() => setStep(2)}>
+                    Next: Invite people{' '}
+                    <AiOutlineArrowRight className='arrow-icon right' />
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+          {formSteps[step] === 'invite' && (
+            <>
+              <div />
+              <div className='cta-ctr'>
+                <h2>Invite People</h2>
+                <p>Invite your friends and family to view and add recipes.</p>
+                <button>Copy link</button>
+              </div>
+              <div className='btn-ctr'>
+                <button className='left-btn' onClick={() => setStep(1)}>
+                  <AiOutlineArrowLeft className='arrow-icon left' />
+                  Previous
+                </button>
+                <div>
+                  <button type='submit'>Skip</button>
+                  <button type='submit'>Create cookbook</button>
+                </div>
+              </div>
+            </>
+          )}
+        </form>
+      </Style>
+    </Modal>
   )
 }
 
 const Style = styled.div`
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 80%;
-  width: 50%;
-  background-color: white;
-  border: 1px solid gray;
-  border-radius: 15px;
-  #close-btn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
+  height: 100%;
   h1 {
     margin-top: 10px;
   }

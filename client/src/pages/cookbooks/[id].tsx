@@ -9,6 +9,8 @@ import { ICookbook } from '@/types/@types.cookbooks'
 import useAppContext from '@/context/app.context'
 import { AppContextType } from '@/types/@types.context'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
+import AddBtn from '@/components/buttons/AddBtn'
+import AddRecipeModal from './components/AddRecipeModal'
 
 type Props = {
   recipes: IRecipe[]
@@ -21,6 +23,7 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
   const { cookbooks } = useAppContext() as AppContextType
   const [recipes, setRecipes] = useState<IRecipe[]>(props.recipes)
   const [cookbook, setCookbook] = useState<ICookbook | undefined>()
+  const [modalOpen, setModalOpen] = useState(false)
   const { data, error } = useSWR<IRecipe[], Error>(
     `${api}/recipes/cookbook?cookbook=${id}`,
     fetcher
@@ -42,12 +45,14 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
   }
   return (
     <Styled>
+      {modalOpen && <AddRecipeModal setModalOpen={setModalOpen} />}
       <h1>{cookbook?.cookbook_name}</h1>
       <div id='recipe-ctr'>
         {recipes.map((recipe: IRecipe) => (
           <RecipeCard {...recipe} key={recipe.guid} />
         ))}
       </div>
+      <AddBtn handler={() => setModalOpen(true)} />
     </Styled>
   )
 }
