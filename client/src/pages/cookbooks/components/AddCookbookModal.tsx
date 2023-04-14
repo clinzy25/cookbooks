@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   AiFillCloseCircle,
   AiOutlineArrowLeft,
@@ -6,18 +6,55 @@ import {
 } from 'react-icons/ai'
 import styled from 'styled-components'
 import { formSteps, hoverStates } from '../utils/utils.cookbooks'
+import { useUser } from '@auth0/nextjs-auth0/client'
+import { api } from '@/api'
+import axios from 'axios'
 
 type Props = {
   setModalOpen: (bool: boolean) => void
 }
 
 const AddCookbookModal = ({ setModalOpen }: Props) => {
+  const { user } = useUser()
   const [step, setStep] = useState<0 | 1 | 2>(0)
   const [hover, setHover] = useState<string>('')
+  const [formError, setFormError] = useState(false)
+  const [createCookbookLoading, setCreateCookbookLoading] = useState(false)
+  const [createCookbookError, setCreateCookbookError] = useState(false)
+  const [newCookbook, setNewCookbook] = useState({
+    cookbook_name: '',
+    creator_user_guid: user?.sub,
+  })
+  const nameFieldRef = useRef<HTMLInputElement>(null)
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setModalOpen(false)
+    try {
+      setCreateCookbookLoading(true)
+      const response = await axios.post(`${api}/cookbooks`, { newCookbook })
+      if (response.status === 200) {
+        setModalOpen(false)
+      } else {
+        throw new Error('Cookbook creation failed')
+      }
+    } catch (e) {
+      setCreateCookbookError(true)
+      console.error(e)
+    }
+    setCreateCookbookLoading(false)
+  }
+
+  const handleStep = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    if (nameFieldRef?.current?.value) {
+      setNewCookbook({
+        ...newCookbook,
+        cookbook_name: nameFieldRef.current.value,
+      })
+      setStep(1)
+    } else {
+      setFormError(true)
+    }
   }
 
   return (
@@ -28,7 +65,7 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
         {formSteps[step] === 'name' && (
           <>
             <div />
-            <div>
+            <div className='input-ctr'>
               <label htmlFor='name'>
                 <h2>Name Your Cookbook</h2>
                 <input
@@ -36,14 +73,19 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
                   placeholder='Type a name...'
                   type='text'
                   name='name'
+                  defaultValue={newCookbook.cookbook_name}
+                  ref={nameFieldRef}
                 />
               </label>
+              {formError && (
+                <span className='error-msg'>Your cookbook needs a name!</span>
+              )}
             </div>
             <div className='btn-ctr'>
               <button className='left-btn' onClick={() => setModalOpen(false)}>
                 Cancel
               </button>
-              <button onClick={() => setStep(1)}>
+              <button onClick={e => handleStep(e)}>
                 Next: Add Recipes
                 <AiOutlineArrowRight className='arrow-icon right' />
               </button>
@@ -142,9 +184,16 @@ const Style = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    input {
-      width: 100%;
-      height: 40px;
+    .input-ctr {
+      display: flex;
+      flex-direction: column;
+      input {
+        width: 100%;
+        height: 40px;
+      }
+      .error-msg {
+        color: red;
+      }
     }
     label {
       white-space: nowrap;

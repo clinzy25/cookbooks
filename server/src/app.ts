@@ -17,6 +17,7 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
+app.use(express.json()) 
 app.use('/v1', api)
 
 app.get('/', (_req: Request, res: Response) => res.send('Good to gooo'))

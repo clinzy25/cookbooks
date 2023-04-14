@@ -13,6 +13,7 @@ const config: { [key: string]: Knex.Config } = {
       database: process.env.DATABASE,
       user: process.env.DEV_DB_USER,
       password: process.env.DEV_DB_PASS,
+      multipleStatements: true,
     },
     pool: {
       min: 2,
@@ -29,6 +30,7 @@ const config: { [key: string]: Knex.Config } = {
       database: 'my_db',
       user: 'username',
       password: 'password',
+      multipleStatements: true,
     },
     pool: {
       min: 2,
@@ -45,6 +47,7 @@ const config: { [key: string]: Knex.Config } = {
       database: 'my_db',
       user: 'username',
       password: 'password',
+      multipleStatements: true,
     },
     pool: {
       min: 2,
