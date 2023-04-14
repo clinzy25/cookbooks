@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, FormEvent } from 'react'
 import {
   AiFillCloseCircle,
   AiOutlineArrowLeft,
@@ -9,42 +9,51 @@ import { formSteps, hoverStates } from '../utils/utils.cookbooks'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { api } from '@/api'
 import axios from 'axios'
+import useAppContext from '@/context/app.context'
+import { AppContextType } from '@/types/@types.context'
 
 type Props = {
   setModalOpen: (bool: boolean) => void
 }
 
 const AddCookbookModal = ({ setModalOpen }: Props) => {
+  const { setSnackbar, revalidateCookbooks } = useAppContext() as AppContextType
   const { user } = useUser()
   const [step, setStep] = useState<0 | 1 | 2>(0)
   const [hover, setHover] = useState<string>('')
   const [formError, setFormError] = useState(false)
-  const [createCookbookLoading, setCreateCookbookLoading] = useState(false)
-  const [createCookbookError, setCreateCookbookError] = useState(false)
   const [newCookbook, setNewCookbook] = useState({
     cookbook_name: '',
     creator_user_guid: user?.sub,
   })
   const nameFieldRef = useRef<HTMLInputElement>(null)
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      setCreateCookbookLoading(true)
-      const response = await axios.post(`${api}/cookbooks`, { newCookbook })
-      if (response.status === 200) {
+      const { status } = await axios.post(`${api}/cookbooks`, { newCookbook })
+      if (status === 201) {
+        revalidateCookbooks()
+        setSnackbar({
+          msg: 'Cookbook created!',
+          state: 'success',
+          duration: 3000,
+        })
         setModalOpen(false)
       } else {
         throw new Error('Cookbook creation failed')
       }
     } catch (e) {
-      setCreateCookbookError(true)
+      setSnackbar({
+        msg: 'Sorry! Something went wrong.',
+        state: 'error',
+        duration: 3000,
+      })
       console.error(e)
     }
-    setCreateCookbookLoading(false)
   }
 
-  const handleStep = (e: React.FormEvent<HTMLButtonElement>) => {
+  const validateStep = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
     if (nameFieldRef?.current?.value) {
       setNewCookbook({
@@ -61,7 +70,7 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
     <Style>
       <AiFillCloseCircle id='close-btn' onClick={() => setModalOpen(false)} />
       <h1>Create a new cookbook</h1>
-      <form onSubmit={e => handleSubmit(e)}>
+      <form autoComplete='off' onSubmit={e => handleSubmit(e)}>
         {formSteps[step] === 'name' && (
           <>
             <div />
@@ -85,7 +94,7 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
               <button className='left-btn' onClick={() => setModalOpen(false)}>
                 Cancel
               </button>
-              <button onClick={e => handleStep(e)}>
+              <button onClick={e => validateStep(e)}>
                 Next: Add Recipes
                 <AiOutlineArrowRight className='arrow-icon right' />
               </button>
@@ -109,7 +118,6 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
                     {state.btnText}
                   </button>
                 ))}
-
                 <p className='hover-text'>{hover}</p>
               </div>
             </div>

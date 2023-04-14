@@ -16,7 +16,7 @@ export async function httpCreateCookbook(req: Request, res: Response) {
 
   if (cookbook) {
     const result = await createCookbook(cookbook)
-    if (result.rows[0].cookbook_name === cookbook.cookbook_name) {
+    if (result?.rows?.[0]?.cookbook_name === cookbook.cookbook_name) {
       return res.status(201).json('Cookbook creation successful')
     }
     return res.status(500).json('Cookbook creation failed')
