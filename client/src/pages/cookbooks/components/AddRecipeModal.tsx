@@ -2,23 +2,46 @@ import Modal from '@/components/Modal'
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { hoverStates } from '../utils/utils.cookbooks'
+import { api } from '@/api'
+import axios from 'axios'
+import useAppContext from '@/context/app.context'
+import { AppContextType } from '@/types/@types.context'
+import { serverErrorMessages } from '@/utils/utils.server.errors'
+import Loader from '@/components/Loader'
 
 type Props = {
   setModalOpen: (bool: boolean) => void
 }
 
 const AddRecipeModal = ({ setModalOpen }: Props) => {
+  const { setSnackbar } = useAppContext() as AppContextType
   const [hover, setHover] = useState<string>('')
   const [selection, setSelection] = useState<string>('')
-  const [formError, setFormError] = useState(false)
+  const [loading, setLoading] = useState(false)
   const linkFieldRef = useRef<HTMLInputElement>(null)
 
-  const parseRecipe = (e: React.ClipboardEvent) => {
-    if (e.clipboardData?.getData('Text')) {
-      formError && setFormError(false)
-    } else {
-      setFormError(true)
+  const parseRecipe = async (e: React.ClipboardEvent) => {
+    const url = e.clipboardData?.getData('Text')
+    try {
+      setLoading(true)
+      await axios.post(`${api}/recipes/parse`, { url })
+      setSnackbar({
+        msg: 'Recipe added!',
+        state: 'success',
+        duration: 3000,
+      })
+      setModalOpen(false)
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        const errorKey = e.response.data.type
+        setSnackbar({
+          msg: serverErrorMessages.get(errorKey),
+          state: 'error',
+          duration: 3000,
+        })
+      }
     }
+    setLoading(false)
   }
 
   return (
@@ -34,9 +57,6 @@ const AddRecipeModal = ({ setModalOpen }: Props) => {
                 type='text'
                 ref={linkFieldRef}
               />
-              {formError && (
-                <span className='error-msg'>Link format is invalid.</span>
-              )}
             </label>
           )}
           <div>
@@ -52,6 +72,7 @@ const AddRecipeModal = ({ setModalOpen }: Props) => {
             <p className='hover-text'>{hover}</p>
           </div>
         </div>
+        {loading && <Loader />}
       </Style>
     </Modal>
   )

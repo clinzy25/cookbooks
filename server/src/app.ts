@@ -1,8 +1,15 @@
-import express, { Express, Request, Response, Router } from 'express'
+import express, {
+  Express,
+  NextFunction,
+  Request,
+  Response,
+  Router,
+} from 'express'
 import path from 'path'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import { api } from './routes/api'
+import { errorHandler } from './utils/utils.errors'
 
 dotenv.config({
   path: path.resolve(__dirname, '..', '..', '.env'),
@@ -17,8 +24,12 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
-app.use(express.json()) 
+app.use(express.json())
 app.use('/v1', api)
+app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
+  errorHandler(err, res)
+  next()
+})
 
 app.get('/', (_req: Request, res: Response) => res.send('Good to gooo'))
 

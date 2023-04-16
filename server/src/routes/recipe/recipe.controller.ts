@@ -1,11 +1,18 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { getCookbookRecipes, getRecipe } from '../../model/recipe.model'
+import recipeDataScraper from 'recipe-data-scraper'
+import fetch from 'node-fetch'
+import {
+  INCOMPLETE_REQUEST_BODY,
+  INVALID_URL,
+  RECIPE_NOT_FOUND,
+} from '../../utils/utils.errors'
 
 export async function httpGetCookbookRecipes(req: Request, res: Response) {
   const cookbook = req.query.cookbook?.toString()
 
   if (!cookbook) {
-    return res.status(404).json('Missing required params')
+    return res.status(400).json('Missing required params')
   }
   const recipes = await getCookbookRecipes(cookbook)
   return res.status(200).json(recipes)
@@ -15,11 +22,34 @@ export async function httpGetRecipe(req: Request, res: Response) {
   const recipe_guid = req.query.recipe_guid?.toString()
 
   if (!recipe_guid) {
-    return res.status(404).json('Missing required params')
+    return res.status(400).json('Missing required params')
   }
   const recipe = await getRecipe(recipe_guid)
   return res.status(200).json(recipe)
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-export async function httpGetUserRecipes() {}
+export async function httpParseRecipe(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const url = req.body.url
+  try {
+    if (!url) {
+      throw new Error(INCOMPLETE_REQUEST_BODY)
+    }
+    await fetch(url).catch(err => {
+      if (err.code === 'ERR_INVALID_URL') {
+        throw new Error(INVALID_URL)
+      }
+    })
+    const recipe = await recipeDataScraper(url).catch(err => console.log(err))
+    if (!recipe) {
+      throw new Error(RECIPE_NOT_FOUND)
+    } else {
+      return res.status(200).json(recipe)
+    }
+  } catch (e) {
+    next(e)
+  }
+}

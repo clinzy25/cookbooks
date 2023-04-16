@@ -24,6 +24,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   const [cookbooks, setCookbooks] = useState<ICookbook[]>([])
   const [cookbooksError, setCookbooksError] = useState(false)
 
+  // prettier-ignore
   const { data, error, mutate: revalidateCookbooks } = useSWR(
     !isLoading && !userError && `${api}/cookbooks?user_guid=${user?.sub}`,
     fetcher
@@ -35,10 +36,11 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [data, error])
 
   useEffect(() => {
-    setTimeout(
+    const timeout = setTimeout(
       () => setSnackbar({ msg: '', state: '', duration: 3000 }),
       snackbar.duration
     )
+    return () => clearTimeout(timeout)
   }, [snackbar])
 
   return (

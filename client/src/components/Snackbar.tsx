@@ -22,6 +22,8 @@ const Style = styled.div<Props>`
   border-radius: 5px;
   box-shadow: 5px 5px 10px #00000055;
   border: 1px solid gray;
+  z-index: 3;
+  color: white;
   background-color: ${props => {
     switch (props.snackbar.state) {
       case 'success':
