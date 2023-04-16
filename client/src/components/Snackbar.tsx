@@ -6,9 +6,7 @@ type Props = {
   snackbar: SnackbarType
 }
 
-const Snackbar = ({ snackbar }: Props) => (
-  <Style snackbar={snackbar}>{snackbar.msg}</Style>
-)
+const Snackbar = ({ snackbar }: Props) => <Style snackbar={snackbar}>{snackbar.msg}</Style>
 
 const Style = styled.div<Props>`
   position: fixed;

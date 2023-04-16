@@ -23,10 +23,7 @@ const CookbooksPage: React.FC = () => {
       <h1>Your Cookbooks</h1>
       <div id='cookbooks-ctr'>
         {cookbooks.map(cb => (
-          <Link
-            key={cb.guid}
-            className='cookbook-tile'
-            href={`/cookbooks/${cb.guid}`}>
+          <Link key={cb.guid} className='cookbook-tile' href={`/cookbooks/${cb.guid}`}>
             {cb.cookbook_name}
           </Link>
         ))}

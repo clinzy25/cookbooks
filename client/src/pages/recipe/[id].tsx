@@ -17,10 +17,7 @@ const RecipePage: React.FC<Props> = (props: Props) => {
     query: { id },
   } = useRouter()
   const [recipe, setRecipe] = useState<IRecipe>(props.recipe)
-  const { data, error } = useSWR<IRecipe, Error>(
-    `${api}/recipes?recipe_guid=${id}`,
-    fetcher
-  )
+  const { data, error } = useSWR<IRecipe, Error>(`${api}/recipes?recipe_guid=${id}`, fetcher)
 
   useEffect(() => {
     data && setRecipe(data)

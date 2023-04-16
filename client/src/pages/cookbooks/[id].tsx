@@ -61,9 +61,7 @@ export async function getServerSideProps(context: {
   params: { id: string }
 }): Promise<{ props: Props }> {
   const id = context.params.id
-  const recipes: IRecipe[] = await fetcher(
-    `${api}/recipes/cookbook?cookbook=${id}`
-  )
+  const recipes: IRecipe[] = await fetcher(`${api}/recipes/cookbook?cookbook=${id}`)
   return { props: { recipes } }
 }
 

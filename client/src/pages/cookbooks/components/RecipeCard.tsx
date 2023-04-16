@@ -10,9 +10,7 @@ const RecipeCard: React.FC<IRecipe> = recipe => {
     <Style>
       <Link href={`/recipe/${guid}`}>
         <div className='img-ctr'>
-          {image && (
-            <Image className='img' src={image} alt={recipe_name} fill />
-          )}
+          {image && <Image className='img' src={image} alt={recipe_name} fill />}
         </div>
         <p>{recipe_name}</p>
         <span>Cook Time: {cook_time}</span>&nbsp;

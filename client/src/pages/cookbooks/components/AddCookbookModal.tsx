@@ -1,8 +1,5 @@
 import React, { useRef, useState, FormEvent } from 'react'
-import {
-  AiOutlineArrowLeft,
-  AiOutlineArrowRight,
-} from 'react-icons/ai'
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai'
 import styled from 'styled-components'
 import { formSteps, hoverStates } from '../utils/utils.cookbooks'
 import { useUser } from '@auth0/nextjs-auth0/client'
@@ -86,14 +83,10 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
                     ref={nameFieldRef}
                   />
                 </label>
-                {formError && (
-                  <span className='error-msg'>Your cookbook needs a name!</span>
-                )}
+                {formError && <span className='error-msg'>Your cookbook needs a name!</span>}
               </div>
               <div className='btn-ctr'>
-                <button
-                  className='left-btn'
-                  onClick={() => setModalOpen(false)}>
+                <button className='left-btn' onClick={() => setModalOpen(false)}>
                   Cancel
                 </button>
                 <button onClick={e => validateStep(e)}>
@@ -131,8 +124,7 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
                 <div>
                   <button onClick={() => setStep(2)}>Skip</button>
                   <button onClick={() => setStep(2)}>
-                    Next: Invite people{' '}
-                    <AiOutlineArrowRight className='arrow-icon right' />
+                    Next: Invite people <AiOutlineArrowRight className='arrow-icon right' />
                   </button>
                 </div>
               </div>

@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Loader = () => {
-  return <Style />
-}
+const Loader = () => <Style />
 
 const Style = styled.div`
   width: 48px;

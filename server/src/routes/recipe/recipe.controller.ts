@@ -2,7 +2,12 @@ import { NextFunction, Request, Response } from 'express'
 import { getCookbookRecipes, getRecipe } from '../../model/recipe.model'
 import recipeDataScraper from 'recipe-data-scraper'
 import fetch from 'node-fetch'
-import { INCOMPLETE_REQUEST_BODY, INVALID_URL, MISSING_REQUIRED_PARAMS, RECIPE_NOT_FOUND } from '../../utils/utils.errors'
+import {
+  INCOMPLETE_REQUEST_BODY,
+  INVALID_URL,
+  MISSING_REQUIRED_PARAMS,
+  RECIPE_NOT_FOUND,
+} from '../../utils/utils.errors'
 
 export async function httpGetCookbookRecipes(req: Request, res: Response, next: NextFunction) {
   const cookbook = req.query.cookbook?.toString()

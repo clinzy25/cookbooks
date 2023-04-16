@@ -1,4 +1,4 @@
-import React, { FC,  ReactNode } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import styled from 'styled-components'
 
@@ -7,14 +7,12 @@ type Props = {
   children: ReactNode
 }
 
-const Modal: FC<Props> = ({ closeModal, children }: Props) => {
-  return (
-    <Style>
-      <AiFillCloseCircle id='close-btn' onClick={closeModal} />
-      {children}
-    </Style>
-  )
-}
+const Modal: FC<Props> = ({ closeModal, children }: Props) => (
+  <Style>
+    <AiFillCloseCircle id='close-btn' onClick={closeModal} />
+    {children}
+  </Style>
+)
 
 const Style = styled.div`
   position: absolute;

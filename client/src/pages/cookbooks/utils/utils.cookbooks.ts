@@ -3,8 +3,7 @@ export const formSteps = ['name', 'recipes', 'invite']
 export const hoverStates = {
   link: {
     value: 'link',
-    hoverText:
-      "Paste a link to a website with a recipe and we'll save the receipe for you",
+    hoverText: "Paste a link to a website with a recipe and we'll save the receipe for you",
     btnText: 'Paste Link',
   },
   camera: {
