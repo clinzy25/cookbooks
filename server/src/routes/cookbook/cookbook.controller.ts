@@ -1,25 +1,33 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { createCookbook, getCookbooks } from '../../model/cookbook.model'
+import { FAILED_TO_CREATE_RESOURCE, INCOMPLETE_REQUEST_BODY, MISSING_REQUIRED_PARAMS } from '../../utils/utils.errors'
 
-export async function httpGetCookbooks(req: Request, res: Response) {
+export async function httpGetCookbooks(req: Request, res: Response, next: NextFunction) {
   const user_guid = req.query.user_guid?.toString()
-
-  if (!user_guid) {
-    return res.status(400).json('Missing required params')
+  try {
+    if (!user_guid) {
+      throw new Error(MISSING_REQUIRED_PARAMS)
+    }
+    const cookbooks = await getCookbooks(user_guid)
+    return res.status(200).json(cookbooks)
+  } catch (e) {
+    next(e)
   }
-  const cookbooks = await getCookbooks(user_guid)
-  return res.status(200).json(cookbooks)
 }
 
-export async function httpCreateCookbook(req: Request, res: Response) {
+export async function httpCreateCookbook(req: Request, res: Response, next: NextFunction) {
   const cookbook = req.body.newCookbook
 
-  if (!cookbook) {
-    return res.status(400).json('Missing body of the request')
+  try {
+    if (!cookbook) {
+      throw new Error(INCOMPLETE_REQUEST_BODY)
+    }
+    const result = await createCookbook(cookbook)
+    if (!result?.rows?.[0]?.cookbook_name === cookbook.cookbook_name) {
+      throw new Error(FAILED_TO_CREATE_RESOURCE)
+    }
+    return res.status(201).json('Cookbook creation successful')
+  } catch (e) {
+    next(e)
   }
-  const result = await createCookbook(cookbook)
-  if (!result?.rows?.[0]?.cookbook_name === cookbook.cookbook_name) {
-    return res.status(500).json('Cookbook creation failed')
-  }
-  return res.status(201).json('Cookbook creation successful')
 }

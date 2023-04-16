@@ -56,8 +56,18 @@ export const RECIPE_NOT_FOUND_RES: ExceptionResponseType = {
   },
 }
 
+export const FAILED_TO_CREATE_RESOURCE = 'errors/failed-to-create-resource'
+export const FAILED_TO_CREATE_RESOURCE_RES: ExceptionResponseType = {
+  statusCode: 500,
+  body: {
+    type: 'errors/failed-to-create-resource',
+    detail: 'Resource could not be created',
+  },
+}
+
 const exceptions = new Map()
 exceptions.set(MISSING_REQUIRED_PARAMS, MISSING_REQUIRED_PARAMS_RES)
 exceptions.set(INCOMPLETE_REQUEST_BODY, INCOMPLETE_REQUEST_BODY_RES)
 exceptions.set(INVALID_URL, INVALID_URL_RES)
 exceptions.set(RECIPE_NOT_FOUND, RECIPE_NOT_FOUND_RES)
+exceptions.set(FAILED_TO_CREATE_RESOURCE, FAILED_TO_CREATE_RESOURCE_RES)

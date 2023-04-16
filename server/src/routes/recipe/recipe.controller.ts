@@ -2,37 +2,37 @@ import { NextFunction, Request, Response } from 'express'
 import { getCookbookRecipes, getRecipe } from '../../model/recipe.model'
 import recipeDataScraper from 'recipe-data-scraper'
 import fetch from 'node-fetch'
-import {
-  INCOMPLETE_REQUEST_BODY,
-  INVALID_URL,
-  RECIPE_NOT_FOUND,
-} from '../../utils/utils.errors'
+import { INCOMPLETE_REQUEST_BODY, INVALID_URL, MISSING_REQUIRED_PARAMS, RECIPE_NOT_FOUND } from '../../utils/utils.errors'
 
-export async function httpGetCookbookRecipes(req: Request, res: Response) {
+export async function httpGetCookbookRecipes(req: Request, res: Response, next: NextFunction) {
   const cookbook = req.query.cookbook?.toString()
 
-  if (!cookbook) {
-    return res.status(400).json('Missing required params')
+  try {
+    if (!cookbook) {
+      throw new Error(MISSING_REQUIRED_PARAMS)
+    }
+    const recipes = await getCookbookRecipes(cookbook)
+    return res.status(200).json(recipes)
+  } catch (e) {
+    next(e)
   }
-  const recipes = await getCookbookRecipes(cookbook)
-  return res.status(200).json(recipes)
 }
 
-export async function httpGetRecipe(req: Request, res: Response) {
+export async function httpGetRecipe(req: Request, res: Response, next: NextFunction) {
   const recipe_guid = req.query.recipe_guid?.toString()
 
-  if (!recipe_guid) {
-    return res.status(400).json('Missing required params')
+  try {
+    if (!recipe_guid) {
+      throw new Error(MISSING_REQUIRED_PARAMS)
+    }
+    const recipe = await getRecipe(recipe_guid)
+    return res.status(200).json(recipe)
+  } catch (e) {
+    next(e)
   }
-  const recipe = await getRecipe(recipe_guid)
-  return res.status(200).json(recipe)
 }
 
-export async function httpParseRecipe(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export async function httpParseRecipe(req: Request, res: Response, next: NextFunction) {
   const url = req.body.url
   try {
     if (!url) {
