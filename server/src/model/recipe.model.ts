@@ -115,10 +115,10 @@ export async function addRecipe(recipe: IRecipe) {
     recipeCuisines,
   } = recipe
   try {
-    const ingredientsJson = JSON.stringify(ingredients)
-    const instructionsJson = JSON.stringify(instructions)
+    const ingredientsJson = JSON.stringify(ingredients).replace(/'/g, '&apos;')
+    const instructionsJson = JSON.stringify(instructions).replace(/'/g, '&apos;')
     const allTags = recipeCategories.concat(recipeCuisines)
-    
+
     return await knex.raw(`
       WITH insert_1 AS (
         INSERT INTO recipes(
@@ -141,7 +141,7 @@ export async function addRecipe(recipe: IRecipe) {
           )
         SELECT id AS cookbook_id, creator_user_id, '${name}', '${image}', '${description}', '${cook_time}', '${prep_time}', '${total_time}', '${recipeYield}', '${ingredientsJson}', '${instructionsJson}', '${source_url}', '${source_type}', '${is_private}', ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks
         WHERE cookbooks.guid = '${cookbook_guid}'
-        RETURNING name AS recipe_name, recipes.id AS recipe_id
+        RETURNING recipes.id AS recipe_id
         ), insert_2 AS (
           INSERT INTO tag_types(tag_name)
           VALUES ${allTags.map(t => `('${t}')`).join(',')}

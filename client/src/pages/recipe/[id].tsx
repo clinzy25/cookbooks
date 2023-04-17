@@ -12,7 +12,7 @@ type Props = {
 }
 
 const RecipePage: React.FC<Props> = (props: Props) => {
-  const { recipe_name, image } = props.recipe
+  const { name, image } = props.recipe
   const {
     query: { id },
   } = useRouter()
