@@ -27,7 +27,6 @@ export async function httpGetRecipe(req: Request, res: Response, next: NextFunct
   try {
     if (!recipe_guid) throw new Error(MISSING_REQUIRED_PARAMS)
     const recipe = await getRecipe(recipe_guid)
-    console.log(recipe_guid)
     return res.status(200).json(recipe)
   } catch (e) {
     next(e)
