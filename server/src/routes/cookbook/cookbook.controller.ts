@@ -9,9 +9,7 @@ import {
 export async function httpGetCookbooks(req: Request, res: Response, next: NextFunction) {
   const user_guid = req.query.user_guid?.toString()
   try {
-    if (!user_guid) {
-      throw new Error(MISSING_REQUIRED_PARAMS)
-    }
+    if (!user_guid) throw new Error(MISSING_REQUIRED_PARAMS)
     const cookbooks = await getCookbooks(user_guid)
     return res.status(200).json(cookbooks)
   } catch (e) {
@@ -21,11 +19,8 @@ export async function httpGetCookbooks(req: Request, res: Response, next: NextFu
 
 export async function httpCreateCookbook(req: Request, res: Response, next: NextFunction) {
   const cookbook = req.body.newCookbook
-
   try {
-    if (!cookbook) {
-      throw new Error(INCOMPLETE_REQUEST_BODY)
-    }
+    if (!cookbook) throw new Error(INCOMPLETE_REQUEST_BODY)
     const result = await createCookbook(cookbook)
     if (!result?.rows?.[0]?.cookbook_name === cookbook.cookbook_name) {
       throw new Error(FAILED_TO_CREATE_RESOURCE)
