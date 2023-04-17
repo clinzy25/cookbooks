@@ -3,7 +3,7 @@ export interface IRecipe {
   guid: string
   cookbook_id: number
   creator_user_id: number
-  recipe_name: string
+  name: string
   image?: string
   source?: string
   source_type: 'link' | 'form' | 'camera'

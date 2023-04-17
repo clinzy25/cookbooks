@@ -24,10 +24,11 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
   const [recipes, setRecipes] = useState<IRecipe[]>(props.recipes)
   const [cookbook, setCookbook] = useState<ICookbook | undefined>()
   const [modalOpen, setModalOpen] = useState(false)
-  const { data, error } = useSWR<IRecipe[], Error>(
-    `${api}/recipes/cookbook?cookbook=${id}`,
-    fetcher
-  )
+  const {
+    data,
+    error,
+    mutate: revalidateRecipes,
+  } = useSWR<IRecipe[], Error>(`${api}/recipes/cookbook?cookbook=${id}`, fetcher)
 
   useEffect(() => {
     data && setRecipes(data)
@@ -45,7 +46,13 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
   }
   return (
     <Styled>
-      {modalOpen && <AddRecipeModal setModalOpen={setModalOpen} />}
+      {modalOpen && (
+        <AddRecipeModal
+          revalidateRecipes={revalidateRecipes}
+          cookbook={cookbook}
+          setModalOpen={setModalOpen}
+        />
+      )}
       <h1>{cookbook?.cookbook_name}</h1>
       <div id='recipe-ctr'>
         {recipes.map((recipe: IRecipe) => (

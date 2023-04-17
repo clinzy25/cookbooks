@@ -1,22 +1,16 @@
 import knex from '../db/db'
+import { IRecipe } from '../types/@types.recipes'
 
 export async function getCookbookRecipes(guid: string) {
   try {
     return await knex
       .select(
         'r.guid',
-        'r.recipe_name',
+        'r.name',
         'r.image',
-        'r.source',
-        'r.source_type',
-        'r.recipe_body',
-        'r.description',
-        'r.instructions',
-        'r.notes',
-        'r.servings',
-        'r.prep_time',
         'r.cook_time',
-        'r.author_name',
+        'r.prep_time',
+        'r.total_time',
         'r.is_private',
         'r.created_at',
         'r.updated_at',
@@ -24,23 +18,16 @@ export async function getCookbookRecipes(guid: string) {
       )
       .from('recipes as r')
       .join('cookbooks', 'cookbooks.id', '=', 'r.cookbook_id')
-      .join('tags', 'r.id', '=', 'tags.recipe_id')
-      .join('tag_types', 'tag_types.id', '=', 'tags.tag_type_id')
+      .leftJoin('tags', 'r.id', '=', 'tags.recipe_id')
+      .leftJoin('tag_types', 'tag_types.id', '=', 'tags.tag_type_id')
       .where({ 'cookbooks.guid': guid })
       .groupBy(
         'r.guid',
-        'r.recipe_name',
+        'r.name',
         'r.image',
-        'r.source',
-        'r.source_type',
-        'r.recipe_body',
-        'r.description',
-        'r.instructions',
-        'r.notes',
-        'r.servings',
-        'r.prep_time',
         'r.cook_time',
-        'r.author_name',
+        'r.prep_time',
+        'r.total_time',
         'r.is_private',
         'r.created_at',
         'r.updated_at'
@@ -55,18 +42,22 @@ export async function getRecipe(guid: string) {
     return await knex
       .select(
         'r.guid',
-        'r.recipe_name',
+        'r.name',
         'r.image',
-        'r.source',
-        'r.source_type',
-        'r.recipe_body',
         'r.description',
-        'r.instructions',
-        'r.notes',
-        'r.servings',
-        'r.prep_time',
         'r.cook_time',
-        'r.author_name',
+        'r.cook_original_format',
+        'r.prep_time',
+        'r.prep_original_format',
+        'r.total_time',
+        'r.total_original_format',
+        'r.yield',
+        'r.ingredients',
+        'r.instructions',
+        'r.recipe_body',
+        'r.notes',
+        'r.source_url',
+        'r.source_type',
         'r.is_private',
         'r.created_at',
         'r.updated_at',
@@ -78,23 +69,77 @@ export async function getRecipe(guid: string) {
       .where({ 'r.guid': guid })
       .groupBy(
         'r.guid',
-        'r.recipe_name',
+        'r.name',
         'r.image',
-        'r.source',
-        'r.source_type',
-        'r.recipe_body',
         'r.description',
-        'r.instructions',
-        'r.notes',
-        'r.servings',
-        'r.prep_time',
         'r.cook_time',
-        'r.author_name',
+        'r.cook_original_format',
+        'r.prep_time',
+        'r.prep_original_format',
+        'r.total_time',
+        'r.total_original_format',
+        'r.yield',
+        'r.ingredients',
+        'r.instructions',
+        'r.recipe_body',
+        'r.notes',
+        'r.source_url',
+        'r.source_type',
         'r.is_private',
         'r.created_at',
         'r.updated_at'
       )
       .first()
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function addRecipe(recipe: IRecipe) {
+  const {
+    cookbook_guid,
+    name,
+    image,
+    description,
+    cookTime: cook_time,
+    prepTime: prep_time,
+    totalTime: total_time,
+    recipeYield: yield,
+    recipeIngredients: ingredients,
+    recipeInstructions: instructions,
+    url: source_url,
+    source_type,
+    is_private,
+  } = recipe
+  try {
+    return await knex.raw(`
+      INSERT INTO recipes(
+        cookbook_id,
+        creator_user_id,
+        name,
+        image,
+        description,
+        cook_time,
+        prep_time,
+        total_time,
+        yield,
+        ingredients,
+        instructions,
+        source_url,
+        source_type,
+        is_private,
+        created_at,
+        updated_at
+        )
+      SELECT id AS cookbook_id, creator_user_id, '${name}', '${image}', '${description}', '${cook_time}', '${prep_time}', '${total_time}', '${yield}', '${JSON.stringify(
+      ingredients
+    )}', '${JSON.stringify(
+      instructions
+    )}', '${source_url}', '${source_type}', '${is_private}', ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks
+      WHERE cookbooks.guid = '${cookbook_guid}'
+      ORDER BY created_at
+      RETURNING recipes.name
+    `)
   } catch (e) {
     console.error(e)
   }

@@ -5,14 +5,14 @@ import React from 'react'
 import styled from 'styled-components'
 
 const RecipeCard: React.FC<IRecipe> = recipe => {
-  const { recipe_name, image, cook_time, prep_time, tags, guid } = recipe
+  const { name, image, cook_time, prep_time, tags, guid } = recipe
   return (
     <Style>
       <Link href={`/recipe/${guid}`}>
         <div className='img-ctr'>
-          {image && <Image className='img' src={image} alt={recipe_name} fill />}
+          {image && <Image className='img' src={image} alt={name} fill />}
         </div>
-        <p>{recipe_name}</p>
+        <p>{name}</p>
         <span>Cook Time: {cook_time}</span>&nbsp;
         <span>Prep Time: {prep_time}</span>
         <p className='tags-ctr'>

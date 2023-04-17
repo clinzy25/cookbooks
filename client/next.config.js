@@ -24,6 +24,18 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'izzycooking.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.theendlessmeal.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 }

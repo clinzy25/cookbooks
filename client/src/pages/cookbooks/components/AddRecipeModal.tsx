@@ -9,12 +9,15 @@ import { AppContextType } from '@/types/@types.context'
 import { serverErrorMessages } from '@/utils/utils.server.errors'
 import Loader from '@/components/Loader'
 import { AxiosError } from 'axios'
+import { ICookbook } from '@/types/@types.cookbooks'
 
 type Props = {
+  cookbook: ICookbook | undefined
   setModalOpen: (bool: boolean) => void
+  revalidateRecipes: () => void
 }
 
-const AddRecipeModal = ({ setModalOpen }: Props) => {
+const AddRecipeModal = ({ revalidateRecipes, cookbook, setModalOpen }: Props) => {
   const { setSnackbar } = useAppContext() as AppContextType
   const [hover, setHover] = useState<string>('')
   const [selection, setSelection] = useState<string>('')
@@ -24,12 +27,18 @@ const AddRecipeModal = ({ setModalOpen }: Props) => {
   const parseRecipe = async (url: string) => {
     try {
       setLoading(true)
-      await axios.post(`${api}/recipes/parse`, { url })
+      await axios.post(`${api}/recipes/parse`, {
+        url,
+        cookbook_guid: cookbook?.guid,
+        source_type: selection,
+        is_private: 0,
+      })
       setSnackbar({
         msg: 'Recipe added!',
         state: 'success',
         duration: 3000,
       })
+      revalidateRecipes()
       setModalOpen(false)
     } catch (e: unknown) {
       console.error(e)

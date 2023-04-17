@@ -126,6 +126,8 @@ export async function seed(knex: Knex): Promise<void> {
       source_url: 'https://howtofeedaloon.com/fresh-spinach-pasta/',
       source_type: 'link',
       is_private: 0,
+      created_at: knex.fn.now(),
+      updated_at: knex.fn.now(),
     },
     {
       cookbook_id: 1,
@@ -168,6 +170,8 @@ export async function seed(knex: Knex): Promise<void> {
       source_url: 'https://therealfooddietitians.com/korean-inspired-ground-beef-bowls/',
       source_type: 'link',
       is_private: 0,
+      created_at: knex.fn.now(),
+      updated_at: knex.fn.now(),
     },
     {
       cookbook_id: 1,
@@ -216,6 +220,8 @@ export async function seed(knex: Knex): Promise<void> {
       source_url: 'https://www.simplyquinoa.com/30-minute-tofu-pad-thai/',
       source_type: 'link',
       is_private: 1,
+      created_at: knex.fn.now(),
+      updated_at: knex.fn.now(),
     },
     {
       cookbook_id: 1,
@@ -271,6 +277,8 @@ export async function seed(knex: Knex): Promise<void> {
       source_url: 'https://howtofeedaloon.com/authentic-jambalaya-shrimp-chicken-smoked-ham/',
       source_type: 'link',
       is_private: 0,
+      created_at: knex.fn.now(),
+      updated_at: knex.fn.now(),
     },
     {
       cookbook_id: 1,
@@ -315,6 +323,8 @@ export async function seed(knex: Knex): Promise<void> {
       source_url: 'https://izzycooking.com/pad-woon-sen/',
       source_type: 'link',
       is_private: 0,
+      created_at: knex.fn.now(),
+      updated_at: knex.fn.now(),
     },
     {
       cookbook_id: 1,
@@ -362,6 +372,8 @@ export async function seed(knex: Knex): Promise<void> {
       source_url: 'https://howtofeedaloon.com/halibut-braised-kale-beans-tomatoes/',
       source_type: 'link',
       is_private: 1,
+      created_at: knex.fn.now(),
+      updated_at: knex.fn.now(),
     },
     {
       cookbook_id: 1,
@@ -393,11 +405,12 @@ export async function seed(knex: Knex): Promise<void> {
         'Pile the brussels sprouts on one side of the pan and add the butter and garlic. Let the garlic cook for 2 minutes then spoon some garlic butter over the tops of the chicken. Mix the rest of the garlic butter into the brussels sprouts.',
         'Serve with lots of extra black pepper.',
       ]),
-
       source_url:
         'https://www.theendlessmeal.com/crispy-garlic-butter-chicken-and-brussels-sprouts/',
       source_type: 'link',
       is_private: 0,
+      created_at: knex.fn.now(),
+      updated_at: knex.fn.now(),
     },
   ])
   await knex('ingredient_types').insert([
