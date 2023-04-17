@@ -63,11 +63,13 @@ const RecipePage: React.FC<Props> = (props: Props) => {
       <p>Created at: {created_at}</p>
       <p>{description}</p>
       <div id='ingredients'>
+        <h2>Ingredients</h2>
         {ingredients.map(ingredient => (
           <p key={ingredient}>{ingredient}</p>
         ))}
       </div>
       <div id='instructions'>
+        <h2>Instructions</h2>
         {instructions.map((step, i) => (
           <p key={step}>{`${i + 1}. ${step}`}</p>
         ))}
