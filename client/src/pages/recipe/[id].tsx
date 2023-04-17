@@ -12,7 +12,21 @@ type Props = {
 }
 
 const RecipePage: React.FC<Props> = (props: Props) => {
-  const { name, image } = props.recipe
+  const {
+    name,
+    creator_user_email,
+    image,
+    description,
+    cook_time,
+    prep_time,
+    total_time,
+    yield: recipeYield,
+    ingredients,
+    instructions,
+    tags,
+    source_url,
+    created_at,
+  } = props.recipe
   const {
     query: { id },
   } = useRouter()
@@ -31,9 +45,32 @@ const RecipePage: React.FC<Props> = (props: Props) => {
   }
   return (
     <Style>
-      <h1>{recipe_name}</h1>
+      <h1>{name}</h1>
+      <div id='tags'>{tags?.split(',').map(t => (
+        <span key={t}>#{t}</span>
+      ))}</div>
+      <p>Uploaded by {creator_user_email}</p>
       <div className='img-ctr'>
-        {image && <Image className='img' src={image} alt={recipe_name} fill />}
+        {image && <Image className='img' src={image} alt={name} fill />}
+      </div>
+      <div>
+        <span>Cook time: {cook_time} </span>
+        <span>Prep time: {prep_time} </span>
+        <span>Total time: {total_time} </span>
+        <span>Servings: {recipeYield}</span>
+      </div>
+      <p>{source_url}</p>
+      <p>Created at: {created_at}</p>
+      <p>{description}</p>
+      <div id='ingredients'>
+        {ingredients.map(ingredient => (
+          <p key={ingredient}>{ingredient}</p>
+        ))}
+      </div>
+      <div id='instructions'>
+        {instructions.map((step, i) => (
+          <p key={step}>{`${i + 1}. ${step}`}</p>
+        ))}
       </div>
     </Style>
   )

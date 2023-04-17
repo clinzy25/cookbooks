@@ -43,6 +43,8 @@ export async function getRecipe(guid: string) {
     return await knex
       .select(
         'r.guid',
+        'u.guid AS creator_user_guid',
+        'u.email AS creator_user_email',
         'r.name',
         'r.image',
         'r.description',
@@ -65,11 +67,14 @@ export async function getRecipe(guid: string) {
         knex.raw("STRING_AGG(DISTINCT tag_types.tag_name,',') as tags")
       )
       .from('recipes as r')
-      .join('tags', 'r.id', '=', 'tags.recipe_id')
-      .join('tag_types', 'tag_types.id', '=', 'tags.tag_type_id')
+      .leftJoin('tags', 'r.id', '=', 'tags.recipe_id')
+      .leftJoin('tag_types', 'tag_types.id', '=', 'tags.tag_type_id')
+      .join('users as u', 'u.id', '=', 'r.creator_user_id')
       .where({ 'r.guid': guid })
       .groupBy(
         'r.guid',
+        'u.guid',
+        'u.email',
         'r.name',
         'r.image',
         'r.description',
