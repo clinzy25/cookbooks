@@ -54,7 +54,7 @@ export async function httpParseRecipe(
       ...parsedRecipe,
     }
     const result = await addRecipe(fullRecipe)
-    if (result?.rows?.[0]?.name !== fullRecipe.name) {
+    if (!result?.rows?.[0]?.recipe_id) {
       throw new Error(FAILED_TO_CREATE_RESOURCE)
     }
     return res.status(200).json(fullRecipe)

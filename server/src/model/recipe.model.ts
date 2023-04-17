@@ -111,34 +111,45 @@ export async function addRecipe(recipe: IRecipe) {
     url: source_url,
     source_type,
     is_private,
+    recipeCategories,
+    recipeCuisines,
   } = recipe
   try {
+    const ingredientsJson = JSON.stringify(ingredients)
+    const instructionsJson = JSON.stringify(instructions)
+    const allTags = recipeCategories.concat(recipeCuisines)
+    
     return await knex.raw(`
-      INSERT INTO recipes(
-        cookbook_id,
-        creator_user_id,
-        name,
-        image,
-        description,
-        cook_time,
-        prep_time,
-        total_time,
-        yield,
-        ingredients,
-        instructions,
-        source_url,
-        source_type,
-        is_private,
-        created_at,
-        updated_at
+      WITH insert_1 AS (
+        INSERT INTO recipes(
+          cookbook_id,
+          creator_user_id,
+          name,
+          image,
+          description,
+          cook_time,
+          prep_time,
+          total_time,
+          yield,
+          ingredients,
+          instructions,
+          source_url,
+          source_type,
+          is_private,
+          created_at,
+          updated_at
+          )
+        SELECT id AS cookbook_id, creator_user_id, '${name}', '${image}', '${description}', '${cook_time}', '${prep_time}', '${total_time}', '${recipeYield}', '${ingredientsJson}', '${instructionsJson}', '${source_url}', '${source_type}', '${is_private}', ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks
+        WHERE cookbooks.guid = '${cookbook_guid}'
+        RETURNING name AS recipe_name, recipes.id AS recipe_id
+        ), insert_2 AS (
+          INSERT INTO tag_types(tag_name)
+          VALUES ${allTags.map(t => `('${t}')`).join(',')}
+          RETURNING id AS tag_type_id
         )
-      SELECT id AS cookbook_id, creator_user_id, '${name}', '${image}', '${description}', '${cook_time}', '${prep_time}', '${total_time}', '${recipeYield}', '${JSON.stringify(
-      ingredients
-    )}', '${JSON.stringify(
-      instructions
-    )}', '${source_url}', '${source_type}', '${is_private}', ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks
-      WHERE cookbooks.guid = '${cookbook_guid}'
-      RETURNING recipes.name
+      INSERT INTO tags(recipe_id, tag_type_id)
+      SELECT recipe_id, tag_type_id FROM insert_1, insert_2
+      RETURNING recipe_id
     `)
   } catch (e) {
     console.error(e)
