@@ -9,7 +9,6 @@ export async function httpGetTags(req: Request, res: Response, next: NextFunctio
     if (!cookbook_guid) throw new Error(MISSING_REQUIRED_PARAMS)
     const tags = await getTags(cookbook_guid)
     const transformedTags = transformTags(tags)
-    console.log(transformedTags)
     return res.status(200).json(transformedTags)
   } catch (e) {
     next(e)
