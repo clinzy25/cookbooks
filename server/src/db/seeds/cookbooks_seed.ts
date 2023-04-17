@@ -92,7 +92,7 @@ export async function seed(knex: Knex): Promise<void> {
       prep_original_format: 'PT60M',
       total_time: '63 minutes',
       total_original_format: 'PT63M',
-      yield: '8',
+      reciperecipeYield: '8',
       ingredients: JSON.stringify([
         '8 oz spinach (fresh, washed and stems removed)',
         '2 large eggs (room temperature)',
@@ -143,7 +143,7 @@ export async function seed(knex: Knex): Promise<void> {
       prep_original_format: 'PT15M',
       total_time: '25 minutes',
       total_original_format: 'PT25M',
-      yield: '4',
+      recipeYield: '4',
       ingredients: JSON.stringify([
         '1 lb. (16 ounces) Silver Fern Farms Net Carbon Zero By Nature 100% Grass-Fed Angus Ground Beef',
         '⅓ cup coconut aminos*',
@@ -187,7 +187,7 @@ export async function seed(knex: Knex): Promise<void> {
       prep_original_format: 'PT5M',
       total_time: '30 minutes',
       total_original_format: 'PT30M',
-      yield: '4',
+      recipeYield: '4',
       ingredients: JSON.stringify([
         '14 oz rice noodles ((preferably stir fry/pad thai style))',
         '14 oz extra firm tofu',
@@ -236,7 +236,7 @@ export async function seed(knex: Knex): Promise<void> {
       prep_original_format: 'PT20M',
       total_time: '95 minutes',
       total_original_format: 'PT95M',
-      yield: '8',
+      recipeYield: '8',
       ingredients: JSON.stringify([
         '3 tbsp olive oil',
         '1 lb chicken thighs (boneless, skinless)',
@@ -293,7 +293,7 @@ export async function seed(knex: Knex): Promise<void> {
       prep_original_format: 'PT15M',
       total_time: '30 minutes',
       total_original_format: 'PT30M',
-      yield: '4',
+      recipeYield: '4',
       ingredients: JSON.stringify([
         '6 oz glass noodles ((dried))',
         '2 tablespoons vegetable oil (divided)',
@@ -339,7 +339,7 @@ export async function seed(knex: Knex): Promise<void> {
       prep_original_format: 'PT15M',
       total_time: '30 minutes',
       total_original_format: 'PT30M',
-      yield: '4',
+      recipeYield: '4',
       ingredients: JSON.stringify([
         '4 6 oz halibut fillets',
         'Salt and freshly ground black pepper',
@@ -389,7 +389,7 @@ export async function seed(knex: Knex): Promise<void> {
       prep_original_format: 'PT5M',
       total_time: '40 minutes',
       total_original_format: 'PT40M',
-      yield: '4',
+      recipeYield: '4',
       ingredients: JSON.stringify([
         '8 chicken thighs - skin on or off (your choice!)',
         '1 lb brussels sprouts (cut in half)',

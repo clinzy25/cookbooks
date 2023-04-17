@@ -21,6 +21,7 @@ export async function getCookbookRecipes(guid: string) {
       .leftJoin('tags', 'r.id', '=', 'tags.recipe_id')
       .leftJoin('tag_types', 'tag_types.id', '=', 'tags.tag_type_id')
       .where({ 'cookbooks.guid': guid })
+      .orderBy('created_at', 'desc')
       .groupBy(
         'r.guid',
         'r.name',
@@ -104,7 +105,7 @@ export async function addRecipe(recipe: IRecipe) {
     cookTime: cook_time,
     prepTime: prep_time,
     totalTime: total_time,
-    recipeYield: yield,
+    recipeYield,
     recipeIngredients: ingredients,
     recipeInstructions: instructions,
     url: source_url,
@@ -131,13 +132,12 @@ export async function addRecipe(recipe: IRecipe) {
         created_at,
         updated_at
         )
-      SELECT id AS cookbook_id, creator_user_id, '${name}', '${image}', '${description}', '${cook_time}', '${prep_time}', '${total_time}', '${yield}', '${JSON.stringify(
+      SELECT id AS cookbook_id, creator_user_id, '${name}', '${image}', '${description}', '${cook_time}', '${prep_time}', '${total_time}', '${recipeYield}', '${JSON.stringify(
       ingredients
     )}', '${JSON.stringify(
       instructions
     )}', '${source_url}', '${source_type}', '${is_private}', ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks
       WHERE cookbooks.guid = '${cookbook_guid}'
-      ORDER BY created_at
       RETURNING recipes.name
     `)
   } catch (e) {
