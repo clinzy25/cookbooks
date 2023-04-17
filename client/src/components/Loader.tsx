@@ -1,11 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Loader = () => <Style />
+type Props = {
+  size: number
+}
 
-const Style = styled.div`
-  width: 48px;
-  height: 48px;
+const Loader = ({ size }: Props) => <Style size={size} />
+
+const Style = styled.div<Props>`
+  width: ${props => `${props.size}px`};
+  height: ${props => `${props.size}px`};
   border: 3px solid #000;
   border-radius: 50%;
   display: inline-block;
@@ -19,8 +23,8 @@ const Style = styled.div`
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 40px;
-    height: 40px;
+    width: ${props => `${props.size}px`};
+    height: ${props => `${props.size}px`};
     border-radius: 50%;
     border: 3px solid transparent;
     border-bottom-color: #ff3d00;
