@@ -151,7 +151,7 @@ export async function addRecipe(recipe: IRecipe) {
           INSERT INTO tag_types(tag_name)
           VALUES ${allTags.map(t => `('${t}')`).join(',')}
           ON CONFLICT (tag_name) 
-          DO UPDATE SET tag_name = excluded.tag_name
+          DO UPDATE SET weight = excluded.weight + 1
           RETURNING id AS tag_type_id
         )
       INSERT INTO tags(recipe_id, tag_type_id)

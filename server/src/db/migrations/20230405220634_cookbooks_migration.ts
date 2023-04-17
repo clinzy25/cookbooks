@@ -89,6 +89,7 @@ export async function up(knex: Knex): Promise<void> {
       table.increments('id').primary()
       table.uuid('guid', { useBinaryUuid: true }).defaultTo(uuid(knex))
       table.string('tag_name', 50).notNullable()
+      table.integer('weight').defaultTo(1).notNullable()
       table.unique(['tag_name'])
     })
     .createTable('tags', function (table) {
