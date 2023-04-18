@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import Snackbar from '@/components/Snackbar'
 import { AppContextType } from '@/types/@types.context'
 import withContext from '@/context/WithContext'
+import styled from 'styled-components'
 
 const App = ({ Component, pageProps }: AppProps) => {
   const { snackbar } = useAppContext() as AppContextType
@@ -15,10 +16,16 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       {asPath !== '/' && <Navbar />}
-      <Component {...pageProps} />
+      <PageWrapper>
+        <Component {...pageProps} />
+      </PageWrapper>
       {snackbar.msg && <Snackbar snackbar={snackbar} />}
     </>
   )
 }
+
+const PageWrapper = styled.div`
+  padding: 30px 60px;
+`
 
 export default withContext(App)
