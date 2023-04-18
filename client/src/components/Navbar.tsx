@@ -48,10 +48,14 @@ const Style = styled.div`
     }
   }
   #tag-list {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     overflow-y: hidden;
     white-space: nowrap;
     margin: 0 50px;
     height: 40px;
+    scrollbar-width: thin;
   }
   .tag {
     border: 1px solid gray;
