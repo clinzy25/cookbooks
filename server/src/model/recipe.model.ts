@@ -122,6 +122,7 @@ export async function addRecipe(recipe: IRecipe) {
   try {
     const ingredientsJson = JSON.stringify(ingredients).replace(/'/g, '&apos;')
     const instructionsJson = JSON.stringify(instructions).replace(/'/g, '&apos;')
+    const _description = description.replace(/'/g, '&apos;')
     const allTags = recipeCategories.concat(recipeCuisines)
     const cleanTag = (tag: string) => tag.replace(/\s/g, '').replace(/\//g, '-').toLowerCase()
 
@@ -145,7 +146,7 @@ export async function addRecipe(recipe: IRecipe) {
           created_at,
           updated_at
           )
-        SELECT id AS cookbook_id, creator_user_id, '${name}', '${image}', '${description}', '${cook_time}', '${prep_time}', '${total_time}', '${recipeYield}', '${ingredientsJson}', '${instructionsJson}', '${source_url}', '${source_type}', '${is_private}', ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks
+        SELECT id AS cookbook_id, creator_user_id, '${name}', '${image}', '${_description}', '${cook_time}', '${prep_time}', '${total_time}', '${recipeYield}', '${ingredientsJson}', '${instructionsJson}', '${source_url}', '${source_type}', '${is_private}', ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks
         WHERE cookbooks.guid = '${cookbook_guid}'
         RETURNING recipes.id AS recipe_id
         ), insert_2 AS (

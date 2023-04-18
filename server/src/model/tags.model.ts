@@ -9,7 +9,7 @@ export async function getTags(cookbook_guid: string) {
       .join('recipes as r', 'r.id', '=', 't.recipe_id')
       .join('cookbooks as c', 'c.id', '=', 'r.cookbook_id')
       .where({ 'c.guid': cookbook_guid })
-      .orderBy('weight')
+      .orderBy('weight', 'desc')
       .groupBy('tag_name', 'weight')
   } catch (e) {
     console.error(e)

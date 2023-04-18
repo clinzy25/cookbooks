@@ -10,7 +10,7 @@ const Navbar = () => {
 
   return (
     <Style>
-      <div>
+      <div id='input-ctr'>
         <Link href='/cookbooks'>Cookbooks App</Link>
         <input id='search-field' placeholder='Search all recipes...' type='text' />
       </div>
@@ -39,9 +39,19 @@ const Style = styled.div`
   height: 65px;
   border-bottom: 1px solid gray;
   padding: 15px;
-  #search-field {
+  #input-ctr {
+    display: flex;
+    flex-wrap: nowrap;
+    #search-field {
+      height: 40px;
+      margin-left: 15px;
+    }
+  }
+  #tag-list {
+    overflow-y: hidden;
+    white-space: nowrap;
+    margin: 0 50px;
     height: 40px;
-    margin-left: 15px;
   }
   .tag {
     border: 1px solid gray;
