@@ -39,16 +39,15 @@ export async function httpParseRecipe(
   res: Response,
   next: NextFunction
 ) {
-  const url = req.body.url
+  const { url, cookbook_guid, source_type, is_private } = req.body
   try {
-    if (!url) throw new Error(INCOMPLETE_REQUEST_BODY)
+    if (!url || !cookbook_guid) throw new Error(INCOMPLETE_REQUEST_BODY)
     await fetch(url).catch(err => {
       if (err.code === 'ERR_INVALID_URL') throw new Error(INVALID_URL)
     })
     const parsedRecipe = await recipeDataScraper(url)
     if (!parsedRecipe) throw new Error(RECIPE_NOT_FOUND)
     const imageUrl = await uploadToS3(parsedRecipe.image)
-    const { cookbook_guid, source_type, is_private } = req.body
     const fullRecipe = {
       ...parsedRecipe,
       image: imageUrl,
