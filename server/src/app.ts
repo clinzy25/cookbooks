@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import { api } from './routes/api'
 import { errorHandler } from './utils/utils.errors'
+import { S3 } from '@aws-sdk/client-s3'
 
 dotenv.config({
   path: path.resolve(__dirname, '..', '..', '.env'),
@@ -11,6 +12,13 @@ dotenv.config({
 
 export const router: Router = express.Router()
 export const app: Express = express()
+export const s3Client = new S3({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+  },
+})
 
 const port = process.env.SERVER_PORT
 const corsOptions = {

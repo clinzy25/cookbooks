@@ -10,6 +10,7 @@ import {
   RECIPE_NOT_FOUND,
 } from '../../utils/utils.errors'
 import { IParseRecipeRequestBody } from '../../types/@types.recipes'
+import { uploadToS3 } from './recipe.utils'
 
 export async function httpGetCookbookRecipes(req: Request, res: Response, next: NextFunction) {
   const cookbook = req.query.cookbook?.toString()
@@ -46,12 +47,14 @@ export async function httpParseRecipe(
     })
     const parsedRecipe = await recipeDataScraper(url)
     if (!parsedRecipe) throw new Error(RECIPE_NOT_FOUND)
+    const imageUrl = await uploadToS3(parsedRecipe.image)
     const { cookbook_guid, source_type, is_private } = req.body
     const fullRecipe = {
+      ...parsedRecipe,
+      image: imageUrl,
       cookbook_guid,
       source_type,
       is_private,
-      ...parsedRecipe,
     }
     const result = await addRecipe(fullRecipe)
     if (!result?.rows?.[0]?.recipe_id) {

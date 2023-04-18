@@ -65,6 +65,24 @@ export const FAILED_TO_CREATE_RESOURCE_RES: ExceptionResponseType = {
   },
 }
 
+export const S3_UPLOAD_FAILED = 'errors/s3-upload-failed'
+export const S3_UPLOAD_FAILED_RES: ExceptionResponseType = {
+  statusCode: 500,
+  body: {
+    type: 'errors/s3-upload-failed',
+    detail: 'Could not upload to S3 bucket',
+  },
+}
+
+export const FAILED_TO_FETCH_IMAGE = 'errors/failed-to-fetch-image'
+export const FAILED_TO_FETCH_IMAGE_RES: ExceptionResponseType = {
+  statusCode: 500,
+  body: {
+    type: 'errors/failed-to-fetch-image',
+    detail: 'Failed to fetch image from recipe source',
+  },
+}
+
 const exceptions = new Map()
 exceptions.set(MISSING_REQUIRED_PARAMS, MISSING_REQUIRED_PARAMS_RES)
 exceptions.set(INCOMPLETE_REQUEST_BODY, INCOMPLETE_REQUEST_BODY_RES)
