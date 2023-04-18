@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { addRecipe, getCookbookRecipes, getRecipe } from '../../model/recipe.model'
+import { dbAddRecipe, dbGetCookbookRecipes, dbGetRecipe } from '../../model/recipe.model'
 import recipeDataScraper from 'recipe-data-scraper'
 import fetch from 'node-fetch'
 import {
@@ -16,7 +16,7 @@ export async function httpGetCookbookRecipes(req: Request, res: Response, next: 
   const cookbook = req.query.cookbook?.toString()
   try {
     if (!cookbook) throw new Error(MISSING_REQUIRED_PARAMS)
-    const recipes = await getCookbookRecipes(cookbook)
+    const recipes = await dbGetCookbookRecipes(cookbook)
     return res.status(200).json(recipes)
   } catch (e) {
     next(e)
@@ -27,7 +27,7 @@ export async function httpGetRecipe(req: Request, res: Response, next: NextFunct
   const recipe_guid = req.query.recipe_guid?.toString()
   try {
     if (!recipe_guid) throw new Error(MISSING_REQUIRED_PARAMS)
-    const recipe = await getRecipe(recipe_guid)
+    const recipe = await dbGetRecipe(recipe_guid)
     return res.status(200).json(recipe)
   } catch (e) {
     next(e)
@@ -56,7 +56,7 @@ export async function httpParseRecipe(
       source_type,
       is_private,
     }
-    const result = await addRecipe(fullRecipe)
+    const result = await dbAddRecipe(fullRecipe)
     if (!result?.rows?.[0]?.recipe_id) {
       throw new Error(FAILED_TO_CREATE_RESOURCE)
     }

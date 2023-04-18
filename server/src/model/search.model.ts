@@ -1,6 +1,6 @@
 import knex from '../db/db'
 
-export async function searchRecipesByTag(tagName: string, cookbookGuid: string | undefined) {
+export async function dbSearchRecipesByTag(tagName: string, cookbookGuid: string | undefined) {
   try {
     return await knex.raw(`
       SELECT

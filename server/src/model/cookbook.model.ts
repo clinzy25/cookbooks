@@ -1,7 +1,7 @@
 import knex from '../db/db'
 import { ICookbook } from '../types/@types.cookbooks'
 
-export async function getCookbooks(guid: string) {
+export async function dbGetCookbooks(guid: string) {
   try {
     return await knex
       .select('c.guid', 'c.cookbook_name', 'c.created_at', 'c.updated_at')
@@ -13,7 +13,7 @@ export async function getCookbooks(guid: string) {
   }
 }
 
-export async function createCookbook(cookbook: ICookbook) {
+export async function dbCreateCookbook(cookbook: ICookbook) {
   const { cookbook_name, creator_user_guid } = cookbook
   try {
     return await knex.raw(`

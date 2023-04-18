@@ -1,6 +1,6 @@
 import knex from '../db/db'
 
-export async function getTags(cookbook_guid: string) {
+export async function dbGetTags(cookbook_guid: string) {
   try {
     return await knex
       .select('tag_name')

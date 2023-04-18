@@ -1,7 +1,7 @@
 import knex from '../db/db'
 import { IRecipe } from '../types/@types.recipes'
 
-export async function getCookbookRecipes(guid: string) {
+export async function dbGetCookbookRecipes(guid: string) {
   try {
     return await knex
       .select(
@@ -38,7 +38,7 @@ export async function getCookbookRecipes(guid: string) {
   }
 }
 
-export async function getRecipe(guid: string) {
+export async function dbGetRecipe(guid: string) {
   try {
     return await knex
       .select(
@@ -101,7 +101,7 @@ export async function getRecipe(guid: string) {
   }
 }
 
-export async function addRecipe(recipe: IRecipe) {
+export async function dbAddRecipe(recipe: IRecipe) {
   const {
     cookbook_guid,
     name,
