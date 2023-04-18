@@ -1,21 +1,12 @@
-import { api, fetcher } from '@/api'
+import useAppContext from '@/context/app.context'
+import { AppContextType } from '@/types/@types.context'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import useSWR from 'swr'
 
 const Navbar = () => {
-  const {
-    query: { id },
-    pathname,
-  } = useRouter()
-  const [tags, setTags] = useState([])
-  const { data, error } = useSWR(`${api}/tags?cookbook_guid=${id}`, fetcher)
-
-  useEffect(() => {
-    data && setTags(data)
-  }, [data])
+  const { pathname } = useRouter()
+  const { tags, tagsError } = useAppContext() as AppContextType
 
   return (
     <Style>
@@ -24,15 +15,15 @@ const Navbar = () => {
         <input id='search-field' placeholder='Search all recipes...' type='text' />
       </div>
       {pathname === '/cookbooks/[id]' && (
-        <Link href={`/search/cookbooks/${id}`} id='tag-list'>
-          {error
+        <div id='tag-list'>
+          {tagsError
             ? 'Error loading tags'
             : tags?.map(t => (
-                <span className='tag' key={t}>
+                <Link href={`/search/recipes/${t}`} className='tag' key={t}>
                   #{t}
-                </span>
+                </Link>
               ))}
-        </Link>
+        </div>
       )}
       <a href='/api/auth/logout'>
         <button>Logout</button>

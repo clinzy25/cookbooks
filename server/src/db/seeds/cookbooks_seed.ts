@@ -484,19 +484,19 @@ export async function seed(knex: Knex): Promise<void> {
   ])
   await knex('tag_types').insert([
     {
-      tag_name: 'Asian',
+      tag_name: 'asian',
     },
     {
-      tag_name: 'Italian',
+      tag_name: 'italian',
     },
     {
-      tag_name: 'Jamacian',
+      tag_name: 'jamacian',
     },
     {
-      tag_name: 'Vegitarian',
+      tag_name: 'vegitarian',
     },
     {
-      tag_name: 'Chicken',
+      tag_name: 'chicken',
     },
   ])
   await knex('tags').insert([

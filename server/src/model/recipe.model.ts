@@ -123,6 +123,7 @@ export async function addRecipe(recipe: IRecipe) {
     const ingredientsJson = JSON.stringify(ingredients).replace(/'/g, '&apos;')
     const instructionsJson = JSON.stringify(instructions).replace(/'/g, '&apos;')
     const allTags = recipeCategories.concat(recipeCuisines)
+    const cleanTag = (tag: string) => tag.replace(/\s/g, '').replace(/\//g, '-').toLowerCase()
 
     return await knex.raw(`
       WITH insert_1 AS (
@@ -149,7 +150,7 @@ export async function addRecipe(recipe: IRecipe) {
         RETURNING recipes.id AS recipe_id
         ), insert_2 AS (
           INSERT INTO tag_types(tag_name)
-          VALUES ${allTags.map(t => `('${t}')`).join(',')}
+          VALUES ${allTags.map(t => `('${cleanTag(t)}')`).join(',')}
           ON CONFLICT (tag_name) 
           DO UPDATE SET weight = excluded.weight + 1
           RETURNING id AS tag_type_id

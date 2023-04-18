@@ -20,9 +20,8 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
   const {
     query: { id },
   } = useRouter()
-  const { cookbooks } = useAppContext() as AppContextType
+  const { cookbooks, currentCookbook, setCurrentCookbook } = useAppContext() as AppContextType
   const [recipes, setRecipes] = useState<IRecipe[]>(props.recipes)
-  const [cookbook, setCookbook] = useState<ICookbook | undefined>()
   const [modalOpen, setModalOpen] = useState(false)
   const {
     data,
@@ -35,8 +34,8 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
   }, [data])
 
   useEffect(() => {
-    setCookbook(cookbooks.find((cb: ICookbook) => cb.guid === id))
-  }, [cookbooks, setCookbook, id])
+    setCurrentCookbook(cookbooks.find((cb: ICookbook) => cb.guid === id) || null)
+  }, [currentCookbook, setCurrentCookbook, id, cookbooks])
 
   if (!data && !recipes) {
     return <p>loading...</p>
@@ -45,22 +44,18 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
     return <p>error</p>
   }
   return (
-    <Styled>
+    <Style>
       {modalOpen && (
-        <AddRecipeModal
-          revalidateRecipes={revalidateRecipes}
-          cookbook={cookbook}
-          setModalOpen={setModalOpen}
-        />
+        <AddRecipeModal revalidateRecipes={revalidateRecipes} setModalOpen={setModalOpen} />
       )}
-      <h1>{cookbook?.cookbook_name}</h1>
+      <h1>{currentCookbook?.cookbook_name}</h1>
       <div id='recipe-ctr'>
         {recipes.map((recipe: IRecipe) => (
           <RecipeCard {...recipe} key={recipe.guid} />
         ))}
       </div>
       <AddBtn handler={() => setModalOpen(true)} />
-    </Styled>
+    </Style>
   )
 }
 
@@ -72,7 +67,7 @@ export async function getServerSideProps(context: {
   return { props: { recipes } }
 }
 
-const Styled = styled.main`
+const Style = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
