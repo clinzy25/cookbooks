@@ -8,13 +8,15 @@ const Navbar = () => {
   const { pathname } = useRouter()
   const { tags, tagsError } = useAppContext() as AppContextType
 
+  const showTagsInRoutes = ['/search/recipes/[id]', '/cookbooks/[id]']
+
   return (
     <Style>
       <div id='input-ctr'>
         <Link href='/cookbooks'>Cookbooks App</Link>
-        <input id='search-field' placeholder='Search all recipes...' type='text' />
+        <input placeholder='Search all recipes...' type='text' />
       </div>
-      {pathname === '/cookbooks/[id]' && (
+      {showTagsInRoutes.includes(pathname) && (
         <div id='tag-list'>
           {tagsError
             ? 'Error loading tags'
@@ -42,7 +44,9 @@ const Style = styled.div`
   #input-ctr {
     display: flex;
     flex-wrap: nowrap;
-    #search-field {
+    align-items: center;
+    white-space: nowrap;
+    input {
       height: 40px;
       margin-left: 15px;
     }
