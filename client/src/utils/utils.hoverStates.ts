@@ -1,5 +1,3 @@
-export const formSteps = ['name', 'recipes', 'invite']
-
 export const hoverStates = {
   link: {
     value: 'link',
@@ -8,13 +6,12 @@ export const hoverStates = {
   },
   camera: {
     value: 'camera',
-    hoverText:
-      "Take a picture of a recipe (like from a cookbook) and we'll parse the text and save it for you",
+    hoverText: "Take a picture of a recipe (like from a cookbook) and we'll save it for you.",
     btnText: 'From Camera',
   },
   manual: {
     value: 'manual',
-    hoverText: 'Enter a recipe manually',
+    hoverText: 'Type a recipe yourself.',
     btnText: 'Enter Manually',
   },
 }

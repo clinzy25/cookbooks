@@ -1,7 +1,6 @@
 import Modal from '@/components/Modal'
 import React, { useRef, useState, ClipboardEvent } from 'react'
 import styled from 'styled-components'
-import { hoverStates } from '../utils/utils.cookbooks'
 import { api } from '@/api'
 import axios from 'axios'
 import useAppContext from '@/context/app.context'
@@ -9,6 +8,7 @@ import { AppContextType } from '@/types/@types.context'
 import { serverErrorMessages } from '@/utils/utils.server.errors'
 import Loader from '@/components/Loader'
 import { AxiosError } from 'axios'
+import { hoverStates } from '@/utils/utils.hoverStates'
 
 type Props = {
   setModalOpen: (bool: boolean) => void

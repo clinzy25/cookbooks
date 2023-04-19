@@ -11,6 +11,7 @@ export type AppContextType = {
   tags: string[]
   tagsError: boolean
   revalidateTags: () => void
+  navbarHeight: number
 }
 
 export type SnackbarType = {

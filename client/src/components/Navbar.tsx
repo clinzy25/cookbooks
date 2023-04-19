@@ -6,12 +6,12 @@ import styled from 'styled-components'
 
 const Navbar = () => {
   const { pathname } = useRouter()
-  const { tags, tagsError } = useAppContext() as AppContextType
+  const { tags, tagsError, navbarHeight } = useAppContext() as AppContextType
 
   const showTagsInRoutes = ['/search/recipes/[id]', '/cookbooks/[id]']
 
   return (
-    <Style>
+    <Style navbarHeight={navbarHeight}>
       <div id='input-ctr'>
         <Link href='/cookbooks'>Cookbooks App</Link>
         <input placeholder='Search all recipes...' type='text' />
@@ -34,11 +34,15 @@ const Navbar = () => {
   )
 }
 
-const Style = styled.div`
+type StyleProps = {
+  navbarHeight: number
+}
+
+const Style = styled.div<StyleProps>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 65px;
+  height: ${props => `${props.navbarHeight}px`};
   border-bottom: 1px solid gray;
   padding: 15px;
   #input-ctr {

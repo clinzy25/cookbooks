@@ -29,6 +29,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   const [cookbooks, setCookbooks] = useState<ICookbook[]>([])
   const [currentCookbook, setCurrentCookbook] = useState<ICookbook | null>(null)
   const [tags, setTags] = useState<string[]>([])
+  const navbarHeight = 65
 
   const {
     data: tagsData,
@@ -71,6 +72,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
         tags,
         tagsError,
         revalidateTags,
+        navbarHeight,
       }}>
       {children}
     </AppContext.Provider>
