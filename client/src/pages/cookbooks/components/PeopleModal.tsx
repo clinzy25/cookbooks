@@ -8,7 +8,7 @@ import { serverErrorMessage } from '@/utils/utils.server.errors'
 import { validateEmail } from '@/utils/utils.validateField'
 import axios from 'axios'
 import Image from 'next/image'
-import React, { FormEvent, useEffect, useRef, useState } from 'react'
+import React, { MouseEvent, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
 
@@ -29,7 +29,7 @@ const PeopleModal = ({ setPeopleModal }: Props) => {
     mutate: revalidatePeople,
   } = useSWR(`${api}/users/cookbook?cookbook_guid=${currentCookbook?.guid}`, fetcher)
 
-  const sendInvite = async (e: FormEvent<HTMLFormElement>) => {
+  const sendInvite = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     if (!emailRef.current || !validateEmail(emailRef.current.value)) {
       setFormError(true)
