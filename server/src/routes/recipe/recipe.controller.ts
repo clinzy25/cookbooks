@@ -59,7 +59,7 @@ export async function httpParseRecipe(
     if (!result?.rows?.[0]?.recipe_id) {
       throw new Error(FAILED_TO_CREATE_RESOURCE)
     }
-    return res.status(200).json(fullRecipe)
+    return res.status(201).json(fullRecipe)
   } catch (e) {
     next(e)
   }

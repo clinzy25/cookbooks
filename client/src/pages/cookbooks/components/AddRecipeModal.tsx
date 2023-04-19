@@ -5,9 +5,8 @@ import { api } from '@/api'
 import axios from 'axios'
 import useAppContext from '@/context/app.context'
 import { AppContextType } from '@/types/@types.context'
-import { serverErrorMessages } from '@/utils/utils.server.errors'
+import { serverErrorMessage } from '@/utils/utils.server.errors'
 import Loader from '@/components/Loader'
-import { AxiosError } from 'axios'
 import { hoverStates } from '@/utils/utils.hoverStates'
 
 type Props = {
@@ -40,15 +39,7 @@ const AddRecipeModal = ({ revalidateRecipes, setModalOpen }: Props) => {
       revalidateTags()
       setModalOpen(false)
     } catch (e: unknown) {
-      console.error(e)
-      if (e instanceof AxiosError) {
-        const errorKey = e.response?.data.type
-        setSnackbar({
-          msg: serverErrorMessages.get(errorKey),
-          state: 'error',
-          duration: 3000,
-        })
-      }
+      serverErrorMessage(e, setSnackbar)
     }
     setLoading(false)
   }

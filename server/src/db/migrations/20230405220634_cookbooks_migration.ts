@@ -34,14 +34,14 @@ export async function up(knex: Knex): Promise<void> {
     })
     .createTable('invites', function (table) {
       table.increments('id').primary()
-      table.uuid('guid', { useBinaryUuid: true }).defaultTo(uuid(knex))
+      table.uuid('guid', { useBinaryUuid: true })
       table.integer('sender_user_id').unsigned()
       table.foreign('sender_user_id').references('users.id')
       table.integer('recipient_user_id').unsigned()
       table.foreign('recipient_user_id').references('users.id')
       table.integer('cookbook_id').unsigned()
       table.foreign('cookbook_id').references('cookbooks.id')
-      table.integer('accepted').notNullable()
+      table.integer('accepted').notNullable().defaultTo(0)
       table.timestamps()
     })
     .createTable('recipes', function (table) {

@@ -1,4 +1,4 @@
-import React, { useRef, useState, FormEvent, useEffect } from 'react'
+import React, { useRef, useState, FormEvent, useEffect, MouseEvent } from 'react'
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useUser } from '@auth0/nextjs-auth0/client'
@@ -7,10 +7,12 @@ import axios from 'axios'
 import useAppContext from '@/context/app.context'
 import { AppContextType } from '@/types/@types.context'
 import { useRouter } from 'next/router'
-import { handleInviteLink } from '@/utils/utils.inviteLink'
+import { serverErrorMessage } from '@/utils/utils.server.errors'
+import { handleInviteLink } from '@/utils/utils.invite'
 
 const WelcomePage = () => {
-  const { setSnackbar, revalidateCookbooks } = useAppContext() as AppContextType
+  const { setSnackbar, revalidateCookbooks, currentCookbook } =
+    useAppContext() as AppContextType
   const router = useRouter()
   const { user } = useUser()
   const [step, setStep] = useState<0 | 1 | 2>(0)
@@ -38,12 +40,20 @@ const WelcomePage = () => {
         throw new Error('Cookbook creation failed')
       }
     } catch (e) {
-      setSnackbar({
-        msg: 'Sorry! Something went wrong.',
-        state: 'error',
-        duration: 3000,
-      })
+      serverErrorMessage(e, setSnackbar)
       console.error(e)
+    }
+  }
+
+  const handleInvite = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    if (currentCookbook?.guid && user?.sub) {
+      const body = {
+        cookbook_guid: currentCookbook?.guid,
+        user_guid: user?.sub,
+        invite_guid: '',
+      }
+      handleInviteLink(body, setSnackbar)
     }
   }
 
@@ -135,7 +145,7 @@ const WelcomePage = () => {
             <div className='cta-ctr'>
               <h2>Invite People</h2>
               <p>Invite your friends and family to view and add recipes.</p>
-              <button onClick={() => handleInviteLink(setSnackbar)}>Copy Invite link</button>
+              <button onClick={e => handleInvite(e)}>Copy Invite link</button>
             </div>
             <div className='btn-ctr'>
               <button className='left-btn' onClick={() => setStep(1)}>

@@ -8,11 +8,11 @@ import RecipeCard from './components/RecipeCard'
 import { ICookbook } from '@/types/@types.cookbooks'
 import useAppContext from '@/context/app.context'
 import { AppContextType } from '@/types/@types.context'
-import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import AddBtn from '@/components/buttons/AddBtn'
 import AddRecipeModal from './components/AddRecipeModal'
 import { CiMenuKebab } from 'react-icons/ci'
-import { handleInviteLink } from '@/utils/utils.inviteLink'
+import { handleInviteLink } from '@/utils/utils.invite'
 
 type Props = {
   recipes: IRecipe[]
@@ -22,6 +22,7 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
   const {
     query: { id },
   } = useRouter()
+  const { user } = useUser()
   const { cookbooks, currentCookbook, setCurrentCookbook, setSnackbar } =
     useAppContext() as AppContextType
   const [recipes, setRecipes] = useState<IRecipe[]>(props.recipes)
@@ -32,6 +33,17 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
     error,
     mutate: revalidateRecipes,
   } = useSWR<IRecipe[], Error>(`${api}/recipes/cookbook?cookbook=${id}`, fetcher)
+
+  const handleInvite = () => {
+    if (currentCookbook?.guid && user?.sub) {
+      const body = {
+        cookbook_guid: currentCookbook?.guid,
+        user_guid: user?.sub,
+        invite_guid: '',
+      }
+      handleInviteLink(body, setSnackbar)
+    }
+  }
 
   useEffect(() => {
     data && setRecipes(data)
@@ -63,7 +75,7 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
             </ul>
           )}
         </div>
-        <button onClick={() => handleInviteLink(setSnackbar)}>Copy Invite Link</button>
+        <button onClick={handleInvite}>Copy Invite Link</button>
       </header>
       {!recipes.length ? (
         <div id='cta-ctr'>
