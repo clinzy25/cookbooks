@@ -28,7 +28,7 @@ export async function uploadToS3(imageUrl: string): Promise<string> {
       }
       const res = await s3Client.send(new PutObjectCommand(params))
       if (res.$metadata.httpStatusCode === 200) {
-        return `https://cookbooks0347.s3.us-west-2.amazonaws.com/${params.Key}`
+        return `${process.env.RECIPE_IMAGES_BUCKET_LINK}/${params.Key}`
       }
       throw new Error(S3_UPLOAD_FAILED)
     })
