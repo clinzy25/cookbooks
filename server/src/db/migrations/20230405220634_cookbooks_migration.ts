@@ -24,12 +24,11 @@ export async function up(knex: Knex): Promise<void> {
     .createTable('cookbook_members', function (table) {
       table.increments('id').primary()
       table.uuid('guid', { useBinaryUuid: true }).defaultTo(uuid(knex))
-      table.integer('creator_user_id').unsigned()
-      table.foreign('creator_user_id').references('users.id')
       table.integer('member_user_id').unsigned()
       table.foreign('member_user_id').references('users.id')
       table.integer('cookbook_id').unsigned()
       table.foreign('cookbook_id').references('cookbooks.id')
+      table.string('email').notNullable()
       table.integer('invitation_accepted').notNullable().defaultTo(0)
       table.timestamps()
     })

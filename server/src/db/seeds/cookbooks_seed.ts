@@ -57,17 +57,17 @@ export async function seed(knex: Knex): Promise<void> {
   ])
   await knex('cookbook_members').insert([
     {
-      creator_user_id: 1,
       member_user_id: 2,
       cookbook_id: 1,
+      email: 'email@email.com',
       created_at: knex.fn.now(),
       updated_at: knex.fn.now(),
       invitation_accepted: 1,
     },
     {
-      creator_user_id: 1,
       member_user_id: 3,
       cookbook_id: 1,
+      email: 'email@email.com',
       created_at: knex.fn.now(),
       updated_at: knex.fn.now(),
     },

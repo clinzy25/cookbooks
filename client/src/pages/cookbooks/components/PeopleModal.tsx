@@ -4,8 +4,11 @@ import Modal from '@/components/Modal'
 import useAppContext from '@/context/app.context'
 import { AppContextType } from '@/types/@types.context'
 import { IMemberResult } from '@/types/@types.user'
+import { serverErrorMessage } from '@/utils/utils.server.errors'
+import { validateEmail } from '@/utils/utils.validateField'
+import axios from 'axios'
 import Image from 'next/image'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
 
@@ -14,10 +17,11 @@ type Props = {
 }
 
 const PeopleModal = ({ setPeopleModal }: Props) => {
-  const { currentCookbook } = useAppContext() as AppContextType
+  const { currentCookbook, setSnackbar } = useAppContext() as AppContextType
   const [members, setMembers] = useState<IMemberResult[]>([])
   const [pendingInvites, setPendingInvites] = useState<IMemberResult[]>([])
-  const emailRef = useRef(null)
+  const [formError, setFormError] = useState(false)
+  const emailRef = useRef<HTMLInputElement>(null)
 
   const {
     data,
@@ -25,8 +29,30 @@ const PeopleModal = ({ setPeopleModal }: Props) => {
     mutate: revalidatePeople,
   } = useSWR(`${api}/users/cookbook?cookbook_guid=${currentCookbook?.guid}`, fetcher)
 
-  const sendInvite = () => {
-    return
+  const sendInvite = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!emailRef.current || !validateEmail(emailRef.current.value)) {
+      setFormError(true)
+    } else {
+      formError && setFormError(false)
+      const body = {
+        email: emailRef.current.value,
+        cookbook_guid: currentCookbook?.guid,
+      }
+      try {
+        const res = await axios.post(`${api}/users/invite`, body)
+        if (res.status === 201) {
+          revalidatePeople()
+          setSnackbar({
+            msg: 'Invitation Sent!',
+            state: 'success',
+            duration: 3000,
+          })
+        }
+      } catch (e) {
+        serverErrorMessage(e, setSnackbar)
+      }
+    }
   }
 
   useEffect(() => {
@@ -41,8 +67,13 @@ const PeopleModal = ({ setPeopleModal }: Props) => {
           <h1>People</h1>
         </header>
         <h2>Send invitation</h2>
-        <input ref={emailRef} placeholder='Type an email address' type='text' />
-        <button onClick={sendInvite}>Send invite</button>
+        <form>
+          <input ref={emailRef} placeholder='Type an email address' type='text' />
+          <button type='submit' onClick={e => sendInvite(e)}>
+            Send invite
+          </button>
+          {formError && <p id='form-error'>Invalid email</p>}
+        </form>
         <h2>Cookbook Members</h2>
         {error ? (
           'error'
@@ -98,17 +129,23 @@ const Style = styled.article`
     width: 100%;
     font-size: 1.4rem;
   }
-  input {
-    height: 48px;
-    width: 40%;
-  }
-  button {
-    padding: 15px 30px;
-    margin-left: 15px;
-    width: min-content;
-    white-space: nowrap;
-    border: 1px solid gray;
-    border-radius: 10px;
+  form {
+    input {
+      height: 48px;
+      width: 40%;
+    }
+    button {
+      padding: 15px 30px;
+      margin-left: 15px;
+      width: min-content;
+      white-space: nowrap;
+      border: 1px solid gray;
+      border-radius: 10px;
+    }
+    #form-error {
+      color: red;
+      height: 22px;
+    }
   }
   h2 {
     margin-bottom: 5px;
