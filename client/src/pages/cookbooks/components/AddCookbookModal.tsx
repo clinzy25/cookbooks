@@ -17,35 +17,29 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
   const router = useRouter()
   const { user } = useUser()
   const [formError, setFormError] = useState(false)
-  const [newCookbook, setNewCookbook] = useState({
-    cookbook_name: '',
-    creator_user_guid: user?.sub,
-  })
   const nameFieldRef = useRef<HTMLInputElement>(null)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (nameFieldRef?.current?.value) {
-      setNewCookbook({
-        ...newCookbook,
-        cookbook_name: nameFieldRef.current.value,
-      })
-    } else {
-      return setFormError(true)
-    }
     try {
-      const res = await axios.post(`${api}/cookbooks`, { newCookbook })
-      if (res.status === 201) {
-        revalidateCookbooks()
-        setSnackbar({
-          msg: 'Cookbook created!',
-          state: 'success',
-          duration: 3000,
-        })
-        setModalOpen(false)
-        router.push(`/cookbooks/${res.data.guid}`)
+      if (!nameFieldRef?.current?.value) {
+        setFormError(true)
       } else {
-        throw new Error('Cookbook creation failed')
+        const newCookbook = {
+          cookbook_name: nameFieldRef.current.value,
+          creator_user_guid: user?.sub,
+        }
+        const res = await axios.post(`${api}/cookbooks`, { newCookbook })
+        if (res.status === 201) {
+          revalidateCookbooks()
+          setSnackbar({
+            msg: 'Cookbook created!',
+            state: 'success',
+            duration: 3000,
+          })
+          setModalOpen(false)
+          router.push(`/cookbooks/${res.data.guid}`)
+        }
       }
     } catch (e) {
       setSnackbar({
@@ -70,9 +64,10 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
               placeholder='Type a name...'
               type='text'
               name='name'
-              defaultValue={newCookbook.cookbook_name}
               ref={nameFieldRef}
             />
+            {/* For enter key */}
+            <input type='submit' hidden />
             {formError && <span className='error-msg'>Your cookbook needs a name!</span>}
           </label>
           <div className='btn-ctr'>
