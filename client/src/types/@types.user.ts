@@ -15,4 +15,5 @@ export interface IMemberResult {
   username: string
   email: string
   is_readonly: number
+  created_at: string
 }

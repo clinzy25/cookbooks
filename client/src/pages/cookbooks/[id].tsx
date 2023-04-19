@@ -70,7 +70,7 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
         />
       )}
       {peopleModal && <PeopleModal setPeopleModal={setPeopleModal} />}
-      <header>
+      <header id='cookbook-header'>
         <div>
           <h1>{currentCookbook?.cookbook_name} </h1>
           <CiMenuKebab onClick={() => setMenuOpen(!menuOpen)} />
@@ -81,15 +81,21 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
             </ul>
           )}
         </div>
-        <button onClick={() => setPeopleModal(true)}>People</button>
+        <button className='btn' onClick={() => setPeopleModal(true)}>
+          People
+        </button>
       </header>
       {!recipes.length ? (
         <div id='cta-ctr'>
           <h1>Somethings missing...</h1>
           <p>Don&apos;t forget to add some recipes and invite your friends and family!</p>
           <div>
-            <button onClick={() => setRecipeModal(true)}>Add Recipes</button>
-            <button onClick={() => setPeopleModal(true)}>Invite People</button>
+            <button className='btn' onClick={() => setRecipeModal(true)}>
+              Add Recipes
+            </button>
+            <button className='btn' onClick={() => setPeopleModal(true)}>
+              Invite People
+            </button>
           </div>
         </div>
       ) : (
@@ -117,7 +123,7 @@ const Style = styled.main`
   flex-direction: column;
   align-items: center;
   height: 100%;
-  header {
+  #cookbook-header {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -161,7 +167,7 @@ const Style = styled.main`
     width: 100%;
     height: 50%;
   }
-  button {
+  .btn {
     padding: 15px 30px;
     margin: 15px;
     width: min-content;
