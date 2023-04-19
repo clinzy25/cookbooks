@@ -8,6 +8,7 @@ import axios from 'axios'
 import useAppContext from '@/context/app.context'
 import { AppContextType } from '@/types/@types.context'
 import Modal from '@/components/Modal'
+import { useRouter } from 'next/router'
 
 type Props = {
   setModalOpen: (bool: boolean) => void
@@ -15,6 +16,7 @@ type Props = {
 
 const AddCookbookModal = ({ setModalOpen }: Props) => {
   const { setSnackbar, revalidateCookbooks } = useAppContext() as AppContextType
+  const router = useRouter()
   const { user } = useUser()
   const [step, setStep] = useState<0 | 1 | 2>(0)
   const [hover, setHover] = useState<string>('')
@@ -28,8 +30,8 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const { status } = await axios.post(`${api}/cookbooks`, { newCookbook })
-      if (status === 201) {
+      const res = await axios.post(`${api}/cookbooks`, { newCookbook })
+      if (res.status === 201) {
         revalidateCookbooks()
         setSnackbar({
           msg: 'Cookbook created!',
@@ -37,6 +39,7 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
           duration: 3000,
         })
         setModalOpen(false)
+        router.push(`/cookbooks/${res.data.guid}`)
       } else {
         throw new Error('Cookbook creation failed')
       }

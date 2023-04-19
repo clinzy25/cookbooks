@@ -22,10 +22,9 @@ export async function httpCreateCookbook(req: Request, res: Response, next: Next
   try {
     if (!cookbook) throw new Error(INCOMPLETE_REQUEST_BODY)
     const result = await dbCreateCookbook(cookbook)
-    if (result?.rows?.[0]?.cookbook_name !== cookbook.cookbook_name) {
-      throw new Error(FAILED_TO_CREATE_RESOURCE)
-    }
-    return res.status(201).json('Cookbook creation successful')
+    const guid = result?.rows?.[0]?.guid
+    if (!guid) throw new Error(FAILED_TO_CREATE_RESOURCE)
+    return res.status(201).json({ message: 'Cookbook creation successful', guid })
   } catch (e) {
     next(e)
   }

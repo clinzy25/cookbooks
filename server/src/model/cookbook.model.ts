@@ -20,7 +20,7 @@ export async function dbCreateCookbook(cookbook: ICookbook) {
       INSERT INTO cookbooks(cookbook_name, creator_user_id, created_at, updated_at)
       SELECT '${cookbook_name}' as cookbook_name, id, ${knex.fn.now()}, ${knex.fn.now()} FROM users
       WHERE users.guid = '${creator_user_guid}'
-      RETURNING cookbooks.cookbook_name
+      RETURNING cookbooks.guid
     `)
   } catch (e) {
     console.error(e)
