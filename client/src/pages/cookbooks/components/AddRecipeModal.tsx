@@ -10,11 +10,11 @@ import Loader from '@/components/Loader'
 import { hoverStates } from '@/utils/utils.hoverStates'
 
 type Props = {
-  setModalOpen: (bool: boolean) => void
+  setRecipeModal: (bool: boolean) => void
   revalidateRecipes: () => void
 }
 
-const AddRecipeModal = ({ revalidateRecipes, setModalOpen }: Props) => {
+const AddRecipeModal = ({ revalidateRecipes, setRecipeModal }: Props) => {
   const { setSnackbar, currentCookbook, revalidateTags } = useAppContext() as AppContextType
   const [hover, setHover] = useState<string>('')
   const [selection, setSelection] = useState<string>('')
@@ -37,7 +37,7 @@ const AddRecipeModal = ({ revalidateRecipes, setModalOpen }: Props) => {
       })
       revalidateRecipes()
       revalidateTags()
-      setModalOpen(false)
+      setRecipeModal(false)
     } catch (e: unknown) {
       serverErrorMessage(e, setSnackbar)
     }
@@ -55,7 +55,7 @@ const AddRecipeModal = ({ revalidateRecipes, setModalOpen }: Props) => {
   }
 
   return (
-    <Modal closeModal={() => setModalOpen(false)}>
+    <Modal closeModal={() => setRecipeModal(false)}>
       <Style>
         <h1>Add a Recipe</h1>
         <div className='ctr'>

@@ -1,22 +1,21 @@
 import knex from '../db/db'
 
-type Guids = {
-  cookbook_guid: string
-  user_guid: string
-  invite_guid: string
-}
-
-export async function dbCreateInvite(guids: Guids) {
-  const { cookbook_guid, user_guid, invite_guid } = guids
-
+export async function dbGetCookbookMembers(guid: string) {
   try {
-    return await knex.raw(`
-      INSERT INTO invites(guid, sender_user_id, cookbook_id)
-      SELECT '${invite_guid}', u.id, c.id FROM users u
-      JOIN cookbooks c on c.guid = '${cookbook_guid}'
-      WHERE u.guid = '${user_guid}'
-      RETURNING '${invite_guid}'
-    `)
+    return await knex
+      .select(
+        'cm.guid as membership_guid',
+        'cm.invitation_accepted',
+        'cm.created_at',
+        'u.guid as user_guid',
+        'u.username',
+        'u.email',
+        'u.is_readonly'
+      )
+      .from('cookbook_members as cm')
+      .join('cookbooks as c', 'c.id', '=', 'cm.cookbook_id')
+      .join('users as u', 'u.id', '=', 'cm.member_user_id')
+      .where({ 'c.guid': guid })
   } catch (e) {
     console.error(e)
   }

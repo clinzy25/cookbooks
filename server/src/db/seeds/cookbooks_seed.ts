@@ -9,7 +9,7 @@ const getRecipe = (fileName: string): string => {
 
 export async function seed(knex: Knex): Promise<void> {
   await knex.raw(
-    'TRUNCATE TABLE users, cookbook_members, invites, cookbooks, recipes, ingredients, ingredient_types, tags, tag_types RESTART IDENTITY;'
+    'TRUNCATE TABLE users, cookbook_members, cookbooks, recipes, ingredients, ingredient_types, tags, tag_types RESTART IDENTITY;'
   )
 
   await knex('users').insert([
@@ -62,13 +62,7 @@ export async function seed(knex: Knex): Promise<void> {
       cookbook_id: 1,
       created_at: knex.fn.now(),
       updated_at: knex.fn.now(),
-    },
-    {
-      creator_user_id: 1,
-      member_user_id: 2,
-      cookbook_id: 1,
-      created_at: knex.fn.now(),
-      updated_at: knex.fn.now(),
+      invitation_accepted: 1,
     },
     {
       creator_user_id: 1,

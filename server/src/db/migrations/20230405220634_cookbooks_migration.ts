@@ -30,18 +30,7 @@ export async function up(knex: Knex): Promise<void> {
       table.foreign('member_user_id').references('users.id')
       table.integer('cookbook_id').unsigned()
       table.foreign('cookbook_id').references('cookbooks.id')
-      table.timestamps()
-    })
-    .createTable('invites', function (table) {
-      table.increments('id').primary()
-      table.uuid('guid', { useBinaryUuid: true })
-      table.integer('sender_user_id').unsigned()
-      table.foreign('sender_user_id').references('users.id')
-      table.integer('recipient_user_id').unsigned()
-      table.foreign('recipient_user_id').references('users.id')
-      table.integer('cookbook_id').unsigned()
-      table.foreign('cookbook_id').references('cookbooks.id')
-      table.integer('accepted').notNullable().defaultTo(0)
+      table.integer('invitation_accepted').notNullable().defaultTo(0)
       table.timestamps()
     })
     .createTable('recipes', function (table) {
@@ -104,6 +93,6 @@ export async function up(knex: Knex): Promise<void> {
 
 export async function down(knex: Knex): Promise<void> {
   await knex.raw(
-    'DROP TABLE users, cookbook_members, invites, cookbooks, recipes, ingredients, ingredient_types, tags, tag_types CASCADE;'
+    'DROP TABLE users, cookbook_members, cookbooks, recipes, ingredients, ingredient_types, tags, tag_types CASCADE;'
   )
 }

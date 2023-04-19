@@ -13,6 +13,7 @@ import AddBtn from '@/components/buttons/AddBtn'
 import AddRecipeModal from './components/AddRecipeModal'
 import { CiMenuKebab } from 'react-icons/ci'
 import { handleInviteLink } from '@/utils/utils.invite'
+import PeopleModal from './components/PeopleModal'
 
 type Props = {
   recipes: IRecipe[]
@@ -27,7 +28,8 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
     useAppContext() as AppContextType
   const [recipes, setRecipes] = useState<IRecipe[]>(props.recipes)
   const [menuOpen, setMenuOpen] = useState(false)
-  const [modalOpen, setModalOpen] = useState(false)
+  const [recipeModal, setRecipeModal] = useState(false)
+  const [peopleModal, setPeopleModal] = useState(false)
   const {
     data,
     error,
@@ -61,9 +63,13 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
   }
   return (
     <Style>
-      {modalOpen && (
-        <AddRecipeModal revalidateRecipes={revalidateRecipes} setModalOpen={setModalOpen} />
+      {recipeModal && (
+        <AddRecipeModal
+          revalidateRecipes={revalidateRecipes}
+          setRecipeModal={setRecipeModal}
+        />
       )}
+      {peopleModal && <PeopleModal setPeopleModal={setPeopleModal} />}
       <header>
         <div>
           <h1>{currentCookbook?.cookbook_name} </h1>
@@ -75,15 +81,15 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
             </ul>
           )}
         </div>
-        <button onClick={handleInvite}>Copy Invite Link</button>
+        <button onClick={() => setPeopleModal(true)}>People</button>
       </header>
       {!recipes.length ? (
         <div id='cta-ctr'>
           <h1>Somethings missing...</h1>
           <p>Don&apos;t forget to add some recipes and invite your friends and family!</p>
           <div>
-            <button onClick={() => setModalOpen(true)}>Add Recipes</button>
-            <button>Copy Invite Link</button>
+            <button onClick={() => setRecipeModal(true)}>Add Recipes</button>
+            <button onClick={() => setPeopleModal(true)}>Invite People</button>
           </div>
         </div>
       ) : (
@@ -93,7 +99,7 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
           ))}
         </div>
       )}
-      <AddBtn handler={() => setModalOpen(true)} />
+      <AddBtn handler={() => setRecipeModal(true)} />
     </Style>
   )
 }

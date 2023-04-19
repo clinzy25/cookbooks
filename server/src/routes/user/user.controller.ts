@@ -1,18 +1,15 @@
 import { Request, Response, NextFunction } from 'express'
-import { FAILED_TO_CREATE_RESOURCE, INCOMPLETE_REQUEST_BODY } from '../../utils/utils.errors'
-import { dbCreateInvite } from '../../model/user.model'
+import { MISSING_REQUIRED_PARAMS } from '../../utils/utils.errors'
+import { dbGetCookbookMembers } from '../../model/user.model'
+import { transformMembers } from '../../model/transformers'
 
-export async function httpCreateIvite(req: Request, res: Response, next: NextFunction) {
+export async function httpGetCookbookMembers(req: Request, res: Response, next: NextFunction) {
+  const cookbook_guid = req.query.cookbook_guid?.toString()
   try {
-    if (!Object.values(req.body).every(_ => _)) {
-      throw new Error(INCOMPLETE_REQUEST_BODY)
-    }
-    const result = await dbCreateInvite(req.body)
-    const guid = result?.rows[0]['?column?']
-    if (!guid) {
-      throw new Error(FAILED_TO_CREATE_RESOURCE)
-    }
-    return res.status(201).json({ guid })
+    if (!cookbook_guid) throw new Error(MISSING_REQUIRED_PARAMS)
+    const result = await dbGetCookbookMembers(cookbook_guid)
+    const transformedResult = transformMembers(result)
+    return res.status(200).json(transformedResult)
   } catch (e) {
     next(e)
   }
