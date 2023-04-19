@@ -98,6 +98,10 @@ a {
   text-decoration: none;
 }
 
+#__next {
+  height: 100%;
+}
+
 @media screen and (max-width: 800px) {
   body {
     margin: 30px 20px;

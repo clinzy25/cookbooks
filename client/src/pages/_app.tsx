@@ -26,6 +26,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
 const PageWrapper = styled.div`
   padding: 30px 60px;
+  height: 100%;
 `
 
 export default withContext(App)
