@@ -7,6 +7,7 @@ import axios from 'axios'
 import useAppContext from '@/context/app.context'
 import { AppContextType } from '@/types/@types.context'
 import { useRouter } from 'next/router'
+import { handleInviteLink } from '@/utils/utils.inviteLink'
 
 const WelcomePage = () => {
   const { setSnackbar, revalidateCookbooks } = useAppContext() as AppContextType
@@ -134,7 +135,7 @@ const WelcomePage = () => {
             <div className='cta-ctr'>
               <h2>Invite People</h2>
               <p>Invite your friends and family to view and add recipes.</p>
-              <button>Copy link</button>
+              <button onClick={() => handleInviteLink(setSnackbar)}>Copy Invite link</button>
             </div>
             <div className='btn-ctr'>
               <button className='left-btn' onClick={() => setStep(1)}>

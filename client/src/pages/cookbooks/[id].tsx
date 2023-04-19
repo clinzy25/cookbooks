@@ -11,6 +11,8 @@ import { AppContextType } from '@/types/@types.context'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import AddBtn from '@/components/buttons/AddBtn'
 import AddRecipeModal from './components/AddRecipeModal'
+import { CiMenuKebab } from 'react-icons/ci'
+import { handleInviteLink } from '@/utils/utils.inviteLink'
 
 type Props = {
   recipes: IRecipe[]
@@ -20,8 +22,10 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
   const {
     query: { id },
   } = useRouter()
-  const { cookbooks, currentCookbook, setCurrentCookbook } = useAppContext() as AppContextType
+  const { cookbooks, currentCookbook, setCurrentCookbook, setSnackbar } =
+    useAppContext() as AppContextType
   const [recipes, setRecipes] = useState<IRecipe[]>(props.recipes)
+  const [menuOpen, setMenuOpen] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const {
     data,
@@ -48,7 +52,19 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
       {modalOpen && (
         <AddRecipeModal revalidateRecipes={revalidateRecipes} setModalOpen={setModalOpen} />
       )}
-      <h1>{currentCookbook?.cookbook_name}</h1>
+      <header>
+        <div>
+          <h1>{currentCookbook?.cookbook_name} </h1>
+          <CiMenuKebab onClick={() => setMenuOpen(!menuOpen)} />
+          {menuOpen && (
+            <ul>
+              <li>Edit Cookbook</li>
+              <li>Delete Cookbook</li>
+            </ul>
+          )}
+        </div>
+        <button onClick={() => handleInviteLink(setSnackbar)}>Copy Invite Link</button>
+      </header>
       {!recipes.length ? (
         <div id='cta-ctr'>
           <h1>Somethings missing...</h1>
@@ -83,6 +99,35 @@ const Style = styled.main`
   flex-direction: column;
   align-items: center;
   height: 100%;
+  header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    div {
+      position: relative;
+      align-items: center;
+      display: flex;
+    }
+    svg {
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+    ul {
+      position: absolute;
+      right: -135px;
+      top: 40px;
+      list-style-type: none;
+      border: 1px solid gray;
+      border-radius: 5px;
+      padding: 8px;
+      z-index: 2;
+      background-color: #e8e8e8;
+      li {
+        padding: 5px;
+        cursor: pointer;
+      }
+    }
+  }
   #recipe-ctr {
     display: grid;
     width: 100%;
@@ -97,14 +142,14 @@ const Style = styled.main`
     justify-content: center;
     width: 100%;
     height: 50%;
-    button {
-      padding: 15px 30px;
-      margin: 15px;
-      width: min-content;
-      white-space: nowrap;
-      border: 1px solid gray;
-      border-radius: 10px;
-    }
+  }
+  button {
+    padding: 15px 30px;
+    margin: 15px;
+    width: min-content;
+    white-space: nowrap;
+    border: 1px solid gray;
+    border-radius: 10px;
   }
 `
 
