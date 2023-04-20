@@ -9,6 +9,7 @@ type ExceptionResponseType = {
 }
 
 export const errorHandler = (error: Error, res: Response) => {
+  console.error(error)
   const excKey = error.message
   if (exceptions.has(excKey)) {
     const excRes: ExceptionResponseType = exceptions.get(excKey)
