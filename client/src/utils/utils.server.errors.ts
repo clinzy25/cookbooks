@@ -1,6 +1,10 @@
 import { SnackbarType } from '@/types/@types.context'
 import { AxiosError } from 'axios'
 
+/**
+ * Catch a server error of a specific type
+ * and display an associated response in UI
+ */
 export const serverErrorMessage = (
   e: unknown,
   setSnackbar: (config: SnackbarType) => void
@@ -15,7 +19,10 @@ export const serverErrorMessage = (
     })
   }
 }
-
+/**
+ * ERROR_TYPE = /server/utils/utils.errors **MUST MATCH**
+ * ERROR_TYPE_MSG = 'Message to display to the user'
+ */
 const GENERIC_RES = 'Something went wrong'
 
 export const INVALID_URL = 'errors/invalid-url'

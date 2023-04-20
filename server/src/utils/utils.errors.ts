@@ -16,7 +16,7 @@ export const errorHandler = (error: Error, res: Response) => {
     return res.status(excRes.statusCode).json(excRes.body)
   }
   return res.status(500).json({
-    type: 'errors/server-error',
+    type: 'errors/internal-server-error',
     detail: 'Internal server error. If issue persists, reach out to cookbooks',
   })
 }
