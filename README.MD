@@ -13,4 +13,4 @@ From project root:
 6. `npm run db:seed` -- seed the database
 7. `npm run dev` -- start client and server
 
-* Tables are ephemeral and can be destroyed with `npm run db:destroy`. You can quickly edit schemas the the `db:*` commands.
+* Tables can be destroyed with `npm run db:destroy`. You can quickly edit schemas the the `db:*` commands.
