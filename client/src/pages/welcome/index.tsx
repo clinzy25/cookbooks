@@ -263,7 +263,9 @@ const WelcomePage = () => {
               </button>
               <div>
                 <button type='submit'>Skip</button>
-                <button type='submit'>{createLoading ? <Loader size={14}/> : 'Create Cookbook'}</button>
+                <button type='submit'>
+                  {createLoading ? <Loader size={14} /> : 'Create Cookbook'}
+                </button>
               </div>
             </div>
           </>

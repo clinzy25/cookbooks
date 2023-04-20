@@ -43,6 +43,7 @@ export async function httpParseRecipe(
     if (!req.body) throw new Error(INCOMPLETE_REQUEST_BODY)
     const { recipes } = req.body
     const response: IRecipe[] = []
+    
     for (let i = 0; i < recipes.length; i++) {
       const { url, cookbook_guid, source_type, is_private } = recipes[i]
       if (!url || !cookbook_guid) throw new Error(INCOMPLETE_REQUEST_BODY)

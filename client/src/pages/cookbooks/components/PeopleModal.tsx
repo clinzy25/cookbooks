@@ -39,12 +39,14 @@ const PeopleModal = ({ setPeopleModal }: Props) => {
       setFormError(true)
     } else {
       formError && setFormError(false)
-      const body = {
-        email: emailRef.current.value,
-        cookbook_guid: id,
-      }
+      const invites = [
+        {
+          email: emailRef.current.value,
+          cookbook_guid: id,
+        },
+      ]
       try {
-        const res = await axios.post(`${api}/users/invite`, { body })
+        const res = await axios.post(`${api}/users/invite`, { invites })
         if (res.status === 201) {
           revalidatePeople()
           setSnackbar({

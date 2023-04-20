@@ -37,6 +37,9 @@ export const INTERNAL_SERVER_ERROR_MSG = GENERIC_RES
 export const FAILED_TO_CREATE_RESOURCE = 'errors/failed-to-create-resource'
 export const FAILED_TO_CREATE_RESOURCE_MSG = GENERIC_RES
 
+export const INCOMPLETE_REQUEST_BODY = 'errors/incomplete-request-body'
+export const INCOMPLETE_REQUEST_BODY_MSG = GENERIC_RES
+
 export const serverErrorMessageMap = new Map()
 serverErrorMessageMap.set(INVALID_URL, INVALID_URL_MSG)
 serverErrorMessageMap.set(RECIPE_NOT_FOUND, RECIPE_NOT_FOUND_MSG)
