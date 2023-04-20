@@ -1,6 +1,6 @@
 import { api, fetcher } from '@/api'
 import { AppContextType, SnackbarType } from '@/types/@types.context'
-import { ICookbook } from '@/types/@types.cookbooks'
+import { ICookbookRes } from '@/types/@types.cookbooks'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { useRouter } from 'next/router'
 import React, {
@@ -26,8 +26,8 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     state: '',
     duration: 3000,
   })
-  const [cookbooks, setCookbooks] = useState<ICookbook[]>([])
-  const [currentCookbook, setCurrentCookbook] = useState<ICookbook | null>(null)
+  const [cookbooks, setCookbooks] = useState<ICookbookRes[]>([])
+  const [currentCookbook, setCurrentCookbook] = useState<ICookbookRes | null>(null)
   const [tags, setTags] = useState<string[]>([])
   const navbarHeight = 65
 

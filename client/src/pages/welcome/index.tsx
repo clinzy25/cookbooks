@@ -1,4 +1,4 @@
-import React, { useRef, useState, FormEvent, useEffect, MouseEvent } from 'react'
+import React, { useRef, useState, FormEvent } from 'react'
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useUser } from '@auth0/nextjs-auth0/client'
@@ -8,24 +8,34 @@ import useAppContext from '@/context/app.context'
 import { AppContextType } from '@/types/@types.context'
 import { useRouter } from 'next/router'
 import { serverErrorMessage } from '@/utils/utils.server.errors'
-import { handleInviteLink } from '@/utils/utils.invite'
+import { IRecipe } from '@/types/@types.recipes'
+import { IMemberResult } from '@/types/@types.user'
+import { hoverStates } from '@/utils/utils.hoverStates'
+import { ICookbookBeforeCreate } from '@/types/@types.cookbooks'
 
 const WelcomePage = () => {
-  const { setSnackbar, revalidateCookbooks, currentCookbook } =
-    useAppContext() as AppContextType
+  const { setSnackbar, revalidateCookbooks } = useAppContext() as AppContextType
   const router = useRouter()
   const { user } = useUser()
   const [step, setStep] = useState<0 | 1 | 2>(0)
   const [formError, setFormError] = useState(false)
-  const [newCookbook, setNewCookbook] = useState({
+  const [selection, setSelection] = useState<string>('')
+  const [recipes, setRecipes] = useState<IRecipe[]>([])
+  const [invites, setInvites] = useState<IMemberResult[]>([])
+  const [cookbook, setCookbook] = useState<ICookbookBeforeCreate>({
     cookbook_name: '',
-    creator_user_guid: user?.sub,
+    creator_user_guid: '',
   })
+
   const nameFieldRef = useRef<HTMLInputElement>(null)
   const formSteps = ['name', 'recipes', 'invite']
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const newCookbook = {
+      cookbook_name: '',
+      creator_user_guid: user?.sub,
+    }
     try {
       const res = await axios.post(`${api}/cookbooks`, { newCookbook })
       if (res.status === 201) {
@@ -45,35 +55,14 @@ const WelcomePage = () => {
     }
   }
 
-  const handleInvite = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    if (currentCookbook?.guid && user?.sub) {
-      const body = {
-        cookbook_guid: currentCookbook?.guid,
-        user_guid: user?.sub,
-        invite_guid: '',
-      }
-      handleInviteLink(body, setSnackbar)
-    }
-  }
-
   const validateStep = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
     if (nameFieldRef?.current?.value) {
-      setNewCookbook({
-        ...newCookbook,
-        cookbook_name: nameFieldRef.current.value,
-      })
       setStep(1)
     } else {
       setFormError(true)
     }
   }
-
-  useEffect(() => {
-    // user is initially undefined
-    user && setNewCookbook({ ...newCookbook, creator_user_guid: user.sub })
-  }, [user]) // eslint-disable-line
 
   return (
     <Style>
@@ -91,7 +80,6 @@ const WelcomePage = () => {
                   placeholder='Type a name...'
                   type='text'
                   name='name'
-                  defaultValue={newCookbook.cookbook_name}
                   ref={nameFieldRef}
                 />
               </label>
@@ -125,6 +113,14 @@ const WelcomePage = () => {
                 </ol>
               </div>
             </div>
+            {Object.values(hoverStates).map(state => (
+              <button
+                className='selection-btn'
+                key={state.btnText}
+                onClick={() => setSelection(state.value)}>
+                {state.btnText}
+              </button>
+            ))}
             <div className='btn-ctr'>
               <button className='left-btn' onClick={() => setStep(0)}>
                 <AiOutlineArrowLeft className='arrow-icon left' />

@@ -4,10 +4,16 @@ import { ICookbook } from '../types/@types.cookbooks'
 export async function dbGetCookbooks(guid: string) {
   try {
     return await knex
-      .select('c.guid', 'c.cookbook_name', 'c.created_at', 'c.updated_at')
+      .select(
+        'c.guid',
+        'u.guid as creator_user_guid',
+        'c.cookbook_name',
+        'c.created_at',
+        'c.updated_at'
+      )
       .from('cookbooks as c')
-      .join('users', 'users.id', '=', 'c.creator_user_id')
-      .where({ 'users.guid': guid })
+      .join('users as u', 'u.id', '=', 'c.creator_user_id')
+      .where({ 'u.guid': guid })
   } catch (e) {
     console.error(e)
   }

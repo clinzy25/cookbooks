@@ -7,6 +7,7 @@ import useAppContext from '@/context/app.context'
 import { AppContextType } from '@/types/@types.context'
 import Modal from '@/components/Modal'
 import { useRouter } from 'next/router'
+import { ICookbookBeforeCreate } from '@/types/@types.cookbooks'
 
 type Props = {
   setModalOpen: (bool: boolean) => void
@@ -22,12 +23,10 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      if (!nameFieldRef?.current?.value) {
-        setFormError(true)
-      } else {
-        const newCookbook = {
+      if (nameFieldRef?.current?.value && user?.sub) {
+        const newCookbook: ICookbookBeforeCreate = {
           cookbook_name: nameFieldRef.current.value,
-          creator_user_guid: user?.sub,
+          creator_user_guid: user.sub,
         }
         const res = await axios.post(`${api}/cookbooks`, { newCookbook })
         if (res.status === 201) {
@@ -40,6 +39,8 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
           setModalOpen(false)
           router.push(`/cookbooks/${res.data.guid}`)
         }
+      } else {
+        setFormError(true)
       }
     } catch (e) {
       setSnackbar({

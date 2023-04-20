@@ -2,7 +2,8 @@ export interface IRecipe {
   guid: string
   creator_user_guid: string
   creator_user_email: string
-  cookbook_guid: string
+  // client does not have guid when creating a cookbook on welcome screen
+  cookbook_guid?: string
   name: string
   image: string
   description: string
