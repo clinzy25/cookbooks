@@ -17,7 +17,7 @@ type Props = {
 const AddRecipeModal = ({ revalidateRecipes, setRecipeModal }: Props) => {
   const { setSnackbar, currentCookbook, revalidateTags } = useAppContext() as AppContextType
   const [hover, setHover] = useState<string>('')
-  const [selection, setSelection] = useState<string>('')
+  const [selection, setSelection] = useState<'link' | 'camera' | 'manual' | ''>('')
   const [loading, setLoading] = useState(false)
   const linkFieldRef = useRef<HTMLInputElement>(null)
 

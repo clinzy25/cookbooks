@@ -1,4 +1,12 @@
-export const hoverStates = {
+type HoverStates = {
+  [key: string]: {
+    value: "" | "link" | "camera" | "manual",
+    hoverText: string
+    btnText: string
+  }
+}
+
+export const hoverStates: HoverStates = {
   link: {
     value: 'link',
     hoverText: "Paste a link to a website with a recipe and we'll save the receipe for you",
