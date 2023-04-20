@@ -16,7 +16,6 @@ type Props = {
 
 const AddRecipeModal = ({ revalidateRecipes, setRecipeModal }: Props) => {
   const { setSnackbar, currentCookbook, revalidateTags } = useAppContext() as AppContextType
-  const [hover, setHover] = useState<string>('')
   const [selection, setSelection] = useState<'link' | 'camera' | 'manual' | ''>('')
   const [loading, setLoading] = useState(false)
   const linkFieldRef = useRef<HTMLInputElement>(null)
@@ -62,30 +61,41 @@ const AddRecipeModal = ({ revalidateRecipes, setRecipeModal }: Props) => {
     <Modal closeModal={() => setRecipeModal(false)}>
       <Style>
         <h1>Add a Recipe</h1>
-        <div className='ctr'>
-          {selection === 'link' && (
-            <label htmlFor='paste-link'>
-              <input
-                onPaste={e => handlePaste(e)}
-                placeholder='Paste a link with a recipe...'
-                type='text'
-                ref={linkFieldRef}
-              />
-              <button onClick={handleClick}>{loading ? <Loader size={15} /> : 'Add'}</button>
-            </label>
-          )}
+        <div>
+          <label htmlFor='paste-link'>
+            <h2>Add Recipes</h2>
+            <p>There are 3 different ways to add recipes</p>
+            <ol>
+              <li>
+                Paste a link to a website with a recipe and we&apos;ll save the recipe for you.
+              </li>
+              <li>
+                Take a picture of a recipe (like from a cookbook) and we&apos;ll save it for
+                you.
+              </li>
+              <li>Type a recipe yourself.</li>
+            </ol>
+            {selection === 'link' && (
+              <div className='input-ctr'>
+                <input
+                  onPaste={e => handlePaste(e)}
+                  placeholder='Paste a link with a recipe...'
+                  type='text'
+                  ref={linkFieldRef}
+                />
+                <button onClick={handleClick}>{loading ? <Loader size={15} /> : 'Add'}</button>
+              </div>
+            )}
+          </label>
           <div>
             {Object.values(hoverStates).map(state => (
               <button
                 className='selection-btn'
                 key={state.btnText}
-                onClick={() => setSelection(state.value)}
-                onMouseOut={() => setHover('')}
-                onMouseOver={() => setHover(state.hoverText)}>
+                onClick={() => setSelection(state.value)}>
                 {state.btnText}
               </button>
             ))}
-            <p className='hover-text'>{hover}</p>
           </div>
         </div>
       </Style>
@@ -102,14 +112,11 @@ const Style = styled.div`
   justify-content: space-between;
   text-align: center;
   h1,
-  .ctr {
+  div:first-of-type {
     margin-bottom: auto;
   }
-  .hover-text {
-    height: 15px;
-    min-width: 100%;
-    max-width: min-content;
-    margin-top: 10px;
+  ol {
+    text-align: left;
   }
   button {
     padding: 15px 30px;
@@ -128,11 +135,17 @@ const Style = styled.div`
   }
   label {
     display: flex;
+    flex-direction: column;
     align-items: center;
     margin-bottom: 15px;
-    input {
+    .input-ctr {
+      display: flex;
+      justify-content: center;
       width: 100%;
-      height: 48px;
+      input {
+        width: 70%;
+        height: 48px;
+      }
     }
     .error-msg {
       color: red;
