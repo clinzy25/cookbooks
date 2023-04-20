@@ -8,6 +8,7 @@ import { serverErrorMessage } from '@/utils/utils.server.errors'
 import { validateEmail } from '@/utils/utils.validateField'
 import axios from 'axios'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import React, { MouseEvent, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
@@ -17,7 +18,10 @@ type Props = {
 }
 
 const PeopleModal = ({ setPeopleModal }: Props) => {
-  const { currentCookbook, setSnackbar } = useAppContext() as AppContextType
+  const {
+    query: { id },
+  } = useRouter()
+  const { setSnackbar } = useAppContext() as AppContextType
   const [members, setMembers] = useState<IMemberResult[]>([])
   const [pendingInvites, setPendingInvites] = useState<IMemberResult[]>([])
   const [formError, setFormError] = useState(false)
@@ -27,7 +31,7 @@ const PeopleModal = ({ setPeopleModal }: Props) => {
     data,
     error,
     mutate: revalidatePeople,
-  } = useSWR(`${api}/users/cookbook?cookbook_guid=${currentCookbook?.guid}`, fetcher)
+  } = useSWR(`${api}/users/cookbook?cookbook_guid=${id}`, fetcher)
 
   const sendInvite = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -37,10 +41,10 @@ const PeopleModal = ({ setPeopleModal }: Props) => {
       formError && setFormError(false)
       const body = {
         email: emailRef.current.value,
-        cookbook_guid: currentCookbook?.guid,
+        cookbook_guid: id,
       }
       try {
-        const res = await axios.post(`${api}/users/invite`, body)
+        const res = await axios.post(`${api}/users/invite`, { body })
         if (res.status === 201) {
           revalidatePeople()
           setSnackbar({

@@ -9,7 +9,7 @@ import {
   MISSING_REQUIRED_PARAMS,
   RECIPE_NOT_FOUND,
 } from '../../utils/utils.errors'
-import { IParseRecipeRequestBody } from '../../types/@types.recipes'
+import { IParseRecipeRequestBody, IRecipe } from '../../types/@types.recipes'
 import { uploadToS3 } from './recipe.utils'
 
 export async function httpGetCookbookRecipes(req: Request, res: Response, next: NextFunction) {
@@ -35,31 +35,37 @@ export async function httpGetRecipe(req: Request, res: Response, next: NextFunct
 }
 
 export async function httpParseRecipe(
-  req: Request<IParseRecipeRequestBody>,
+  req: Request<IParseRecipeRequestBody[]>,
   res: Response,
   next: NextFunction
 ) {
-  const { url, cookbook_guid, source_type, is_private } = req.body
   try {
-    if (!url || !cookbook_guid) throw new Error(INCOMPLETE_REQUEST_BODY)
-    await fetch(url).catch(err => {
-      if (err.code === 'ERR_INVALID_URL') throw new Error(INVALID_URL)
-    })
-    const parsedRecipe = await recipeDataScraper(url)
-    if (!parsedRecipe) throw new Error(RECIPE_NOT_FOUND)
-    const imageUrl = await uploadToS3(parsedRecipe.image)
-    const fullRecipe = {
-      ...parsedRecipe,
-      image: imageUrl,
-      cookbook_guid,
-      source_type,
-      is_private,
+    if (!req.body) throw new Error(INCOMPLETE_REQUEST_BODY)
+    const { recipes } = req.body
+    const response: IRecipe[] = []
+    for (let i = 0; i < recipes.length; i++) {
+      const { url, cookbook_guid, source_type, is_private } = recipes[i]
+      if (!url || !cookbook_guid) throw new Error(INCOMPLETE_REQUEST_BODY)
+      await fetch(url).catch(err => {
+        if (err.code === 'ERR_INVALID_URL') throw new Error(INVALID_URL)
+      })
+      const parsedRecipe = await recipeDataScraper(url)
+      if (!parsedRecipe) throw new Error(RECIPE_NOT_FOUND)
+      const imageUrl = await uploadToS3(parsedRecipe.image)
+      const fullRecipe = {
+        ...parsedRecipe,
+        image: imageUrl,
+        cookbook_guid,
+        source_type,
+        is_private,
+      }
+      const result = await dbAddRecipe(fullRecipe)
+      response.push(fullRecipe)
+      if (!result?.rows?.[0]?.recipe_id) {
+        throw new Error(FAILED_TO_CREATE_RESOURCE)
+      }
     }
-    const result = await dbAddRecipe(fullRecipe)
-    if (!result?.rows?.[0]?.recipe_id) {
-      throw new Error(FAILED_TO_CREATE_RESOURCE)
-    }
-    return res.status(201).json(fullRecipe)
+    return res.status(201).json(response)
   } catch (e) {
     next(e)
   }

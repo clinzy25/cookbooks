@@ -11,17 +11,21 @@ import { serverErrorMessage } from '@/utils/utils.server.errors'
 import { hoverStates } from '@/utils/utils.hoverStates'
 import { ICookbookBeforeCreate } from '@/types/@types.cookbooks'
 import { validateEmail } from '@/utils/utils.validateField'
+import { IRecipeBeforeCreate } from '@/types/@types.recipes'
+import { IMemberBeforeCreate } from '@/types/@types.user'
+import Loader from '@/components/Loader'
 
 const WelcomePage = () => {
-  const { setSnackbar, revalidateCookbooks } = useAppContext() as AppContextType
+  const { setSnackbar } = useAppContext() as AppContextType
   const router = useRouter()
   const { user } = useUser()
   const [step, setStep] = useState<0 | 1 | 2>(0)
   const [cookbookError, setCookbookError] = useState(false)
   const [emailError, setEmailError] = useState(false)
   const [selection, setSelection] = useState<'link' | 'camera' | 'manual' | ''>('')
-  const [recipeUrls, setRecipeUrls] = useState<string[]>([])
-  const [invites, setInvites] = useState<string[]>([])
+  const [createLoading, setCreateLoading] = useState(false)
+  const [recipes, setRecipes] = useState<IRecipeBeforeCreate[]>([])
+  const [invites, setInvites] = useState<IMemberBeforeCreate[]>([])
   const [cookbook, setCookbook] = useState<ICookbookBeforeCreate>({
     cookbook_name: '',
     creator_user_guid: '',
@@ -34,20 +38,35 @@ const WelcomePage = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const newCookbook = {
-      cookbook_name: '',
-      creator_user_guid: user?.sub,
-    }
     try {
-      const res = await axios.post(`${api}/cookbooks`, { newCookbook })
-      if (res.status === 201) {
-        revalidateCookbooks()
+      setCreateLoading(true)
+      const cookbookRes = await axios
+        .post(`${api}/cookbooks`, { cookbook })
+        .then(async res => {
+          const {
+            data: { guid: cookbook_guid },
+          } = res
+          recipes.forEach(r => (r['cookbook_guid'] = cookbook_guid))
+          invites.forEach(r => (r['cookbook_guid'] = cookbook_guid))
+          const rPromise = await axios.post(`${api}/recipes/parse`, { recipes })
+          const iPromise = await axios.post(`${api}/users/invite`, { invites })
+          const allRes = await Promise.all([iPromise, rPromise])
+          if (!allRes.every(r => r.data.status === 201)) {
+            setSnackbar({
+              msg: 'Some actions were not have been completed.',
+              state: 'error',
+              duration: 3000,
+            })
+          }
+          return res
+        })
+      if (cookbookRes.status === 201) {
         setSnackbar({
           msg: 'Cookbook created!',
           state: 'success',
           duration: 3000,
         })
-        router.push(`/cookbooks/${res.data.guid}`)
+        router.push(`/cookbooks/${cookbookRes.data.guid}`)
       } else {
         throw new Error('Cookbook creation failed')
       }
@@ -55,6 +74,7 @@ const WelcomePage = () => {
       serverErrorMessage(e, setSnackbar)
       console.error(e)
     }
+    setCreateLoading(false)
   }
 
   const validateCookbook = (
@@ -79,7 +99,7 @@ const WelcomePage = () => {
     const email = emailFieldRef?.current?.value
     const isValidEmail = email && validateEmail(email)
     if (email && isValidEmail) {
-      setInvites([...invites, email])
+      setInvites([...invites, { email }])
     } else {
       setEmailError(true)
     }
@@ -87,12 +107,26 @@ const WelcomePage = () => {
 
   const handleAddRecipeClick = () => {
     const url = linkFieldRef.current?.value
-    url && setRecipeUrls([...recipeUrls, url])
+    if (url) {
+      const newRecipe = {
+        url,
+        source_type: 'link',
+        is_private: 0,
+      }
+      setRecipes([...recipes, newRecipe])
+    }
   }
 
   const handleAddRecipePaste = (e: ClipboardEvent) => {
     const url = e.clipboardData?.getData('Text')
-    url && setRecipeUrls([...recipeUrls, url])
+    if (url) {
+      const newRecipe = {
+        url,
+        source_type: 'link',
+        is_private: 0,
+      }
+      setRecipes([...recipes, newRecipe])
+    }
   }
 
   return (
@@ -174,8 +208,8 @@ const WelcomePage = () => {
               </div>
             </div>
             <ul>
-              {recipeUrls.map(r => (
-                <li key={r}>{r}</li>
+              {recipes.map(r => (
+                <li key={r.url}>{r.url}</li>
               ))}
             </ul>
             <div className='btn-ctr'>
@@ -219,7 +253,7 @@ const WelcomePage = () => {
             <h2>Pending Invitations</h2>
             <ul>
               {invites.map(i => (
-                <li key={i}>{i}</li>
+                <li key={i.email}>{i.email}</li>
               ))}
             </ul>
             <div className='btn-ctr'>
@@ -229,7 +263,7 @@ const WelcomePage = () => {
               </button>
               <div>
                 <button type='submit'>Skip</button>
-                <button type='submit'>Create cookbook</button>
+                <button type='submit'>{createLoading ? <Loader size={14}/> : 'Create Cookbook'}</button>
               </div>
             </div>
           </>

@@ -12,3 +12,8 @@ export interface IHttpMemberResults {
   members: IMemberResult[]
   pending_invites: IMemberResult[]
 }
+
+export interface ISendInviteRequestBody {
+  cookbook_guid: string
+  email: string
+}

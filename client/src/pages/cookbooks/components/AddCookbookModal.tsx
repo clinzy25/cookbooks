@@ -24,11 +24,11 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
     e.preventDefault()
     try {
       if (nameFieldRef?.current?.value && user?.sub) {
-        const newCookbook: ICookbookBeforeCreate = {
+        const cookbook: ICookbookBeforeCreate = {
           cookbook_name: nameFieldRef.current.value,
           creator_user_guid: user.sub,
         }
-        const res = await axios.post(`${api}/cookbooks`, { newCookbook })
+        const res = await axios.post(`${api}/cookbooks`, { cookbook })
         if (res.status === 201) {
           revalidateCookbooks()
           setSnackbar({

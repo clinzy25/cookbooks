@@ -17,3 +17,8 @@ export interface IMemberResult {
   is_readonly: number
   created_at: string
 }
+
+export interface IMemberBeforeCreate {
+  email: string
+  cookbook_guid?: string
+}

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
 import RecipeCard from './components/RecipeCard'
-import { ICookbook } from '@/types/@types.cookbooks'
+import { ICookbookRes } from '@/types/@types.cookbooks'
 import useAppContext from '@/context/app.context'
 import { AppContextType } from '@/types/@types.context'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
@@ -38,9 +38,8 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
   }, [data])
 
   useEffect(() => {
-    setCurrentCookbook(cookbooks.find((cb: ICookbook) => cb.guid === id) || null)
-    console.log(currentCookbook)
-  }, [currentCookbook, setCurrentCookbook, id, cookbooks])
+    setCurrentCookbook(cookbooks.find((cb: ICookbookRes) => cb.guid === id) || null)
+  }, [cookbooks]) // eslint-disable-line
 
   if (!data && !recipes) {
     return <p>loading...</p>

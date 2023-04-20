@@ -18,7 +18,7 @@ export async function httpGetCookbooks(req: Request, res: Response, next: NextFu
 }
 
 export async function httpCreateCookbook(req: Request, res: Response, next: NextFunction) {
-  const cookbook = req.body.newCookbook
+  const { cookbook } = req.body
   try {
     if (!cookbook) throw new Error(INCOMPLETE_REQUEST_BODY)
     const result = await dbCreateCookbook(cookbook)

@@ -25,10 +25,14 @@ const AddRecipeModal = ({ revalidateRecipes, setRecipeModal }: Props) => {
     try {
       setLoading(true)
       await axios.post(`${api}/recipes/parse`, {
-        url,
-        cookbook_guid: currentCookbook?.guid,
-        source_type: selection,
-        is_private: 0,
+        recipes: [
+          {
+            url,
+            cookbook_guid: currentCookbook?.guid,
+            source_type: selection,
+            is_private: 0,
+          },
+        ],
       })
       setSnackbar({
         msg: 'Recipe added!',
