@@ -36,32 +36,30 @@ const Search = () => {
       <input
         value={searchVal}
         onChange={e => setSearchVal(e.target.value)}
-        placeholder='Search all recipes...'
+        placeholder={currentCookbook ? 'Search this cookbook...' : 'Search all recipes...'}
         type='text'
       />
       <div className='results-ctr'>
-        {searchResults?.recipes.length &&
-          searchResults.recipes.map((r: ISearchResult, i) => (
-            <>
-              {i === 0 && <h3>Recipes</h3>}
-              <p>
-                <Link href={`/recipe/${r.guid}`} key={r.guid}>
-                  {r.name}
-                </Link>
-              </p>
-            </>
-          ))}
-        {searchResults?.tags.length &&
-          searchResults.tags.map((t: ISearchResult, i) => (
-            <>
-              {i === 0 && <h3>Tags</h3>}
-              <p>
-                <Link href={`/search/recipes/${t.name.substring(1)}`} key={t.guid}>
-                  {t.name}
-                </Link>
-              </p>
-            </>
-          ))}
+        {searchResults?.recipes.map((r: ISearchResult, i) => (
+          <>
+            {i === 0 && <h3>Recipes</h3>}
+            <p>
+              <Link href={`/recipe/${r.guid}`} key={r.guid}>
+                {r.name}
+              </Link>
+            </p>
+          </>
+        ))}
+        {searchResults?.tags.map((t: ISearchResult, i) => (
+          <>
+            {i === 0 && <h3>Tags</h3>}
+            <p>
+              <Link href={`/search/recipes/${t.name.substring(1)}`} key={t.guid}>
+                {t.name}
+              </Link>
+            </p>
+          </>
+        ))}
       </div>
     </Style>
   )

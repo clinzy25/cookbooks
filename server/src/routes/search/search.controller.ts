@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import {
   dbCharSearchRecipes,
-  dbCharSearchRecipesByCookbook,
   dbTagSearchRecipesByCookbook,
   dbTagSearchRecipes,
 } from '../../model/search.model'
@@ -35,13 +34,8 @@ export async function httpSearchRecipes(req: Request, res: Response, next: NextF
   try {
     if (!search_val) throw new Error(MISSING_REQUIRED_PARAMS)
     let response = null
-    if (cookbook_guid) {
-      const results = await dbCharSearchRecipesByCookbook(cookbook_guid, search_val)
-      response = results.rows
-    } else if (user_guid) {
-      const results = await dbCharSearchRecipes(search_val, user_guid)
-      response = results.rows
-    }
+    const results = await dbCharSearchRecipes(search_val, user_guid, cookbook_guid)
+    response = results.rows
     return res.status(200).json(splitTagsAndSearchResults(response))
   } catch (e) {
     next(e)

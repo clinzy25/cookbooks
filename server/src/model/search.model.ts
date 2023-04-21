@@ -40,10 +40,7 @@ export async function dbTagSearchRecipesByCookbook(
   }
 }
 
-export async function dbTagSearchRecipes(
-  tag_name: string,
-  user_guid: string | undefined
-) {
+export async function dbTagSearchRecipes(tag_name: string, user_guid: string | undefined) {
   try {
     return await knex.raw(`
       SELECT
@@ -81,7 +78,14 @@ export async function dbTagSearchRecipes(
   }
 }
 
-export async function dbCharSearchRecipes(searchVal: string, user_guid: string) {
+export async function dbCharSearchRecipes(
+  searchVal: string,
+  user_guid?: string,
+  cookbook_guid?: string
+) {
+  let whereClause = ''
+  if (user_guid) whereClause = `AND u.guid = '${user_guid}'`
+  if (cookbook_guid) whereClause = `AND c.guid = '${cookbook_guid}'`
   try {
     return await knex.raw(`
       SELECT DISTINCT name, r.guid FROM recipes r
@@ -89,7 +93,7 @@ export async function dbCharSearchRecipes(searchVal: string, user_guid: string) 
       JOIN users u ON u.id = c.creator_user_id
       JOIN cookbook_members cm ON cm.cookbook_id = c.id
       WHERE name ILIKE '%${searchVal}%'
-      AND u.guid = '${user_guid}'
+      ${whereClause}
         UNION ALL
       SELECT DISTINCT CONCAT('#', tag_name), tt.guid from tag_types tt
       JOIN tags t on t.tag_type_id = tt.id
@@ -98,15 +102,8 @@ export async function dbCharSearchRecipes(searchVal: string, user_guid: string) 
       JOIN users u ON u.id = c.creator_user_id
       JOIN cookbook_members cm ON cm.cookbook_id = c.id
       WHERE tag_name ILIKE '%${searchVal}%'
-      AND u.guid = '${user_guid}'
+      ${whereClause}
     `)
-  } catch (e) {
-    console.error(e)
-  }
-}
-
-export async function dbCharSearchRecipesByCookbook(cookbook_guid: string, searchVal: string) {
-  try {
   } catch (e) {
     console.error(e)
   }
