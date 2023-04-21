@@ -21,7 +21,8 @@ export async function dbTagSearchRecipesByCookbook(
       JOIN cookbooks ON cookbooks.id = r.cookbook_id
       LEFT JOIN tags ON r.id = tags.recipe_id
       LEFT JOIN tag_types ON tag_types.id = tags.tag_type_id
-      WHERE cookbooks.guid = '${cookbook_guid}'
+      WHERE '${tag_name}' IN (SELECT tag_name FROM tag_types tt WHERE tt.id = tags.tag_type_id)
+      AND cookbooks.guid = '${cookbook_guid}'
       GROUP BY
         r.guid,
         r.name,
@@ -31,8 +32,7 @@ export async function dbTagSearchRecipesByCookbook(
         r.total_time,
         r.is_private,
         r.created_at,
-        r.updated_at,
-      HAVING '${tag_name}' IN (STRING_AGG(tag_types.tag_name,','))
+        r.updated_at
       ORDER BY created_at DESC
     `)
   } catch (e) {
@@ -59,7 +59,9 @@ export async function dbTagSearchRecipes(tag_name: string, user_guid: string | u
       JOIN cookbook_members cm ON cm.cookbook_id = r.cookbook_id
       LEFT JOIN tags ON r.id = tags.recipe_id
       LEFT JOIN tag_types ON tag_types.id = tags.tag_type_id
-      WHERE u.guid = '${user_guid}'
+      WHERE '${tag_name}' IN (SELECT tag_name FROM tag_types tt WHERE tt.id = tags.tag_type_id)
+      AND (u.guid = '${user_guid}' 
+           OR cm.cookbook_id = r.cookbook_id)
       GROUP BY
         r.guid,
         r.name,
@@ -70,7 +72,6 @@ export async function dbTagSearchRecipes(tag_name: string, user_guid: string | u
         r.is_private,
         r.created_at,
         r.updated_at
-      HAVING '${tag_name}' IN (STRING_AGG(tag_types.tag_name,','))
       ORDER BY created_at DESC
     `)
   } catch (e) {
