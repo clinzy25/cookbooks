@@ -57,8 +57,8 @@ export async function seed(knex: Knex): Promise<void> {
   ])
   await knex('cookbook_members').insert([
     {
-      member_user_id: 2,
-      cookbook_id: 1,
+      member_user_id: 1,
+      cookbook_id: 2,
       email: 'email@email.com',
       created_at: knex.fn.now(),
       updated_at: knex.fn.now(),
@@ -74,7 +74,7 @@ export async function seed(knex: Knex): Promise<void> {
   ])
   await knex('recipes').insert([
     {
-      cookbook_id: 1,
+      cookbook_id: 2,
       creator_user_id: 1,
       name: 'Homemade Spinach Pasta',
       image: 'https://howtofeedaloon.com/wp-content/uploads/2023/04/spinach-linguine-IG.jpg',
@@ -168,7 +168,7 @@ export async function seed(knex: Knex): Promise<void> {
       updated_at: knex.fn.now(),
     },
     {
-      cookbook_id: 1,
+      cookbook_id: 2,
       creator_user_id: 1,
       name: '30-Minute Tofu Pad Thai',
       image:

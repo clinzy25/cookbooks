@@ -1,16 +1,36 @@
 import knex from '../db/db'
 
-export async function dbGetTags(cookbook_guid: string) {
+export async function dbGetTagsByCookbook(cookbook_guid: string) {
   try {
-    return await knex
-      .select('tag_name')
-      .from('tag_types as tt')
-      .leftJoin('tags as t', 't.tag_type_id', '=', 'tt.id')
-      .join('recipes as r', 'r.id', '=', 't.recipe_id')
-      .join('cookbooks as c', 'c.id', '=', 'r.cookbook_id')
-      .where({ 'c.guid': cookbook_guid })
-      .orderBy('weight', 'desc')
-      .groupBy('tag_name', 'weight')
+    return await knex.raw(`
+      SELECT tag_name FROM tag_types tt
+      LEFT JOIN tags t ON t.tag_type_id = tt.id
+      JOIN recipes r ON r.id = t.recipe_id
+      JOIN cookbooks as c ON c.id = r.cookbook_id
+      JOIN users u ON u.id = c.creator_user_id
+      WHERE c.guid = '${cookbook_guid}'
+      GROUP BY tag_name, weight
+      ORDER BY weight DESC
+    `)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function dbGetTagsByUser(user_guid: string) {
+  try {
+    return await knex.raw(`
+      SELECT tag_name FROM tag_types tt
+      LEFT JOIN tags t ON t.tag_type_id = tt.id
+      JOIN recipes r ON r.id = t.recipe_id
+      JOIN cookbooks as c ON c.id = r.cookbook_id
+      JOIN users u ON u.id = c.creator_user_id
+      JOIN cookbook_members cm ON cm.cookbook_id = c.id
+      WHERE u.guid = '${user_guid}'
+      OR cm.cookbook_id = c.id
+      GROUP BY tag_name, weight
+      ORDER BY weight DESC
+    `)
   } catch (e) {
     console.error(e)
   }

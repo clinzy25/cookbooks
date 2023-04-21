@@ -3,17 +3,19 @@ import { ICookbook } from '../types/@types.cookbooks'
 
 export async function dbGetCookbooks(guid: string) {
   try {
-    return await knex
-      .select(
-        'c.guid',
-        'u.guid as creator_user_guid',
-        'c.cookbook_name',
-        'c.created_at',
-        'c.updated_at'
-      )
-      .from('cookbooks as c')
-      .join('users as u', 'u.id', '=', 'c.creator_user_id')
-      .where({ 'u.guid': guid })
+    return await knex.raw(`
+        SELECT
+          c.guid,
+          u.guid AS creator_user_guid,
+          c.cookbook_name,
+          c.created_at,
+          c.updated_at FROM cookbooks c
+        JOIN users u ON u.id = c.creator_user_id
+        JOIN cookbook_members cm ON cm.cookbook_id = c.id
+        WHERE u.guid = '${guid}'
+        OR cm.cookbook_id = c.id
+        ORDER BY c.updated_at
+    `)
   } catch (e) {
     console.error(e)
   }

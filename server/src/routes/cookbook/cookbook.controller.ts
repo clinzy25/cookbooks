@@ -10,7 +10,7 @@ export async function httpGetCookbooks(req: Request, res: Response, next: NextFu
   const user_guid = req.query.user_guid?.toString()
   try {
     if (!user_guid) throw new Error(MISSING_REQUIRED_PARAMS)
-    const cookbooks = await dbGetCookbooks(user_guid)
+    const { rows: cookbooks } = await dbGetCookbooks(user_guid)
     return res.status(200).json(cookbooks)
   } catch (e) {
     next(e)
