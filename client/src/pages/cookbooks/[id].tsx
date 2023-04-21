@@ -1,7 +1,7 @@
 import { api, fetcher } from '@/api'
 import { IRecipe } from '@/types/@types.recipes'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
 import RecipeCard from './components/RecipeCard'
@@ -13,6 +13,7 @@ import AddBtn from '@/components/buttons/AddBtn'
 import AddRecipeModal from './components/AddRecipeModal'
 import { CiMenuKebab } from 'react-icons/ci'
 import PeopleModal from './components/PeopleModal'
+import { useOutsideAlerter } from '@/utils/utils.hooks'
 
 type Props = {
   recipes: IRecipe[]
@@ -27,6 +28,10 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [recipeModal, setRecipeModal] = useState(false)
   const [peopleModal, setPeopleModal] = useState(false)
+
+  const menuRef = useRef(null)
+  useOutsideAlerter(menuRef, () => setMenuOpen(false))
+
   const {
     data,
     error,
@@ -61,7 +66,7 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
           <h1>{currentCookbook?.cookbook_name} </h1>
           <CiMenuKebab onClick={() => setMenuOpen(!menuOpen)} />
           {menuOpen && (
-            <ul>
+            <ul ref={menuRef}>
               <li>Edit Cookbook</li>
               <li>Delete Cookbook</li>
             </ul>

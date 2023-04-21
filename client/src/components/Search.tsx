@@ -2,11 +2,12 @@ import { api } from '@/api'
 import useAppContext from '@/context/app.context'
 import { AppContextType } from '@/types/@types.context'
 import { ISearchResult, ISearchResults } from '@/types/@types.search'
+import { useOutsideAlerter } from '@/utils/utils.hooks'
 import { serverErrorMessage } from '@/utils/utils.server.errors'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import axios from 'axios'
 import Link from 'next/link'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 const Search = () => {
@@ -14,6 +15,9 @@ const Search = () => {
   const { currentCookbook, setSnackbar } = useAppContext() as AppContextType
   const [searchVal, setSearchVal] = useState('')
   const [searchResults, setSearchResults] = useState<ISearchResults | null>(null)
+
+  const resultsRef = useRef(null)
+  useOutsideAlerter(resultsRef, () => setSearchResults(null))
 
   const searchRecipes = useCallback(async () => {
     const query = `${
@@ -40,7 +44,7 @@ const Search = () => {
         type='text'
       />
       {searchResults && (
-        <div className='results-ctr'>
+        <div ref={resultsRef} className='results-ctr'>
           {searchResults?.recipes.map((r: ISearchResult, i) => (
             <>
               {i === 0 && <h3>Recipes</h3>}
