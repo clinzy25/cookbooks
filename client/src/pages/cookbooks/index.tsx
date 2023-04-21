@@ -22,7 +22,7 @@ const CookbooksPage: React.FC = () => {
     return <p>error</p>
   }
   return (
-    <Styles>
+    <Styles id='cookbook-page-wrapper'>
       {modalOpen && <AddCookbookModal setModalOpen={setModalOpen} />}
       <h1>Your Cookbooks</h1>
       <div id='cookbooks-ctr'>

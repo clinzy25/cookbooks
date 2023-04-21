@@ -39,6 +39,7 @@ const SearchResultsRecipes = () => {
   }
   return (
     <Style>
+      <h1>#{id}</h1>
       <div id='recipe-ctr'>
         {recipes?.map((recipe: IRecipe) => (
           <RecipeCard {...recipe} key={recipe.guid} />

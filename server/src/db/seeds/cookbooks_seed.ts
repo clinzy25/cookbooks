@@ -168,7 +168,7 @@ export async function seed(knex: Knex): Promise<void> {
       updated_at: knex.fn.now(),
     },
     {
-      cookbook_id: 2,
+      cookbook_id: 1,
       creator_user_id: 1,
       name: '30-Minute Tofu Pad Thai',
       image:

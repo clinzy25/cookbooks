@@ -1,5 +1,4 @@
 import useAppContext from '@/context/app.context'
-import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import Navbar from '@/components/Navbar'
 import { useRouter } from 'next/router'
@@ -7,6 +6,7 @@ import Snackbar from '@/components/Snackbar'
 import { AppContextType } from '@/types/@types.context'
 import withContext from '@/context/WithContext'
 import styled from 'styled-components'
+import GlobalStyle from '@/styles/globals'
 
 const App = ({ Component, pageProps }: AppProps) => {
   const { snackbar, navbarHeight } = useAppContext() as AppContextType
@@ -16,7 +16,8 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       {asPath !== '/' && <Navbar />}
-      <PageWrapper navbarHeight={navbarHeight}>
+      <PageWrapper id='page-wrapper' navbarHeight={navbarHeight}>
+        <GlobalStyle />
         <Component {...pageProps} />
       </PageWrapper>
       {snackbar.msg && <Snackbar snackbar={snackbar} />}
