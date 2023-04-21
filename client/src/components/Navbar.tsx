@@ -3,18 +3,19 @@ import { AppContextType } from '@/types/@types.context'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
+import Search from './Search'
 
 const Navbar = () => {
   const { pathname } = useRouter()
   const { tags, tagsError, navbarHeight } = useAppContext() as AppContextType
 
-  const showTagsInRoutes = ['/search/recipes/[id]', '/cookbooks/[id]']
+  const showTagsInRoutes = ['/search/recipes/[id]', '/cookbooks/[id]', '/cookbooks']
 
   return (
     <Style navbarHeight={navbarHeight}>
       <div id='input-ctr'>
         <Link href='/cookbooks'>Cookbooks App</Link>
-        <input placeholder='Search all recipes...' type='text' />
+        <Search />
       </div>
       {showTagsInRoutes.includes(pathname) && (
         <div id='tag-list'>
@@ -50,10 +51,6 @@ const Style = styled.div<StyleProps>`
     flex-wrap: nowrap;
     align-items: center;
     white-space: nowrap;
-    input {
-      height: 40px;
-      margin-left: 15px;
-    }
   }
   #tag-list {
     display: flex;

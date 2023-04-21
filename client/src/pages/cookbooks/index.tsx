@@ -3,13 +3,17 @@ import styled from 'styled-components'
 import { AppContextType } from '@/types/@types.context'
 import Link from 'next/link'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AddCookbookModal from './components/AddCookbookModal'
 import AddBtn from '@/components/buttons/AddBtn'
 
 const CookbooksPage: React.FC = () => {
-  const { cookbooks, cookbooksError } = useAppContext() as AppContextType
+  const { cookbooks, cookbooksError, setCurrentCookbook } = useAppContext() as AppContextType
   const [modalOpen, setModalOpen] = useState(false)
+
+  useEffect(() => {
+    setCurrentCookbook(null)
+  }, []) // eslint-disable-line
 
   if (!cookbooks) {
     return <p>...loading</p>

@@ -31,18 +31,22 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   const [tags, setTags] = useState<string[]>([])
   const navbarHeight = 65
 
-  const {
-    data: tagsData,
-    error: tagsError,
-    mutate: revalidateTags,
-  } = useSWR(pathname === '/cookbooks/[id]' && `${api}/tags?cookbook_guid=${id}`, fetcher)
+  const getTags = () => {
+    if (currentCookbook) {
+      return pathname === '/cookbooks/[id]' && `${api}/tags?cookbook_guid=${id}`
+    } else {
+      return pathname === '/cookbooks' && `${api}/tags?user_guid=${user?.sub}`
+    }
+  }
+
+  const { data: tagsData, error: tagsError, mutate: revalidateTags } = useSWR(getTags(), fetcher)
 
   const {
     data: cookbooksData,
     error: cookbooksError,
     mutate: revalidateCookbooks,
   } = useSWR(!isLoading && !userError && `${api}/cookbooks?user_guid=${user?.sub}`, fetcher)
-  
+
   useEffect(() => {
     tagsData && setTags(tagsData)
   }, [tagsData])
