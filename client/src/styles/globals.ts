@@ -99,10 +99,4 @@ export default createGlobalStyle`
     color: inherit;
     text-decoration: none;
   }
-
-  @media screen and (max-width: 800px) {
-    body {
-      margin: 30px 20px;
-    }
-  }
 `

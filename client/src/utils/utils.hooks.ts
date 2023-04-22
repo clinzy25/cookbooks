@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, RefObject } from 'react'
+import { MouseEvent, useEffect, RefObject, useState } from 'react'
 
 export const useOutsideAlerter = (ref: RefObject<HTMLElement>, task: () => void) => {
   useEffect(() => {
@@ -14,4 +14,23 @@ export const useOutsideAlerter = (ref: RefObject<HTMLElement>, task: () => void)
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [ref, task])
+}
+
+export const useWindowSize = () => {
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined,
+  })
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      })
+    }
+    window.addEventListener('resize', handleResize)
+    handleResize()
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+  return windowSize
 }

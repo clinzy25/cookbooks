@@ -9,12 +9,14 @@ import axios from 'axios'
 import Link from 'next/link'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
+import { BiSearch } from 'react-icons/bi'
 
 const Search = () => {
   const { user } = useUser()
   const { currentCookbook, setSnackbar } = useAppContext() as AppContextType
   const [searchVal, setSearchVal] = useState('')
   const [searchResults, setSearchResults] = useState<ISearchResults | null>(null)
+  const [searchExpanded, setSearchExpanded] = useState(false)
 
   const resultsRef = useRef(null)
   useOutsideAlerter(resultsRef, () => setSearchResults(null))
@@ -36,13 +38,16 @@ const Search = () => {
   }, [searchVal, searchRecipes])
 
   return (
-    <Style>
-      <input
-        value={searchVal}
-        onChange={e => setSearchVal(e.target.value)}
-        placeholder={currentCookbook ? 'Search this cookbook...' : 'Search all recipes...'}
-        type='text'
-      />
+    <Style searchExpanded={searchExpanded}>
+      <div id='search-ctr'>
+        <BiSearch onClick={() => setSearchExpanded(true)} id='search-icon' />
+        <input
+          value={searchVal}
+          onChange={e => setSearchVal(e.target.value)}
+          placeholder={currentCookbook ? 'Search this cookbook...' : 'Search all recipes...'}
+          type='text'
+        />
+      </div>
       {searchResults && (
         <div ref={resultsRef} className='results-ctr'>
           {searchResults?.recipes.map((r: ISearchResult, i) => (
@@ -77,16 +82,49 @@ const Search = () => {
   )
 }
 
-const Style = styled.div`
-  input {
-    height: 40px;
-    margin-left: 15px;
+type StyleProps = {
+  searchExpanded: boolean
+}
+
+const Style = styled.div<StyleProps>`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  #search-ctr {
+    position: relative;
+    height: 100%;
+    input {
+      height: 100%;
+      border-radius: 25px;
+      border: 1px solid gray;
+      padding: 0 15px;
+      font-size: 1rem;
+    }
+    #search-icon {
+      position: absolute;
+      right: 0;
+      font-size: 2.5rem;
+      border-radius: 25px;
+      border: 1px solid gray;
+      padding: 5px;
+      margin-left: 15px;
+      cursor: pointer;
+    }
   }
   .results-ctr {
     position: absolute;
     background-color: white;
     border: 1px solid gray;
     z-index: 3;
+  }
+  @media screen and (max-width: 800px) {
+    #search-ctr {
+      width: 100%;
+      input {
+        width: ${props => (props.searchExpanded ? '100%' : '40px')};
+        visibility: ${props => (props.searchExpanded ? 'visibile' : 'hidden')};
+      }
+    }
   }
 `
 

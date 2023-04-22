@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import Search from './Search'
+import Image from 'next/image'
 
 const Navbar = () => {
   const { pathname } = useRouter()
@@ -14,7 +15,14 @@ const Navbar = () => {
   return (
     <Style navbarHeight={navbarHeight}>
       <div id='input-ctr'>
-        <Link href='/cookbooks'>Cookbooks App</Link>
+        <Link href='/cookbooks'>
+          <Image
+            src='/../public/assets/avatar-placeholder.png'
+            width={49}
+            height={49}
+            alt='Home'
+          />
+        </Link>
         <Search />
       </div>
       {showTagsInRoutes.includes(pathname) && (
@@ -45,20 +53,20 @@ const Style = styled.div<StyleProps>`
   align-items: center;
   height: ${props => `${props.navbarHeight}px`};
   border-bottom: 1px solid gray;
-  padding: 15px;
+  padding: 12px;
+  box-shadow: 3px 3px 5px #e3e3e3;
   #input-ctr {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
     white-space: nowrap;
+    height: 100%;
   }
   #tag-list {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
     overflow-y: hidden;
     white-space: nowrap;
-    margin: 0 50px;
     height: 40px;
     scrollbar-width: thin;
   }
@@ -74,6 +82,12 @@ const Style = styled.div<StyleProps>`
     white-space: nowrap;
     border: 1px solid gray;
     border-radius: 10px;
+    margin-left: 10px;
+  }
+  @media screen and (max-width: 800px) {
+    #tag-list {
+      width: 100%;
+    }
   }
 `
 
