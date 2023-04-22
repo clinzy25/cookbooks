@@ -1,12 +1,12 @@
-type HoverStates = {
+interface IHoverStates {
   [key: string]: {
-    value: "" | "link" | "camera" | "manual",
+    value: '' | 'link' | 'camera' | 'manual'
     hoverText: string
     btnText: string
   }
 }
 
-export const hoverStates: HoverStates = {
+export const hoverStates: IHoverStates = {
   link: {
     value: 'link',
     hoverText: "Paste a link to a website with a recipe and we'll save the receipe for you",

@@ -5,7 +5,7 @@ import { api } from '@/api'
 import axios from 'axios'
 import useAppContext from '@/context/app.context'
 import { AppContextType } from '@/types/@types.context'
-import { serverErrorMessage } from '@/utils/utils.server.errors'
+import { serverErrorMessage } from '@/utils/utils.errors.server'
 import Loader from '@/components/Loader'
 import { hoverStates } from '@/utils/utils.hoverStates'
 
