@@ -1,9 +1,6 @@
 import knex from '../db/db'
 
-export async function dbTagSearchRecipesByCookbook(
-  tag_name: string,
-  cookbook_guid: string | undefined
-) {
+export async function dbTagSearchRecipesByCookbook(tag_name: string, cookbook_guid?: string) {
   try {
     return await knex.raw(`
       SELECT
@@ -40,7 +37,7 @@ export async function dbTagSearchRecipesByCookbook(
   }
 }
 
-export async function dbTagSearchRecipes(tag_name: string, user_guid: string | undefined) {
+export async function dbTagSearchRecipes(tag_name: string, user_guid?: string) {
   try {
     return await knex.raw(`
       SELECT

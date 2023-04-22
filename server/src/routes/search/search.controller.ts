@@ -12,7 +12,9 @@ export async function httpSearchRecipesByTag(req: Request, res: Response, next: 
   const cookbook_guid = req.query.cookbook_guid?.toString()
   const user_guid = req.query.user_guid?.toString()
   try {
-    if (!tag_name) throw new Error(MISSING_REQUIRED_PARAMS)
+    if (!tag_name || !(cookbook_guid || user_guid)) {
+      throw new Error(MISSING_REQUIRED_PARAMS)
+    }
     let results = null
     if (cookbook_guid) {
       results = await dbTagSearchRecipesByCookbook(tag_name, cookbook_guid)
@@ -22,21 +24,19 @@ export async function httpSearchRecipesByTag(req: Request, res: Response, next: 
     return res.status(200).json(results.rows)
   } catch (e) {
     next(e)
-    console.error(e)
   }
 }
 
 export async function httpSearchRecipes(req: Request, res: Response, next: NextFunction) {
-  const cookbook_guid = req.query.cookbook_guid?.toString()
   const search_val = req.query.search_val?.toString()
+  const cookbook_guid = req.query.cookbook_guid?.toString()
   const user_guid = req.query.user_guid?.toString()
-
   try {
-    if (!search_val) throw new Error(MISSING_REQUIRED_PARAMS)
-    let response = null
+    if (!search_val || !(cookbook_guid || user_guid)) {
+      throw new Error(MISSING_REQUIRED_PARAMS)
+    }
     const results = await dbCharSearchRecipes(search_val, user_guid, cookbook_guid)
-    response = results.rows
-    return res.status(200).json(splitTagsAndSearchResults(response))
+    return res.status(200).json(splitTagsAndSearchResults(results.rows))
   } catch (e) {
     next(e)
   }
