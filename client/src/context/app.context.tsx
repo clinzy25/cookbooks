@@ -18,7 +18,6 @@ export const AppContext = createContext<AppContextType | null>(null)
 export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   const {
     query: { id },
-    pathname,
   } = useRouter()
   const { user, error: userError, isLoading } = useUser()
   const [snackbar, setSnackbar] = useState<SnackbarType>({
@@ -31,15 +30,14 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   const [tags, setTags] = useState<string[]>([])
   const navbarHeight = 65
 
-  const getTags = () => {
-    if (currentCookbook) {
-      return pathname === '/cookbooks/[id]' && `${api}/tags?cookbook_guid=${id}`
-    } else {
-      return pathname === '/cookbooks' && `${api}/tags?user_guid=${user?.sub}`
-    }
-  }
-
-  const { data: tagsData, error: tagsError, mutate: revalidateTags } = useSWR(getTags(), fetcher)
+  const {
+    data: tagsData,
+    error: tagsError,
+    mutate: revalidateTags,
+  } = useSWR(
+    `${api}/tags?${currentCookbook ? `cookbook_guid=${id}` : `user_guid=${user?.sub}`}`,
+    fetcher
+  )
 
   const {
     data: cookbooksData,
