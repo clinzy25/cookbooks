@@ -1,14 +1,15 @@
-import { ICookbook } from './@types.cookbooks'
+import { ICookbookRes } from './@types.cookbooks'
+import { ITagRes } from './@types.tags'
 
 export type AppContextType = {
-  cookbooks: ICookbook[]
+  cookbooks: ICookbookRes[]
   cookbooksError: boolean
-  currentCookbook: ICookbook | null
-  setCurrentCookbook: (cookbook: ICookbook | null) => void
+  currentCookbook: ICookbookRes | null
+  setCurrentCookbook: (cookbook: ICookbookRes | null) => void
   snackbar: SnackbarType
   setSnackbar: (snackbar: SnackbarType) => void
   revalidateCookbooks: () => void
-  tags: string[]
+  tags: ITagRes[]
   tagsError: boolean
   revalidateTags: () => void
   navbarHeight: number

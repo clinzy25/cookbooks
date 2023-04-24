@@ -1,7 +1,7 @@
 import { api, fetcher } from '@/api'
 import { IRecipe } from '@/types/@types.recipes'
 import { useRouter } from 'next/router'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
 import RecipeCard from './components/RecipeCard'
@@ -11,9 +11,9 @@ import { AppContextType } from '@/types/@types.context'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import AddBtn from '@/components/buttons/AddBtn'
 import AddRecipeModal from './components/AddRecipeModal'
-import { CiMenuKebab } from 'react-icons/ci'
 import PeopleModal from './components/PeopleModal'
-import { useOutsideAlerter } from '@/utils/utils.hooks'
+import UpdateCookbookModal from './components/UpdateCookbookModal'
+import { AiFillEdit } from 'react-icons/ai'
 
 type Props = {
   recipes: IRecipe[]
@@ -25,12 +25,9 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
   } = useRouter()
   const { cookbooks, currentCookbook, setCurrentCookbook } = useAppContext() as AppContextType
   const [recipes, setRecipes] = useState<IRecipe[]>(props.recipes)
-  const [menuOpen, setMenuOpen] = useState(false)
   const [recipeModal, setRecipeModal] = useState(false)
   const [peopleModal, setPeopleModal] = useState(false)
-
-  const menuRef = useRef(null)
-  useOutsideAlerter(menuRef, () => setMenuOpen(false))
+  const [updateCookbookModal, setUpdateCookbookModal] = useState(false)
 
   const {
     data,
@@ -60,17 +57,14 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
           setRecipeModal={setRecipeModal}
         />
       )}
+      {updateCookbookModal && (
+        <UpdateCookbookModal setUpdateCookbookModal={setUpdateCookbookModal} />
+      )}
       {peopleModal && <PeopleModal setPeopleModal={setPeopleModal} />}
       <header id='cookbook-header'>
         <div>
           <h1>{currentCookbook?.cookbook_name} </h1>
-          <CiMenuKebab onClick={() => setMenuOpen(!menuOpen)} />
-          {menuOpen && (
-            <ul ref={menuRef}>
-              <li>Edit Cookbook</li>
-              <li>Delete Cookbook</li>
-            </ul>
-          )}
+          <AiFillEdit onClick={() => setUpdateCookbookModal(true)} />
         </div>
         <button className='btn' onClick={() => setPeopleModal(true)}>
           People

@@ -1,6 +1,7 @@
 import { api, fetcher } from '@/api'
 import { AppContextType, SnackbarType } from '@/types/@types.context'
 import { ICookbookRes } from '@/types/@types.cookbooks'
+import { ITagRes } from '@/types/@types.tags'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { useRouter } from 'next/router'
 import React, {
@@ -18,6 +19,7 @@ export const AppContext = createContext<AppContextType | null>(null)
 export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   const {
     query: { id },
+    pathname,
   } = useRouter()
   const { user, error: userError, isLoading } = useUser()
   const [snackbar, setSnackbar] = useState<SnackbarType>({
@@ -27,17 +29,18 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   })
   const [cookbooks, setCookbooks] = useState<ICookbookRes[]>([])
   const [currentCookbook, setCurrentCookbook] = useState<ICookbookRes | null>(null)
-  const [tags, setTags] = useState<string[]>([])
+  const [tags, setTags] = useState<ITagRes[]>([])
   const navbarHeight = 65
 
-  const {
-    data: tagsData,
-    error: tagsError,
-    mutate: revalidateTags,
-  } = useSWR(
-    `${api}/tags?${currentCookbook ? `cookbook_guid=${id}` : `user_guid=${user?.sub}`}`,
-    fetcher
-  )
+  const getTags = () => {
+    if (currentCookbook) {
+      return pathname === '/cookbooks/[id]' && `${api}/tags?cookbook_guid=${id}`
+    } else {
+      return pathname === '/cookbooks' && `${api}/tags?user_guid=${user?.sub}`
+    }
+  }
+
+  const { data: tagsData, error: tagsError, mutate: revalidateTags } = useSWR(getTags(), fetcher)
 
   const {
     data: cookbooksData,

@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import Search from './Search'
 import Image from 'next/image'
+import { ITagRes } from '@/types/@types.tags'
 
 const Navbar = () => {
   const { pathname } = useRouter()
@@ -29,9 +30,9 @@ const Navbar = () => {
         <div id='tag-list'>
           {tagsError
             ? 'Error loading tags'
-            : tags?.map(t => (
-                <Link href={`/search/recipes/${t}`} className='tag' key={t}>
-                  #{t}
+            : tags?.map((t: ITagRes) => (
+                <Link href={`/search/recipes/${t.guid}`} className='tag' key={t.guid}>
+                  #{t.tag_name}
                 </Link>
               ))}
         </div>

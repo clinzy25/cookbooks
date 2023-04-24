@@ -34,3 +34,13 @@ export async function dbCreateCookbook(cookbook: ICookbook) {
     console.error(e)
   }
 }
+
+export async function dbUpdateCookbook(cookbook_guid: string, cookbook_name: string) {
+  try {
+    return await knex('cookbooks')
+      .update('cookbook_name', cookbook_name)
+      .where('cookbook_guid', '=', cookbook_guid)
+  } catch (e) {
+    console.error(e)
+  }
+}
