@@ -27,7 +27,7 @@ export async function up(knex: Knex): Promise<void> {
       table.integer('member_user_id').unsigned()
       table.foreign('member_user_id').references('users.id')
       table.integer('cookbook_id').unsigned()
-      table.foreign('cookbook_id').references('cookbooks.id')
+      table.foreign('cookbook_id').references('cookbooks.id').onDelete('CASCADE')
       table.string('email').notNullable()
       table.integer('invitation_accepted').notNullable().defaultTo(0)
       table.timestamps()

@@ -77,10 +77,19 @@ export const S3_UPLOAD_FAILED_RES: ExceptionResponseType = {
 
 export const FAILED_TO_FETCH_IMAGE = 'errors/failed-to-fetch-image'
 export const FAILED_TO_FETCH_IMAGE_RES: ExceptionResponseType = {
-  statusCode: 500,
+  statusCode: 404,
   body: {
     type: 'errors/failed-to-fetch-image',
     detail: 'Failed to fetch image from recipe source',
+  },
+}
+
+export const RESOURCE_NOT_FOUND = 'errors/resource-not-found'
+export const RESOURCE_NOT_FOUND_RES: ExceptionResponseType = {
+  statusCode: 404,
+  body: {
+    type: 'errors/resource-not-found',
+    detail: 'Resource could not be updated',
   },
 }
 
@@ -90,3 +99,4 @@ exceptions.set(INCOMPLETE_REQUEST_BODY, INCOMPLETE_REQUEST_BODY_RES)
 exceptions.set(INVALID_URL, INVALID_URL_RES)
 exceptions.set(RECIPE_NOT_FOUND, RECIPE_NOT_FOUND_RES)
 exceptions.set(FAILED_TO_CREATE_RESOURCE, FAILED_TO_CREATE_RESOURCE_RES)
+exceptions.set(RESOURCE_NOT_FOUND, RESOURCE_NOT_FOUND_RES)
