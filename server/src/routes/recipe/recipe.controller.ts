@@ -11,13 +11,14 @@ import {
 } from '../../utils/utils.errors'
 import { IParseRecipeRequestBody, IRecipe } from '../../types/@types.recipes'
 import { uploadToS3 } from './recipe.utils'
+import { REQUEST_SUCCEEDED, RESOURCE_CREATED_SUCCESSFULLY, handleSuccess } from '../../utils/utils.success'
 
 export async function httpGetCookbookRecipes(req: Request, res: Response, next: NextFunction) {
   const cookbook = req.query.cookbook?.toString()
   try {
     if (!cookbook) throw new Error(MISSING_REQUIRED_PARAMS)
-    const recipes = await dbGetCookbookRecipes(cookbook)
-    return res.status(200).json(recipes)
+    const result = await dbGetCookbookRecipes(cookbook)
+    return handleSuccess(REQUEST_SUCCEEDED, res, result)
   } catch (e) {
     next(e)
   }
@@ -28,7 +29,7 @@ export async function httpGetRecipe(req: Request, res: Response, next: NextFunct
   try {
     if (!recipe_guid) throw new Error(MISSING_REQUIRED_PARAMS)
     const recipe = await dbGetRecipe(recipe_guid)
-    return res.status(200).json(recipe)
+    return handleSuccess(REQUEST_SUCCEEDED, res, recipe)
   } catch (e) {
     next(e)
   }
@@ -66,7 +67,7 @@ export async function httpParseRecipe(
         throw new Error(FAILED_TO_CREATE_RESOURCE)
       }
     }
-    return res.status(201).json(response)
+    return handleSuccess(RESOURCE_CREATED_SUCCESSFULLY, res, response)
   } catch (e) {
     next(e)
   }

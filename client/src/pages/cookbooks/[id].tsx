@@ -14,6 +14,7 @@ import AddRecipeModal from './components/AddRecipeModal'
 import { CiMenuKebab } from 'react-icons/ci'
 import PeopleModal from './components/PeopleModal'
 import { useOutsideAlerter } from '@/utils/utils.hooks'
+import { ISuccessResponseType } from '@/types/@types.global'
 
 type Props = {
   recipes: IRecipe[]
@@ -36,10 +37,10 @@ const CookbookDetailPage: React.FC<Props> = (props: Props) => {
     data,
     error,
     mutate: revalidateRecipes,
-  } = useSWR<IRecipe[], Error>(`${api}/recipes/cookbook?cookbook=${id}`, fetcher)
+  } = useSWR<ISuccessResponseType, Error>(`${api}/recipes/cookbook?cookbook=${id}`, fetcher)
 
   useEffect(() => {
-    data && setRecipes(data)
+    data?.data && setRecipes(data.data)
   }, [data])
 
   useEffect(() => {
@@ -105,8 +106,8 @@ export async function getServerSideProps(context: {
   params: { id: string }
 }): Promise<{ props: Props }> {
   const id = context.params.id
-  const recipes: IRecipe[] = await fetcher(`${api}/recipes/cookbook?cookbook=${id}`)
-  return { props: { recipes } }
+  const res = await fetcher(`${api}/recipes/cookbook?cookbook=${id}`)
+  return { props: { recipes: res.data } }
 }
 
 const Style = styled.main`

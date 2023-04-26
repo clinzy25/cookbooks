@@ -1,4 +1,5 @@
 import { api, fetcher } from '@/api'
+import { ISuccessResponseType } from '@/types/@types.global'
 import { IRecipe } from '@/types/@types.recipes'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import Image from 'next/image'
@@ -31,10 +32,13 @@ const RecipePage: React.FC<Props> = (props: Props) => {
     query: { id },
   } = useRouter()
   const [recipe, setRecipe] = useState<IRecipe>(props.recipe)
-  const { data, error } = useSWR<IRecipe, Error>(`${api}/recipes?recipe_guid=${id}`, fetcher)
+  const { data, error } = useSWR<ISuccessResponseType, Error>(
+    `${api}/recipes?recipe_guid=${id}`,
+    fetcher
+  )
 
   useEffect(() => {
-    data && setRecipe(data)
+    data?.data && setRecipe(data.data)
   }, [data])
 
   if (!data && !recipe) {
@@ -46,9 +50,11 @@ const RecipePage: React.FC<Props> = (props: Props) => {
   return (
     <Style>
       <h1>{name}</h1>
-      <div id='tags'>{tags?.split(',').map(t => (
-        <span key={t}>#{t}</span>
-      ))}</div>
+      <div id='tags'>
+        {tags?.split(',').map(t => (
+          <span key={t}>#{t}</span>
+        ))}
+      </div>
       <p>Uploaded by {creator_user_email}</p>
       <div className='img-ctr'>
         {image && <Image className='img' src={image} alt={name} fill />}
@@ -82,8 +88,8 @@ export async function getServerSideProps(context: {
   params: { id: string }
 }): Promise<{ props: Props }> {
   const id = context.params.id
-  const recipe: IRecipe = await fetcher(`${api}/recipes?recipe_guid=${id}`)
-  return { props: { recipe } }
+  const res = await fetcher(`${api}/recipes?recipe_guid=${id}`)
+  return { props: { recipe: res.data } }
 }
 
 const Style = styled.main`
