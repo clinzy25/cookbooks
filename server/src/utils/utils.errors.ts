@@ -1,19 +1,12 @@
 import { Response } from 'express'
-
-type ExceptionResponseType = {
-  statusCode: number
-  body: {
-    type: string
-    detail: string
-  }
-}
+import { IExceptionResponseType } from '../types/@types.utils'
 
 export const errorHandler = (error: Error, res: Response) => {
   console.error(error)
-  const excKey = error.message
-  if (exceptions.has(excKey)) {
-    const excRes: ExceptionResponseType = exceptions.get(excKey)
-    return res.status(excRes.statusCode).json(excRes.body)
+  const key = error.message
+  if (exceptions.has(key)) {
+    const { statusCode, body } = exceptions.get(key)
+    return res.status(statusCode).json(body)
   }
   return res.status(500).json({
     type: 'errors/internal-server-error',
@@ -22,7 +15,7 @@ export const errorHandler = (error: Error, res: Response) => {
 }
 
 export const MISSING_REQUIRED_PARAMS = 'errors/missing-required-params'
-export const MISSING_REQUIRED_PARAMS_RES: ExceptionResponseType = {
+export const MISSING_REQUIRED_PARAMS_RES: IExceptionResponseType = {
   statusCode: 400,
   body: {
     type: 'errors/missing-required-params',
@@ -31,7 +24,7 @@ export const MISSING_REQUIRED_PARAMS_RES: ExceptionResponseType = {
 }
 
 export const INCOMPLETE_REQUEST_BODY = 'errors/incomplete-request-body'
-export const INCOMPLETE_REQUEST_BODY_RES: ExceptionResponseType = {
+export const INCOMPLETE_REQUEST_BODY_RES: IExceptionResponseType = {
   statusCode: 400,
   body: {
     type: 'errors/incomplete-request-body',
@@ -40,7 +33,7 @@ export const INCOMPLETE_REQUEST_BODY_RES: ExceptionResponseType = {
 }
 
 export const INVALID_URL = 'errors/invalid-url'
-export const INVALID_URL_RES: ExceptionResponseType = {
+export const INVALID_URL_RES: IExceptionResponseType = {
   statusCode: 400,
   body: {
     type: 'errors/invalid-url',
@@ -49,7 +42,7 @@ export const INVALID_URL_RES: ExceptionResponseType = {
 }
 
 export const RECIPE_NOT_FOUND = 'errors/recipe-not-found'
-export const RECIPE_NOT_FOUND_RES: ExceptionResponseType = {
+export const RECIPE_NOT_FOUND_RES: IExceptionResponseType = {
   statusCode: 500,
   body: {
     type: 'errors/recipe-not-found',
@@ -58,7 +51,7 @@ export const RECIPE_NOT_FOUND_RES: ExceptionResponseType = {
 }
 
 export const FAILED_TO_CREATE_RESOURCE = 'errors/failed-to-create-resource'
-export const FAILED_TO_CREATE_RESOURCE_RES: ExceptionResponseType = {
+export const FAILED_TO_CREATE_RESOURCE_RES: IExceptionResponseType = {
   statusCode: 500,
   body: {
     type: 'errors/failed-to-create-resource',
@@ -67,7 +60,7 @@ export const FAILED_TO_CREATE_RESOURCE_RES: ExceptionResponseType = {
 }
 
 export const S3_UPLOAD_FAILED = 'errors/s3-upload-failed'
-export const S3_UPLOAD_FAILED_RES: ExceptionResponseType = {
+export const S3_UPLOAD_FAILED_RES: IExceptionResponseType = {
   statusCode: 500,
   body: {
     type: 'errors/s3-upload-failed',
@@ -76,7 +69,7 @@ export const S3_UPLOAD_FAILED_RES: ExceptionResponseType = {
 }
 
 export const FAILED_TO_FETCH_IMAGE = 'errors/failed-to-fetch-image'
-export const FAILED_TO_FETCH_IMAGE_RES: ExceptionResponseType = {
+export const FAILED_TO_FETCH_IMAGE_RES: IExceptionResponseType = {
   statusCode: 404,
   body: {
     type: 'errors/failed-to-fetch-image',
@@ -85,7 +78,7 @@ export const FAILED_TO_FETCH_IMAGE_RES: ExceptionResponseType = {
 }
 
 export const RESOURCE_NOT_FOUND = 'errors/resource-not-found'
-export const RESOURCE_NOT_FOUND_RES: ExceptionResponseType = {
+export const RESOURCE_NOT_FOUND_RES: IExceptionResponseType = {
   statusCode: 404,
   body: {
     type: 'errors/resource-not-found',

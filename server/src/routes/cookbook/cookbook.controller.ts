@@ -11,6 +11,7 @@ import {
   MISSING_REQUIRED_PARAMS,
   RESOURCE_NOT_FOUND,
 } from '../../utils/utils.errors'
+import { RESOURCE_CREATED_SUCCESSFULLY, RESOURCE_DELETED_SUCCESSFULLY, RESOURCE_UPDATED_SUCCESSFULLY, handleSuccess } from '../../utils/utils.success'
 
 export async function httpGetCookbooks(req: Request, res: Response, next: NextFunction) {
   const user_guid = req.query.user_guid?.toString()
@@ -28,9 +29,8 @@ export async function httpCreateCookbook(req: Request, res: Response, next: Next
   try {
     if (!cookbook) throw new Error(INCOMPLETE_REQUEST_BODY)
     const result = await dbCreateCookbook(cookbook)
-    const guid = result?.rows?.[0]?.guid
-    if (!guid) throw new Error(FAILED_TO_CREATE_RESOURCE)
-    return res.status(201).json({ message: 'Cookbook creation successful', guid })
+    if (!result) throw new Error(FAILED_TO_CREATE_RESOURCE)
+    return handleSuccess(RESOURCE_CREATED_SUCCESSFULLY, res, result.rows[0].cookbook_name)
   } catch (e) {
     next(e)
   }
@@ -44,9 +44,8 @@ export async function httpUpdateCookbook(req: Request, res: Response, next: Next
     if (!result) {
       throw new Error(RESOURCE_NOT_FOUND)
     }
-    return res.status(200).json(result[0])
+    return handleSuccess(RESOURCE_UPDATED_SUCCESSFULLY, res, result[0])
   } catch (e) {
-    console.log(e.message)
     next(e)
   }
 }
@@ -59,7 +58,7 @@ export async function httpDeleteCookbook(req: Request, res: Response, next: Next
     if (!result) {
       throw new Error(RESOURCE_NOT_FOUND)
     }
-    return res.status(200).json(result[0])
+    return handleSuccess(RESOURCE_DELETED_SUCCESSFULLY, res, result[0])
   } catch (e) {
     next(e)
   }
