@@ -53,7 +53,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [tagsData])
 
   useEffect(() => {
-    cookbooksData && setCookbooks(cookbooksData)
+    cookbooksData && setCookbooks(cookbooksData.data)
   }, [cookbooksData])
 
   useEffect(() => {

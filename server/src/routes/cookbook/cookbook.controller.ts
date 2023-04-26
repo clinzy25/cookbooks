@@ -11,14 +11,20 @@ import {
   MISSING_REQUIRED_PARAMS,
   RESOURCE_NOT_FOUND,
 } from '../../utils/utils.errors'
-import { RESOURCE_CREATED_SUCCESSFULLY, RESOURCE_DELETED_SUCCESSFULLY, RESOURCE_UPDATED_SUCCESSFULLY, handleSuccess } from '../../utils/utils.success'
+import {
+  REQUEST_SUCCEEDED,
+  RESOURCE_CREATED_SUCCESSFULLY,
+  RESOURCE_DELETED_SUCCESSFULLY,
+  RESOURCE_UPDATED_SUCCESSFULLY,
+  handleSuccess,
+} from '../../utils/utils.success'
 
 export async function httpGetCookbooks(req: Request, res: Response, next: NextFunction) {
   const user_guid = req.query.user_guid?.toString()
   try {
     if (!user_guid) throw new Error(MISSING_REQUIRED_PARAMS)
-    const { rows: cookbooks } = await dbGetCookbooks(user_guid)
-    return res.status(200).json(cookbooks)
+    const result = await dbGetCookbooks(user_guid)
+    return handleSuccess(REQUEST_SUCCEEDED, res, result.rows)
   } catch (e) {
     next(e)
   }
