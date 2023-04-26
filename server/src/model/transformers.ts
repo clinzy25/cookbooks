@@ -1,9 +1,5 @@
 import { IHttpSearchResult, ISearchResult } from '../types/@types.search'
-import {  ITagResult } from '../types/@types.tags'
 import { IMemberResult, IHttpMemberResults } from '../types/@types.users'
-
-export const transformTags = (sqlResult: ITagResult[]) =>
-  sqlResult.map((result: ITagResult) => Object.values(result)[0])
 
 export const transformMembers = (sqlResult: IMemberResult[]): IHttpMemberResults => {
   const result: IHttpMemberResults = {

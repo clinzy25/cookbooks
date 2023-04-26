@@ -1,5 +1,5 @@
 import useAppContext from '@/context/app.context'
-import { AppContextType } from '@/types/@types.context'
+import { AppContextType, ITag } from '@/types/@types.context'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
@@ -29,9 +29,9 @@ const Navbar = () => {
         <div id='tag-list'>
           {tagsError
             ? 'Error loading tags'
-            : tags?.map(t => (
-                <Link href={`/search/recipes/${t}`} className='tag' key={t}>
-                  #{t}
+            : tags?.map((t: ITag) => (
+                <Link href={`/search/recipes/${t.tag_name}`} className='tag' key={t.guid}>
+                  #{t.tag_name}
                 </Link>
               ))}
         </div>
