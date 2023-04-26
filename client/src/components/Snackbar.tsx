@@ -6,7 +6,7 @@ type Props = {
   snackbar: SnackbarType
 }
 
-const Snackbar: FC<Props> = ({ snackbar }: Props) => (
+const Snackbar: FC<Props> = ({ snackbar }) => (
   <Style snackbar={snackbar}>{snackbar.msg}</Style>
 )
 

@@ -6,7 +6,7 @@ type Props = {
   handler: () => void
 }
 
-const AddBtn: FC<Props> = ({ handler }: Props) => (
+const AddBtn: FC<Props> = ({ handler }) => (
   <Style>
     <AiFillPlusCircle onClick={handler} />
   </Style>

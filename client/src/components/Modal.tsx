@@ -9,7 +9,7 @@ type Props = {
   children: ReactNode
 }
 
-const Modal: FC<Props> = ({ closeModal, children }: Props) => {
+const Modal: FC<Props> = ({ closeModal, children }) => {
   const modalRef = useRef(null)
   useOutsideAlerter(modalRef, closeModal)
 

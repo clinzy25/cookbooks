@@ -5,7 +5,7 @@ type Props = {
   size: number
 }
 
-const Loader: FC<Props> = ({ size }: Props) => <Style size={size} />
+const Loader: FC<Props> = ({ size }) => <Style size={size} />
 
 const Style = styled.div<Props>`
   width: ${props => `${props.size}px`};

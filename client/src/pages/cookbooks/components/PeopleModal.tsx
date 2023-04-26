@@ -9,7 +9,7 @@ import { validateEmail } from '@/utils/utils.validateField'
 import axios from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { MouseEvent, useEffect, useRef, useState } from 'react'
+import React, { FC, MouseEvent, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
 
@@ -17,7 +17,7 @@ type Props = {
   setPeopleModal: (bool: boolean) => void
 }
 
-const PeopleModal = ({ setPeopleModal }: Props) => {
+const PeopleModal: FC<Props> = ({ setPeopleModal }) => {
   const {
     query: { id },
   } = useRouter()
@@ -35,7 +35,8 @@ const PeopleModal = ({ setPeopleModal }: Props) => {
 
   const sendInvite = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    if (!emailRef.current || !validateEmail(emailRef.current.value)) {
+    const isValidInput = !emailRef.current || !validateEmail(emailRef.current.value)
+    if (isValidInput) {
       setFormError(true)
     } else {
       formError && setFormError(false)

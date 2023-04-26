@@ -1,5 +1,5 @@
 import Modal from '@/components/Modal'
-import React, { useRef, useState, ClipboardEvent } from 'react'
+import React, { useRef, useState, ClipboardEvent, FC } from 'react'
 import styled from 'styled-components'
 import { api } from '@/api'
 import axios from 'axios'
@@ -8,22 +8,23 @@ import { AppContextType } from '@/types/@types.context'
 import { serverErrorMessage } from '@/utils/utils.errors.server'
 import Loader from '@/components/Loader'
 import { hoverStates } from '@/utils/utils.hoverStates'
+import { IRecipeBeforeCreate, RecipeSourceTypes } from '@/types/@types.recipes'
 
 type Props = {
   setRecipeModal: (bool: boolean) => void
   revalidateRecipes: () => void
 }
 
-const AddRecipeModal = ({ revalidateRecipes, setRecipeModal }: Props) => {
+const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
   const { setSnackbar, currentCookbook, revalidateTags } = useAppContext() as AppContextType
-  const [selection, setSelection] = useState<'link' | 'camera' | 'manual' | ''>('')
+  const [selection, setSelection] = useState<RecipeSourceTypes>('')
   const [loading, setLoading] = useState(false)
   const linkFieldRef = useRef<HTMLInputElement>(null)
 
   const parseRecipe = async (url: string) => {
     try {
       setLoading(true)
-      const recipes = [
+      const recipes: IRecipeBeforeCreate[] = [
         {
           url,
           cookbook_guid: currentCookbook?.guid,

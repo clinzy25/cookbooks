@@ -25,9 +25,11 @@ export interface IRecipe {
   updated_at: string
 }
 
+export type RecipeSourceTypes = 'link' | 'camera' | 'manual' | ''
+
 export interface IRecipeBeforeCreate {
   url: string
   cookbook_guid?: string
-  source_type: string
+  source_type: RecipeSourceTypes
   is_private: number
 }

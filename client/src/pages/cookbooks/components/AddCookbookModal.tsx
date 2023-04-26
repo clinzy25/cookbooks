@@ -1,4 +1,4 @@
-import React, { useRef, useState, FormEvent } from 'react'
+import React, { useRef, useState, FormEvent, FC } from 'react'
 import styled from 'styled-components'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { api } from '@/api'
@@ -8,12 +8,13 @@ import { AppContextType } from '@/types/@types.context'
 import Modal from '@/components/Modal'
 import { useRouter } from 'next/router'
 import { ICookbookBeforeCreate } from '@/types/@types.cookbooks'
+import { serverErrorMessage } from '@/utils/utils.errors.server'
 
 type Props = {
   setModalOpen: (bool: boolean) => void
 }
 
-const AddCookbookModal = ({ setModalOpen }: Props) => {
+const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
   const { setSnackbar, revalidateCookbooks } = useAppContext() as AppContextType
   const router = useRouter()
   const { user } = useUser()
@@ -23,7 +24,7 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      if (nameFieldRef?.current?.value && user?.sub) {
+      if (nameFieldRef.current?.value && user?.sub) {
         const cookbook: ICookbookBeforeCreate = {
           cookbook_name: nameFieldRef.current.value,
           creator_user_guid: user.sub,
@@ -43,12 +44,7 @@ const AddCookbookModal = ({ setModalOpen }: Props) => {
         setFormError(true)
       }
     } catch (e) {
-      setSnackbar({
-        msg: 'Sorry! Something went wrong.',
-        state: 'error',
-        duration: 3000,
-      })
-      console.error(e)
+      serverErrorMessage(e, setSnackbar)
     }
   }
 
