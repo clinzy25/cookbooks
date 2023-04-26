@@ -49,7 +49,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   } = useSWR(!isLoading && !userError && `${api}/cookbooks?user_guid=${user?.sub}`, fetcher)
 
   useEffect(() => {
-    tagsData && setTags(tagsData)
+    tagsData?.data && setTags(tagsData.data)
   }, [tagsData])
 
   useEffect(() => {
