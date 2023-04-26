@@ -1,11 +1,10 @@
-import { api } from '@/api'
+import { api, fetcher } from '@/api'
 import useAppContext from '@/context/app.context'
 import { AppContextType } from '@/types/@types.context'
 import { ISearchResult, ISearchResults } from '@/types/@types.search'
 import { useOutsideAlerter } from '@/utils/utils.hooks'
 import { serverErrorMessage } from '@/utils/utils.errors.server'
 import { useUser } from '@auth0/nextjs-auth0/client'
-import axios from 'axios'
 import Link from 'next/link'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
@@ -26,7 +25,7 @@ const Search = () => {
       currentCookbook ? `cookbook_guid=${currentCookbook.guid}` : `user_guid=${user?.sub}`
     }&search_val=${searchVal}`
     try {
-      const res = await axios.get(`${api}/search/recipes?${query}`)
+      const res = await fetcher(`${api}/search/recipes?${query}`)
       setSearchResults(res.data)
     } catch (e) {
       serverErrorMessage(e, setSnackbar)

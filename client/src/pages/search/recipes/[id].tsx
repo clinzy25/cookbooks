@@ -17,18 +17,16 @@ const SearchResultsRecipes = () => {
   const { currentCookbook } = useAppContext() as AppContextType
   const [recipes, setRecipes] = useState([])
 
-  const searchByTags = () => {
-    if (currentCookbook) {
-      return `${api}/search/recipes/tag?tag_name=${id}&cookbook_guid=${currentCookbook?.guid}`
-    } else {
-      return `${api}/search/recipes/tag?tag_name=${id}&user_guid=${user?.sub}`
-    }
-  }
+  const getSearchParams = () =>
+    currentCookbook ? `cookbook_guid=${currentCookbook?.guid}` : `user_guid=${user?.sub}`
 
-  const { data, error } = useSWR(searchByTags, fetcher)
+  const { data, error } = useSWR(
+    `${api}/search/recipes/tag?tag_name=${id}&${getSearchParams()}`,
+    fetcher
+  )
 
   useEffect(() => {
-    setRecipes(data)
+    data?.data && setRecipes(data.data)
   }, [data])
 
   if (!data) {

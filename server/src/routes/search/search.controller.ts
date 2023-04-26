@@ -5,7 +5,8 @@ import {
   dbTagSearchRecipes,
 } from '../../model/search.model'
 import { MISSING_REQUIRED_PARAMS } from '../../utils/utils.errors'
-import { splitTagsAndSearchResults } from '../../model/transformers'
+import { transformSearchResults } from '../../model/transformers'
+import { REQUEST_SUCCEEDED, handleSuccess } from '../../utils/utils.success'
 
 export async function httpSearchRecipesByTag(req: Request, res: Response, next: NextFunction) {
   const tag_name = req.query.tag_name?.toString()
@@ -21,7 +22,7 @@ export async function httpSearchRecipesByTag(req: Request, res: Response, next: 
     } else {
       results = await dbTagSearchRecipes(tag_name, user_guid)
     }
-    return res.status(200).json(results.rows)
+    return handleSuccess(REQUEST_SUCCEEDED, res, results.rows)
   } catch (e) {
     next(e)
   }
@@ -36,7 +37,8 @@ export async function httpSearchRecipes(req: Request, res: Response, next: NextF
       throw new Error(MISSING_REQUIRED_PARAMS)
     }
     const results = await dbCharSearchRecipes(search_val, user_guid, cookbook_guid)
-    return res.status(200).json(splitTagsAndSearchResults(results.rows))
+    const transformedResults = transformSearchResults(results.rows)
+    return handleSuccess(REQUEST_SUCCEEDED, res, transformedResults)
   } catch (e) {
     next(e)
   }

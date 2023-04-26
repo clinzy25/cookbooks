@@ -16,7 +16,7 @@ export const transformMembers = (sqlResult: IMemberResult[]): IHttpMemberResults
   return result
 }
 
-export const splitTagsAndSearchResults = (sqlResult: ISearchResult[]) => {
+export const transformSearchResults = (sqlResult: ISearchResult[]) => {
   const result: IHttpSearchResult = {
     recipes: [],
     tags: [],
