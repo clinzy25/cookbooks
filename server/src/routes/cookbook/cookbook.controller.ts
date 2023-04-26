@@ -47,9 +47,7 @@ export async function httpUpdateCookbook(req: Request, res: Response, next: Next
   try {
     if (!cookbook_guid) throw new Error(INCOMPLETE_REQUEST_BODY)
     const result = await dbUpdateCookbook(cookbook_guid, cookbook_name)
-    if (!result) {
-      throw new Error(RESOURCE_NOT_FOUND)
-    }
+    if (!result) throw new Error(RESOURCE_NOT_FOUND)
     return handleSuccess(RESOURCE_UPDATED_SUCCESSFULLY, res, result[0])
   } catch (e) {
     next(e)
@@ -61,9 +59,7 @@ export async function httpDeleteCookbook(req: Request, res: Response, next: Next
   try {
     if (!cookbook_guid) throw new Error(MISSING_REQUIRED_PARAMS)
     const result = await dbDeleteCookbook(cookbook_guid)
-    if (!result) {
-      throw new Error(RESOURCE_NOT_FOUND)
-    }
+    if (!result) throw new Error(RESOURCE_NOT_FOUND)
     return handleSuccess(RESOURCE_DELETED_SUCCESSFULLY, res, result[0])
   } catch (e) {
     next(e)

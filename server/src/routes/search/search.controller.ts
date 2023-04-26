@@ -19,7 +19,7 @@ export async function httpSearchRecipesByTag(req: Request, res: Response, next: 
     let results = null
     if (cookbook_guid) {
       results = await dbTagSearchRecipesByCookbook(tag_name, cookbook_guid)
-    } else {
+    } else if (user_guid) {
       results = await dbTagSearchRecipes(tag_name, user_guid)
     }
     return handleSuccess(REQUEST_SUCCEEDED, res, results.rows)

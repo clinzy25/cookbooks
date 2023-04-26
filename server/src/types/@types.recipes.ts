@@ -16,10 +16,3 @@ export interface IRecipe {
   url: string
   is_private: number
 }
-
-export interface IParseRecipeRequestBody {
-  url: string
-  cookbook_guid: string
-  source_type: string
-  is_private: number
-}

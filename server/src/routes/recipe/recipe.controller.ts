@@ -9,9 +9,13 @@ import {
   MISSING_REQUIRED_PARAMS,
   RECIPE_NOT_FOUND,
 } from '../../utils/utils.errors'
-import { IParseRecipeRequestBody, IRecipe } from '../../types/@types.recipes'
+import { IRecipe } from '../../types/@types.recipes'
 import { uploadToS3 } from './recipe.utils'
-import { REQUEST_SUCCEEDED, RESOURCE_CREATED_SUCCESSFULLY, handleSuccess } from '../../utils/utils.success'
+import {
+  REQUEST_SUCCEEDED,
+  RESOURCE_CREATED_SUCCESSFULLY,
+  handleSuccess,
+} from '../../utils/utils.success'
 
 export async function httpGetCookbookRecipes(req: Request, res: Response, next: NextFunction) {
   const cookbook = req.query.cookbook?.toString()
@@ -35,16 +39,12 @@ export async function httpGetRecipe(req: Request, res: Response, next: NextFunct
   }
 }
 
-export async function httpParseRecipe(
-  req: Request<IParseRecipeRequestBody[]>,
-  res: Response,
-  next: NextFunction
-) {
+export async function httpParseRecipe(req: Request, res: Response, next: NextFunction) {
   try {
     if (!req.body) throw new Error(INCOMPLETE_REQUEST_BODY)
     const { recipes } = req.body
     const response: IRecipe[] = []
-    
+
     for (let i = 0; i < recipes.length; i++) {
       const { url, cookbook_guid, source_type, is_private } = recipes[i]
       if (!url || !cookbook_guid) throw new Error(INCOMPLETE_REQUEST_BODY)
