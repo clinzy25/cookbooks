@@ -12,26 +12,16 @@ type Props = {
   recipe: IRecipe
 }
 
-const RecipePage: React.FC<Props> = (props: Props) => {
-  const {
-    name,
-    creator_user_email,
-    image,
-    description,
-    cook_time,
-    prep_time,
-    total_time,
-    yield: recipeYield,
-    ingredients,
-    instructions,
-    tags,
-    source_url,
-    created_at,
+const RecipePage: React.FC<Props> = props => {
+  // prettier-ignore
+  const { name, creator_user_email, image, description, cook_time, prep_time, total_time,
+    yield: recipeYield, ingredients, instructions, tags, source_url, created_at,
   } = props.recipe
   const {
     query: { id },
   } = useRouter()
   const [recipe, setRecipe] = useState<IRecipe>(props.recipe)
+  
   const { data, error } = useSWR<ISuccessResponseType, Error>(
     `${api}/recipes?recipe_guid=${id}`,
     fetcher

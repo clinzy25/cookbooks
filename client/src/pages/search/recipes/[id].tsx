@@ -5,11 +5,11 @@ import { AppContextType } from '@/types/@types.context'
 import { IRecipe } from '@/types/@types.recipes'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
 
-const SearchResultsRecipes = () => {
+const SearchResultsRecipes: FC = () => {
   const {
     query: { id },
   } = useRouter()
@@ -30,10 +30,10 @@ const SearchResultsRecipes = () => {
   }, [data])
 
   if (!data) {
-    return 'loading'
+    return <p>Loading...</p>
   }
   if (error) {
-    return 'error'
+    return <p>Error...</p>
   }
   return (
     <Style>
