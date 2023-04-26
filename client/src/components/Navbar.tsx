@@ -1,19 +1,17 @@
 import useAppContext from '@/context/app.context'
 import { AppContextType, ITag } from '@/types/@types.context'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import Search from './Search'
 import Image from 'next/image'
+import { FC } from 'react'
+import { NAVBAR_HEIGHT } from '@/utils/utils.constants'
 
-const Navbar = () => {
-  const { pathname } = useRouter()
-  const { tags, tagsError, navbarHeight } = useAppContext() as AppContextType
-
-  const showTagsInRoutes = ['/search/recipes/[id]', '/cookbooks/[id]', '/cookbooks']
+const Navbar: FC = () => {
+  const { tags, tagsError } = useAppContext() as AppContextType
 
   return (
-    <Style navbarHeight={navbarHeight}>
+    <Style navbarHeight={NAVBAR_HEIGHT}>
       <div id='input-ctr'>
         <Link href='/cookbooks'>
           <Image
@@ -25,17 +23,15 @@ const Navbar = () => {
         </Link>
         <Search />
       </div>
-      {showTagsInRoutes.includes(pathname) && (
-        <div id='tag-list'>
-          {tagsError
-            ? 'Error loading tags'
-            : tags?.map((t: ITag) => (
-                <Link href={`/search/recipes/${t.tag_name}`} className='tag' key={t.guid}>
-                  #{t.tag_name}
-                </Link>
-              ))}
-        </div>
-      )}
+      <div id='tag-list'>
+        {tagsError
+          ? 'Error loading tags'
+          : tags?.map((t: ITag) => (
+              <Link href={`/search/recipes/${t.tag_name}`} className='tag' key={t.guid}>
+                #{t.tag_name}
+              </Link>
+            ))}
+      </div>
       <a href='/api/auth/logout'>
         <button>Logout</button>
       </a>

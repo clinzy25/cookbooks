@@ -11,7 +11,6 @@ export type AppContextType = {
   tags: ITag[]
   tagsError: boolean
   revalidateTags: () => void
-  navbarHeight: number
 }
 
 export interface ITag {

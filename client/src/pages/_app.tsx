@@ -7,16 +7,17 @@ import { AppContextType } from '@/types/@types.context'
 import withContext from '@/context/WithContext'
 import styled from 'styled-components'
 import GlobalStyle from '@/styles/globals'
+import { NAVBAR_HEIGHT } from '@/utils/utils.constants'
 
 const App = ({ Component, pageProps }: AppProps) => {
-  const { snackbar, navbarHeight } = useAppContext() as AppContextType
+  const { snackbar } = useAppContext() as AppContextType
   const router = useRouter()
   const { asPath } = router
 
   return (
     <>
       {asPath !== '/' && <Navbar />}
-      <PageWrapper id='page-wrapper' navbarHeight={navbarHeight}>
+      <PageWrapper id='page-wrapper' navbarHeight={NAVBAR_HEIGHT}>
         <GlobalStyle />
         <Component {...pageProps} />
       </PageWrapper>

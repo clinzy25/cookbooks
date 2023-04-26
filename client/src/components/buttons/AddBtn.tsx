@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { AiFillPlusCircle } from 'react-icons/ai'
 import styled from 'styled-components'
 
 type Props = {
-  handler: () => unknown
+  handler: () => void
 }
 
-const AddBtn = ({ handler }: Props) => (
+const AddBtn: FC<Props> = ({ handler }: Props) => (
   <Style>
-    <AiFillPlusCircle onClick={handler} id='add-cookbook-icon' />
+    <AiFillPlusCircle onClick={handler} />
   </Style>
 )
 

@@ -15,7 +15,7 @@ const Search = () => {
   const { currentCookbook, setSnackbar } = useAppContext() as AppContextType
   const [searchVal, setSearchVal] = useState('')
   const [searchResults, setSearchResults] = useState<ISearchResults | null>(null)
-  const [searchExpanded, setSearchExpanded] = useState(false)
+  const [showSearchBar, setShowSearchBar] = useState(false)
 
   const resultsRef = useRef(null)
   useOutsideAlerter(resultsRef, () => setSearchResults(null))
@@ -37,9 +37,9 @@ const Search = () => {
   }, [searchVal, searchRecipes])
 
   return (
-    <Style searchExpanded={searchExpanded}>
+    <Style showSearchBar={showSearchBar}>
       <div id='search-ctr'>
-        <BiSearch onClick={() => setSearchExpanded(true)} id='search-icon' />
+        <BiSearch onClick={() => setShowSearchBar(true)} id='search-icon' />
         <input
           value={searchVal}
           onChange={e => setSearchVal(e.target.value)}
@@ -82,7 +82,7 @@ const Search = () => {
 }
 
 type StyleProps = {
-  searchExpanded: boolean
+  showSearchBar: boolean
 }
 
 const Style = styled.div<StyleProps>`
@@ -120,8 +120,8 @@ const Style = styled.div<StyleProps>`
     #search-ctr {
       width: 100%;
       input {
-        width: ${props => (props.searchExpanded ? '100%' : '40px')};
-        visibility: ${props => (props.searchExpanded ? 'visibile' : 'hidden')};
+        width: ${props => (props.showSearchBar ? '100%' : '40px')};
+        visibility: ${props => (props.showSearchBar ? 'visibile' : 'hidden')};
       }
     }
   }

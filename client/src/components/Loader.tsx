@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components'
 
 type Props = {
   size: number
 }
 
-const Loader = ({ size }: Props) => <Style size={size} />
+const Loader: FC<Props> = ({ size }: Props) => <Style size={size} />
 
 const Style = styled.div<Props>`
   width: ${props => `${props.size}px`};
