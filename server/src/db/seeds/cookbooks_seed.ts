@@ -1,11 +1,4 @@
 import { Knex } from 'knex'
-import fs from 'fs'
-import path from 'path'
-
-const getRecipe = (fileName: string): string => {
-  const file = path.join(__dirname, 'recipes', fileName)
-  return JSON.stringify(fs.readFileSync(file, 'utf8'))
-}
 
 export async function seed(knex: Knex): Promise<void> {
   await knex.raw(

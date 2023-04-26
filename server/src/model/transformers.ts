@@ -1,3 +1,4 @@
+import { IRecipe } from '../types/@types.recipes'
 import { IHttpSearchResult, ISearchResult } from '../types/@types.search'
 import { IMemberResult, IHttpMemberResults } from '../types/@types.users'
 
@@ -34,4 +35,21 @@ export const transformSearchResults = (sqlResult: ISearchResult[]) => {
     }
   }
   return result
+}
+
+export const transformParsedRecipe = (recipe: IRecipe) => {
+  const {
+    description,
+    recipeIngredients,
+    recipeInstructions,
+    recipeCategories,
+    recipeCuisines,
+  } = recipe
+  return {
+    ...recipe,
+    description: description.replace(/'/g, '&apos;'),
+    recipeIngredients: JSON.stringify(recipeIngredients).replace(/'/g, '&apos;'),
+    recipeInstructions: JSON.stringify(recipeInstructions).replace(/'/g, '&apos;'),
+    tags: recipeCategories.concat(recipeCuisines),
+  }
 }

@@ -37,7 +37,7 @@ export async function dbTagSearchRecipesByCookbook(tag_name: string, cookbook_gu
   }
 }
 
-export async function dbTagSearchRecipes(tag_name: string, user_guid?: string) {
+export async function dbTagSearchRecipes(tag_name: string, user_guid: string) {
   try {
     return await knex.raw(`
       SELECT
@@ -94,8 +94,8 @@ export async function dbCharSearchRecipes(
       ${whereClause}
         UNION ALL
       SELECT DISTINCT CONCAT('#', tag_name), tt.guid from tag_types tt
-      JOIN tags t on t.tag_type_id = tt.id
-      JOIN recipes r on r.id = t.recipe_id
+      JOIN tags t ON t.tag_type_id = tt.id
+      JOIN recipes r ON r.id = t.recipe_id
       JOIN cookbooks c ON c.id = r.cookbook_id
       JOIN users u ON u.id = c.creator_user_id
       JOIN cookbook_members cm ON cm.cookbook_id = c.id

@@ -1,5 +1,6 @@
 import knex from '../db/db'
 import { IRecipe } from '../types/@types.recipes'
+import { transformParsedRecipe } from './transformers'
 
 export async function dbGetCookbookRecipes(guid: string) {
   try {
@@ -116,14 +117,9 @@ export async function dbAddRecipe(recipe: IRecipe) {
     url: source_url,
     source_type,
     is_private,
-    recipeCategories,
-    recipeCuisines,
-  } = recipe
+    tags
+  } = transformParsedRecipe(recipe)
   try {
-    const ingredientsJson = JSON.stringify(ingredients).replace(/'/g, '&apos;')
-    const instructionsJson = JSON.stringify(instructions).replace(/'/g, '&apos;')
-    const _description = description.replace(/'/g, '&apos;')
-    const allTags = recipeCategories.concat(recipeCuisines)
     const cleanTag = (tag: string) => tag.replace(/\s/g, '').replace(/\//g, '-').toLowerCase()
 
     return await knex.raw(`
@@ -146,12 +142,12 @@ export async function dbAddRecipe(recipe: IRecipe) {
           created_at,
           updated_at
           )
-        SELECT id AS cookbook_id, creator_user_id, '${name}', '${image}', '${_description}', '${cook_time}', '${prep_time}', '${total_time}', '${recipeYield}', '${ingredientsJson}', '${instructionsJson}', '${source_url}', '${source_type}', '${is_private}', ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks
+        SELECT id AS cookbook_id, creator_user_id, '${name}', '${image}', '${description}', '${cook_time}', '${prep_time}', '${total_time}', '${recipeYield}', '${ingredients}', '${instructions}', '${source_url}', '${source_type}', '${is_private}', ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks
         WHERE cookbooks.guid = '${cookbook_guid}'
         RETURNING recipes.id AS recipe_id
         ), insert_2 AS (
           INSERT INTO tag_types(tag_name)
-          VALUES ${allTags.map(t => `('${cleanTag(t)}')`).join(',')}
+          VALUES ${tags.map(t => `('${cleanTag(t)}')`).join(',')}
           ON CONFLICT (tag_name) 
           DO UPDATE SET weight = excluded.weight + 1
           RETURNING id AS tag_type_id
