@@ -3,14 +3,14 @@ import type { AppProps } from 'next/app'
 import Navbar from '@/components/Navbar'
 import { useRouter } from 'next/router'
 import Snackbar from '@/components/Snackbar'
-import { AppContextType } from '@/types/@types.context'
+import { IAppContext } from '@/types/@types.context'
 import withContext from '@/context/WithContext'
 import styled from 'styled-components'
 import GlobalStyle from '@/styles/globals'
 import { NAVBAR_HEIGHT } from '@/utils/utils.constants'
 
 const App = ({ Component, pageProps }: AppProps) => {
-  const { snackbar } = useAppContext() as AppContextType
+  const { snackbar } = useAppContext() as IAppContext
   const router = useRouter()
   const { asPath } = router
 

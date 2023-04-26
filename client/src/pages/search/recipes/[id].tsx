@@ -1,8 +1,8 @@
 import { api, fetcher } from '@/api'
 import useAppContext from '@/context/app.context'
 import RecipeCard from '@/pages/cookbooks/components/RecipeCard'
-import { AppContextType } from '@/types/@types.context'
-import { IRecipe } from '@/types/@types.recipes'
+import { IAppContext } from '@/types/@types.context'
+import { IRecipeRes } from '@/types/@types.recipes'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { useRouter } from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
@@ -14,7 +14,7 @@ const SearchResultsRecipes: FC = () => {
     query: { id },
   } = useRouter()
   const { user } = useUser()
-  const { currentCookbook } = useAppContext() as AppContextType
+  const { currentCookbook } = useAppContext() as IAppContext
   const [recipes, setRecipes] = useState([])
 
   const getSearchParams = () =>
@@ -39,7 +39,7 @@ const SearchResultsRecipes: FC = () => {
     <Style>
       <h1>#{id}</h1>
       <div id='recipe-ctr'>
-        {recipes?.map((recipe: IRecipe) => (
+        {recipes?.map((recipe: IRecipeRes) => (
           <RecipeCard {...recipe} key={recipe.guid} />
         ))}
       </div>

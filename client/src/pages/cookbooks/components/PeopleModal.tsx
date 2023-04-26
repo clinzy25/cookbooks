@@ -2,7 +2,7 @@ import { fetcher } from '@/api'
 import { api } from '@/api'
 import Modal from '@/components/Modal'
 import useAppContext from '@/context/app.context'
-import { AppContextType } from '@/types/@types.context'
+import { IAppContext } from '@/types/@types.context'
 import { IMemberResult } from '@/types/@types.user'
 import { serverErrorMessage } from '@/utils/utils.errors.server'
 import { validateEmail } from '@/utils/utils.validateField'
@@ -21,7 +21,7 @@ const PeopleModal: FC<Props> = ({ setPeopleModal }) => {
   const {
     query: { id },
   } = useRouter()
-  const { setSnackbar } = useAppContext() as AppContextType
+  const { setSnackbar } = useAppContext() as IAppContext
   const [members, setMembers] = useState<IMemberResult[]>([])
   const [pendingInvites, setPendingInvites] = useState<IMemberResult[]>([])
   const [formError, setFormError] = useState(false)

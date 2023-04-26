@@ -1,14 +1,11 @@
-import { SnackbarType } from '@/types/@types.context'
+import { ISnackbar } from '@/types/@types.context'
 import { AxiosError } from 'axios'
 
 /**
  * Catch a server error of a specific type
  * and display an associated response in UI
  */
-export const serverErrorMessage = (
-  e: unknown,
-  setSnackbar: (config: SnackbarType) => void
-) => {
+export const serverErrorMessage = (e: unknown, setSnackbar: (config: ISnackbar) => void) => {
   console.error(e)
   if (e instanceof AxiosError) {
     const errorKey = e.response?.data.type

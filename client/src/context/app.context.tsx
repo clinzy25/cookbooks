@@ -1,5 +1,5 @@
 import { api, fetcher } from '@/api'
-import { AppContextType, ITag, SnackbarType } from '@/types/@types.context'
+import { IAppContext, ITag, ISnackbar } from '@/types/@types.context'
 import { ICookbookRes } from '@/types/@types.cookbooks'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { useRouter } from 'next/router'
@@ -13,7 +13,7 @@ import React, {
 } from 'react'
 import useSWR from 'swr'
 
-export const AppContext = createContext<AppContextType | null>(null)
+export const AppContext = createContext<IAppContext | null>(null)
 
 export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   const {
@@ -21,7 +21,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     pathname,
   } = useRouter()
   const { user, error: userError, isLoading } = useUser()
-  const [snackbar, setSnackbar] = useState<SnackbarType>({
+  const [snackbar, setSnackbar] = useState<ISnackbar>({
     msg: '',
     state: '',
     duration: 3000,

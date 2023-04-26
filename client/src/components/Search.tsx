@@ -1,6 +1,6 @@
 import { api, fetcher } from '@/api'
 import useAppContext from '@/context/app.context'
-import { AppContextType } from '@/types/@types.context'
+import { IAppContext } from '@/types/@types.context'
 import { ISearchResult, ISearchResults } from '@/types/@types.search'
 import { useOutsideAlerter } from '@/utils/utils.hooks'
 import { serverErrorMessage } from '@/utils/utils.errors.server'
@@ -12,7 +12,7 @@ import { BiSearch } from 'react-icons/bi'
 
 const Search: FC = () => {
   const { user } = useUser()
-  const { currentCookbook, setSnackbar } = useAppContext() as AppContextType
+  const { currentCookbook, setSnackbar } = useAppContext() as IAppContext
   const [searchVal, setSearchVal] = useState('')
   const [searchResults, setSearchResults] = useState<ISearchResults | null>(null)
   const [showSearchBar, setShowSearchBar] = useState(false)

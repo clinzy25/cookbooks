@@ -4,11 +4,10 @@ import styled from 'styled-components'
 import { api } from '@/api'
 import axios from 'axios'
 import useAppContext from '@/context/app.context'
-import { AppContextType } from '@/types/@types.context'
+import { IAppContext } from '@/types/@types.context'
 import { serverErrorMessage } from '@/utils/utils.errors.server'
 import Loader from '@/components/Loader'
-import { hoverStates } from '@/utils/utils.hoverStates'
-import { IRecipeBeforeCreate, RecipeSourceTypes } from '@/types/@types.recipes'
+import { IRecipeReq, RecipeSourceTypes } from '@/types/@types.recipes'
 
 type Props = {
   setRecipeModal: (bool: boolean) => void
@@ -16,7 +15,7 @@ type Props = {
 }
 
 const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
-  const { setSnackbar, currentCookbook, revalidateTags } = useAppContext() as AppContextType
+  const { setSnackbar, currentCookbook, revalidateTags } = useAppContext() as IAppContext
   const [selection, setSelection] = useState<RecipeSourceTypes>('')
   const [loading, setLoading] = useState(false)
   const linkFieldRef = useRef<HTMLInputElement>(null)
@@ -24,7 +23,7 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
   const parseRecipe = async (url: string) => {
     try {
       setLoading(true)
-      const recipes: IRecipeBeforeCreate[] = [
+      const recipes: IRecipeReq[] = [
         {
           url,
           cookbook_guid: currentCookbook?.guid,
@@ -88,14 +87,24 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
             )}
           </label>
           <div>
-            {Object.values(hoverStates).map(state => (
-              <button
-                className='selection-btn'
-                key={state.btnText}
-                onClick={() => setSelection(state.value)}>
-                {state.btnText}
-              </button>
-            ))}
+            <button
+              type='button'
+              className='selection-btn'
+              onClick={() => setSelection('link')}>
+              Paste Link
+            </button>
+            <button
+              type='button'
+              className='selection-btn'
+              onClick={() => setSelection('camera')}>
+              From Camera
+            </button>
+            <button
+              type='button'
+              className='selection-btn'
+              onClick={() => setSelection('manual')}>
+              Enter Manually
+            </button>
           </div>
         </div>
       </Style>

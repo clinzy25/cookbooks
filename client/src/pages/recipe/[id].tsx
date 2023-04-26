@@ -1,6 +1,6 @@
 import { api, fetcher } from '@/api'
-import { ISuccessResponseType } from '@/types/@types.global'
-import { IRecipe } from '@/types/@types.recipes'
+import { ISuccessRes } from '@/types/@types.global'
+import { IRecipeRes } from '@/types/@types.recipes'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -9,7 +9,7 @@ import styled from 'styled-components'
 import useSWR from 'swr'
 
 type Props = {
-  recipe: IRecipe
+  recipe: IRecipeRes
 }
 
 const RecipePage: React.FC<Props> = props => {
@@ -20,9 +20,9 @@ const RecipePage: React.FC<Props> = props => {
   const {
     query: { id },
   } = useRouter()
-  const [recipe, setRecipe] = useState<IRecipe>(props.recipe)
+  const [recipe, setRecipe] = useState<IRecipeRes>(props.recipe)
   
-  const { data, error } = useSWR<ISuccessResponseType, Error>(
+  const { data, error } = useSWR<ISuccessRes, Error>(
     `${api}/recipes?recipe_guid=${id}`,
     fetcher
   )

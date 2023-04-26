@@ -4,10 +4,10 @@ import { useUser } from '@auth0/nextjs-auth0/client'
 import { api } from '@/api'
 import axios from 'axios'
 import useAppContext from '@/context/app.context'
-import { AppContextType } from '@/types/@types.context'
+import { IAppContext } from '@/types/@types.context'
 import Modal from '@/components/Modal'
 import { useRouter } from 'next/router'
-import { ICookbookBeforeCreate } from '@/types/@types.cookbooks'
+import { ICookbookReq } from '@/types/@types.cookbooks'
 import { serverErrorMessage } from '@/utils/utils.errors.server'
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
 }
 
 const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
-  const { setSnackbar, revalidateCookbooks } = useAppContext() as AppContextType
+  const { setSnackbar, revalidateCookbooks } = useAppContext() as IAppContext
   const router = useRouter()
   const { user } = useUser()
   const [formError, setFormError] = useState(false)
@@ -25,7 +25,7 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
     e.preventDefault()
     try {
       if (nameFieldRef.current?.value && user?.sub) {
-        const cookbook: ICookbookBeforeCreate = {
+        const cookbook: ICookbookReq = {
           cookbook_name: nameFieldRef.current.value,
           creator_user_guid: user.sub,
         }

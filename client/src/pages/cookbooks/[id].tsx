@@ -1,5 +1,5 @@
 import { api, fetcher } from '@/api'
-import { IRecipe } from '@/types/@types.recipes'
+import { IRecipeRes } from '@/types/@types.recipes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
@@ -7,23 +7,23 @@ import useSWR from 'swr'
 import RecipeCard from './components/RecipeCard'
 import { ICookbookRes } from '@/types/@types.cookbooks'
 import useAppContext from '@/context/app.context'
-import { AppContextType } from '@/types/@types.context'
+import { IAppContext } from '@/types/@types.context'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import AddBtn from '@/components/buttons/AddBtn'
 import AddRecipeModal from './components/AddRecipeModal'
 import PeopleModal from './components/PeopleModal'
-import { ISuccessResponseType } from '@/types/@types.global'
+import { ISuccessRes } from '@/types/@types.global'
 
 type Props = {
-  recipes: IRecipe[]
+  recipes: IRecipeRes[]
 }
 
 const CookbookDetailPage: React.FC<Props> = props => {
   const {
     query: { id },
   } = useRouter()
-  const { cookbooks, currentCookbook, setCurrentCookbook } = useAppContext() as AppContextType
-  const [recipes, setRecipes] = useState<IRecipe[]>(props.recipes)
+  const { cookbooks, currentCookbook, setCurrentCookbook } = useAppContext() as IAppContext
+  const [recipes, setRecipes] = useState<IRecipeRes[]>(props.recipes)
   const [recipeModal, setRecipeModal] = useState(false)
   const [peopleModal, setPeopleModal] = useState(false)
 
@@ -31,7 +31,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
     data,
     error,
     mutate: revalidateRecipes,
-  } = useSWR<ISuccessResponseType, Error>(`${api}/recipes/cookbook?cookbook=${id}`, fetcher)
+  } = useSWR<ISuccessRes, Error>(`${api}/recipes/cookbook?cookbook=${id}`, fetcher)
 
   useEffect(() => {
     data?.data && setRecipes(data.data)
@@ -39,7 +39,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
 
   useEffect(() => {
     setCurrentCookbook(cookbooks.find((cb: ICookbookRes) => cb.guid === id) || null)
-  }, [cookbooks, setCurrentCookbook, id]) 
+  }, [cookbooks, setCurrentCookbook, id])
 
   if (!data && !recipes) {
     return <p>loading...</p>
@@ -77,7 +77,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
         </div>
       ) : (
         <div id='recipe-ctr'>
-          {recipes.map((recipe: IRecipe) => (
+          {recipes.map(recipe => (
             <RecipeCard {...recipe} key={recipe.guid} />
           ))}
         </div>

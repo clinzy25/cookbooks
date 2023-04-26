@@ -8,7 +8,7 @@ export interface IUser {
   updated_at: string
 }
 
-export interface IMemberResult {
+export interface IMemberRes {
   membership_guid: string
   invitation_accepted: number
   user_guid: string
@@ -18,7 +18,7 @@ export interface IMemberResult {
   created_at: string
 }
 
-export interface IMemberBeforeCreate {
+export interface IMemberReq {
   email: string
   cookbook_guid?: string
 }

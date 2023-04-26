@@ -1,10 +1,10 @@
-import { IRecipe } from '@/types/@types.recipes'
+import { IRecipeRes } from '@/types/@types.recipes'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 
-const RecipeCard: React.FC<IRecipe> = recipe => {
+const RecipeCard: React.FC<IRecipeRes> = recipe => {
   const { name, image, cook_time, prep_time, tags, guid } = recipe
   return (
     <Style>

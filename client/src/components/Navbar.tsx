@@ -1,5 +1,5 @@
 import useAppContext from '@/context/app.context'
-import { AppContextType, ITag } from '@/types/@types.context'
+import { IAppContext, ITag } from '@/types/@types.context'
 import Link from 'next/link'
 import styled from 'styled-components'
 import Search from './Search'
@@ -8,7 +8,7 @@ import { FC } from 'react'
 import { NAVBAR_HEIGHT } from '@/utils/utils.constants'
 
 const Navbar: FC = () => {
-  const { tags, tagsError } = useAppContext() as AppContextType
+  const { tags, tagsError } = useAppContext() as IAppContext
 
   return (
     <Style navbarHeight={NAVBAR_HEIGHT}>

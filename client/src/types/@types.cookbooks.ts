@@ -7,7 +7,7 @@ export interface ICookbookRes {
   updated_at: string
 }
 
-export interface ICookbookBeforeCreate {
+export interface ICookbookReq {
   creator_user_guid: string
   cookbook_name: string
 }

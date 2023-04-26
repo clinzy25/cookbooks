@@ -1,12 +1,12 @@
 import { ICookbookRes } from './@types.cookbooks'
 
-export type AppContextType = {
+export interface IAppContext {
   cookbooks: ICookbookRes[]
   cookbooksError: boolean
   currentCookbook: ICookbookRes | null
   setCurrentCookbook: (cookbook: ICookbookRes | null) => void
-  snackbar: SnackbarType
-  setSnackbar: (snackbar: SnackbarType) => void
+  snackbar: ISnackbar
+  setSnackbar: (snackbar: ISnackbar) => void
   revalidateCookbooks: () => void
   tags: ITag[]
   tagsError: boolean
@@ -18,7 +18,7 @@ export interface ITag {
   guid: string
 }
 
-export type SnackbarType = {
+export interface ISnackbar {
   msg: string
   state: 'success' | 'error' | ''
   duration: number

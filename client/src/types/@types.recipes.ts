@@ -1,4 +1,4 @@
-export interface IRecipe {
+export interface IRecipeRes {
   guid: string
   creator_user_guid: string
   creator_user_email: string
@@ -25,11 +25,11 @@ export interface IRecipe {
   updated_at: string
 }
 
-export type RecipeSourceTypes = 'link' | 'camera' | 'manual' | ''
-
-export interface IRecipeBeforeCreate {
+export interface IRecipeReq {
   url: string
   cookbook_guid?: string
   source_type: RecipeSourceTypes
   is_private: number
 }
+
+export type RecipeSourceTypes = 'link' | 'camera' | 'manual' | ''

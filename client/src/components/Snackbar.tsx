@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import { SnackbarType } from '@/types/@types.context'
+import { ISnackbar } from '@/types/@types.context'
 
 type Props = {
-  snackbar: SnackbarType
+  snackbar: ISnackbar
 }
 
 const Snackbar: FC<Props> = ({ snackbar }) => (

@@ -5,18 +5,17 @@ import { useUser } from '@auth0/nextjs-auth0/client'
 import { api } from '@/api'
 import axios from 'axios'
 import useAppContext from '@/context/app.context'
-import { AppContextType } from '@/types/@types.context'
+import { IAppContext } from '@/types/@types.context'
 import { useRouter } from 'next/router'
 import { serverErrorMessage } from '@/utils/utils.errors.server'
-import { hoverStates } from '@/utils/utils.hoverStates'
-import { ICookbookBeforeCreate } from '@/types/@types.cookbooks'
+import { ICookbookReq } from '@/types/@types.cookbooks'
 import { validateEmail } from '@/utils/utils.validateField'
-import { IRecipeBeforeCreate } from '@/types/@types.recipes'
-import { IMemberBeforeCreate } from '@/types/@types.user'
+import { IRecipeReq } from '@/types/@types.recipes'
+import { IMemberReq } from '@/types/@types.user'
 import Loader from '@/components/Loader'
 
 const WelcomePage = () => {
-  const { setSnackbar } = useAppContext() as AppContextType
+  const { setSnackbar } = useAppContext() as IAppContext
   const router = useRouter()
   const { user } = useUser()
   const [step, setStep] = useState<0 | 1 | 2>(0)
@@ -24,9 +23,9 @@ const WelcomePage = () => {
   const [emailError, setEmailError] = useState(false)
   const [selection, setSelection] = useState<'link' | 'camera' | 'manual' | ''>('')
   const [createLoading, setCreateLoading] = useState(false)
-  const [recipes, setRecipes] = useState<IRecipeBeforeCreate[]>([])
-  const [invites, setInvites] = useState<IMemberBeforeCreate[]>([])
-  const [cookbook, setCookbook] = useState<ICookbookBeforeCreate>({
+  const [recipes, setRecipes] = useState<IRecipeReq[]>([])
+  const [invites, setInvites] = useState<IMemberReq[]>([])
+  const [cookbook, setCookbook] = useState<ICookbookReq>({
     cookbook_name: '',
     creator_user_guid: '',
   })
@@ -108,7 +107,7 @@ const WelcomePage = () => {
   const handleAddRecipeClick = () => {
     const url = linkFieldRef.current?.value
     if (url) {
-      const newRecipe = {
+      const newRecipe: IRecipeReq = {
         url,
         source_type: 'link',
         is_private: 0,
@@ -120,7 +119,7 @@ const WelcomePage = () => {
   const handleAddRecipePaste = (e: ClipboardEvent) => {
     const url = e.clipboardData?.getData('Text')
     if (url) {
-      const newRecipe = {
+      const newRecipe: IRecipeReq = {
         url,
         source_type: 'link',
         is_private: 0,
@@ -196,15 +195,24 @@ const WelcomePage = () => {
                 )}
               </label>
               <div>
-                {Object.values(hoverStates).map(state => (
-                  <button
-                    type='button'
-                    className='selection-btn'
-                    key={state.btnText}
-                    onClick={() => setSelection(state.value)}>
-                    {state.btnText}
-                  </button>
-                ))}
+                <button
+                  type='button'
+                  className='selection-btn'
+                  onClick={() => setSelection('link')}>
+                  Paste Link
+                </button>
+                <button
+                  type='button'
+                  className='selection-btn'
+                  onClick={() => setSelection('camera')}>
+                  From Camera
+                </button>
+                <button
+                  type='button'
+                  className='selection-btn'
+                  onClick={() => setSelection('manual')}>
+                  Enter Manually
+                </button>
               </div>
             </div>
             <ul>
