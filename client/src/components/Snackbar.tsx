@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components'
 import { SnackbarType } from '@/types/@types.context'
 
@@ -6,7 +6,9 @@ type Props = {
   snackbar: SnackbarType
 }
 
-const Snackbar = ({ snackbar }: Props) => <Style snackbar={snackbar}>{snackbar.msg}</Style>
+const Snackbar: FC<Props> = ({ snackbar }: Props) => (
+  <Style snackbar={snackbar}>{snackbar.msg}</Style>
+)
 
 const Style = styled.div<Props>`
   position: fixed;

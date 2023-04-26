@@ -6,11 +6,11 @@ import { useOutsideAlerter } from '@/utils/utils.hooks'
 import { serverErrorMessage } from '@/utils/utils.errors.server'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import Link from 'next/link'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { BiSearch } from 'react-icons/bi'
 
-const Search = () => {
+const Search: FC = () => {
   const { user } = useUser()
   const { currentCookbook, setSnackbar } = useAppContext() as AppContextType
   const [searchVal, setSearchVal] = useState('')
