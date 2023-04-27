@@ -2,7 +2,7 @@ import { Knex } from 'knex'
 
 export async function seed(knex: Knex): Promise<void> {
   await knex.raw(
-    'TRUNCATE TABLE users, cookbook_members, cookbooks, recipes, ingredients, ingredient_types, tags, tag_types RESTART IDENTITY;'
+    'TRUNCATE TABLE users, cookbook_members, cookbooks, recipes, ingredients, ingredient_types, tags RESTART IDENTITY;'
   )
 
   await knex('users').insert([
@@ -469,47 +469,30 @@ export async function seed(knex: Knex): Promise<void> {
       unit: 'tsp',
     },
   ])
-  await knex('tag_types').insert([
-    {
-      tag_name: 'asian',
-    },
-    {
-      tag_name: 'italian',
-    },
-    {
-      tag_name: 'jamacian',
-    },
-    {
-      tag_name: 'vegitarian',
-    },
-    {
-      tag_name: 'chicken',
-    },
-  ])
   await knex('tags').insert([
     {
       recipe_id: 1,
-      tag_type_id: 1,
+      tag_name: 'asian',
     },
     {
       recipe_id: 2,
-      tag_type_id: 1,
+      tag_name: 'asian',
     },
     {
       recipe_id: 2,
-      tag_type_id: 5,
+      tag_name: 'chicken',
     },
     {
       recipe_id: 3,
-      tag_type_id: 2,
+      tag_name: 'italian',
     },
     {
       recipe_id: 4,
-      tag_type_id: 3,
+      tag_name: 'jamacian',
     },
     {
       recipe_id: 5,
-      tag_type_id: 5,
+      tag_name: 'chicken',
     },
   ])
 }

@@ -73,25 +73,18 @@ export async function up(knex: Knex): Promise<void> {
       table.string('unit', 50).notNullable()
       table.decimal('amount').notNullable()
     })
-    .createTable('tag_types', function (table) {
-      table.increments('id').primary()
-      table.uuid('guid', { useBinaryUuid: true }).defaultTo(uuid(knex))
-      table.string('tag_name', 50).notNullable()
-      table.integer('weight').defaultTo(1).notNullable()
-      table.unique(['tag_name'])
-    })
     .createTable('tags', function (table) {
       table.increments('id').primary()
       table.uuid('guid', { useBinaryUuid: true }).defaultTo(uuid(knex))
       table.integer('recipe_id').unsigned()
       table.foreign('recipe_id').references('recipes.id').onDelete('CASCADE')
-      table.integer('tag_type_id').unsigned()
-      table.foreign('tag_type_id').references('tag_types.id').onDelete('CASCADE')
+      table.string('tag_name', 50).notNullable()
+      table.integer('weight').defaultTo(1).notNullable()
     })
 }
 
 export async function down(knex: Knex): Promise<void> {
   await knex.raw(
-    'DROP TABLE users, cookbook_members, cookbooks, recipes, ingredients, ingredient_types, tags, tag_types CASCADE;'
+    'DROP TABLE users, cookbook_members, cookbooks, recipes, ingredients, ingredient_types, tags CASCADE;'
   )
 }

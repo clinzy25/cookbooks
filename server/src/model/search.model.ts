@@ -13,12 +13,11 @@ export async function dbTagSearchRecipesByCookbook(tag_name: string, cookbook_gu
         r.is_private,
         r.created_at,
         r.updated_at,
-        STRING_AGG(tag_types.tag_name,',') as tags
+        STRING_AGG(t.tag_name,',') as tags
       FROM recipes r
       JOIN cookbooks ON cookbooks.id = r.cookbook_id
-      LEFT JOIN tags ON r.id = tags.recipe_id
-      LEFT JOIN tag_types ON tag_types.id = tags.tag_type_id
-      WHERE '${tag_name}' IN (SELECT tag_name FROM tag_types tt WHERE tt.id = tags.tag_type_id)
+      LEFT JOIN tags t ON r.id = t.recipe_id
+      WHERE t.tag_name = '${tag_name}'
       AND cookbooks.guid = '${cookbook_guid}'
       GROUP BY
         r.guid,
@@ -50,15 +49,16 @@ export async function dbTagSearchRecipes(tag_name: string, user_guid: string) {
         r.is_private,
         r.created_at,
         r.updated_at,
-        STRING_AGG(tag_types.tag_name,',') as tags
+        STRING_AGG(t.tag_name,',') as tags
       FROM recipes r
       JOIN users u ON u.id = r.creator_user_id
       JOIN cookbook_members cm ON cm.cookbook_id = r.cookbook_id
-      LEFT JOIN tags ON r.id = tags.recipe_id
-      LEFT JOIN tag_types ON tag_types.id = tags.tag_type_id
-      WHERE '${tag_name}' IN (SELECT tag_name FROM tag_types tt WHERE tt.id = tags.tag_type_id)
-      AND (u.guid = '${user_guid}' 
-           OR cm.cookbook_id = r.cookbook_id)
+      LEFT JOIN tags t ON r.id = t.recipe_id
+      WHERE t.tag_name = '${tag_name}'
+      AND (
+        u.guid = '${user_guid}' 
+        OR cm.cookbook_id = r.cookbook_id
+      )
       GROUP BY
         r.guid,
         r.name,
@@ -93,8 +93,7 @@ export async function dbCharSearchRecipes(
       WHERE name ILIKE '%${searchVal}%'
       ${whereClause}
         UNION ALL
-      SELECT DISTINCT CONCAT('#', tag_name), tt.guid from tag_types tt
-      JOIN tags t ON t.tag_type_id = tt.id
+      SELECT DISTINCT CONCAT('#', tag_name), t.guid from tags t
       JOIN recipes r ON r.id = t.recipe_id
       JOIN cookbooks c ON c.id = r.cookbook_id
       JOIN users u ON u.id = c.creator_user_id

@@ -6,38 +6,27 @@ import Search from './Search'
 import Image from 'next/image'
 import { FC } from 'react'
 import { NAVBAR_HEIGHT } from '@/utils/utils.constants'
+import TagList from './TagList'
 
-const Navbar: FC = () => {
-  const { tags, tagsError } = useAppContext() as IAppContext
-
-  return (
-    <Style navbarHeight={NAVBAR_HEIGHT}>
-      <div id='input-ctr'>
-        <Link href='/cookbooks'>
-          <Image
-            src='/../public/assets/avatar-placeholder.png'
-            width={49}
-            height={49}
-            alt='Home'
-          />
-        </Link>
-        <Search />
-      </div>
-      <div id='tag-list'>
-        {tagsError
-          ? 'Error loading tags'
-          : tags?.map((t: ITag) => (
-              <Link href={`/search/recipes/${t.tag_name}`} className='tag' key={t.guid}>
-                #{t.tag_name}
-              </Link>
-            ))}
-      </div>
-      <a href='/api/auth/logout'>
-        <button>Logout</button>
-      </a>
-    </Style>
-  )
-}
+const Navbar: FC = () => (
+  <Style navbarHeight={NAVBAR_HEIGHT}>
+    <div id='input-ctr'>
+      <Link href='/cookbooks'>
+        <Image
+          src='/../public/assets/avatar-placeholder.png'
+          width={49}
+          height={49}
+          alt='Home'
+        />
+      </Link>
+      <Search />
+    </div>
+    <TagList />
+    <a href='/api/auth/logout'>
+      <button>Logout</button>
+    </a>
+  </Style>
+)
 
 type StyleProps = {
   navbarHeight: number
@@ -57,20 +46,6 @@ const Style = styled.div<StyleProps>`
     align-items: center;
     white-space: nowrap;
     height: 100%;
-  }
-  #tag-list {
-    display: flex;
-    align-items: center;
-    overflow-y: hidden;
-    white-space: nowrap;
-    height: 40px;
-    scrollbar-width: thin;
-  }
-  .tag {
-    border: 1px solid gray;
-    margin: 0 5px;
-    border-radius: 25px;
-    padding: 0 7px;
   }
   button {
     padding: 10px 20px;

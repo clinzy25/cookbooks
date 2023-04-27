@@ -1,5 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
-import { dbDeleteTags, dbGetTagsByCookbook, dbGetTagsByUser, dbUpdateTag } from '../../model/tags.model'
+import {
+  dbDeleteTags,
+  dbGetTagsByCookbook,
+  dbGetTagsByUser,
+  dbUpdateTags,
+} from '../../model/tags.model'
 import {
   INCOMPLETE_REQUEST_BODY,
   MISSING_REQUIRED_PARAMS,
@@ -32,10 +37,10 @@ export async function httpGetTags(req: Request, res: Response, next: NextFunctio
 }
 
 export async function httpDeleteTags(req: Request, res: Response, next: NextFunction) {
-  const { tags } = req.body
+  const { tags, cookbook_guid } = req.body
   try {
     if (!tags.length) throw new Error(INCOMPLETE_REQUEST_BODY)
-    const result = await dbDeleteTags(tags)
+    const result = await dbDeleteTags(tags, cookbook_guid)
     if (!result) throw new Error(RESOURCE_NOT_FOUND)
     return handleSuccess(RESOURCE_DELETED_SUCCESSFULLY, res, result[0])
   } catch (e) {
@@ -44,10 +49,11 @@ export async function httpDeleteTags(req: Request, res: Response, next: NextFunc
 }
 
 export async function httpUpdateTag(req: Request, res: Response, next: NextFunction) {
-  const { tag } = req.body
+  const { tags, cookbook_guid } = req.body
   try {
-    if (!tag) throw new Error(INCOMPLETE_REQUEST_BODY)
-    const result = await dbUpdateTag(tag)
+    if (!tags.length || !cookbook_guid) throw new Error(INCOMPLETE_REQUEST_BODY)
+    const result = await dbUpdateTags(tags, cookbook_guid)
+    console.log(result)
     if (!result) throw new Error(RESOURCE_NOT_FOUND)
     return handleSuccess(RESOURCE_UPDATED_SUCCESSFULLY, res, result[0])
   } catch (e) {
