@@ -1,5 +1,5 @@
 import { IRecipe } from '../types/@types.recipes'
-import { SearchResults, ISearchResult } from '../types/@types.search'
+import { ISearchResults, ISearchResult } from '../types/@types.search'
 import { IMemberResult, IMemberResults } from '../types/@types.users'
 
 export const transformMembers = (sqlResult: IMemberResult[]): IMemberResults => {
@@ -18,7 +18,7 @@ export const transformMembers = (sqlResult: IMemberResult[]): IMemberResults => 
 }
 
 export const transformSearchResults = (sqlResult: ISearchResult[]) => {
-  const result: SearchResults = {
+  const result: ISearchResults = {
     recipes: [],
     tags: [],
   }
