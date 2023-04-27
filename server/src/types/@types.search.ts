@@ -3,7 +3,7 @@ export interface ISearchResult {
   guid: string
 }
 
-export interface IHttpSearchResult {
+export interface SearchResults {
   recipes: ISearchResult[]
   tags: ISearchResult[]
 }

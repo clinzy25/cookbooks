@@ -1,12 +1,9 @@
-export interface IExceptionResponseType {
+export interface IExceptionResponse {
   statusCode: number
-  body: {
-    type: string
-    detail: string
-  }
+  body: { type: string; detail: string }
 }
 
-export interface ISuccessResponseType {
+export interface ISuccessResponse {
   statusCode: number
   message: string
 }

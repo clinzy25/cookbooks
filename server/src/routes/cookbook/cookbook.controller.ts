@@ -31,12 +31,14 @@ export async function httpGetCookbooks(req: Request, res: Response, next: NextFu
 }
 
 export async function httpCreateCookbook(req: Request, res: Response, next: NextFunction) {
-  const { cookbook } = req.body
+  const { cookbook_name, creator_user_guid } = req.body
+  console.log(req.body)
   try {
-    if (!cookbook) throw new Error(INCOMPLETE_REQUEST_BODY)
-    const result = await dbCreateCookbook(cookbook)
+    if (!(cookbook_name || creator_user_guid)) throw new Error(INCOMPLETE_REQUEST_BODY)
+    const result = await dbCreateCookbook(cookbook_name, creator_user_guid)
     if (!result) throw new Error(FAILED_TO_CREATE_RESOURCE)
-    return handleSuccess(RESOURCE_CREATED_SUCCESSFULLY, res, result.rows[0].cookbook_name)
+    console.log(result.rows[0].guid)
+    return handleSuccess(RESOURCE_CREATED_SUCCESSFULLY, res, result.rows[0].guid)
   } catch (e) {
     next(e)
   }

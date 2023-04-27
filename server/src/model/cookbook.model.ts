@@ -21,14 +21,13 @@ export async function dbGetCookbooks(guid: string) {
   }
 }
 
-export async function dbCreateCookbook(cookbook: ICookbook) {
-  const { cookbook_name, creator_user_guid } = cookbook
+export async function dbCreateCookbook(cookbook_name: string, creator_user_guid: string) {
   try {
     return await knex.raw(`
       INSERT INTO cookbooks(cookbook_name, creator_user_id, created_at, updated_at)
       SELECT '${cookbook_name}' AS cookbook_name, id, ${knex.fn.now()}, ${knex.fn.now()} FROM users
       WHERE users.guid = '${creator_user_guid}'
-      RETURNING cookbooks.cookbook_name
+      RETURNING cookbooks.guid
     `)
   } catch (e) {
     console.error(e)

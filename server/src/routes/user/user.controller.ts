@@ -6,7 +6,6 @@ import {
 } from '../../utils/utils.errors'
 import { dbGetCookbookMembers, dbSendInvite } from '../../model/user.model'
 import { transformMembers } from '../../model/transformers'
-import { ISendInviteRequestBody } from '../../types/@types.users'
 import {
   REQUEST_SUCCEEDED,
   RESOURCE_CREATED_SUCCESSFULLY,
@@ -25,11 +24,7 @@ export async function httpGetCookbookMembers(req: Request, res: Response, next: 
   }
 }
 
-export async function httpSendInvite(
-  req: Request<ISendInviteRequestBody[]>,
-  res: Response,
-  next: NextFunction
-) {
+export async function httpSendInvite(req: Request, res: Response, next: NextFunction) {
   try {
     if (!req.body) throw new Error(INCOMPLETE_REQUEST_BODY)
     const { invites } = req.body

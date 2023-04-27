@@ -29,7 +29,7 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
           cookbook_name: nameFieldRef.current.value,
           creator_user_guid: user.sub,
         }
-        const res = await axios.post(`${api}/cookbooks`, { cookbook })
+        const res = await axios.post(`${api}/cookbooks`, cookbook)
         if (res.status === 201) {
           revalidateCookbooks()
           setSnackbar({
@@ -38,7 +38,7 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
             duration: 3000,
           })
           setModalOpen(false)
-          router.push(`/cookbooks/${res.data.guid}`)
+          router.push(`/cookbooks/${res.data.data}`)
         }
       } else {
         setFormError(true)

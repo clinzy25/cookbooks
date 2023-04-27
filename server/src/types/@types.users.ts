@@ -8,12 +8,7 @@ export interface IMemberResult {
   is_readonly: number
 }
 
-export interface IHttpMemberResults {
+export interface IMemberResults {
   members: IMemberResult[]
   pending_invites: IMemberResult[]
-}
-
-export interface ISendInviteRequestBody {
-  cookbook_guid: string
-  email: string
 }

@@ -1,9 +1,9 @@
 import { IRecipe } from '../types/@types.recipes'
-import { IHttpSearchResult, ISearchResult } from '../types/@types.search'
-import { IMemberResult, IHttpMemberResults } from '../types/@types.users'
+import { SearchResults, ISearchResult } from '../types/@types.search'
+import { IMemberResult, IMemberResults } from '../types/@types.users'
 
-export const transformMembers = (sqlResult: IMemberResult[]): IHttpMemberResults => {
-  const result: IHttpMemberResults = {
+export const transformMembers = (sqlResult: IMemberResult[]): IMemberResults => {
+  const result: IMemberResults = {
     members: [],
     pending_invites: [],
   }
@@ -18,7 +18,7 @@ export const transformMembers = (sqlResult: IMemberResult[]): IHttpMemberResults
 }
 
 export const transformSearchResults = (sqlResult: ISearchResult[]) => {
-  const result: IHttpSearchResult = {
+  const result: SearchResults = {
     recipes: [],
     tags: [],
   }

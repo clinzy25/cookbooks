@@ -1,5 +1,5 @@
 import { Response } from 'express'
-import { IExceptionResponseType } from '../types/@types.utils'
+import { IExceptionResponse } from '../types/@types.utils'
 
 export const errorHandler = (error: Error, res: Response) => {
   console.error(error)
@@ -15,7 +15,7 @@ export const errorHandler = (error: Error, res: Response) => {
 }
 
 export const MISSING_REQUIRED_PARAMS = 'errors/missing-required-params'
-export const MISSING_REQUIRED_PARAMS_RES: IExceptionResponseType = {
+export const MISSING_REQUIRED_PARAMS_RES: IExceptionResponse = {
   statusCode: 400,
   body: {
     type: 'errors/missing-required-params',
@@ -24,7 +24,7 @@ export const MISSING_REQUIRED_PARAMS_RES: IExceptionResponseType = {
 }
 
 export const INCOMPLETE_REQUEST_BODY = 'errors/incomplete-request-body'
-export const INCOMPLETE_REQUEST_BODY_RES: IExceptionResponseType = {
+export const INCOMPLETE_REQUEST_BODY_RES: IExceptionResponse = {
   statusCode: 400,
   body: {
     type: 'errors/incomplete-request-body',
@@ -33,7 +33,7 @@ export const INCOMPLETE_REQUEST_BODY_RES: IExceptionResponseType = {
 }
 
 export const INVALID_URL = 'errors/invalid-url'
-export const INVALID_URL_RES: IExceptionResponseType = {
+export const INVALID_URL_RES: IExceptionResponse = {
   statusCode: 400,
   body: {
     type: 'errors/invalid-url',
@@ -42,7 +42,7 @@ export const INVALID_URL_RES: IExceptionResponseType = {
 }
 
 export const RECIPE_NOT_FOUND = 'errors/recipe-not-found'
-export const RECIPE_NOT_FOUND_RES: IExceptionResponseType = {
+export const RECIPE_NOT_FOUND_RES: IExceptionResponse = {
   statusCode: 500,
   body: {
     type: 'errors/recipe-not-found',
@@ -51,7 +51,7 @@ export const RECIPE_NOT_FOUND_RES: IExceptionResponseType = {
 }
 
 export const FAILED_TO_CREATE_RESOURCE = 'errors/failed-to-create-resource'
-export const FAILED_TO_CREATE_RESOURCE_RES: IExceptionResponseType = {
+export const FAILED_TO_CREATE_RESOURCE_RES: IExceptionResponse = {
   statusCode: 500,
   body: {
     type: 'errors/failed-to-create-resource',
@@ -60,7 +60,7 @@ export const FAILED_TO_CREATE_RESOURCE_RES: IExceptionResponseType = {
 }
 
 export const S3_UPLOAD_FAILED = 'errors/s3-upload-failed'
-export const S3_UPLOAD_FAILED_RES: IExceptionResponseType = {
+export const S3_UPLOAD_FAILED_RES: IExceptionResponse = {
   statusCode: 500,
   body: {
     type: 'errors/s3-upload-failed',
@@ -69,7 +69,7 @@ export const S3_UPLOAD_FAILED_RES: IExceptionResponseType = {
 }
 
 export const FAILED_TO_FETCH_IMAGE = 'errors/failed-to-fetch-image'
-export const FAILED_TO_FETCH_IMAGE_RES: IExceptionResponseType = {
+export const FAILED_TO_FETCH_IMAGE_RES: IExceptionResponse = {
   statusCode: 404,
   body: {
     type: 'errors/failed-to-fetch-image',
@@ -78,7 +78,7 @@ export const FAILED_TO_FETCH_IMAGE_RES: IExceptionResponseType = {
 }
 
 export const RESOURCE_NOT_FOUND = 'errors/resource-not-found'
-export const RESOURCE_NOT_FOUND_RES: IExceptionResponseType = {
+export const RESOURCE_NOT_FOUND_RES: IExceptionResponse = {
   statusCode: 404,
   body: {
     type: 'errors/resource-not-found',
