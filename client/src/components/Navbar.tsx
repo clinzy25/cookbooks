@@ -1,5 +1,3 @@
-import useAppContext from '@/context/app.context'
-import { IAppContext, ITag } from '@/types/@types.context'
 import Link from 'next/link'
 import styled from 'styled-components'
 import Search from './Search'

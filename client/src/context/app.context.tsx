@@ -1,5 +1,5 @@
 import { api, fetcher } from '@/api'
-import { IAppContext, ITag, ISnackbar } from '@/types/@types.context'
+import { IAppContext, ISnackbar } from '@/types/@types.context'
 import { ICookbookRes } from '@/types/@types.cookbooks'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { useRouter } from 'next/router'
@@ -31,7 +31,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const getTagsQuery = () =>
     currentCookbook
-      ? pathname === '/cookbooks/[id]' && `${api}/tags?cookbook_guid=${id}`
+      ? `${api}/tags?cookbook_guid=${id}`
       : pathname === '/cookbooks' && `${api}/tags?user_guid=${user?.sub}`
 
   const {

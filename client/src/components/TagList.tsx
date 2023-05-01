@@ -12,6 +12,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { IEditTagRes } from '@/types/@types.tags'
+import Loader from './Loader'
 
 const TagList: FC = () => {
   const { pathname } = useRouter()
@@ -134,36 +135,40 @@ const TagList: FC = () => {
     }
   }, [submitTrigger]) // eslint-disable-line
 
+  if (!tags) {
+    return <Loader size={20} />
+  }
+  if (tagsError) {
+    return <p>Error loading tags</p>
+  }
   return (
     <Style>
-      {tagsError
-        ? 'Error loading tags'
-        : tags?.map((t: ITag) =>
-            allowEdit && editMode ? (
-              <div key={t.guid} className={`tag ${tagsToDelete.includes(t) && 'deleted'}`}>
-                {tagsToDelete.includes(t) ? (
-                  <AiOutlineUndo onClick={() => handleUndo(t)} className='icon' />
-                ) : (
-                  <CgClose onClick={() => handleQueDeletes(t)} className='icon' />
-                )}
-                <div
-                  onKeyDown={e => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault()
-                      handleQueEdits(e, t)
-                    }
-                  }}
-                  onBlur={e => handleQueEdits(e, t)}
-                  contentEditable>
-                  {t.tag_name}
-                </div>
-              </div>
+      {tags?.map((t: ITag) =>
+        allowEdit && editMode ? (
+          <div key={t.guid} className={`tag ${tagsToDelete.includes(t) && 'deleted'}`}>
+            {tagsToDelete.includes(t) ? (
+              <AiOutlineUndo onClick={() => handleUndo(t)} className='icon' />
             ) : (
-              <Link href={`/search/recipes/${t.tag_name}`} className='tag' key={t.guid}>
-                #{t.tag_name}
-              </Link>
-            )
-          )}
+              <CgClose onClick={() => handleQueDeletes(t)} className='icon' />
+            )}
+            <div
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  handleQueEdits(e, t)
+                }
+              }}
+              onBlur={e => handleQueEdits(e, t)}
+              contentEditable>
+              {t.tag_name}
+            </div>
+          </div>
+        ) : (
+          <Link href={`/search/recipes/${t.tag_name}`} className='tag' key={t.guid}>
+            #{t.tag_name}
+          </Link>
+        )
+      )}
       {allowEdit ? (
         editMode ? (
           <BsCheckLg onClick={handleSubmit} className='icon edit-icon' />
