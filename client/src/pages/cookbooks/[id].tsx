@@ -8,11 +8,12 @@ import RecipeCard from './components/RecipeCard'
 import { ICookbookRes } from '@/types/@types.cookbooks'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
-import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import AddBtn from '@/components/buttons/AddBtn'
 import AddRecipeModal from './components/AddRecipeModal'
-import PeopleModal from './components/PeopleModal'
 import { ISuccessRes } from '@/types/@types.global'
+import EditCookbookModal from './components/EditCookbookModal'
+import { AiOutlineEdit } from 'react-icons/ai'
 
 type Props = {
   recipes: IRecipeRes[]
@@ -22,10 +23,13 @@ const CookbookDetailPage: React.FC<Props> = props => {
   const {
     query: { id },
   } = useRouter()
+  const { user } = useUser()
   const { cookbooks, currentCookbook, setCurrentCookbook } = useAppContext() as IAppContext
   const [recipes, setRecipes] = useState<IRecipeRes[]>(props.recipes)
   const [recipeModal, setRecipeModal] = useState(false)
-  const [peopleModal, setPeopleModal] = useState(false)
+  const [editModal, setEditModal] = useState(false)
+  
+  const allowEdit = currentCookbook?.creator_user_guid === user?.sub
 
   const {
     data,
@@ -55,12 +59,10 @@ const CookbookDetailPage: React.FC<Props> = props => {
           setRecipeModal={setRecipeModal}
         />
       )}
-      {peopleModal && <PeopleModal setPeopleModal={setPeopleModal} />}
+      {editModal && <EditCookbookModal setEditModal={setEditModal} />}
       <header id='cookbook-header'>
         <h1>{currentCookbook?.cookbook_name}</h1>
-        <button className='btn' onClick={() => setPeopleModal(true)}>
-          People
-        </button>
+        {allowEdit && <AiOutlineEdit onClick={() => setEditModal(true)} />}
       </header>
       {!recipes.length ? (
         <div id='cta-ctr'>
@@ -70,7 +72,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
             <button className='btn' onClick={() => setRecipeModal(true)}>
               Add Recipes
             </button>
-            <button className='btn' onClick={() => setPeopleModal(true)}>
+            <button className='btn' onClick={() => setEditModal(true)}>
               Invite People
             </button>
           </div>
@@ -143,14 +145,6 @@ const Style = styled.main`
     justify-content: center;
     width: 100%;
     height: 50%;
-  }
-  .btn {
-    padding: 15px 30px;
-    margin: 15px;
-    width: min-content;
-    white-space: nowrap;
-    border: 1px solid gray;
-    border-radius: 10px;
   }
 `
 

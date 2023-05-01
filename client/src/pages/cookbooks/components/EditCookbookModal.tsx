@@ -3,7 +3,7 @@ import { api } from '@/api'
 import Modal from '@/components/Modal'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
-import { IMemberResult } from '@/types/@types.user'
+import { IMemberRes } from '@/types/@types.user'
 import { serverErrorMessage } from '@/utils/utils.errors.server'
 import { validateEmail } from '@/utils/utils.validateField'
 import axios from 'axios'
@@ -14,24 +14,74 @@ import styled from 'styled-components'
 import useSWR from 'swr'
 
 type Props = {
-  setPeopleModal: (bool: boolean) => void
+  setEditModal: (bool: boolean) => void
 }
 
-const PeopleModal: FC<Props> = ({ setPeopleModal }) => {
+const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
   const {
     query: { id },
   } = useRouter()
-  const { setSnackbar } = useAppContext() as IAppContext
-  const [members, setMembers] = useState<IMemberResult[]>([])
-  const [pendingInvites, setPendingInvites] = useState<IMemberResult[]>([])
+  const router = useRouter()
+  const { setSnackbar, currentCookbook, revalidateCookbooks } = useAppContext() as IAppContext
+  const [members, setMembers] = useState<IMemberRes[]>([])
+  const [pendingInvites, setPendingInvites] = useState<IMemberRes[]>([])
   const [formError, setFormError] = useState(false)
+  const [confirmation, setConfirmation] = useState(false)
   const emailRef = useRef<HTMLInputElement>(null)
+
+  const nameRef = useRef<HTMLInputElement>(null)
 
   const {
     data,
     error,
     mutate: revalidatePeople,
   } = useSWR(`${api}/users/cookbook?cookbook_guid=${id}`, fetcher)
+
+  const handleEditName = async () => {
+    try {
+      const newName = nameRef.current?.value
+      if (!nameRef.current?.value) {
+        setSnackbar({
+          msg: 'Cookbook must have a name',
+          state: 'error',
+          duration: 3000,
+        })
+      } else if (newName !== currentCookbook?.cookbook_name) {
+        const body = {
+          cookbook_name: newName,
+          cookbook_guid: currentCookbook?.guid,
+        }
+        const res = await axios.patch(`${api}/cookbooks`, body)
+        if (res.status === 204) {
+          setSnackbar({
+            msg: 'Cookbook updated',
+            state: 'success',
+            duration: 3000,
+          })
+        }
+        revalidateCookbooks()
+      }
+    } catch (e) {
+      serverErrorMessage(e, setSnackbar)
+    }
+  }
+
+  const handleDelete = async () => {
+    try {
+      const res = await axios.delete(`${api}/cookbooks?cookbook_guid=${currentCookbook?.guid}`)
+      if (res.status === 200) {
+        setSnackbar({
+          msg: 'Cookbook deleted',
+          state: 'success',
+          duration: 3000,
+        })
+        router.push('/cookbooks')
+        revalidateCookbooks()
+      }
+    } catch (e) {
+      serverErrorMessage(e, setSnackbar)
+    }
+  }
 
   const sendInvite = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -68,12 +118,24 @@ const PeopleModal: FC<Props> = ({ setPeopleModal }) => {
   }, [data])
 
   return (
-    <Modal closeModal={() => setPeopleModal(false)}>
+    <Modal closeModal={() => setEditModal(false)}>
       <Style>
         <header>
-          <h1>People</h1>
+          <h1>Edit Cookbook</h1>
         </header>
-        <h2>Send invitation</h2>
+        <label htmlFor='cookbook-name'>
+          <h2>Edit Cookbook Name</h2>
+          <input
+            type='text'
+            name='cookbook-name'
+            ref={nameRef}
+            defaultValue={currentCookbook?.cookbook_name}
+            onKeyDown={e => e.key === 'Enter' && handleEditName()}
+          />
+          <button onClick={handleEditName}>Update</button>
+        </label>
+        <h2>People</h2>
+        <h3>Send invitation</h3>
         <form>
           <input ref={emailRef} placeholder='Type an email address' type='text' />
           <button type='submit' onClick={e => sendInvite(e)}>
@@ -81,7 +143,7 @@ const PeopleModal: FC<Props> = ({ setPeopleModal }) => {
           </button>
           {formError && <p id='form-error'>Invalid email</p>}
         </form>
-        <h2>Cookbook Members</h2>
+        <h3>Cookbook Members</h3>
         {error ? (
           'error'
         ) : (
@@ -103,7 +165,7 @@ const PeopleModal: FC<Props> = ({ setPeopleModal }) => {
             ))}
           </ul>
         )}
-        <h2>Pending Invitations</h2>
+        <h3>Pending Invitations</h3>
         <ul>
           {error
             ? 'error'
@@ -123,6 +185,20 @@ const PeopleModal: FC<Props> = ({ setPeopleModal }) => {
                 </li>
               ))}
         </ul>
+        <h2>Delete Cookbook</h2>
+        {!confirmation ? (
+          <button onClick={() => setConfirmation(true)}>Delete</button>
+        ) : (
+          <>
+            <p>Are you sure you want to delete this cookbook?</p>
+            <button type='button' onClick={handleDelete}>
+              Yes
+            </button>
+            <button type='button' onClick={() => setConfirmation(false)}>
+              No
+            </button>
+          </>
+        )}
       </Style>
     </Modal>
   )
@@ -136,19 +212,19 @@ const Style = styled.article`
     width: 100%;
     font-size: 1.4rem;
   }
+  input {
+    height: 48px;
+    width: 40%;
+  }
+  button {
+    padding: 15px 30px;
+    margin-left: 15px;
+    width: min-content;
+    white-space: nowrap;
+    border: 1px solid gray;
+    border-radius: 10px;
+  }
   form {
-    input {
-      height: 48px;
-      width: 40%;
-    }
-    button {
-      padding: 15px 30px;
-      margin-left: 15px;
-      width: min-content;
-      white-space: nowrap;
-      border: 1px solid gray;
-      border-radius: 10px;
-    }
     #form-error {
       color: red;
       height: 22px;
@@ -183,4 +259,4 @@ const Style = styled.article`
   }
 `
 
-export default PeopleModal
+export default EditCookbookModal

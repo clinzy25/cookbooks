@@ -31,7 +31,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const getTagsQuery = () =>
     currentCookbook
-      ? `${api}/tags?cookbook_guid=${id}`
+      ? pathname === '/cookbooks/[id]' && `${api}/tags?cookbook_guid=${id}`
       : pathname === '/cookbooks' && `${api}/tags?user_guid=${user?.sub}`
 
   const {

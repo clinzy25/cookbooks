@@ -1,5 +1,4 @@
 import knex from '../db/db'
-import { ICookbook } from '../types/@types.cookbooks'
 
 export async function dbGetCookbooks(guid: string) {
   try {
