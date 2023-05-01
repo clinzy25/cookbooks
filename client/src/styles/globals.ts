@@ -1,7 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 
 export default createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
   :root {
     --max-width: 1100px;
     --border-radius: 12px;
