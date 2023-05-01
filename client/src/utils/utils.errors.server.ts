@@ -9,13 +9,28 @@ export const serverErrorMessage = (e: unknown, setSnackbar: (config: ISnackbar) 
   console.error(e)
   if (e instanceof AxiosError) {
     const errorKey = e.response?.data.type
+    if (serverErrorMessageMap.has(errorKey)) {
+      setSnackbar({
+        msg: serverErrorMessageMap.get(errorKey),
+        state: 'error',
+        duration: 3000,
+      })
+    } else {
+      setSnackbar({
+        msg: GENERIC_RES,
+        state: 'error',
+        duration: 3000,
+      })
+    }
+  } else {
     setSnackbar({
-      msg: serverErrorMessageMap.get(errorKey),
+      msg: GENERIC_RES,
       state: 'error',
       duration: 3000,
     })
   }
 }
+
 /**
  * ERROR_TYPE = /server/utils/utils.errors **MUST MATCH**
  * ERROR_TYPE_MSG = 'Message to display to the user'

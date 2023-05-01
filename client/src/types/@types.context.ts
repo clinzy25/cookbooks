@@ -1,4 +1,6 @@
+import { KeyedMutator } from 'swr'
 import { ICookbookRes } from './@types.cookbooks'
+import { ITag } from './@types.tags'
 
 export interface IAppContext {
   cookbooks: ICookbookRes[]
@@ -10,12 +12,7 @@ export interface IAppContext {
   revalidateCookbooks: () => void
   tags: ITag[]
   tagsError: boolean
-  revalidateTags: () => void
-}
-
-export interface ITag {
-  tag_name: string
-  guid: string
+  revalidateTags: KeyedMutator<ITag[]>
 }
 
 export interface ISnackbar {

@@ -28,7 +28,6 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   })
   const [cookbooks, setCookbooks] = useState<ICookbookRes[]>([])
   const [currentCookbook, setCurrentCookbook] = useState<ICookbookRes | null>(null)
-  const [tags, setTags] = useState<ITag[]>([])
 
   const getTagsQuery = () =>
     currentCookbook
@@ -36,7 +35,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
       : pathname === '/cookbooks' && `${api}/tags?user_guid=${user?.sub}`
 
   const {
-    data: tagsData,
+    data: tags,
     error: tagsError,
     mutate: revalidateTags,
   } = useSWR(getTagsQuery(), fetcher)
@@ -46,10 +45,6 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     error: cookbooksError,
     mutate: revalidateCookbooks,
   } = useSWR(!isLoading && !userError && `${api}/cookbooks?user_guid=${user?.sub}`, fetcher)
-
-  useEffect(() => {
-    tagsData?.data && setTags(tagsData.data)
-  }, [tagsData])
 
   useEffect(() => {
     cookbooksData && setCookbooks(cookbooksData.data)

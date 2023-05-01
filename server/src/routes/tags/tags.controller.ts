@@ -10,12 +10,6 @@ import {
   MISSING_REQUIRED_PARAMS,
   RESOURCE_NOT_FOUND,
 } from '../../utils/utils.errors'
-import {
-  REQUEST_SUCCEEDED,
-  RESOURCE_DELETED_SUCCESSFULLY,
-  RESOURCE_UPDATED_SUCCESSFULLY,
-  handleSuccess,
-} from '../../utils/utils.success'
 
 export async function httpGetTags(req: Request, res: Response, next: NextFunction) {
   const cookbook_guid = req.query.cookbook_guid?.toString()
@@ -30,7 +24,7 @@ export async function httpGetTags(req: Request, res: Response, next: NextFunctio
       const result = await dbGetTagsByCookbook(cookbook_guid)
       tags = result.rows
     }
-    return handleSuccess(REQUEST_SUCCEEDED, res, tags)
+    return res.status(200).json(tags)
   } catch (e) {
     next(e)
   }
@@ -42,7 +36,8 @@ export async function httpDeleteTags(req: Request, res: Response, next: NextFunc
     if (!tags.length) throw new Error(INCOMPLETE_REQUEST_BODY)
     const result = await dbDeleteTags(tags, cookbook_guid)
     if (!result) throw new Error(RESOURCE_NOT_FOUND)
-    return handleSuccess(RESOURCE_DELETED_SUCCESSFULLY, res, result[0])
+    const response = result.rows.map(r => r.tag_name)
+    return res.status(200).json(response)
   } catch (e) {
     next(e)
   }
@@ -53,9 +48,9 @@ export async function httpUpdateTag(req: Request, res: Response, next: NextFunct
   try {
     if (!tags.length || !cookbook_guid) throw new Error(INCOMPLETE_REQUEST_BODY)
     const result = await dbUpdateTags(tags, cookbook_guid)
-    console.log(result)
     if (!result) throw new Error(RESOURCE_NOT_FOUND)
-    return handleSuccess(RESOURCE_UPDATED_SUCCESSFULLY, res, result[0])
+    const response = result.map(r => r.rows[0])
+    return res.status(200).json(response)
   } catch (e) {
     next(e)
   }
