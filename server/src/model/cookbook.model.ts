@@ -13,6 +13,7 @@ export async function dbGetCookbooks(user_guid: string) {
         LEFT JOIN cookbook_members cm ON cm.cookbook_id = c.id
         WHERE u.guid = '${user_guid}'
         OR cm.cookbook_id = c.id
+        GROUP BY c.guid, creator_user_guid, c.cookbook_name, c.created_at, c.updated_at 
         ORDER BY c.updated_at DESC
     `)
   } catch (e) {

@@ -100,7 +100,6 @@ export async function dbCharSearchRecipes(
       JOIN cookbook_members cm ON cm.cookbook_id = c.id
       WHERE tag_name ILIKE '%${searchVal}%'
       ${whereClause}
-      GROUP BY tag_name, t.guid, c.guid
     `)
   } catch (e) {
     console.error(e)
