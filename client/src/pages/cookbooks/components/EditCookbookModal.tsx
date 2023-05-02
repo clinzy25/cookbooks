@@ -26,7 +26,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
   const [members, setMembers] = useState<IMemberRes[]>([])
   const [pendingInvites, setPendingInvites] = useState<IMemberRes[]>([])
   const [formError, setFormError] = useState(false)
-  const [confirmation, setConfirmation] = useState(false)
+  const [confirm, setConfirm] = useState(false)
   const emailRef = useRef<HTMLInputElement>(null)
 
   const nameRef = useRef<HTMLInputElement>(null)
@@ -186,15 +186,15 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
               ))}
         </ul>
         <h2>Delete Cookbook</h2>
-        {!confirmation ? (
-          <button onClick={() => setConfirmation(true)}>Delete</button>
+        {!confirm ? (
+          <button onClick={() => setConfirm(true)}>Delete</button>
         ) : (
           <>
             <p>Are you sure you want to delete this cookbook?</p>
             <button type='button' onClick={handleDelete}>
               Yes
             </button>
-            <button type='button' onClick={() => setConfirmation(false)}>
+            <button type='button' onClick={() => setConfirm(false)}>
               No
             </button>
           </>

@@ -7,14 +7,15 @@ import styled from 'styled-components'
 type Props = {
   closeModal: () => void
   children: ReactNode
+  type?: 'confirm'
 }
 
-const Modal: FC<Props> = ({ closeModal, children }) => {
+const Modal: FC<Props> = ({ closeModal, children, type }) => {
   const modalRef = useRef(null)
   useOutsideAlerter(modalRef, closeModal)
 
   return (
-    <Style ref={modalRef} id='modal'>
+    <Style ref={modalRef} id='modal' type={type}>
       <ModalGlobalStyles />
       <AiFillCloseCircle id='close-btn' onClick={closeModal} />
       {children}
@@ -22,15 +23,18 @@ const Modal: FC<Props> = ({ closeModal, children }) => {
   )
 }
 
-const Style = styled.div`
+type StyleProps = {
+  type?: 'confirm'
+}
+
+const Style = styled.div<StyleProps>`
   position: fixed;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 2;
-  height: 80%;
-  width: 50%;
+  height: ${props => (props.type === 'confirm' ? '40%' : '80%')};
+  width: ${props => (props.type === 'confirm' ? '40%' : '50%')};
   background-color: white;
   border: 1px solid gray;
   border-radius: 15px;

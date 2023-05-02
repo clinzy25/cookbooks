@@ -17,7 +17,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       {asPath !== '/' && <Navbar />}
-      <PageWrapper id='page-wrapper' navbarHeight={NAVBAR_HEIGHT}>
+      <PageWrapper navbarHeight={NAVBAR_HEIGHT}>
         <GlobalStyle />
         <Component {...pageProps} />
       </PageWrapper>
