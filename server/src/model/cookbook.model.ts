@@ -1,6 +1,6 @@
 import knex from '../db/db'
 
-export async function dbGetCookbooks(guid: string) {
+export async function dbGetCookbooks(user_guid: string) {
   try {
     return await knex.raw(`
         SELECT
@@ -10,8 +10,8 @@ export async function dbGetCookbooks(guid: string) {
           c.created_at,
           c.updated_at FROM cookbooks c
         JOIN users u ON u.id = c.creator_user_id
-        JOIN cookbook_members cm ON cm.cookbook_id = c.id
-        WHERE u.guid = '${guid}'
+        LEFT JOIN cookbook_members cm ON cm.cookbook_id = c.id
+        WHERE u.guid = '${user_guid}'
         OR cm.cookbook_id = c.id
         ORDER BY c.updated_at
     `)
