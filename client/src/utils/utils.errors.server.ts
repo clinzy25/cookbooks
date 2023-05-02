@@ -2,7 +2,8 @@
  * ERROR_TYPE = /server/utils/utils.errors **MUST MATCH**
  * ERROR_TYPE_MSG = 'Message to display to the user'
  */
-export const GENERIC_RES = 'Someth
+export const GENERIC_RES = 'Something went wrong'
+
 export const INVALID_URL = 'errors/invalid-url'
 export const INVALID_URL_MSG = 'Invalid URL'
 
