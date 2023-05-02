@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { dbAddRecipe, dbGetCookbookRecipes, dbGetRecipe } from '../../model/recipe.model'
+import { dbAddRecipe, dbDeleteRecipe, dbGetCookbookRecipes, dbGetRecipe } from '../../model/recipe.model'
 import recipeDataScraper from 'recipe-data-scraper'
 import fetch from 'node-fetch'
 import {
@@ -8,6 +8,7 @@ import {
   INVALID_URL,
   MISSING_REQUIRED_PARAMS,
   RECIPE_NOT_FOUND,
+  RESOURCE_NOT_FOUND,
 } from '../../utils/utils.errors'
 import { IRecipe } from '../../types/@types.recipes'
 import { uploadToS3 } from './recipe.utils'
@@ -68,6 +69,19 @@ export async function httpParseRecipe(req: Request, res: Response, next: NextFun
       }
     }
     return handleSuccess(RESOURCE_CREATED_SUCCESSFULLY, res, response)
+  } catch (e) {
+    next(e)
+  }
+}
+
+export async function httpDeleteRecipe(req: Request, res: Response, next: NextFunction) {
+  const recipe_guid = req.query.recipe_guid?.toString()
+  try {
+    if (!recipe_guid) throw new Error(MISSING_REQUIRED_PARAMS)
+    const result = await dbDeleteRecipe(recipe_guid)
+    if (!result.length) throw new Error(RESOURCE_NOT_FOUND)
+    console.log(result)
+    return handleSuccess(REQUEST_SUCCEEDED, res, result)
   } catch (e) {
     next(e)
   }

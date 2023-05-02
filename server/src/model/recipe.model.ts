@@ -115,7 +115,7 @@ export async function dbAddRecipe(recipe: IRecipe) {
     url: source_url,
     source_type,
     is_private,
-    tags
+    tags,
   } = transformParsedRecipe(recipe)
   try {
     const cleanTag = (tag: string) => tag.replace(/\s/g, '').replace(/\//g, '-').toLowerCase()
@@ -148,6 +148,14 @@ export async function dbAddRecipe(recipe: IRecipe) {
       VALUES ${tags.map(t => `((SELECT recipe_id FROM insert_1), '${cleanTag(t)}')`).join(',')}
       RETURNING recipe_id
     `)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function dbDeleteRecipe(recipe_guid: string) {
+  try {
+    return await knex('recipes').where({ guid: recipe_guid }).del().returning('guid')
   } catch (e) {
     console.error(e)
   }
