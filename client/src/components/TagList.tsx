@@ -1,5 +1,5 @@
 import useAppContext from '@/context/app.context'
-import { IAppContext, ITag } from '@/types/@types.context'
+import { IAppContext } from '@/types/@types.context'
 import Link from 'next/link'
 import React, { FC, FocusEvent, KeyboardEvent, useEffect, useState } from 'react'
 import { AiOutlineEdit, AiOutlineUndo } from 'react-icons/ai'
@@ -12,6 +12,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import Loader from './Loader'
+import { IEditTag, ITag } from '@/types/@types.tags'
 
 const TagList: FC = () => {
   const { pathname } = useRouter()
@@ -24,7 +25,7 @@ const TagList: FC = () => {
   )
   const [editMode, setEditMode] = useState(false)
   const [tagsToDelete, setTagsToDelete] = useState<ITag[]>([])
-  const [tagsToEdit, setTagsToEdit] = useState<ITag[]>([])
+  const [tagsToEdit, setTagsToEdit] = useState<IEditTag[]>([])
   const [submitTrigger, setSubmitTrigger] = useState(false)
 
   const verifyNewTagName = (newTagName: string | null, oldTagName: string) => {
@@ -45,7 +46,7 @@ const TagList: FC = () => {
   ) => {
     const newTagName = e.currentTarget.textContent
     const isValidTag = verifyNewTagName(newTagName, tag.tag_name)
-    if (isValidTag) {
+    if (isValidTag && newTagName) {
       const newTag = {
         ...tag,
         new_tag_name: newTagName,

@@ -3,6 +3,9 @@ export interface ITag {
   weight: number
   guid: string
 }
+export interface IEditTag extends ITag {
+  new_tag_name: string
+}
 
 export interface IEditTagRes {
   tag_name: string
