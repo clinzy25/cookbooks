@@ -4,15 +4,14 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
-import RecipeCard from './components/RecipeCard'
-import { ICookbookRes } from '@/types/@types.cookbooks'
+import RecipeCard from '../components/RecipeCard'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
-import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client'
+import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import AddBtn from '@/components/buttons/AddBtn'
-import AddRecipeModal from './components/AddRecipeModal'
+import AddRecipeModal from '../components/AddRecipeModal'
 import { ISuccessRes } from '@/types/@types.global'
-import EditCookbookModal from './components/EditCookbookModal'
+import EditCookbookModal from '../components/EditCookbookModal'
 import { AiOutlineEdit } from 'react-icons/ai'
 
 type Props = {
@@ -21,29 +20,22 @@ type Props = {
 
 const CookbookDetailPage: React.FC<Props> = props => {
   const {
-    query: { id },
+    query: { cookbook },
   } = useRouter()
-  const { user } = useUser()
-  const { cookbooks, currentCookbook, setCurrentCookbook } = useAppContext() as IAppContext
+  const { currentCookbook, isCookbookCreator } = useAppContext() as IAppContext
   const [recipes, setRecipes] = useState<IRecipeRes[]>(props.recipes)
   const [recipeModal, setRecipeModal] = useState(false)
   const [editModal, setEditModal] = useState(false)
-  
-  const allowEdit = currentCookbook?.creator_user_guid === user?.sub
 
   const {
     data,
     error,
     mutate: revalidateRecipes,
-  } = useSWR<ISuccessRes, Error>(`${api}/recipes/cookbook?cookbook=${id}`, fetcher)
+  } = useSWR<ISuccessRes, Error>(`${api}/recipes/cookbook?cookbook=${cookbook}`, fetcher)
 
   useEffect(() => {
     data?.data && setRecipes(data.data)
   }, [data])
-
-  useEffect(() => {
-    setCurrentCookbook(cookbooks.find((cb: ICookbookRes) => cb.guid === id) || null)
-  }, [cookbooks, setCurrentCookbook, id])
 
   if (!data && !recipes) {
     return <p>loading...</p>
@@ -62,7 +54,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
       {editModal && <EditCookbookModal setEditModal={setEditModal} />}
       <header id='cookbook-header'>
         <h1>{currentCookbook?.cookbook_name}</h1>
-        {allowEdit && <AiOutlineEdit onClick={() => setEditModal(true)} />}
+        {isCookbookCreator && <AiOutlineEdit onClick={() => setEditModal(true)} />}
       </header>
       {!recipes.length ? (
         <div id='cta-ctr'>
@@ -90,10 +82,10 @@ const CookbookDetailPage: React.FC<Props> = props => {
 }
 
 export async function getServerSideProps(context: {
-  params: { id: string }
+  params: { cookbook: string }
 }): Promise<{ props: Props }> {
-  const id = context.params.id
-  const res = await fetcher(`${api}/recipes/cookbook?cookbook=${id}`)
+  const cookbook = context.params.cookbook
+  const res = await fetcher(`${api}/recipes/cookbook?cookbook=${cookbook}`)
   return { props: { recipes: res.data } }
 }
 

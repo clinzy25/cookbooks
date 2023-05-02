@@ -8,10 +8,14 @@ import Link from 'next/link'
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { BiSearch } from 'react-icons/bi'
+import { useRouter } from 'next/router'
 
 const Search: FC = () => {
+  const {
+    query: { cookbook },
+  } = useRouter()
   const { user } = useUser()
-  const { currentCookbook, handleServerError } = useAppContext() as IAppContext
+  const { handleServerError } = useAppContext() as IAppContext
   const [searchVal, setSearchVal] = useState('')
   const [searchResults, setSearchResults] = useState<ISearchResults | null>(null)
   const [showSearchBar, setShowSearchBar] = useState(false)
@@ -21,7 +25,7 @@ const Search: FC = () => {
 
   const searchRecipes = useCallback(async () => {
     const query = `${
-      currentCookbook ? `cookbook_guid=${currentCookbook.guid}` : `user_guid=${user?.sub}`
+      cookbook ? `cookbook_guid=${cookbook}` : `user_guid=${user?.sub}`
     }&search_val=${searchVal}`
     try {
       const res = await fetcher(`${api}/search/recipes?${query}`)
@@ -29,7 +33,7 @@ const Search: FC = () => {
     } catch (e) {
       handleServerError(e)
     }
-  }, [searchVal, currentCookbook, user?.sub, handleServerError])
+  }, [searchVal, cookbook, user?.sub, handleServerError])
 
   useEffect(() => {
     searchVal ? searchRecipes() : setSearchResults(null)
@@ -42,7 +46,7 @@ const Search: FC = () => {
         <input
           value={searchVal}
           onChange={e => setSearchVal(e.target.value)}
-          placeholder={currentCookbook ? 'Search this cookbook...' : 'Search all recipes...'}
+          placeholder={cookbook ? 'Search this cookbook...' : 'Search all recipes...'}
           type='text'
         />
       </div>
@@ -54,7 +58,7 @@ const Search: FC = () => {
               <p>
                 <Link
                   onClick={() => setSearchResults(null)}
-                  href={`/recipe/${r.guid}`}
+                  href={`/cookbooks/${r.cookbook_guid}/recipe/${r.guid}`}
                   key={r.guid}>
                   {r.name}
                 </Link>
@@ -67,7 +71,7 @@ const Search: FC = () => {
               <p>
                 <Link
                   onClick={() => setSearchResults(null)}
-                  href={`/search/recipes/${t.name.substring(1)}`}
+                  href={`/search/${t.name.substring(1)}`}
                   key={t.guid}>
                   {t.name}
                 </Link>

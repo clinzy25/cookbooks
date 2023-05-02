@@ -7,6 +7,7 @@ import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import Loader from '@/components/Loader'
 import { IRecipeReq, RecipeSourceTypes } from '@/types/@types.recipes'
+import { useRouter } from 'next/router'
 
 type Props = {
   setRecipeModal: (bool: boolean) => void
@@ -14,7 +15,10 @@ type Props = {
 }
 
 const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
-  const { setSnackbar, currentCookbook, revalidateTags, handleServerError } =
+    const {
+      query: { cookbook },
+    } = useRouter()
+  const { setSnackbar, revalidateTags, handleServerError } =
     useAppContext() as IAppContext
   const [selection, setSelection] = useState<RecipeSourceTypes>('')
   const [loading, setLoading] = useState(false)
@@ -26,7 +30,7 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
       const recipes: IRecipeReq[] = [
         {
           url,
-          cookbook_guid: currentCookbook?.guid,
+          cookbook_guid: cookbook,
           source_type: selection,
           is_private: 0,
         },

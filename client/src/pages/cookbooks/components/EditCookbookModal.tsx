@@ -18,7 +18,7 @@ type Props = {
 
 const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
   const {
-    query: { id },
+    query: { cookbook },
   } = useRouter()
   const router = useRouter()
   const { setSnackbar, currentCookbook, revalidateCookbooks, handleServerError } =
@@ -35,7 +35,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
     data,
     error,
     mutate: revalidatePeople,
-  } = useSWR(`${api}/users/cookbook?cookbook_guid=${id}`, fetcher)
+  } = useSWR(`${api}/users/cookbook?cookbook_guid=${cookbook}`, fetcher)
 
   const handleEditName = async () => {
     try {
@@ -45,7 +45,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
       } else if (newName !== currentCookbook?.cookbook_name) {
         const body = {
           cookbook_name: newName,
-          cookbook_guid: currentCookbook?.guid,
+          cookbook_guid: cookbook,
         }
         const res = await axios.patch(`${api}/cookbooks`, body)
         if (res.status === 204) {
@@ -60,7 +60,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
 
   const handleDelete = async () => {
     try {
-      const res = await axios.delete(`${api}/cookbooks?cookbook_guid=${currentCookbook?.guid}`)
+      const res = await axios.delete(`${api}/cookbooks?cookbook_guid=${cookbook}`)
       if (res.status === 200) {
         setSnackbar({ msg: 'Cookbook deleted', state: 'success' })
         router.push('/cookbooks')
@@ -81,7 +81,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
       const invites = [
         {
           email: emailRef.current.value,
-          cookbook_guid: id,
+          cookbook_guid: cookbook,
         },
       ]
       try {

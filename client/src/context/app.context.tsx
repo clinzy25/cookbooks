@@ -21,13 +21,14 @@ export const AppContext = createContext<IAppContext | null>(null)
 
 export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   const {
-    query: { id },
+    query: { cookbook },
     pathname,
   } = useRouter()
   const { user, error: userError, isLoading } = useUser()
   const [snackbar, setSnackbar] = useState<ISnackbar>({ msg: '', state: '' })
   const [cookbooks, setCookbooks] = useState<ICookbookRes[]>([])
   const [currentCookbook, setCurrentCookbook] = useState<ICookbookRes | null>(null)
+  const [isCookbookCreator, setIsCookbookCreator] = useState(false)
   const [tags, setTags] = useState<ITag[]>([])
 
   /**
@@ -48,9 +49,19 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }
 
+  const handleCurrentCookbook = () => {
+    if (pathname === '/cookbooks/[cookbook]') {
+      const cb = cookbooks.find((cb: ICookbookRes) => cb.guid === cookbook)
+      setIsCookbookCreator(cb?.creator_user_guid === user?.sub)
+      setCurrentCookbook(cb || null)
+    } else {
+      setCurrentCookbook(null)
+    }
+  }
+
   const getTagsQuery = () =>
     currentCookbook
-      ? pathname === '/cookbooks/[id]' && `${api}/tags?cookbook_guid=${id}`
+      ? pathname === '/cookbooks/[cookbook]' && `${api}/tags?cookbook_guid=${cookbook}`
       : pathname === '/cookbooks' && `${api}/tags?user_guid=${user?.sub}`
 
   const {
@@ -74,6 +85,10 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [tagsData])
 
   useEffect(() => {
+    handleCurrentCookbook()
+  }, [pathname, cookbooks]) // eslint-disable-line
+
+  useEffect(() => {
     const timeout = setTimeout(() => setSnackbar({ msg: '', state: '' }), SNACKBAR_DURATION_MS)
     return () => clearTimeout(timeout)
   }, [snackbar])
@@ -91,7 +106,8 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
         tags,
         tagsError,
         revalidateTags,
-        handleServerError
+        handleServerError,
+        isCookbookCreator,
       }}>
       {children}
     </AppContext.Provider>

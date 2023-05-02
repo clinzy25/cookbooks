@@ -1,7 +1,5 @@
 import { api, fetcher } from '@/api'
-import useAppContext from '@/context/app.context'
 import RecipeCard from '@/pages/cookbooks/components/RecipeCard'
-import { IAppContext } from '@/types/@types.context'
 import { IRecipeRes } from '@/types/@types.recipes'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { useRouter } from 'next/router'
@@ -9,22 +7,20 @@ import React, { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
 
-const SearchResultsRecipes: FC = () => {
+const SearchResults: FC = () => {
   const {
-    query: { id },
+    query: { tag, cookbook },
   } = useRouter()
   const { user } = useUser()
-  const { currentCookbook } = useAppContext() as IAppContext
   const [recipes, setRecipes] = useState([])
 
   const getSearchParams = () =>
-    currentCookbook ? `cookbook_guid=${currentCookbook?.guid}` : `user_guid=${user?.sub}`
-
+    cookbook ? `cookbook_guid=${cookbook}` : `user_guid=${user?.sub}`
+    
   const { data, error } = useSWR(
-    `${api}/search/recipes/tag?tag_name=${id}&${getSearchParams()}`,
+    `${api}/search/recipes/tag?tag_name=${tag}&${getSearchParams()}`,
     fetcher
   )
-
   useEffect(() => {
     data?.data && setRecipes(data.data)
   }, [data])
@@ -37,7 +33,7 @@ const SearchResultsRecipes: FC = () => {
   }
   return (
     <Style>
-      <h1>#{id}</h1>
+      <h1>#{tag}</h1>
       <div id='recipe-ctr'>
         {recipes?.map((recipe: IRecipeRes) => (
           <RecipeCard {...recipe} key={recipe.guid} />
@@ -60,4 +56,4 @@ const Style = styled.main`
   }
 `
 
-export default SearchResultsRecipes
+export default SearchResults

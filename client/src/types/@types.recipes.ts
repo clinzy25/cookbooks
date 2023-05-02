@@ -27,7 +27,7 @@ export interface IRecipeRes {
 
 export interface IRecipeReq {
   url: string
-  cookbook_guid?: string
+  cookbook_guid?: string | string[]
   source_type: RecipeSourceTypes
   is_private: number
 }

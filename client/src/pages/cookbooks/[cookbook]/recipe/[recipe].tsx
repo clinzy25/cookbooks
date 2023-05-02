@@ -22,20 +22,18 @@ const RecipePage: React.FC<Props> = props => {
   const { guid, name, creator_user_email, image, description, cook_time, prep_time, total_time,
     yield: recipeYield, ingredients, instructions, tags, source_url, created_at,
   } = props.recipe
-  const { currentCookbook, setSnackbar, handleServerError } = useAppContext() as IAppContext
+  const { setSnackbar, handleServerError, isCookbookCreator } = useAppContext() as IAppContext
   const {
-    query: { id },
+    query: { recipe: recipeGuid, cookbook },
   } = useRouter()
   const router = useRouter()
   const { user } = useUser()
   const [recipe, setRecipe] = useState<IRecipeRes>(props.recipe)
   const [confirm, setConfirm] = useState(false)
-  const [allowEdit] = useState(
-    creator_user_email === user?.email || currentCookbook?.creator_user_guid === user?.sub
-  )
+  const [allowEdit] = useState(creator_user_email === user?.email || isCookbookCreator)
 
   const { data, error } = useSWR<ISuccessRes, Error>(
-    `${api}/recipes?recipe_guid=${id}`,
+    `${api}/recipes?recipe_guid=${recipeGuid}`,
     fetcher
   )
 
@@ -45,7 +43,7 @@ const RecipePage: React.FC<Props> = props => {
       if (res.status === 200) {
         setSnackbar({ msg: 'Recipe deleted', state: 'success' })
       }
-      router.push(`/cookbooks/${currentCookbook?.guid}`)
+      router.push(`/cookbooks/${cookbook}`)
     } catch (e) {
       handleServerError(e)
     }
@@ -118,10 +116,10 @@ const RecipePage: React.FC<Props> = props => {
 }
 
 export async function getServerSideProps(context: {
-  params: { id: string }
+  params: { recipe: string }
 }): Promise<{ props: Props }> {
-  const id = context.params.id
-  const res = await fetcher(`${api}/recipes?recipe_guid=${id}`)
+  const recipe = context.params.recipe
+  const res = await fetcher(`${api}/recipes?recipe_guid=${recipe}`)
   return { props: { recipe: res.data } }
 }
 

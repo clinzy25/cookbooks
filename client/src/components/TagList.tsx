@@ -9,19 +9,22 @@ import styled from 'styled-components'
 import { api } from '@/api'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { useUser } from '@auth0/nextjs-auth0/client'
 import Loader from './Loader'
 import { IEditTag, ITag } from '@/types/@types.tags'
 
 const TagList: FC = () => {
-  const { pathname } = useRouter()
-  const { user } = useUser()
-  const { tags, tagsError, setSnackbar, handleServerError, revalidateTags, currentCookbook } =
-    useAppContext() as IAppContext
+  const {
+    query: { cookbook },
+  } = useRouter()
+  const {
+    tags,
+    tagsError,
+    setSnackbar,
+    handleServerError,
+    revalidateTags,
+    isCookbookCreator,
+  } = useAppContext() as IAppContext
 
-  const [allowEdit, setAllowEdit] = useState(
-    pathname === '/cookbooks[id]' && currentCookbook?.creator_user_guid === user?.sub
-  )
   const [editMode, setEditMode] = useState(false)
   const [tagsToDelete, setTagsToDelete] = useState<ITag[]>([])
   const [tagsToEdit, setTagsToEdit] = useState<IEditTag[]>([])
@@ -76,7 +79,7 @@ const TagList: FC = () => {
     revalidateTags(optimisticData, false)
     const body = {
       tags: tagsToEdit,
-      cookbook_guid: currentCookbook?.guid,
+      cookbook_guid: cookbook,
     }
     await axios.patch(`${api}/tags`, body)
   }
@@ -86,7 +89,7 @@ const TagList: FC = () => {
     revalidateTags(optimisticData, false)
     const body = {
       tags: tagsToDelete,
-      cookbook_guid: currentCookbook?.guid,
+      cookbook_guid: cookbook,
     }
     await axios.delete(`${api}/tags`, { data: body })
   }
@@ -111,12 +114,6 @@ const TagList: FC = () => {
       handleServerError(e)
     }
   }
-
-  useEffect(() => {
-    setAllowEdit(
-      pathname === '/cookbooks/[id]' && currentCookbook?.creator_user_guid === user?.sub
-    )
-  }, [currentCookbook]) // eslint-disable-line
 
   useEffect(() => {
     submitTrigger && handleSubmit()
@@ -148,12 +145,17 @@ const TagList: FC = () => {
             </span>
           </div>
         ) : (
-          <Link href={`/search/recipes/${t.tag_name}`} className='tag' key={t.guid}>
+          <Link
+            href={
+              cookbook ? `/cookbooks/${cookbook}/search/${t.tag_name}` : `search/${t.tag_name}`
+            }
+            className='tag'
+            key={t.guid}>
             #{t.tag_name}
           </Link>
         )
       )}
-      {allowEdit ? (
+      {cookbook && isCookbookCreator ? (
         editMode ? (
           <BsCheckLg onClick={handleSubmit} className='icon edit-icon' />
         ) : (

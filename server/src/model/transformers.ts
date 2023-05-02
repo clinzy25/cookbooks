@@ -30,6 +30,7 @@ export const transformSearchResults = (sqlResult: ISearchResult[]) => {
       const recipe = {
         name: sqlRes.name,
         guid: sqlRes.guid,
+        cookbook_guid: sqlRes.cookbook_guid
       }
       result.recipes.push(recipe)
     }
