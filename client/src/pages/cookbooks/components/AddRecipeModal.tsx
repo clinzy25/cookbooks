@@ -32,11 +32,7 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
         },
       ]
       await axios.post(`${api}/recipes/parse`, { recipes })
-      setSnackbar({
-        msg: 'Recipe added!',
-        state: 'success',
-        duration: 3000,
-      })
+      setSnackbar({ msg: 'Recipe added!', state: 'success' })
       revalidateRecipes()
       revalidateTags()
       setRecipeModal(false)

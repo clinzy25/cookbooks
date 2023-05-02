@@ -32,11 +32,7 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
         const res = await axios.post(`${api}/cookbooks`, cookbook)
         if (res.status === 201) {
           revalidateCookbooks()
-          setSnackbar({
-            msg: 'Cookbook created!',
-            state: 'success',
-            duration: 3000,
-          })
+          setSnackbar({ msg: 'Cookbook created!', state: 'success' })
           setModalOpen(false)
           router.push(`/cookbooks/${res.data.data}`)
         }

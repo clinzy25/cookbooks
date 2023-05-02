@@ -41,11 +41,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
     try {
       const newName = nameRef.current?.value
       if (!nameRef.current?.value) {
-        setSnackbar({
-          msg: 'Cookbook must have a name',
-          state: 'error',
-          duration: 3000,
-        })
+        setSnackbar({ msg: 'Cookbook must have a name', state: 'error' })
       } else if (newName !== currentCookbook?.cookbook_name) {
         const body = {
           cookbook_name: newName,
@@ -53,11 +49,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
         }
         const res = await axios.patch(`${api}/cookbooks`, body)
         if (res.status === 204) {
-          setSnackbar({
-            msg: 'Cookbook updated',
-            state: 'success',
-            duration: 3000,
-          })
+          setSnackbar({ msg: 'Cookbook updated', state: 'success' })
         }
         revalidateCookbooks()
       }
@@ -70,11 +62,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
     try {
       const res = await axios.delete(`${api}/cookbooks?cookbook_guid=${currentCookbook?.guid}`)
       if (res.status === 200) {
-        setSnackbar({
-          msg: 'Cookbook deleted',
-          state: 'success',
-          duration: 3000,
-        })
+        setSnackbar({ msg: 'Cookbook deleted', state: 'success' })
         router.push('/cookbooks')
         revalidateCookbooks()
       }
@@ -100,11 +88,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
         const res = await axios.post(`${api}/users/invite`, { invites })
         if (res.status === 201) {
           revalidatePeople()
-          setSnackbar({
-            msg: 'Invitation Sent!',
-            state: 'success',
-            duration: 3000,
-          })
+          setSnackbar({ msg: 'Invitation Sent!', state: 'success' })
         }
       } catch (e) {
         serverErrorMessage(e, setSnackbar)

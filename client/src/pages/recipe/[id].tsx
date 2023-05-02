@@ -44,7 +44,7 @@ const RecipePage: React.FC<Props> = props => {
     try {
       const res = await axios.delete(`${api}/recipes?recipe_guid=${guid}`)
       if (res.status === 200) {
-        setSnackbar({ msg: 'Recipe deleted', state: 'success', duration: 3000 })
+        setSnackbar({ msg: 'Recipe deleted', state: 'success' })
       }
       router.push(`/cookbooks/${currentCookbook?.guid}`)
     } catch (e) {

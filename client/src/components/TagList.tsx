@@ -30,10 +30,10 @@ const TagList: FC = () => {
 
   const verifyNewTagName = (newTagName: string | null, oldTagName: string) => {
     if (!newTagName) {
-      setSnackbar({ msg: 'Tag name cannot be empty', state: 'error', duration: 3000 })
+      setSnackbar({ msg: 'Tag name cannot be empty', state: 'error' })
       return false
     } else if (newTagName.length > 50) {
-      setSnackbar({ msg: 'Tag name is too long', state: 'error', duration: 3000 })
+      setSnackbar({ msg: 'Tag name is too long', state: 'error' })
       return false
     } else if (newTagName !== oldTagName) {
       return true
@@ -102,7 +102,7 @@ const TagList: FC = () => {
       }
       if (tagsToDelete.length || tagsToEdit.length) {
         revalidateTags()
-        setSnackbar({ msg: 'Tags updated', state: 'success', duration: 3000 })
+        setSnackbar({ msg: 'Tags updated', state: 'success' })
       }
       setEditMode(false)
       setSubmitTrigger(false)

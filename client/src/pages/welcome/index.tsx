@@ -51,20 +51,12 @@ const WelcomePage = () => {
           const iPromise = await axios.post(`${api}/users/invite`, { invites })
           const allRes = await Promise.all([iPromise, rPromise])
           if (!allRes.every(r => r.data.status === 201)) {
-            setSnackbar({
-              msg: 'Some actions were not have been completed.',
-              state: 'error',
-              duration: 3000,
-            })
+            setSnackbar({ msg: 'Some actions were not have been completed.', state: 'error' })
           }
           return res
         })
       if (cookbookRes.status === 201) {
-        setSnackbar({
-          msg: 'Cookbook created!',
-          state: 'success',
-          duration: 3000,
-        })
+        setSnackbar({ msg: 'Cookbook created!',  state: 'success' })
         router.push(`/cookbooks/${cookbookRes.data.guid}`)
       } else {
         throw new Error('Cookbook creation failed')

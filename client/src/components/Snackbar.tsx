@@ -1,16 +1,24 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
 import { ISnackbar } from '@/types/@types.context'
+import { SNACKBAR_DURATION_MS } from '@/utils/utils.constants'
 
 type Props = {
   snackbar: ISnackbar
 }
 
 const Snackbar: FC<Props> = ({ snackbar }) => (
-  <Style snackbar={snackbar}>{snackbar.msg}</Style>
+  <Style duration={SNACKBAR_DURATION_MS} state={snackbar.state}>
+    {snackbar.msg}
+  </Style>
 )
 
-const Style = styled.div<Props>`
+type StyleProps = {
+  state: string
+  duration: number
+}
+
+const Style = styled.div<StyleProps>`
   position: fixed;
   width: min-content;
   white-space: nowrap;
@@ -25,7 +33,7 @@ const Style = styled.div<Props>`
   z-index: 3;
   color: white;
   background-color: ${props => {
-    switch (props.snackbar.state) {
+    switch (props.state) {
       case 'success':
         return '#16a500'
       case 'error':
@@ -34,7 +42,7 @@ const Style = styled.div<Props>`
         return '#bababa'
     }
   }};
-  animation: ${props => `snackbarIn ${props.snackbar.duration}ms ease-out`};
+  animation: ${props => `snackbarIn ${props.duration}ms ease-out`};
   @keyframes snackbarIn {
     0% {
       transform: translateY(200px);

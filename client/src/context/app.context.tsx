@@ -2,6 +2,7 @@ import { api, fetcher } from '@/api'
 import { IAppContext, ISnackbar } from '@/types/@types.context'
 import { ICookbookRes } from '@/types/@types.cookbooks'
 import { ITag } from '@/types/@types.tags'
+import { SNACKBAR_DURATION_MS } from '@/utils/utils.constants'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { useRouter } from 'next/router'
 import React, {
@@ -22,11 +23,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     pathname,
   } = useRouter()
   const { user, error: userError, isLoading } = useUser()
-  const [snackbar, setSnackbar] = useState<ISnackbar>({
-    msg: '',
-    state: '',
-    duration: 3000,
-  })
+  const [snackbar, setSnackbar] = useState<ISnackbar>({ msg: '', state: '' })
   const [cookbooks, setCookbooks] = useState<ICookbookRes[]>([])
   const [currentCookbook, setCurrentCookbook] = useState<ICookbookRes | null>(null)
   const [tags, setTags] = useState<ITag[]>([])
@@ -57,10 +54,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [tagsData])
 
   useEffect(() => {
-    const timeout = setTimeout(
-      () => setSnackbar({ msg: '', state: '', duration: 3000 }),
-      snackbar.duration
-    )
+    const timeout = setTimeout(() => setSnackbar({ msg: '', state: '' }), SNACKBAR_DURATION_MS)
     return () => clearTimeout(timeout)
   }, [snackbar])
 
