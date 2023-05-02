@@ -77,7 +77,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   } = useSWR(!isLoading && !userError && `${api}/cookbooks?user_guid=${user?.sub}`, fetcher)
 
   useEffect(() => {
-    cookbooksData && setCookbooks(cookbooksData.data)
+    cookbooksData && setCookbooks(cookbooksData)
   }, [cookbooksData])
 
   useEffect(() => {

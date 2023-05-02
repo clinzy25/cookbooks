@@ -10,7 +10,6 @@ import { IAppContext } from '@/types/@types.context'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import AddBtn from '@/components/buttons/AddBtn'
 import AddRecipeModal from '../components/AddRecipeModal'
-import { ISuccessRes } from '@/types/@types.global'
 import EditCookbookModal from '../components/EditCookbookModal'
 import { AiOutlineEdit } from 'react-icons/ai'
 
@@ -31,10 +30,10 @@ const CookbookDetailPage: React.FC<Props> = props => {
     data,
     error,
     mutate: revalidateRecipes,
-  } = useSWR<ISuccessRes, Error>(`${api}/recipes/cookbook?cookbook=${cookbook}`, fetcher)
+  } = useSWR<IRecipeRes[], Error>(`${api}/recipes/cookbook?cookbook=${cookbook}`, fetcher)
 
   useEffect(() => {
-    data?.data && setRecipes(data.data)
+    data && setRecipes(data)
   }, [data])
 
   if (!data && !recipes) {
@@ -85,8 +84,8 @@ export async function getServerSideProps(context: {
   params: { cookbook: string }
 }): Promise<{ props: Props }> {
   const cookbook = context.params.cookbook
-  const res = await fetcher(`${api}/recipes/cookbook?cookbook=${cookbook}`)
-  return { props: { recipes: res.data } }
+  const recipes = await fetcher(`${api}/recipes/cookbook?cookbook=${cookbook}`)
+  return { props: { recipes } }
 }
 
 const Style = styled.main`

@@ -11,20 +11,13 @@ import {
   MISSING_REQUIRED_PARAMS,
   RESOURCE_NOT_FOUND,
 } from '../../utils/utils.errors'
-import {
-  REQUEST_SUCCEEDED,
-  RESOURCE_CREATED_SUCCESSFULLY,
-  RESOURCE_DELETED_SUCCESSFULLY,
-  RESOURCE_UPDATED_SUCCESSFULLY,
-  handleSuccess,
-} from '../../utils/utils.success'
 
 export async function httpGetCookbooks(req: Request, res: Response, next: NextFunction) {
   const user_guid = req.query.user_guid?.toString()
   try {
     if (!user_guid) throw new Error(MISSING_REQUIRED_PARAMS)
     const result = await dbGetCookbooks(user_guid)
-    return handleSuccess(REQUEST_SUCCEEDED, res, result.rows)
+    return res.status(200).json(result.rows)
   } catch (e) {
     next(e)
   }
@@ -32,12 +25,11 @@ export async function httpGetCookbooks(req: Request, res: Response, next: NextFu
 
 export async function httpCreateCookbook(req: Request, res: Response, next: NextFunction) {
   const { cookbook_name, creator_user_guid } = req.body
-  console.log(req.body)
   try {
     if (!(cookbook_name || creator_user_guid)) throw new Error(INCOMPLETE_REQUEST_BODY)
     const result = await dbCreateCookbook(cookbook_name, creator_user_guid)
     if (!result) throw new Error(FAILED_TO_CREATE_RESOURCE)
-    return handleSuccess(RESOURCE_CREATED_SUCCESSFULLY, res, result.rows[0].guid)
+    return res.status(201).json(result.rows[0].guid)
   } catch (e) {
     next(e)
   }
@@ -49,7 +41,7 @@ export async function httpUpdateCookbook(req: Request, res: Response, next: Next
     if (!cookbook_guid) throw new Error(INCOMPLETE_REQUEST_BODY)
     const result = await dbUpdateCookbook(cookbook_guid, cookbook_name)
     if (!result) throw new Error(RESOURCE_NOT_FOUND)
-    return handleSuccess(RESOURCE_UPDATED_SUCCESSFULLY, res, result[0])
+    return res.status(204).json(result[0])
   } catch (e) {
     next(e)
   }
@@ -61,7 +53,7 @@ export async function httpDeleteCookbook(req: Request, res: Response, next: Next
     if (!cookbook_guid) throw new Error(MISSING_REQUIRED_PARAMS)
     const result = await dbDeleteCookbook(cookbook_guid)
     if (!result) throw new Error(RESOURCE_NOT_FOUND)
-    return handleSuccess(RESOURCE_DELETED_SUCCESSFULLY, res, result[0])
+    return res.status(200).json(result[0])
   } catch (e) {
     next(e)
   }

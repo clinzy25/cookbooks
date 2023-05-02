@@ -6,11 +6,7 @@ import {
 } from '../../utils/utils.errors'
 import { dbGetCookbookMembers, dbSendInvite } from '../../model/user.model'
 import { transformMembers } from '../../model/transformers'
-import {
-  REQUEST_SUCCEEDED,
-  RESOURCE_CREATED_SUCCESSFULLY,
-  handleSuccess,
-} from '../../utils/utils.success'
+
 
 export async function httpGetCookbookMembers(req: Request, res: Response, next: NextFunction) {
   const cookbook_guid = req.query.cookbook_guid?.toString()
@@ -18,7 +14,7 @@ export async function httpGetCookbookMembers(req: Request, res: Response, next: 
     if (!cookbook_guid) throw new Error(MISSING_REQUIRED_PARAMS)
     const result = await dbGetCookbookMembers(cookbook_guid)
     const transformedResult = transformMembers(result)
-    return handleSuccess(REQUEST_SUCCEEDED, res, transformedResult)
+    return res.status(200).json(transformedResult)
   } catch (e) {
     next(e)
   }
@@ -40,7 +36,7 @@ export async function httpSendInvite(req: Request, res: Response, next: NextFunc
       }
       response.push(guid)
     }
-    return handleSuccess(RESOURCE_CREATED_SUCCESSFULLY, res, response)
+    return res.status(201).json(response)
   } catch (e) {
     next(e)
   }

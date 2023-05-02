@@ -12,18 +12,13 @@ import {
 } from '../../utils/utils.errors'
 import { IRecipe } from '../../types/@types.recipes'
 import { uploadToS3 } from './recipe.utils'
-import {
-  REQUEST_SUCCEEDED,
-  RESOURCE_CREATED_SUCCESSFULLY,
-  handleSuccess,
-} from '../../utils/utils.success'
 
 export async function httpGetCookbookRecipes(req: Request, res: Response, next: NextFunction) {
   const cookbook = req.query.cookbook?.toString()
   try {
     if (!cookbook) throw new Error(MISSING_REQUIRED_PARAMS)
     const result = await dbGetCookbookRecipes(cookbook)
-    return handleSuccess(REQUEST_SUCCEEDED, res, result)
+    return res.status(200).json(result)
   } catch (e) {
     next(e)
   }
@@ -34,7 +29,7 @@ export async function httpGetRecipe(req: Request, res: Response, next: NextFunct
   try {
     if (!recipe_guid) throw new Error(MISSING_REQUIRED_PARAMS)
     const recipe = await dbGetRecipe(recipe_guid)
-    return handleSuccess(REQUEST_SUCCEEDED, res, recipe)
+    return res.status(200).json(recipe)
   } catch (e) {
     next(e)
   }
@@ -68,7 +63,7 @@ export async function httpParseRecipe(req: Request, res: Response, next: NextFun
         throw new Error(FAILED_TO_CREATE_RESOURCE)
       }
     }
-    return handleSuccess(RESOURCE_CREATED_SUCCESSFULLY, res, response)
+    return res.status(200).json(response)
   } catch (e) {
     next(e)
   }
@@ -80,8 +75,7 @@ export async function httpDeleteRecipe(req: Request, res: Response, next: NextFu
     if (!recipe_guid) throw new Error(MISSING_REQUIRED_PARAMS)
     const result = await dbDeleteRecipe(recipe_guid)
     if (!result.length) throw new Error(RESOURCE_NOT_FOUND)
-    console.log(result)
-    return handleSuccess(REQUEST_SUCCEEDED, res, result)
+    return res.status(200).json(result)
   } catch (e) {
     next(e)
   }

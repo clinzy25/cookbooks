@@ -97,8 +97,8 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
   }
 
   useEffect(() => {
-    data?.data.members && setMembers(data.data.members)
-    data?.data.pending_invites && setPendingInvites(data.data.pending_invites)
+    data?.members && setMembers(data.members)
+    data?.pending_invites && setPendingInvites(data.pending_invites)
   }, [data])
 
   return (

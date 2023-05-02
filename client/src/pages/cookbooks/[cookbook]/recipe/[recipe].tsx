@@ -1,5 +1,4 @@
 import { api, fetcher } from '@/api'
-import { ISuccessRes } from '@/types/@types.global'
 import { IRecipeRes } from '@/types/@types.recipes'
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import Image from 'next/image'
@@ -32,7 +31,7 @@ const RecipePage: React.FC<Props> = props => {
   const [confirm, setConfirm] = useState(false)
   const [allowEdit] = useState(creator_user_email === user?.email || isCookbookCreator)
 
-  const { data, error } = useSWR<ISuccessRes, Error>(
+  const { data, error } = useSWR<IRecipeRes, Error>(
     `${api}/recipes?recipe_guid=${recipeGuid}`,
     fetcher
   )
@@ -50,7 +49,7 @@ const RecipePage: React.FC<Props> = props => {
   }
 
   useEffect(() => {
-    data?.data && setRecipe(data.data)
+    data && setRecipe(data)
   }, [data])
 
   if (!data && !recipe) {
@@ -118,9 +117,9 @@ const RecipePage: React.FC<Props> = props => {
 export async function getServerSideProps(context: {
   params: { recipe: string }
 }): Promise<{ props: Props }> {
-  const recipe = context.params.recipe
-  const res = await fetcher(`${api}/recipes?recipe_guid=${recipe}`)
-  return { props: { recipe: res.data } }
+  const guid = context.params.recipe
+  const recipe = await fetcher(`${api}/recipes?recipe_guid=${guid}`)
+  return { props: { recipe } }
 }
 
 const Style = styled.main`

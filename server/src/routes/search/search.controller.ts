@@ -6,7 +6,6 @@ import {
 } from '../../model/search.model'
 import { MISSING_REQUIRED_PARAMS } from '../../utils/utils.errors'
 import { transformSearchResults } from '../../model/transformers'
-import { REQUEST_SUCCEEDED, handleSuccess } from '../../utils/utils.success'
 
 export async function httpSearchRecipesByTag(req: Request, res: Response, next: NextFunction) {
   const tag_name = req.query.tag_name?.toString()
@@ -22,7 +21,7 @@ export async function httpSearchRecipesByTag(req: Request, res: Response, next: 
     } else if (user_guid) {
       results = await dbTagSearchRecipes(tag_name, user_guid)
     }
-    return handleSuccess(REQUEST_SUCCEEDED, res, results.rows)
+    return res.status(200).json(results.rows)
   } catch (e) {
     next(e)
   }
@@ -38,7 +37,7 @@ export async function httpSearchRecipes(req: Request, res: Response, next: NextF
     }
     const results = await dbCharSearchRecipes(search_val, user_guid, cookbook_guid)
     const transformedResults = transformSearchResults(results.rows)
-    return handleSuccess(REQUEST_SUCCEEDED, res, transformedResults)
+    return res.status(200).json(transformedResults)
   } catch (e) {
     next(e)
   }

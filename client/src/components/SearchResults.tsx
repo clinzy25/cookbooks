@@ -22,7 +22,7 @@ const SearchResults: FC = () => {
     fetcher
   )
   useEffect(() => {
-    data?.data && setRecipes(data.data)
+    data && setRecipes(data)
   }, [data])
 
   if (!data) {

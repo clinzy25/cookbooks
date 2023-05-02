@@ -29,7 +29,7 @@ const Search: FC = () => {
     }&search_val=${searchVal}`
     try {
       const res = await fetcher(`${api}/search/recipes?${query}`)
-      setSearchResults(res.data)
+      setSearchResults(res)
     } catch (e) {
       handleServerError(e)
     }
@@ -71,7 +71,11 @@ const Search: FC = () => {
               <p>
                 <Link
                   onClick={() => setSearchResults(null)}
-                  href={`/search/${t.name.substring(1)}`}
+                  href={
+                    cookbook
+                      ? `/cookbooks/${cookbook}/search/${t.name.substring(1)}`
+                      : `search/${t.name.substring(1)}`
+                  }
                   key={t.guid}>
                   {t.name}
                 </Link>

@@ -34,7 +34,7 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
           revalidateCookbooks()
           setSnackbar({ msg: 'Cookbook created!', state: 'success' })
           setModalOpen(false)
-          router.push(`/cookbooks/${res.data.data}`)
+          router.push(`/cookbooks/${res.data}`)
         }
       } else {
         setFormError(true)
