@@ -4,7 +4,6 @@ import Modal from '@/components/Modal'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import { IMemberRes } from '@/types/@types.user'
-import { serverErrorMessage } from '@/utils/utils.errors.server'
 import { validateEmail } from '@/utils/utils.validateField'
 import axios from 'axios'
 import Image from 'next/image'
@@ -22,7 +21,8 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
     query: { id },
   } = useRouter()
   const router = useRouter()
-  const { setSnackbar, currentCookbook, revalidateCookbooks } = useAppContext() as IAppContext
+  const { setSnackbar, currentCookbook, revalidateCookbooks, handleServerError } =
+    useAppContext() as IAppContext
   const [members, setMembers] = useState<IMemberRes[]>([])
   const [pendingInvites, setPendingInvites] = useState<IMemberRes[]>([])
   const [formError, setFormError] = useState(false)
@@ -54,7 +54,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
         revalidateCookbooks()
       }
     } catch (e) {
-      serverErrorMessage(e, setSnackbar)
+      handleServerError(e)
     }
   }
 
@@ -67,7 +67,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
         revalidateCookbooks()
       }
     } catch (e) {
-      serverErrorMessage(e, setSnackbar)
+      handleServerError(e)
     }
   }
 
@@ -91,7 +91,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
           setSnackbar({ msg: 'Invitation Sent!', state: 'success' })
         }
       } catch (e) {
-        serverErrorMessage(e, setSnackbar)
+        handleServerError(e)
       }
     }
   }

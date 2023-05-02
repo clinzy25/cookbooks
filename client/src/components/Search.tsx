@@ -3,7 +3,6 @@ import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import { ISearchResult, ISearchResults } from '@/types/@types.search'
 import { useOutsideAlerter } from '@/utils/utils.hooks'
-import { serverErrorMessage } from '@/utils/utils.errors.server'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import Link from 'next/link'
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
@@ -12,7 +11,7 @@ import { BiSearch } from 'react-icons/bi'
 
 const Search: FC = () => {
   const { user } = useUser()
-  const { currentCookbook, setSnackbar } = useAppContext() as IAppContext
+  const { currentCookbook, handleServerError } = useAppContext() as IAppContext
   const [searchVal, setSearchVal] = useState('')
   const [searchResults, setSearchResults] = useState<ISearchResults | null>(null)
   const [showSearchBar, setShowSearchBar] = useState(false)
@@ -28,9 +27,9 @@ const Search: FC = () => {
       const res = await fetcher(`${api}/search/recipes?${query}`)
       setSearchResults(res.data)
     } catch (e) {
-      serverErrorMessage(e, setSnackbar)
+      handleServerError(e)
     }
-  }, [searchVal, currentCookbook, setSnackbar, user?.sub])
+  }, [searchVal, currentCookbook, user?.sub, handleServerError])
 
   useEffect(() => {
     searchVal ? searchRecipes() : setSearchResults(null)

@@ -8,14 +8,14 @@ import { IAppContext } from '@/types/@types.context'
 import Modal from '@/components/Modal'
 import { useRouter } from 'next/router'
 import { ICookbookReq } from '@/types/@types.cookbooks'
-import { serverErrorMessage } from '@/utils/utils.errors.server'
 
 type Props = {
   setModalOpen: (bool: boolean) => void
 }
 
 const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
-  const { setSnackbar, revalidateCookbooks } = useAppContext() as IAppContext
+  const { setSnackbar, revalidateCookbooks, handleServerError } =
+    useAppContext() as IAppContext
   const router = useRouter()
   const { user } = useUser()
   const [formError, setFormError] = useState(false)
@@ -40,7 +40,7 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
         setFormError(true)
       }
     } catch (e) {
-      serverErrorMessage(e, setSnackbar)
+      handleServerError(e)
     }
   }
 

@@ -13,6 +13,7 @@ export interface IAppContext {
   tags: ITag[]
   tagsError: boolean
   revalidateTags: KeyedMutator<ITag[]>
+  handleServerError: (e: unknown) => void
 }
 
 export interface ISnackbar {

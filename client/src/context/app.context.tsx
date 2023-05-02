@@ -3,7 +3,9 @@ import { IAppContext, ISnackbar } from '@/types/@types.context'
 import { ICookbookRes } from '@/types/@types.cookbooks'
 import { ITag } from '@/types/@types.tags'
 import { SNACKBAR_DURATION_MS } from '@/utils/utils.constants'
+import { GENERIC_RES, serverErrorMessageMap } from '@/utils/utils.errors.server'
 import { useUser } from '@auth0/nextjs-auth0/client'
+import { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
 import React, {
   useContext,
@@ -27,6 +29,24 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   const [cookbooks, setCookbooks] = useState<ICookbookRes[]>([])
   const [currentCookbook, setCurrentCookbook] = useState<ICookbookRes | null>(null)
   const [tags, setTags] = useState<ITag[]>([])
+
+  /**
+   * Catch a server error of a specific type
+   * and display an associated response in UI
+   */
+  const handleServerError = (e: unknown) => {
+    console.error(e)
+    if (e instanceof AxiosError) {
+      const errorKey = e.response?.data.type
+      if (serverErrorMessageMap.has(errorKey)) {
+        setSnackbar({ msg: serverErrorMessageMap.get(errorKey), state: 'error' })
+      } else {
+        setSnackbar({ msg: GENERIC_RES, state: 'error' })
+      }
+    } else {
+      setSnackbar({ msg: GENERIC_RES, state: 'error' })
+    }
+  }
 
   const getTagsQuery = () =>
     currentCookbook
@@ -71,6 +91,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
         tags,
         tagsError,
         revalidateTags,
+        handleServerError
       }}>
       {children}
     </AppContext.Provider>

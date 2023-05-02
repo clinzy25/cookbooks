@@ -10,7 +10,6 @@ import useSWR from 'swr'
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
-import { serverErrorMessage } from '@/utils/utils.errors.server'
 import axios from 'axios'
 import Modal from '@/components/Modal'
 
@@ -23,7 +22,7 @@ const RecipePage: React.FC<Props> = props => {
   const { guid, name, creator_user_email, image, description, cook_time, prep_time, total_time,
     yield: recipeYield, ingredients, instructions, tags, source_url, created_at,
   } = props.recipe
-  const { currentCookbook, setSnackbar } = useAppContext() as IAppContext
+  const { currentCookbook, setSnackbar, handleServerError } = useAppContext() as IAppContext
   const {
     query: { id },
   } = useRouter()
@@ -48,7 +47,7 @@ const RecipePage: React.FC<Props> = props => {
       }
       router.push(`/cookbooks/${currentCookbook?.guid}`)
     } catch (e) {
-      serverErrorMessage(e, setSnackbar)
+      handleServerError(e)
     }
   }
 

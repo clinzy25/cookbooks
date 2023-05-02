@@ -5,7 +5,6 @@ import { api } from '@/api'
 import axios from 'axios'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
-import { serverErrorMessage } from '@/utils/utils.errors.server'
 import Loader from '@/components/Loader'
 import { IRecipeReq, RecipeSourceTypes } from '@/types/@types.recipes'
 
@@ -15,7 +14,8 @@ type Props = {
 }
 
 const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
-  const { setSnackbar, currentCookbook, revalidateTags } = useAppContext() as IAppContext
+  const { setSnackbar, currentCookbook, revalidateTags, handleServerError } =
+    useAppContext() as IAppContext
   const [selection, setSelection] = useState<RecipeSourceTypes>('')
   const [loading, setLoading] = useState(false)
   const linkFieldRef = useRef<HTMLInputElement>(null)
@@ -37,7 +37,7 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
       revalidateTags()
       setRecipeModal(false)
     } catch (e: unknown) {
-      serverErrorMessage(e, setSnackbar)
+      handleServerError(e)
     }
     setLoading(false)
   }

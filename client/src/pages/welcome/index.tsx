@@ -7,7 +7,6 @@ import axios from 'axios'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import { useRouter } from 'next/router'
-import { serverErrorMessage } from '@/utils/utils.errors.server'
 import { ICookbookReq } from '@/types/@types.cookbooks'
 import { validateEmail } from '@/utils/utils.validateField'
 import { IRecipeReq } from '@/types/@types.recipes'
@@ -15,7 +14,7 @@ import { IMemberReq } from '@/types/@types.user'
 import Loader from '@/components/Loader'
 
 const WelcomePage = () => {
-  const { setSnackbar } = useAppContext() as IAppContext
+  const { setSnackbar, handleServerError } = useAppContext() as IAppContext
   const router = useRouter()
   const { user } = useUser()
   const [step, setStep] = useState<0 | 1 | 2>(0)
@@ -62,7 +61,7 @@ const WelcomePage = () => {
         throw new Error('Cookbook creation failed')
       }
     } catch (e) {
-      serverErrorMessage(e, setSnackbar)
+      handleServerError(e)
       console.error(e)
     }
     setCreateLoading(false)

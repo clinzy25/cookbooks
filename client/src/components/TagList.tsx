@@ -6,7 +6,6 @@ import { AiOutlineEdit, AiOutlineUndo } from 'react-icons/ai'
 import { CgClose } from 'react-icons/cg'
 import { BsCheckLg } from 'react-icons/bs'
 import styled from 'styled-components'
-import { serverErrorMessage } from '@/utils/utils.errors.server'
 import { api } from '@/api'
 import axios from 'axios'
 import { useRouter } from 'next/router'
@@ -17,7 +16,7 @@ import { IEditTag, ITag } from '@/types/@types.tags'
 const TagList: FC = () => {
   const { pathname } = useRouter()
   const { user } = useUser()
-  const { tags, tagsError, setSnackbar, revalidateTags, currentCookbook } =
+  const { tags, tagsError, setSnackbar, handleServerError, revalidateTags, currentCookbook } =
     useAppContext() as IAppContext
 
   const [allowEdit, setAllowEdit] = useState(
@@ -109,7 +108,7 @@ const TagList: FC = () => {
       setTagsToDelete([])
       setTagsToEdit([])
     } catch (e) {
-      serverErrorMessage(e, setSnackbar)
+      handleServerError(e)
     }
   }
 

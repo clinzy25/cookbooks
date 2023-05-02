@@ -1,30 +1,8 @@
-import { ISnackbar } from '@/types/@types.context'
-import { AxiosError } from 'axios'
-
-/**
- * Catch a server error of a specific type
- * and display an associated response in UI
- */
-export const serverErrorMessage = (e: unknown, setSnackbar: (config: ISnackbar) => void) => {
-  console.error(e)
-  if (e instanceof AxiosError) {
-    const errorKey = e.response?.data.type
-    if (serverErrorMessageMap.has(errorKey)) {
-      setSnackbar({ msg: serverErrorMessageMap.get(errorKey), state: 'error' })
-    } else {
-      setSnackbar({ msg: GENERIC_RES, state: 'error', })
-    }
-  } else {
-    setSnackbar({ msg: GENERIC_RES, state: 'error' })
-  }
-}
-
 /**
  * ERROR_TYPE = /server/utils/utils.errors **MUST MATCH**
  * ERROR_TYPE_MSG = 'Message to display to the user'
  */
-const GENERIC_RES = 'Something went wrong'
-
+export const GENERIC_RES = 'Someth
 export const INVALID_URL = 'errors/invalid-url'
 export const INVALID_URL_MSG = 'Invalid URL'
 
