@@ -36,8 +36,7 @@ export async function httpDeleteTags(req: Request, res: Response, next: NextFunc
     if (!tags.length) throw new Error(INCOMPLETE_REQUEST_BODY)
     const result = await dbDeleteTags(tags, cookbook_guid)
     if (!result) throw new Error(RESOURCE_NOT_FOUND)
-    const response = result.rows.map(r => r.tag_name)
-    return res.status(200).json(response)
+    return res.status(200).json(result.rows)
   } catch (e) {
     next(e)
   }

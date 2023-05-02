@@ -1,6 +1,7 @@
 import { api, fetcher } from '@/api'
 import { IAppContext, ISnackbar } from '@/types/@types.context'
 import { ICookbookRes } from '@/types/@types.cookbooks'
+import { ITag } from '@/types/@types.tags'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { useRouter } from 'next/router'
 import React, {
@@ -28,6 +29,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   })
   const [cookbooks, setCookbooks] = useState<ICookbookRes[]>([])
   const [currentCookbook, setCurrentCookbook] = useState<ICookbookRes | null>(null)
+  const [tags, setTags] = useState<ITag[]>([])
 
   const getTagsQuery = () =>
     currentCookbook
@@ -35,7 +37,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
       : pathname === '/cookbooks' && `${api}/tags?user_guid=${user?.sub}`
 
   const {
-    data: tags,
+    data: tagsData,
     error: tagsError,
     mutate: revalidateTags,
   } = useSWR(getTagsQuery(), fetcher)
@@ -49,6 +51,10 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     cookbooksData && setCookbooks(cookbooksData.data)
   }, [cookbooksData])
+
+  useEffect(() => {
+    tagsData && setTags(tagsData)
+  }, [tagsData])
 
   useEffect(() => {
     const timeout = setTimeout(

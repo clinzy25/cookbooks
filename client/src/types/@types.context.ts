@@ -18,5 +18,5 @@ export interface IAppContext {
 export interface ISnackbar {
   msg: string
   state: 'success' | 'error' | ''
-  duration: number
+  duration?: number
 }

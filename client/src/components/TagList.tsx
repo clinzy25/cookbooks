@@ -11,7 +11,6 @@ import { api } from '@/api'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useUser } from '@auth0/nextjs-auth0/client'
-import { IEditTagRes } from '@/types/@types.tags'
 import Loader from './Loader'
 
 const TagList: FC = () => {
@@ -28,32 +27,40 @@ const TagList: FC = () => {
   const [tagsToEdit, setTagsToEdit] = useState<ITag[]>([])
   const [submitTrigger, setSubmitTrigger] = useState(false)
 
+  const verifyNewTagName = (newTagName: string | null, oldTagName: string) => {
+    if (!newTagName) {
+      setSnackbar({ msg: 'Tag name cannot be empty', state: 'error', duration: 3000 })
+      return false
+    } else if (newTagName.length > 50) {
+      setSnackbar({ msg: 'Tag name is too long', state: 'error', duration: 3000 })
+      return false
+    } else if (newTagName !== oldTagName) {
+      return true
+    }
+  }
+
   const handleQueEdits = (
-    e: FocusEvent<HTMLDivElement> | KeyboardEvent<HTMLDivElement>,
+    e: FocusEvent<HTMLSpanElement> | KeyboardEvent<HTMLSpanElement>,
     tag: ITag
   ) => {
     const newTagName = e.currentTarget.textContent
-    if (!newTagName) {
-      setSnackbar({
-        msg: 'Tag name cannot be empty',
-        state: 'error',
-        duration: 3000,
-      })
-    } else if (newTagName.length > 50) {
-      setSnackbar({
-        msg: 'Tag name is too long',
-        state: 'error',
-        duration: 3000,
-      })
-    } else if (newTagName !== tag.tag_name) {
+    const isValidTag = verifyNewTagName(newTagName, tag.tag_name)
+    if (isValidTag) {
       const newTag = {
         ...tag,
         new_tag_name: newTagName,
       }
       setTagsToEdit([...tagsToEdit, newTag])
-      if (e.type === 'keydown') setSubmitTrigger(true)
+      e.type === 'keydown' && setSubmitTrigger(true)
     } else {
-      setEditMode(false)
+      e.currentTarget.textContent = tag.tag_name
+    }
+  }
+
+  const handleEnterKey = (e: KeyboardEvent<HTMLSpanElement>, t: ITag) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      handleQueEdits(e, t)
     }
   }
 
@@ -61,60 +68,43 @@ const TagList: FC = () => {
 
   const handleUndo = (tag: ITag) => setTagsToDelete(tagsToDelete.filter(t => t !== tag))
 
-  const handleDelete = async () => {
-    const body = {
-      tags: tagsToDelete,
-      cookbook_guid: currentCookbook?.guid,
-    }
-    const { data } = await axios.delete(`${api}/tags`, { data: body })
-    return tags.filter(t => !data.includes(t.tag_name))
-  }
-
-  const handleEdit = async () => {
+  const handleSubmitEdits = async () => {
+    const optimisticData = tags.map(t => {
+      const editedTag = tagsToEdit.find(tt => tt.tag_name === t.tag_name)
+      return editedTag ? { ...t, tag_name: editedTag.new_tag_name } : t
+    })
+    revalidateTags(optimisticData, false)
     const body = {
       tags: tagsToEdit,
       cookbook_guid: currentCookbook?.guid,
     }
-    const { data } = await axios.patch(`${api}/tags`, body)
-    const editedTags = tags.map(t => {
-      const isEdited = data.find((tt: IEditTagRes) => tt.old_tag_name === t.tag_name)
-      return isEdited ? { ...t, tag_name: isEdited.tag_name } : t
-    })
-    return editedTags
+    await axios.patch(`${api}/tags`, body)
+  }
+
+  const handleSubmitDeletes = async () => {
+    const optimisticData = tags.filter(t => !tagsToDelete.includes(t))
+    revalidateTags(optimisticData, false)
+    const body = {
+      tags: tagsToDelete,
+      cookbook_guid: currentCookbook?.guid,
+    }
+    await axios.delete(`${api}/tags`, { data: body })
   }
 
   const handleSubmit = async () => {
     try {
-      const options = {
-        rollbackOnError: true,
-        populateCache: true,
-        revalidate: false,
-      }
       if (tagsToEdit.length) {
-        const optimisticData = tags.map(t => {
-          const editedTag = tagsToEdit.find(tt => tt.tag_name === t.tag_name)
-          if (editedTag) {
-            return { ...t, tag_name: editedTag.new_tag_name }
-          }
-          return t
-        })
-        await revalidateTags(handleEdit, {
-          optimisticData,
-          ...options,
-        })
+        await handleSubmitEdits()
       }
       if (tagsToDelete.length) {
-        await revalidateTags(handleDelete, {
-          optimisticData: tags.filter(t => !tagsToDelete.includes(t)),
-          ...options,
-        })
+        await handleSubmitDeletes()
       }
-      setSnackbar({
-        msg: 'Tags updated',
-        state: 'success',
-        duration: 3000,
-      })
+      if (tagsToDelete.length || tagsToEdit.length) {
+        revalidateTags()
+        setSnackbar({ msg: 'Tags updated', state: 'success', duration: 3000 })
+      }
       setEditMode(false)
+      setSubmitTrigger(false)
       setTagsToDelete([])
       setTagsToEdit([])
     } catch (e) {
@@ -123,16 +113,13 @@ const TagList: FC = () => {
   }
 
   useEffect(() => {
-    const allowEdit =
+    setAllowEdit(
       pathname === '/cookbooks/[id]' && currentCookbook?.creator_user_guid === user?.sub
-    setAllowEdit(allowEdit)
+    )
   }, [currentCookbook]) // eslint-disable-line
 
   useEffect(() => {
-    if (submitTrigger) {
-      handleSubmit()
-      setSubmitTrigger(false)
-    }
+    submitTrigger && handleSubmit()
   }, [submitTrigger]) // eslint-disable-line
 
   if (!tags) {
@@ -144,24 +131,21 @@ const TagList: FC = () => {
   return (
     <Style>
       {tags?.map((t: ITag) =>
-        allowEdit && editMode ? (
+        editMode ? (
           <div key={t.guid} className={`tag ${tagsToDelete.includes(t) && 'deleted'}`}>
             {tagsToDelete.includes(t) ? (
               <AiOutlineUndo onClick={() => handleUndo(t)} className='icon' />
             ) : (
               <CgClose onClick={() => handleQueDeletes(t)} className='icon' />
             )}
-            <div
-              onKeyDown={e => {
-                if (e.key === 'Enter') {
-                  e.preventDefault()
-                  handleQueEdits(e, t)
-                }
-              }}
+            <span
+              onKeyDown={e => handleEnterKey(e, t)}
+              suppressContentEditableWarning={true}
+              spellCheck={false}
               onBlur={e => handleQueEdits(e, t)}
               contentEditable>
               {t.tag_name}
-            </div>
+            </span>
           </div>
         ) : (
           <Link href={`/search/recipes/${t.tag_name}`} className='tag' key={t.guid}>
@@ -194,6 +178,7 @@ const Style = styled.div`
     margin: 0 5px;
     padding: 0 7px;
     border-radius: 25px;
+    min-width: 40px;
   }
   .deleted {
     text-decoration: line-through;

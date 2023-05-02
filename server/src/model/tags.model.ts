@@ -86,7 +86,7 @@ export async function dbUpdateTags(tags: IEditTagReq[], cookbook_guid: string) {
         AND c.id = r.cookbook_id
         AND c.guid = '${cookbook_guid}'
         AND tag_name = '${tag.tag_name}'
-        RETURNING '${tag.tag_name}' as old_tag_name, t.tag_name
+        RETURNING t.tag_name
     `)
       )
     )
