@@ -3,7 +3,7 @@ import { IAppContext } from '@/types/@types.context'
 import Link from 'next/link'
 import React, { FC, FocusEvent, KeyboardEvent, useEffect, useState } from 'react'
 import { AiOutlineEdit, AiOutlineUndo } from 'react-icons/ai'
-import { CgClose } from 'react-icons/cg'
+import { IoMdClose } from 'react-icons/io'
 import { BsCheckLg } from 'react-icons/bs'
 import styled from 'styled-components'
 import { api } from '@/api'
@@ -126,75 +126,147 @@ const TagList: FC = () => {
     return <p>Error loading tags</p>
   }
   return (
-    <Style>
-      {tags?.map((t: ITag) =>
-        editMode ? (
-          <div key={t.guid} className={`tag ${tagsToDelete.includes(t) && 'deleted'}`}>
-            {tagsToDelete.includes(t) ? (
-              <AiOutlineUndo onClick={() => handleUndo(t)} className='icon' />
-            ) : (
-              <CgClose onClick={() => handleQueDeletes(t)} className='icon' />
-            )}
-            <span
-              onKeyDown={e => handleEnterKey(e, t)}
-              suppressContentEditableWarning={true}
-              spellCheck={false}
-              onBlur={e => handleQueEdits(e, t)}
-              contentEditable>
+    <Style editMode={editMode}>
+      <div className='scroll-ctr'>
+        {tags?.map((t: ITag) =>
+          editMode ? (
+            <div key={t.guid} className={`tag ${tagsToDelete.includes(t) && 'deleted'}`}>
+              {tagsToDelete.includes(t) ? (
+                <AiOutlineUndo
+                  title='Undo Delete'
+                  onClick={() => handleUndo(t)}
+                  className='icon undo-icon'
+                />
+              ) : (
+                <IoMdClose
+                  title='Delete Tag'
+                  onClick={() => handleQueDeletes(t)}
+                  className='icon delete-icon'
+                />
+              )}
+              <span
+                onKeyDown={e => handleEnterKey(e, t)}
+                suppressContentEditableWarning={true}
+                spellCheck={false}
+                onBlur={e => handleQueEdits(e, t)}
+                contentEditable={!tagsToDelete.includes(t)}>
+                {t.tag_name}
+              </span>
+            </div>
+          ) : (
+            <Link
+              href={
+                cookbook
+                  ? `/cookbooks/${cookbook}/search/${t.tag_name}`
+                  : `search/${t.tag_name}`
+              }
+              className='tag'
+              key={t.guid}>
+              <span className='hash'>#</span>
               {t.tag_name}
-            </span>
-          </div>
-        ) : (
-          <Link
-            href={
-              cookbook ? `/cookbooks/${cookbook}/search/${t.tag_name}` : `search/${t.tag_name}`
-            }
-            className='tag'
-            key={t.guid}>
-            #{t.tag_name}
-          </Link>
-        )
-      )}
+            </Link>
+          )
+        )}
+      </div>
       {cookbook && isCookbookCreator ? (
         editMode ? (
-          <BsCheckLg onClick={handleSubmit} className='icon edit-icon' />
+          <BsCheckLg
+            title='Submit Tag Edits'
+            onClick={handleSubmit}
+            className='icon edit-icon'
+          />
         ) : (
-          <AiOutlineEdit onClick={() => setEditMode(true)} className='icon edit-icon' />
+          <AiOutlineEdit
+            title='Edit Tags'
+            onClick={() => setEditMode(true)}
+            className='icon edit-icon'
+          />
         )
       ) : null}
     </Style>
   )
 }
 
-const Style = styled.div`
+type StyleProps = {
+  editMode: boolean
+}
+
+const Style = styled.div<StyleProps>`
   display: flex;
   align-items: center;
-  overflow-y: hidden;
-  white-space: nowrap;
-  height: 40px;
-  scrollbar-width: thin;
-  .tag {
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0 20px;
+  .scroll-ctr {
     display: flex;
     align-items: center;
-    border: 1px solid gray;
-    margin: 0 5px;
-    padding: 0 7px;
-    border-radius: 25px;
-    min-width: 40px;
-  }
-  .deleted {
-    text-decoration: line-through;
-    background-color: gray;
-  }
-  input {
-    border: 0;
-    border-radius: 25px;
-    font-size: 0.9rem;
-    height: 24px;
-    outline: 0;
+    position: relative;
+    overflow-x: scroll;
+    white-space: nowrap;
+    height: 40px;
+    scrollbar-width: thin;
+    .tag {
+      display: flex;
+      align-items: center;
+      border: 1px solid ${({ theme }) => theme.softBorder};
+      background-color: ${({ theme }) => theme.tagColor};
+      margin: 0 5px;
+      padding: 0 7px;
+      border-radius: 25px;
+      font-family: 'DM Mono', monospace;
+      box-shadow: 2px 2px 2px #d2d2d2;
+      transition: all 0.1s ease-out;
+      &:hover {
+        text-decoration: underline;
+        transition: all 0.1s ease-out;
+      }
+      .hash {
+        margin: 0 3px 0 3px;
+      }
+    }
+    .icon {
+      font-size: 1rem;
+      font-weight: 900;
+      border-radius: 25px;
+      &:hover {
+        color: white;
+        background-color: #696969;
+      }
+    }
+    .undo-icon {
+      &:hover {
+        background-color: #a2a2a2;
+      }
+    }
+    .deleted {
+      text-decoration: line-through;
+      background-color: #4c4c4c;
+      color: white;
+      &:hover {
+        text-decoration: line-through;
+      }
+    }
+    input {
+      border: 0;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      height: 24px;
+      outline: 0;
+    }
   }
   .edit-icon {
-    font-size: 1.6rem;
+    height: min-content;
+    font-size: 3.6rem;
+    background-color: ${props => (props.editMode ? '#00d600' : '#ababab')};
+    border-radius: 25px;
+    padding: 5px;
+    margin-left: 10px;
+    transition: all 0.1s ease-out;
+    color: white;
+    &:hover {
+      transition: all 0.1s ease-out;
+      background-color: ${props => (props.editMode ? '#69ff69' : '#8b8b8b')};
+    }
   }
   .icon {
     cursor: pointer;

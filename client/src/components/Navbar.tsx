@@ -52,12 +52,7 @@ const Style = styled.div<StyleProps>`
     border: 1px solid gray;
     border-radius: 10px;
     margin-left: 10px;
-  }
-  @media screen and (max-width: 800px) {
-    #tag-list {
-      width: 100%;
-    }
-  }
+  }7
 `
 
 export default Navbar
