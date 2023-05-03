@@ -62,16 +62,28 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }
 
+  const handleTags = () => {
+    if (tagsData) {
+      tagsData.length < tagsLimit && setIsEndOfTags(true)
+      if (tagsOffset === 0) {
+        setTags(tagsData)
+      } else {
+        setTags([...tags, ...tagsData])
+      }
+    }
+  }
+
   const getTagsQuery = () =>
     currentCookbook
-      ? pathname === '/cookbooks/[cookbook]' && `cookbook_guid=${cookbook}`
-      : pathname === '/cookbooks' && `user_guid=${user?.sub}`
+      ? pathname === '/cookbooks/[cookbook]' && `${api}/tags?cookbook_guid=${cookbook}&limit=${tagsLimit}&offset=${tagsOffset}`
+      : pathname === '/cookbooks' && `${api}/tags?user_guid=${user?.sub}&limit=${tagsLimit}&offset=${tagsOffset}`
+
 
   const {
     data: tagsData,
     error: tagsError,
     mutate: revalidateTags,
-  } = useSWR(`${api}/tags?${getTagsQuery()}&limit=${tagsLimit}&offset=${tagsOffset}`, fetcher)
+  } = useSWR(getTagsQuery(), fetcher)
 
   const {
     data: cookbooksData,
@@ -84,14 +96,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [cookbooksData])
 
   useEffect(() => {
-    if (tagsData) {
-      tagsData.length < tagsLimit && setIsEndOfTags(true)
-      if (tagsOffset === 0) {
-        setTags(tagsData)
-      } else {
-        setTags([...tags, ...tagsData])
-      }
-    }
+    handleTags()
   }, [tagsData]) // eslint-disable-line
 
   useEffect(() => {

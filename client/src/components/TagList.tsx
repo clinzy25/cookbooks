@@ -38,6 +38,7 @@ const TagList: FC = () => {
   const [scrollValues, setScrollValues] = useState<number[]>([])
 
   const scrollRef = useRef<HTMLDivElement>(null)
+  const showEditBtn = cookbook && isCookbookCreator && tags.length
 
   const nextTags = (ctr: HTMLDivElement) => {
     for (const tag of Object.values(ctr.children) as HTMLElement[]) {
@@ -229,8 +230,8 @@ const TagList: FC = () => {
         )}
       </div>
       <div className='icon-ctr'>
-        {cookbook && isCookbookCreator ? (
-          editMode ? (
+        {showEditBtn &&
+          (editMode ? (
             <BsCheckLg
               title='Submit Tag Edits'
               onClick={handleSubmit}
@@ -242,8 +243,7 @@ const TagList: FC = () => {
               onClick={() => setEditMode(true)}
               className='icon edit-icon'
             />
-          )
-        ) : null}
+          ))}
       </div>
     </Style>
   )
