@@ -145,14 +145,14 @@ const Style = styled.div`
         background-color: #cecece;
       }
     }
-  }
-  &:hover > div > input {
-    width: 240px;
-    padding: 0 6px;
-  }
-  &:active > div > input {
-    width: 240px;
-    padding: 0 6px;
+    &:hover > div > input {
+      width: 240px;
+      padding: 0 6px;
+    }
+    &:active > div > input {
+      width: 240px;
+      padding: 0 6px;
+    }
   }
 `
 
