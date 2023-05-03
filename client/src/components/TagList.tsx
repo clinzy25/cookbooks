@@ -45,7 +45,8 @@ const TagList: FC = () => {
       if (isOverflow) {
         const scrollTo = tag.offsetLeft - ctr.scrollLeft
         setScrollValues([...scrollValues, scrollTo])
-        if (ctr.scrollWidth - ctr.scrollLeft - ctr.clientWidth && !isEndOfTags) {
+        const fetchMoreTags = ctr.scrollWidth - ctr.scrollLeft - ctr.clientWidth
+        if (fetchMoreTags && !isEndOfTags) {
           setTagsOffset(tagsOffset + tagsLimit)
           revalidateTags()
         }
@@ -58,10 +59,9 @@ const TagList: FC = () => {
   }
 
   const prevTags = (ctr: HTMLDivElement) => {
-    const prevScrollVal = scrollValues.length - 1
-    const scrollTo = scrollValues[prevScrollVal]
+    const prevScrollVal = scrollValues[scrollValues.length - 1]
     ctr.scrollBy({
-      left: -scrollTo,
+      left: -prevScrollVal,
       behavior: 'smooth',
     })
     const newScrollValues = scrollValues.splice(0, prevScrollVal)
@@ -287,17 +287,15 @@ const Style = styled.div<StyleProps>`
         margin: 0 3px 0 3px;
       }
     }
-    .icon {
-      font-size: 1rem;
-      font-weight: 900;
+    .undo-icon,
+    .delete-icon {
       border-radius: 25px;
+      cursor: pointer;
+      padding: 2px;
       &:hover {
         color: white;
         background-color: #696969;
       }
-    }
-    .undo-icon {
-      padding: 2px;
     }
     .deleted {
       text-decoration: line-through;
@@ -327,6 +325,9 @@ const Style = styled.div<StyleProps>`
     padding: 5px;
     transition: all 0.1s ease-out;
     cursor: pointer;
+    &:hover {
+      background-color: #d2d2d2;
+    }
   }
   .edit-icon {
     font-size: 2.2rem;

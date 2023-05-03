@@ -85,7 +85,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (tagsData) {
-      if (tagsData.length < tagsLimit) setIsEndOfTags(true)
+      tagsData.length < tagsLimit && setIsEndOfTags(true)
       if (tagsOffset === 0) {
         setTags(tagsData)
       } else {
