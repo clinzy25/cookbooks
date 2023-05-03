@@ -1,7 +1,7 @@
 import knex from '../db/db'
 import { IEditTagReq, ITag } from '../types/@types.tags'
 
-export async function dbGetTagsByCookbook(cookbook_guid: string) {
+export async function dbGetTagsByCookbook(cookbook_guid: string, limit: number, offset: number) {
   try {
     return await knex.raw(`
       SELECT * FROM (
@@ -19,13 +19,14 @@ export async function dbGetTagsByCookbook(cookbook_guid: string) {
         GROUP BY t.tag_name, t.guid, tt.weight
       ) sub 
       ORDER BY weight DESC
+      LIMIT ${limit} OFFSET ${offset}
     `)
   } catch (e) {
     console.error(e)
   }
 }
 
-export async function dbGetTagsByUser(user_guid: string) {
+export async function dbGetTagsByUser(user_guid: string, limit: number, offset: number) {
   try {
     return await knex.raw(`
       SELECT * FROM (
@@ -49,6 +50,7 @@ export async function dbGetTagsByUser(user_guid: string) {
         GROUP BY t.tag_name, t.guid, tt.weight
       ) sub
       ORDER BY weight DESC
+      LIMIT ${limit} OFFSET ${offset}
     `)
   } catch (e) {
     console.error(e)

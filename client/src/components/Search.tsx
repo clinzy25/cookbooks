@@ -113,7 +113,7 @@ const Style = styled.div`
         width: 0;
         padding: 0;
         transition: all 0.3s ease-out;
-        line-height: 40px;
+        line-height: 36px;
         &:focus,
         &:not(:placeholder-shown) {
           width: 240px;
@@ -121,7 +121,7 @@ const Style = styled.div`
         }
       }
       #btn-ctr {
-        width: 40px;
+        width: 36px;
         #search-btn {
           height: 100%;
           font-size: 1.5rem;

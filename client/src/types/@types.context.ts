@@ -15,6 +15,10 @@ export interface IAppContext {
   revalidateTags: KeyedMutator<ITag[]>
   handleServerError: (e: unknown) => void
   isCookbookCreator: boolean
+  tagsOffset: number
+  tagsLimit: number
+  isEndOfTags: boolean
+  setTagsOffset: (offset: number) => void
 }
 
 export interface ISnackbar {

@@ -14,14 +14,16 @@ import {
 export async function httpGetTags(req: Request, res: Response, next: NextFunction) {
   const cookbook_guid = req.query.cookbook_guid?.toString()
   const user_guid = req.query.user_guid?.toString()
+  const limit = Number(req.query.limit)
+  const offset = Number(req.query.offset)
   try {
     if (!cookbook_guid && !user_guid) throw new Error(MISSING_REQUIRED_PARAMS)
     let tags = []
     if (user_guid) {
-      const result = await dbGetTagsByUser(user_guid)
+      const result = await dbGetTagsByUser(user_guid, limit, offset)
       tags = result.rows
     } else if (cookbook_guid) {
-      const result = await dbGetTagsByCookbook(cookbook_guid)
+      const result = await dbGetTagsByCookbook(cookbook_guid, limit, offset)
       tags = result.rows
     }
     return res.status(200).json(tags)

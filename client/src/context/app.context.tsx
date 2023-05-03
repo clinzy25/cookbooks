@@ -30,6 +30,9 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   const [currentCookbook, setCurrentCookbook] = useState<ICookbookRes | null>(null)
   const [isCookbookCreator, setIsCookbookCreator] = useState(false)
   const [tags, setTags] = useState<ITag[]>([])
+  const [tagsLimit] = useState(20)
+  const [tagsOffset, setTagsOffset] = useState(0)
+  const [isEndOfTags, setIsEndOfTags] = useState(false)
 
   /**
    * Catch a server error of a specific type
@@ -61,14 +64,14 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const getTagsQuery = () =>
     currentCookbook
-      ? pathname === '/cookbooks/[cookbook]' && `${api}/tags?cookbook_guid=${cookbook}`
-      : pathname === '/cookbooks' && `${api}/tags?user_guid=${user?.sub}`
+      ? pathname === '/cookbooks/[cookbook]' && `cookbook_guid=${cookbook}`
+      : pathname === '/cookbooks' && `user_guid=${user?.sub}`
 
   const {
     data: tagsData,
     error: tagsError,
     mutate: revalidateTags,
-  } = useSWR(getTagsQuery(), fetcher)
+  } = useSWR(`${api}/tags?${getTagsQuery()}&limit=${tagsLimit}&offset=${tagsOffset}`, fetcher)
 
   const {
     data: cookbooksData,
@@ -81,8 +84,15 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [cookbooksData])
 
   useEffect(() => {
-    tagsData && setTags(tagsData)
-  }, [tagsData])
+    if (tagsData) {
+      if (tagsData.length < tagsLimit) setIsEndOfTags(true)
+      if (tagsOffset === 0) {
+        setTags(tagsData)
+      } else {
+        setTags([...tags, ...tagsData])
+      }
+    }
+  }, [tagsData]) // eslint-disable-line
 
   useEffect(() => {
     handleCurrentCookbook()
@@ -108,6 +118,10 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
         revalidateTags,
         handleServerError,
         isCookbookCreator,
+        tagsOffset,
+        tagsLimit,
+        isEndOfTags,
+        setTagsOffset,
       }}>
       {children}
     </AppContext.Provider>

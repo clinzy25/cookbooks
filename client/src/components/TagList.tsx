@@ -1,11 +1,12 @@
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import Link from 'next/link'
-import React, { FC, FocusEvent, KeyboardEvent, useEffect, useState } from 'react'
+import React, { FC, FocusEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { IoMdClose } from 'react-icons/io'
 import { BsCheckLg } from 'react-icons/bs'
 import { FaUndoAlt } from 'react-icons/fa'
+import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
 import styled from 'styled-components'
 import { api } from '@/api'
 import axios from 'axios'
@@ -20,6 +21,10 @@ const TagList: FC = () => {
   const {
     tags,
     tagsError,
+    tagsOffset,
+    tagsLimit,
+    isEndOfTags,
+    setTagsOffset,
     setSnackbar,
     handleServerError,
     revalidateTags,
@@ -29,6 +34,48 @@ const TagList: FC = () => {
   const [tagsToDelete, setTagsToDelete] = useState<ITag[]>([])
   const [tagsToEdit, setTagsToEdit] = useState<IEditTag[]>([])
   const [submitTrigger, setSubmitTrigger] = useState(false)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [showPaginBtns, setShowPaginBtns] = useState(false)
+  const [scrollValues, setScrollValues] = useState<number[]>([])
+
+  const nextTags = (ctr: HTMLDivElement) => {
+    for (const tag of Object.values(ctr.children) as HTMLElement[]) {
+      const isOverflow = ctr.scrollLeft + ctr.clientWidth < tag.offsetLeft + tag.clientWidth
+      if (isOverflow) {
+        const scrollTo = tag.offsetLeft - ctr.scrollLeft
+        setScrollValues([...scrollValues, scrollTo])
+        if (ctr.scrollWidth - ctr.scrollLeft - ctr.clientWidth && !isEndOfTags) {
+          setTagsOffset(tagsOffset + tagsLimit)
+          revalidateTags()
+        }
+        return ctr.scrollBy({
+          left: scrollTo,
+          behavior: 'smooth',
+        })
+      }
+    }
+  }
+
+  const prevTags = (ctr: HTMLDivElement) => {
+    const prevScrollVal = scrollValues.length - 1
+    const scrollTo = scrollValues[prevScrollVal]
+    ctr.scrollBy({
+      left: -scrollTo,
+      behavior: 'smooth',
+    })
+    const newScrollValues = scrollValues.splice(0, prevScrollVal)
+    setScrollValues(newScrollValues)
+  }
+
+  const paginate = (direction: 1 | 0) => {
+    if (scrollRef.current) {
+      if (direction) {
+        nextTags(scrollRef.current)
+      } else {
+        prevTags(scrollRef.current)
+      }
+    }
+  }
 
   const verifyNewTagName = (newTagName: string | null, oldTagName: string) => {
     if (!newTagName) {
@@ -119,6 +166,12 @@ const TagList: FC = () => {
     submitTrigger && handleSubmit()
   }, [submitTrigger]) // eslint-disable-line
 
+  useEffect(() => {
+    if (scrollRef.current && tags.length) {
+      setShowPaginBtns(scrollRef.current.scrollWidth > scrollRef.current.clientWidth)
+    }
+  }, [scrollRef.current, tags]) // eslint-disable-line
+
   if (!tags) {
     return <Loader size={20} />
   }
@@ -127,7 +180,12 @@ const TagList: FC = () => {
   }
   return (
     <Style editMode={editMode}>
-      <div className='scroll-ctr'>
+      <div className='icon-ctr'>
+        {showPaginBtns && (
+          <BsChevronLeft className='icon pagin-icon' onClick={() => paginate(0)} />
+        )}
+      </div>
+      <div className='scroll-ctr' ref={scrollRef}>
         {tags?.map((t: ITag) =>
           editMode ? (
             <div key={t.guid} className={`tag ${tagsToDelete.includes(t) && 'deleted'}`}>
@@ -135,13 +193,13 @@ const TagList: FC = () => {
                 <FaUndoAlt
                   title='Undo Delete'
                   onClick={() => handleUndo(t)}
-                  className='icon undo-icon'
+                  className='undo-icon'
                 />
               ) : (
                 <IoMdClose
                   title='Delete Tag'
                   onClick={() => handleQueDeletes(t)}
-                  className='icon delete-icon'
+                  className='delete-icon'
                 />
               )}
               <span
@@ -168,7 +226,12 @@ const TagList: FC = () => {
           )
         )}
       </div>
-      <div>
+      <div className='icon-ctr'>
+        {showPaginBtns && (
+          <BsChevronRight className='icon pagin-icon' onClick={() => paginate(1)} />
+        )}
+      </div>
+      <div className='icon-ctr'>
         {cookbook && isCookbookCreator ? (
           editMode ? (
             <BsCheckLg
@@ -204,10 +267,10 @@ const Style = styled.div<StyleProps>`
     display: flex;
     align-items: center;
     position: relative;
-    overflow-x: auto;
+    overflow-x: hidden;
     white-space: nowrap;
     height: 40px;
-    scrollbar-width: thin;
+    margin: 0 12px;
     .tag {
       display: flex;
       align-items: center;
@@ -255,21 +318,28 @@ const Style = styled.div<StyleProps>`
       outline: 0;
     }
   }
-  .edit-icon {
-    font-size: 2.2rem;
-    background-color: ${props => (props.editMode ? '#00d600' : '#ababab')};
-    border-radius: 25px;
-    padding: 5px;
-    margin-left: 10px;
-    transition: all 0.1s ease-out;
-    color: white;
-    &:hover {
-      transition: all 0.1s ease-out;
-      background-color: ${props => (props.editMode ? '#69ff69' : '#8b8b8b')};
-    }
+  .icon-ctr {
+    display: flex;
+    align-items: center;
   }
   .icon {
+    font-size: 2.2rem;
+    background-color: whitesmoke;
+    border: 1px solid ${({ theme }) => theme.softBorder};
+    border-radius: 25px;
+    padding: 5px;
+    transition: all 0.1s ease-out;
     cursor: pointer;
+  }
+  .edit-icon {
+    font-size: 2.2rem;
+    background-color: ${props => (props.editMode ? '#00d600' : 'whitesmoke')};
+    color: black;
+    margin-left: 12px;
+    &:hover {
+      transition: all 0.1s ease-out;
+      background-color: ${props => (props.editMode ? '#69ff69' : '#d2d2d2')};
+    }
   }
 `
 
