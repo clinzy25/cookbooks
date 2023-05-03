@@ -86,12 +86,13 @@ export async function dbCharSearchRecipes(
   if (cookbook_guid) whereClause = `AND c.guid = '${cookbook_guid}'`
   try {
     return await knex.raw(`
-      SELECT DISTINCT name, r.guid, c.guid AS cookbook_guid FROM recipes r
+      (SELECT DISTINCT name, r.guid, c.guid AS cookbook_guid FROM recipes r
       JOIN cookbooks c ON c.id = r.cookbook_id
       JOIN users u ON u.id = c.creator_user_id
       JOIN cookbook_members cm ON cm.cookbook_id = c.id
       WHERE name ILIKE '%${searchVal}%'
       ${whereClause}
+      LIMIT 10)
         UNION ALL
       SELECT DISTINCT ON (tag_name) CONCAT('#', tag_name), t.guid, c.guid AS cookbook_guid from tags t
       JOIN recipes r ON r.id = t.recipe_id
@@ -100,6 +101,7 @@ export async function dbCharSearchRecipes(
       JOIN cookbook_members cm ON cm.cookbook_id = c.id
       WHERE tag_name ILIKE '%${searchVal}%'
       ${whereClause}
+      LIMIT 10
     `)
   } catch (e) {
     console.error(e)
