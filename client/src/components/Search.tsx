@@ -131,14 +131,6 @@ const Style = styled.div`
         }
       }
     }
-    &:hover > div > input {
-      width: 240px;
-      padding: 0 6px;
-    }
-    &:active > div > input {
-      width: 240px;
-      padding: 0 6px;
-    }
     h3 {
       padding: 5px;
       border-bottom: 1px solid ${({ theme }) => theme.softBorder};
@@ -153,6 +145,14 @@ const Style = styled.div`
         background-color: #cecece;
       }
     }
+  }
+  &:hover > div > input {
+    width: 240px;
+    padding: 0 6px;
+  }
+  &:active > div > input {
+    width: 240px;
+    padding: 0 6px;
   }
 `
 
