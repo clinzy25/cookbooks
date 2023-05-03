@@ -230,8 +230,8 @@ const TagList: FC = () => {
         )}
       </div>
       <div className='icon-ctr'>
-        {showEditBtn &&
-          (editMode ? (
+        {showEditBtn ? (
+          editMode ? (
             <BsCheckLg
               title='Submit Tag Edits'
               onClick={handleSubmit}
@@ -243,7 +243,8 @@ const TagList: FC = () => {
               onClick={() => setEditMode(true)}
               className='icon edit-icon'
             />
-          ))}
+          )
+        ) : null}
       </div>
     </Style>
   )

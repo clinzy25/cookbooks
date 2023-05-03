@@ -12,6 +12,7 @@ import AddBtn from '@/components/buttons/AddBtn'
 import AddRecipeModal from '../components/AddRecipeModal'
 import EditCookbookModal from '../components/EditCookbookModal'
 import { AiOutlineEdit } from 'react-icons/ai'
+import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
 
 type Props = {
   recipes: IRecipeRes[]
@@ -43,7 +44,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
     return <p>error</p>
   }
   return (
-    <Style id='cookbook-detail-page-wrapper'>
+    <Style BREAKPOINT_MOBILE={BREAKPOINT_MOBILE} id='cookbook-detail-page-wrapper'>
       {recipeModal && (
         <AddRecipeModal
           revalidateRecipes={revalidateRecipes}
@@ -51,9 +52,9 @@ const CookbookDetailPage: React.FC<Props> = props => {
         />
       )}
       {editModal && <EditCookbookModal setEditModal={setEditModal} />}
-      <header id='cookbook-header'>
+      <header>
         <h1>{currentCookbook?.cookbook_name}</h1>
-        {isCookbookCreator && <AiOutlineEdit onClick={() => setEditModal(true)} />}
+        <div>{isCookbookCreator && <AiOutlineEdit onClick={() => setEditModal(true)} />}</div>
       </header>
       {!recipes.length ? (
         <div id='cta-ctr'>
@@ -88,15 +89,21 @@ export async function getServerSideProps(context: {
   return { props: { recipes } }
 }
 
-const Style = styled.main`
+type StyleProps = {
+  BREAKPOINT_MOBILE: number
+}
+
+const Style = styled.main<StyleProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100%;
-  #cookbook-header {
+  header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
+    padding: 15px 0;
     div {
       position: relative;
       align-items: center;
@@ -136,6 +143,11 @@ const Style = styled.main`
     justify-content: center;
     width: 100%;
     height: 50%;
+  }
+  @media screen and (max-width: ${props=> props.BREAKPOINT_MOBILE}px) {
+    header {
+      font-size: 0.7rem;
+    }
   }
 `
 
