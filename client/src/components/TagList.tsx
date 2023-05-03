@@ -34,9 +34,10 @@ const TagList: FC = () => {
   const [tagsToDelete, setTagsToDelete] = useState<ITag[]>([])
   const [tagsToEdit, setTagsToEdit] = useState<IEditTag[]>([])
   const [submitTrigger, setSubmitTrigger] = useState(false)
-  const scrollRef = useRef<HTMLDivElement>(null)
   const [showPaginBtns, setShowPaginBtns] = useState(false)
   const [scrollValues, setScrollValues] = useState<number[]>([])
+
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   const nextTags = (ctr: HTMLDivElement) => {
     for (const tag of Object.values(ctr.children) as HTMLElement[]) {
@@ -67,13 +68,9 @@ const TagList: FC = () => {
     setScrollValues(newScrollValues)
   }
 
-  const paginate = (direction: 1 | 0) => {
+  const handlePaginate = (direction: 1 | 0) => {
     if (scrollRef.current) {
-      if (direction) {
-        nextTags(scrollRef.current)
-      } else {
-        prevTags(scrollRef.current)
-      }
+      return direction ? nextTags(scrollRef.current) : prevTags(scrollRef.current)
     }
   }
 
@@ -182,7 +179,7 @@ const TagList: FC = () => {
     <Style editMode={editMode}>
       <div className='icon-ctr'>
         {showPaginBtns && (
-          <BsChevronLeft className='icon pagin-icon' onClick={() => paginate(0)} />
+          <BsChevronLeft className='icon pagin-icon' onClick={() => handlePaginate(0)} />
         )}
       </div>
       <div className='scroll-ctr' ref={scrollRef}>
@@ -228,7 +225,7 @@ const TagList: FC = () => {
       </div>
       <div className='icon-ctr'>
         {showPaginBtns && (
-          <BsChevronRight className='icon pagin-icon' onClick={() => paginate(1)} />
+          <BsChevronRight className='icon pagin-icon' onClick={() => handlePaginate(1)} />
         )}
       </div>
       <div className='icon-ctr'>
