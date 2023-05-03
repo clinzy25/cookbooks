@@ -10,7 +10,12 @@ import styled from 'styled-components'
 import { BiSearch } from 'react-icons/bi'
 import { useRouter } from 'next/router'
 
-const Search: FC = () => {
+type Props = {
+  showSearch: boolean
+  setShowSearch: (bool: boolean) => void
+}
+
+const Search: FC<Props> = ({ showSearch, setShowSearch }: Props) => {
   const {
     query: { cookbook },
   } = useRouter()
@@ -18,7 +23,6 @@ const Search: FC = () => {
   const { handleServerError } = useAppContext() as IAppContext
   const [searchVal, setSearchVal] = useState('')
   const [searchResults, setSearchResults] = useState<ISearchResults | null>(null)
-  const [showSearchBar, setShowSearchBar] = useState(false)
 
   const resultsRef = useRef(null)
   useOutsideAlerter(resultsRef, () => setSearchResults(null))
@@ -37,98 +41,130 @@ const Search: FC = () => {
 
   useEffect(() => {
     searchVal ? searchRecipes() : setSearchResults(null)
-  }, [searchVal, searchRecipes])
+  }, [searchVal]) // eslint-disable-line
 
   return (
-    <Style showSearchBar={showSearchBar}>
-      <div id='search-ctr'>
-        <BiSearch onClick={() => setShowSearchBar(true)} id='search-icon' />
-        <input
-          value={searchVal}
-          onChange={e => setSearchVal(e.target.value)}
-          placeholder={cookbook ? 'Search this cookbook...' : 'Search all recipes...'}
-          type='text'
-        />
-      </div>
-      {searchResults && (
-        <div ref={resultsRef} className='results-ctr'>
-          {searchResults?.recipes.map((r: ISearchResult, i) => (
-            <>
-              {i === 0 && <h3>Recipes</h3>}
-              <p>
-                <Link
-                  onClick={() => setSearchResults(null)}
-                  href={`/cookbooks/${r.cookbook_guid}/recipe/${r.guid}`}
-                  key={r.guid}>
-                  {r.name}
-                </Link>
-              </p>
-            </>
-          ))}
-          {searchResults?.tags.map((t: ISearchResult, i) => (
-            <>
-              {i === 0 && <h3>Tags</h3>}
-              <p>
-                <Link
-                  onClick={() => setSearchResults(null)}
-                  href={
-                    cookbook
-                      ? `/cookbooks/${cookbook}/search/${t.name.substring(1)}`
-                      : `search/${t.name.substring(1)}`
-                  }
-                  key={t.guid}>
-                  {t.name}
-                </Link>
-              </p>
-            </>
-          ))}
+    <Style showSearch={showSearch}>
+      <div className='search-ctr'>
+        <div>
+          <input
+            type='text'
+            placeholder={cookbook ? 'Search this cookbook...' : 'Search all recipes...'}
+            value={searchVal}
+            onChange={e => setSearchVal(e.target.value)}
+            onBlur={() => setTimeout(() => setSearchResults(null), 200)}
+            onFocus={() => searchVal && searchRecipes()}
+          />
+          <div id='btn-ctr'>
+            <BiSearch id='search-btn' />
+          </div>
         </div>
-      )}
+        {searchResults?.recipes.map((r: ISearchResult, i) => (
+          <>
+            {i === 0 && <h3>Recipes</h3>}
+            <Link
+              title={r.name}
+              className='search-result'
+              onClick={() => setSearchVal('')}
+              href={`/cookbooks/${r.cookbook_guid}/recipe/${r.guid}`}
+              key={r.guid}>
+              {r.name}
+            </Link>
+          </>
+        ))}
+        {searchResults?.tags.map((t: ISearchResult, i) => (
+          <>
+            {i === 0 && <h3>Tags</h3>}
+            <Link
+              className='search-result'
+              onClick={() => setSearchVal('')}
+              href={
+                cookbook
+                  ? `/cookbooks/${cookbook}/search/${t.name.substring(1)}`
+                  : `search/${t.name.substring(1)}`
+              }
+              key={t.guid}>
+              {t.name}
+            </Link>
+          </>
+        ))}
+      </div>
     </Style>
   )
 }
 
 type StyleProps = {
-  showSearchBar: boolean
+  showSearch: boolean
 }
 
 const Style = styled.div<StyleProps>`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   height: 100%;
-  #search-ctr {
+  .search-ctr {
     position: relative;
-    height: 100%;
-    input {
-      height: 100%;
-      border-radius: 25px;
-      border: 1px solid gray;
-      padding: 0 15px;
-      font-size: 1rem;
-    }
-    #search-icon {
-      position: absolute;
-      right: 0;
-      font-size: 2.5rem;
-      border-radius: 25px;
-      border: 1px solid gray;
-      padding: 5px;
-      margin-left: 15px;
-      cursor: pointer;
-    }
-  }
-  .results-ctr {
-    position: absolute;
-    background-color: white;
-    border: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+    background-color: whitesmoke;
+    border: 1px solid ${({ theme }) => theme.softBorder};
+    border-radius: 25px;
     z-index: 3;
+    transition: all 0.3s ease-out;
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      input {
+        outline: none;
+        border: none;
+        background: none;
+        width: 0;
+        padding: 0;
+        transition: all 0.3s ease-out;
+        line-height: 40px;
+        &:focus,
+        &:not(:placeholder-shown) {
+          width: 240px;
+          padding: 0 6px;
+        }
+      }
+      #btn-ctr {
+        width: 40px;
+        #search-btn {
+          height: 100%;
+          font-size: 1.5rem;
+          border-radius: 25px;
+          transition: all 0.3s ease-out;
+        }
+      }
+    }
+    &:hover > div > input {
+      width: 240px;
+      padding: 0 6px;
+    }
+    h3 {
+      padding: 5px;
+      border-bottom: 1px solid ${({ theme }) => theme.softBorder};
+    }
+    .search-result {
+      max-width: 280px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding: 4px;
+
+      &:hover {
+        background-color: #cecece;
+      }
+    }
   }
   @media screen and (max-width: 800px) {
     #search-ctr {
       width: 100%;
       input {
-        width: ${props => (props.showSearchBar ? '100%' : '40px')};
-        visibility: ${props => (props.showSearchBar ? 'visibile' : 'hidden')};
+        width: ${props => (props.showSearch ? '100%' : '40px')};
+        visibility: ${props => (props.showSearch ? 'visibile' : 'hidden')};
       }
     }
   }

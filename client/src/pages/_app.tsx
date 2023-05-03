@@ -33,7 +33,7 @@ type StyleProps = {
 
 const PageWrapper = styled.div<StyleProps>`
   padding: 30px 60px;
-  height: ${props => `calc(100vh - ${props.navbarHeight}px)`};
+  height: ${props => `calc(100% - ${props.navbarHeight}px)`};
 `
 
 export default withContext(App)

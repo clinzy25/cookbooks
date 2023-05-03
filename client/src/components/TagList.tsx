@@ -2,9 +2,10 @@ import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import Link from 'next/link'
 import React, { FC, FocusEvent, KeyboardEvent, useEffect, useState } from 'react'
-import { AiOutlineEdit, AiOutlineUndo } from 'react-icons/ai'
+import { AiOutlineEdit } from 'react-icons/ai'
 import { IoMdClose } from 'react-icons/io'
 import { BsCheckLg } from 'react-icons/bs'
+import { FaUndoAlt } from 'react-icons/fa'
 import styled from 'styled-components'
 import { api } from '@/api'
 import axios from 'axios'
@@ -24,7 +25,6 @@ const TagList: FC = () => {
     revalidateTags,
     isCookbookCreator,
   } = useAppContext() as IAppContext
-
   const [editMode, setEditMode] = useState(false)
   const [tagsToDelete, setTagsToDelete] = useState<ITag[]>([])
   const [tagsToEdit, setTagsToEdit] = useState<IEditTag[]>([])
@@ -132,7 +132,7 @@ const TagList: FC = () => {
           editMode ? (
             <div key={t.guid} className={`tag ${tagsToDelete.includes(t) && 'deleted'}`}>
               {tagsToDelete.includes(t) ? (
-                <AiOutlineUndo
+                <FaUndoAlt
                   title='Undo Delete'
                   onClick={() => handleUndo(t)}
                   className='icon undo-icon'
@@ -168,21 +168,23 @@ const TagList: FC = () => {
           )
         )}
       </div>
-      {cookbook && isCookbookCreator ? (
-        editMode ? (
-          <BsCheckLg
-            title='Submit Tag Edits'
-            onClick={handleSubmit}
-            className='icon edit-icon'
-          />
-        ) : (
-          <AiOutlineEdit
-            title='Edit Tags'
-            onClick={() => setEditMode(true)}
-            className='icon edit-icon'
-          />
-        )
-      ) : null}
+      <div>
+        {cookbook && isCookbookCreator ? (
+          editMode ? (
+            <BsCheckLg
+              title='Submit Tag Edits'
+              onClick={handleSubmit}
+              className='icon edit-icon'
+            />
+          ) : (
+            <AiOutlineEdit
+              title='Edit Tags'
+              onClick={() => setEditMode(true)}
+              className='icon edit-icon'
+            />
+          )
+        ) : null}
+      </div>
     </Style>
   )
 }
@@ -194,14 +196,14 @@ type StyleProps = {
 const Style = styled.div<StyleProps>`
   display: flex;
   align-items: center;
-  width: 100%;
+  width: min-content;
   overflow-x: hidden;
-  margin: 0 20px;
+  margin: 0 auto 0 auto;
   .scroll-ctr {
     display: flex;
     align-items: center;
     position: relative;
-    overflow-x: scroll;
+    overflow-x: auto;
     white-space: nowrap;
     height: 40px;
     scrollbar-width: thin;
@@ -209,10 +211,10 @@ const Style = styled.div<StyleProps>`
       display: flex;
       align-items: center;
       border: 1px solid ${({ theme }) => theme.softBorder};
+      border-radius: 25px;
       background-color: ${({ theme }) => theme.tagColor};
       margin: 0 5px;
       padding: 0 7px;
-      border-radius: 25px;
       font-family: 'DM Mono', monospace;
       box-shadow: 2px 2px 2px #d2d2d2;
       transition: all 0.1s ease-out;
@@ -234,9 +236,7 @@ const Style = styled.div<StyleProps>`
       }
     }
     .undo-icon {
-      &:hover {
-        background-color: #a2a2a2;
-      }
+      padding: 2px;
     }
     .deleted {
       text-decoration: line-through;
@@ -255,8 +255,7 @@ const Style = styled.div<StyleProps>`
     }
   }
   .edit-icon {
-    height: min-content;
-    font-size: 3.6rem;
+    font-size: 2.2rem;
     background-color: ${props => (props.editMode ? '#00d600' : '#ababab')};
     border-radius: 25px;
     padding: 5px;

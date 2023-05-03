@@ -85,7 +85,7 @@ export default createGlobalStyle`
   html,
   body {
     max-width: 100vw;
-    height: 100vh;
+    /* height: 100vh; */
     overflow-x: hidden;
   }
 
