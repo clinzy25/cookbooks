@@ -199,6 +199,7 @@ const Style = styled.div<StyleProps>`
   width: min-content;
   overflow-x: hidden;
   margin: 0 auto 0 auto;
+  flex-shrink: 100;
   .scroll-ctr {
     display: flex;
     align-items: center;

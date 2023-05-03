@@ -10,12 +10,7 @@ import styled from 'styled-components'
 import { BiSearch } from 'react-icons/bi'
 import { useRouter } from 'next/router'
 
-type Props = {
-  showSearch: boolean
-  setShowSearch: (bool: boolean) => void
-}
-
-const Search: FC<Props> = ({ showSearch, setShowSearch }: Props) => {
+const Search: FC = () => {
   const {
     query: { cookbook },
   } = useRouter()
@@ -44,7 +39,7 @@ const Search: FC<Props> = ({ showSearch, setShowSearch }: Props) => {
   }, [searchVal]) // eslint-disable-line
 
   return (
-    <Style showSearch={showSearch}>
+    <Style>
       <div className='search-ctr'>
         <div>
           <input
@@ -93,11 +88,7 @@ const Search: FC<Props> = ({ showSearch, setShowSearch }: Props) => {
   )
 }
 
-type StyleProps = {
-  showSearch: boolean
-}
-
-const Style = styled.div<StyleProps>`
+const Style = styled.div`
   display: flex;
   align-items: flex-start;
   height: 100%;
@@ -136,10 +127,15 @@ const Style = styled.div<StyleProps>`
           font-size: 1.5rem;
           border-radius: 25px;
           transition: all 0.3s ease-out;
+          cursor: pointer;
         }
       }
     }
     &:hover > div > input {
+      width: 240px;
+      padding: 0 6px;
+    }
+    &:active > div > input {
       width: 240px;
       padding: 0 6px;
     }
@@ -153,18 +149,8 @@ const Style = styled.div<StyleProps>`
       text-overflow: ellipsis;
       white-space: nowrap;
       padding: 4px;
-
       &:hover {
         background-color: #cecece;
-      }
-    }
-  }
-  @media screen and (max-width: 800px) {
-    #search-ctr {
-      width: 100%;
-      input {
-        width: ${props => (props.showSearch ? '100%' : '40px')};
-        visibility: ${props => (props.showSearch ? 'visibile' : 'hidden')};
       }
     }
   }
