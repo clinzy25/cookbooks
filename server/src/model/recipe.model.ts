@@ -7,6 +7,7 @@ export async function dbGetCookbookRecipes(guid: string) {
     return await knex
       .select(
         'r.guid',
+        'u.email AS creator_user_email',
         'r.name',
         'r.image',
         'r.cook_time',
@@ -20,11 +21,13 @@ export async function dbGetCookbookRecipes(guid: string) {
       .from('recipes as r')
       .join('cookbooks', 'cookbooks.id', '=', 'r.cookbook_id')
       .leftJoin('tags', 'r.id', '=', 'tags.recipe_id')
+      .join('users as u', 'u.id', '=', 'r.creator_user_id')
       .where({ 'cookbooks.guid': guid })
       .orderBy('created_at', 'desc')
       .groupBy(
         'r.guid',
         'r.name',
+        'u.email',
         'r.image',
         'r.cook_time',
         'r.prep_time',

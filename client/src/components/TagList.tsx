@@ -13,6 +13,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import Loader from './Loader'
 import { IEditTag, ITag } from '@/types/@types.tags'
+import { IconMixin, TagMixin } from '@/styles/mixins'
 
 const TagList: FC = () => {
   const {
@@ -270,22 +271,9 @@ const Style = styled.div<StyleProps>`
     height: 40px;
     margin: 0 12px;
     .tag {
-      display: flex;
-      align-items: center;
-      border: 1px solid ${({ theme }) => theme.softBorder};
-      border-radius: 25px;
-      background-color: ${({ theme }) => theme.tagColor};
-      margin: 0 5px;
-      padding: 0 7px;
-      font-family: 'DM Mono', monospace;
-      box-shadow: 2px 2px 2px #d2d2d2;
-      transition: all 0.1s ease-out;
-      &:hover {
-        text-decoration: underline;
-        transition: all 0.1s ease-out;
-      }
+      ${TagMixin}
       .hash {
-        margin: 0 3px 0 3px;
+        margin: 0 3px;
       }
     }
     .undo-icon,
@@ -319,21 +307,11 @@ const Style = styled.div<StyleProps>`
     align-items: center;
   }
   .icon {
-    font-size: 2.2rem;
-    background-color: whitesmoke;
-    border: 1px solid ${({ theme }) => theme.softBorder};
-    border-radius: 25px;
-    padding: 5px;
-    transition: all 0.1s ease-out;
-    cursor: pointer;
-    &:hover {
-      background-color: #d2d2d2;
-    }
+    ${IconMixin}
   }
   .edit-icon {
-    font-size: 2.2rem;
+    ${IconMixin}
     background-color: ${props => (props.editMode ? '#00d600' : 'whitesmoke')};
-    color: black;
     margin-left: 12px;
     &:hover {
       transition: all 0.1s ease-out;

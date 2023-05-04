@@ -18,6 +18,7 @@ export async function httpGetCookbookRecipes(req: Request, res: Response, next: 
   try {
     if (!cookbook) throw new Error(MISSING_REQUIRED_PARAMS)
     const result = await dbGetCookbookRecipes(cookbook)
+    console.log(result)
     return res.status(200).json(result)
   } catch (e) {
     next(e)

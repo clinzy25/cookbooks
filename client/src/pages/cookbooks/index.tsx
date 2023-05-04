@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useState } from 'react'
 import AddCookbookModal from './components/AddCookbookModal'
-import AddBtn from '@/components/buttons/AddBtn'
+import { IoMdAddCircle } from 'react-icons/io'
+import { AddBtnMixin } from '@/styles/mixins'
 
 const CookbooksPage: React.FC = () => {
   const { cookbooks, cookbooksError } = useAppContext() as IAppContext
@@ -28,7 +29,7 @@ const CookbooksPage: React.FC = () => {
           </Link>
         ))}
       </div>
-      <AddBtn handler={() => setModalOpen(true)} />
+      <IoMdAddCircle id='add-cookbook-btn' onClick={() => setModalOpen(true)} />
     </Styles>
   )
 }
@@ -46,6 +47,9 @@ const Styles = styled.main`
     height: 200px;
     width: 200px;
     border: 1px solid gray;
+  }
+  #add-cookbook-btn {
+    ${AddBtnMixin}
   }
 `
 

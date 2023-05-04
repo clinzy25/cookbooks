@@ -1,18 +1,15 @@
 import styled from 'styled-components'
 import Search from './Search'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { NAVBAR_HEIGHT } from '@/utils/utils.constants'
 import TagList from './TagList'
 
-const Navbar: FC = () => {
-  const [showSearch, setShowSearch] = useState(false)
-  return (
-    <Style navbarHeight={NAVBAR_HEIGHT}>
-      <Search showSearch={showSearch} setShowSearch={setShowSearch} />
-      {!showSearch && <TagList />}
-    </Style>
-  )
-}
+const Navbar: FC = () => (
+  <Style navbarHeight={NAVBAR_HEIGHT}>
+    <Search />
+    <TagList />
+  </Style>
+)
 
 type StyleProps = {
   navbarHeight: number

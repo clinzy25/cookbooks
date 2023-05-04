@@ -8,11 +8,12 @@ import RecipeCard from '../components/RecipeCard'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
-import AddBtn from '@/components/buttons/AddBtn'
 import AddRecipeModal from '../components/AddRecipeModal'
 import EditCookbookModal from '../components/EditCookbookModal'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
+import { AddBtnMixin, IconMixin } from '@/styles/mixins'
+import { IoMdAddCircle } from 'react-icons/io'
 
 type Props = {
   recipes: IRecipeRes[]
@@ -54,7 +55,11 @@ const CookbookDetailPage: React.FC<Props> = props => {
       {editModal && <EditCookbookModal setEditModal={setEditModal} />}
       <header>
         <h1>{currentCookbook?.cookbook_name}</h1>
-        <div>{isCookbookCreator && <AiOutlineEdit onClick={() => setEditModal(true)} />}</div>
+        <div>
+          {isCookbookCreator && (
+            <AiOutlineEdit className='edit-icon' onClick={() => setEditModal(true)} />
+          )}
+        </div>
       </header>
       {!recipes.length ? (
         <div id='cta-ctr'>
@@ -76,7 +81,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
           ))}
         </div>
       )}
-      <AddBtn handler={() => setRecipeModal(true)} />
+      <IoMdAddCircle id='add-recipe-btn' onClick={() => setRecipeModal(true)} />
     </Style>
   )
 }
@@ -109,9 +114,8 @@ const Style = styled.main<StyleProps>`
       align-items: center;
       display: flex;
     }
-    svg {
-      font-size: 1.8rem;
-      cursor: pointer;
+    .edit-icon {
+      ${IconMixin}
     }
     ul {
       position: absolute;
@@ -132,9 +136,9 @@ const Style = styled.main<StyleProps>`
   #recipe-ctr {
     display: grid;
     width: 100%;
-    gap: 20px;
+    gap: 5px;
     grid-template-rows: repeat(1fr);
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
   }
   #cta-ctr {
     display: flex;
@@ -144,7 +148,10 @@ const Style = styled.main<StyleProps>`
     width: 100%;
     height: 50%;
   }
-  @media screen and (max-width: ${props=> props.BREAKPOINT_MOBILE}px) {
+  #add-recipe-btn {
+    ${AddBtnMixin}
+  }
+  @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
     header {
       font-size: 0.7rem;
     }
