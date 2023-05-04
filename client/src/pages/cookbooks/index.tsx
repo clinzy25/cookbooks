@@ -37,15 +37,17 @@ const CookbooksPage: React.FC = () => {
 export const getServerSideProps = withPageAuthRequired()
 
 const Styles = styled.main`
+  height: 100%;
   #cookbooks-ctr {
+
     display: grid;
+    height: 100%;
     gap: 20px;
-    grid-template-rows: repeat(1fr);
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-rows: 50% 50%;
+    grid-template-columns: 50% 50%;
   }
   .cookbook-tile {
-    height: 200px;
-    width: 200px;
+    height: 50%;
     border: 1px solid gray;
   }
   #add-cookbook-btn {

@@ -42,7 +42,6 @@ export default createGlobalStyle`
     --card-rgb: 180, 185, 188;
     --card-border-rgb: 131, 134, 135;
   }
-
   @media (prefers-color-scheme: dark) {
     :root {
       --foreground-rgb: 255, 255, 255;
@@ -75,27 +74,29 @@ export default createGlobalStyle`
       --card-border-rgb: 200, 200, 200;
     }
   }
-
   * {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
   }
-
   html,
   body {
     max-width: 100vw;
-    /* height: 100vh; */
+    height: 100vh;
     overflow-x: hidden;
   }
-
   body {
     position: relative;
     font-family: 'Nunito Sans', sans-serif;
   }
-
   a {
     color: inherit;
     text-decoration: none;
+  }
+  #simplifyJobsContainer {
+    position: absolute;
+  }
+  #__next {
+    height: 100%;
   }
 `

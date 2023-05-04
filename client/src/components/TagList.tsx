@@ -166,8 +166,10 @@ const TagList: FC = () => {
   }, [submitTrigger]) // eslint-disable-line
 
   useEffect(() => {
-    if (scrollRef.current && tags.length) {
-      setShowPaginBtns(scrollRef.current.scrollWidth > scrollRef.current.clientWidth)
+    if (scrollRef.current) {
+      setShowPaginBtns(
+        scrollRef.current.scrollWidth > scrollRef.current.clientWidth && tags.length > 0
+      )
     }
   }, [scrollRef.current, tags]) // eslint-disable-line
 
