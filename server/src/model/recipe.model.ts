@@ -2,7 +2,7 @@ import knex from '../db/db'
 import { IRecipe } from '../types/@types.recipes'
 import { transformParsedRecipe } from './transformers'
 
-export async function dbGetCookbookRecipes(guid: string) {
+export async function dbGetCookbookRecipes(guid: string, limit: number, offset: number) {
   try {
     return await knex
       .select(
@@ -36,6 +36,8 @@ export async function dbGetCookbookRecipes(guid: string) {
         'r.created_at',
         'r.updated_at'
       )
+      .limit(limit)
+      .offset(offset)
   } catch (e) {
     console.error(e)
   }
