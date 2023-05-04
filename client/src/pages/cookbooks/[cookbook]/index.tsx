@@ -4,11 +4,11 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useSWRInfinite from 'swr/infinite'
-import RecipeCard from '../components/RecipeCard'
+import RecipeCard from './components/RecipeCard'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
-import AddRecipeModal from '../components/AddRecipeModal'
+import AddRecipeModal from './components/AddRecipeModal'
 import EditCookbookModal from '../components/EditCookbookModal'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
@@ -89,9 +89,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
               <RecipeCard {...recipe} key={recipe.guid} />
             ))}
           </div>
-          <button
-            onClick={() => !endOfList && setSize(size + 1)}
-            id='pagin-btn'>
+          <button onClick={() => !endOfList && setSize(size + 1)} id='pagin-btn'>
             {isLoading || isValidating ? (
               <Loader size={20} />
             ) : endOfList ? (

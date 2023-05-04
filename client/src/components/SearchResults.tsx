@@ -1,5 +1,5 @@
 import { api, fetcher } from '@/api'
-import RecipeCard from '@/pages/cookbooks/components/RecipeCard'
+import RecipeCard from '@/pages/cookbooks/[cookbook]/components/RecipeCard'
 import { IRecipeRes } from '@/types/@types.recipes'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { useRouter } from 'next/router'
@@ -16,7 +16,7 @@ const SearchResults: FC = () => {
 
   const getSearchParams = () =>
     cookbook ? `cookbook_guid=${cookbook}` : `user_guid=${user?.sub}`
-    
+
   const { data, error } = useSWR(
     `${api}/search/recipes/tag?tag_name=${tag}&${getSearchParams()}`,
     fetcher
