@@ -2,6 +2,7 @@ import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { FAILED_TO_FETCH_IMAGE, S3_UPLOAD_FAILED } from '../../utils/utils.errors'
 import { s3Client } from '../../app'
 import { v4 as uuidv4 } from 'uuid'
+import sharp from 'sharp'
 
 export function toBuffer(arrayBuffer: ArrayBuffer): Buffer {
   const buffer = Buffer.alloc(arrayBuffer.byteLength)
@@ -24,7 +25,8 @@ export async function uploadToS3(imageUrl: string): Promise<string> {
       const params = {
         Body: toBuffer(buffer),
         Bucket: process.env.RECIPE_IMAGES_BUCKET,
-        Key: uuidv4(),
+        Key: `${uuidv4()}.webp`,
+        ContentType: 'image/webp',
       }
       const res = await s3Client.send(new PutObjectCommand(params))
       if (res.$metadata.httpStatusCode === 200) {

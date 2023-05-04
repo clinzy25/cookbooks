@@ -11,6 +11,7 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
     query: { cookbook },
   } = useRouter()
   const { name, image, cook_time, prep_time, tags, guid, creator_user_email } = recipe
+
   return (
     <Style>
       <Link href={`${cookbook}/recipe/${guid}`}>
