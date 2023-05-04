@@ -126,12 +126,13 @@ const Style = styled.main<StyleProps>`
   flex-direction: column;
   align-items: center;
   height: 100%;
+  width: 100%;
   header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 15px 0;
+    margin-bottom: 15px;
     div {
       position: relative;
       align-items: center;

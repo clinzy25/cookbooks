@@ -19,6 +19,9 @@ const Style = styled.div<StyleProps>`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: absolute;
+  top: 0;
+  width: 100%;
   gap: 12px;
   height: ${props => `${props.navbarHeight}px`};
   border-bottom: 1px solid gray;
