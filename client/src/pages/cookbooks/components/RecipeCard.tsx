@@ -56,12 +56,19 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
 }
 
 const Style = styled.article`
-  transition: 0.08s;
+  transition: 0.03s;
   border-radius: 10px;
   letter-spacing: 0.5px;
   &:hover {
-    transition: 0.08s;
+    transition: 0.03s;
     background-color: #f0f0f0;
+    .img-ctr {
+      .img {
+        transition: 0.03s ease-out;
+        transform: scale(1.01);
+        filter: brightness(105%);
+      }
+    }
   }
   a {
     padding: 8px;
@@ -77,6 +84,7 @@ const Style = styled.article`
     border-radius: 10px;
     margin-bottom: 7px;
     .img {
+      transition: 0.03s ease-in;
       object-fit: cover;
     }
   }
@@ -84,7 +92,8 @@ const Style = styled.article`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 120px;
+    height: 140px;
+    gap: 5px;
     h3 {
       text-overflow: ellipsis;
       display: -webkit-box;
@@ -96,6 +105,7 @@ const Style = styled.article`
     }
     .tags-ctr {
       display: flex;
+      flex-wrap: wrap;
       .tag {
         ${TagMixin}
         font-size: 0.8rem;
@@ -118,6 +128,7 @@ const Style = styled.article`
         display: flex;
         align-items: flex-end;
         white-space: nowrap;
+        text-align: right;
         .avatar {
           border: 1px solid black;
           border-radius: 25px;

@@ -11,6 +11,7 @@ export const TagMixin = css`
   font-family: 'DM Mono', monospace;
   box-shadow: 2px 2px 2px #d2d2d2;
   transition: all 0.1s ease-out;
+  white-space: nowrap;
   &:hover {
     text-decoration: underline;
     transition: all 0.1s ease-out;
