@@ -3,7 +3,7 @@ import { IRecipeRes } from '@/types/@types.recipes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import useSWR from 'swr'
+import useSWRInfinite from 'swr/infinite'
 import RecipeCard from '../components/RecipeCard'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
@@ -14,6 +14,7 @@ import { AiOutlineEdit } from 'react-icons/ai'
 import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
 import { AddBtnMixin, IconMixin } from '@/styles/mixins'
 import { IoMdAddCircle } from 'react-icons/io'
+import Loader from '@/components/Loader'
 
 type Props = {
   recipes: IRecipeRes[]
@@ -25,18 +26,28 @@ const CookbookDetailPage: React.FC<Props> = props => {
   } = useRouter()
   const { currentCookbook, isCookbookCreator } = useAppContext() as IAppContext
   const [recipes, setRecipes] = useState<IRecipeRes[]>(props.recipes)
+  const [limit] = useState(12)
+  const [endOfList, setEndOfList] = useState(false)
   const [recipeModal, setRecipeModal] = useState(false)
   const [editModal, setEditModal] = useState(false)
 
-  const {
-    data,
-    error,
-    mutate: revalidateRecipes,
-  } = useSWR<IRecipeRes[], Error>(`${api}/recipes/cookbook?cookbook=${cookbook}`, fetcher)
+  const { data, error, mutate, size, setSize, isValidating, isLoading } = useSWRInfinite<
+    IRecipeRes[],
+    Error
+  >(
+    (index: number) =>
+      `${api}/recipes/cookbook?cookbook=${cookbook}&limit=${limit}&offset=${index * limit}`,
+    fetcher
+  )
+
+  const handleRecipes = () => {
+    data && setEndOfList(data[data.length - 1]?.length < limit)
+    setRecipes(data ? Array.prototype.concat(...data) : [])
+  }
 
   useEffect(() => {
-    data && setRecipes(data)
-  }, [data])
+    handleRecipes()
+  }, [data]) // eslint-disable-line
 
   if (!data && !recipes) {
     return <p>loading...</p>
@@ -47,10 +58,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
   return (
     <Style BREAKPOINT_MOBILE={BREAKPOINT_MOBILE} id='cookbook-detail-page-wrapper'>
       {recipeModal && (
-        <AddRecipeModal
-          revalidateRecipes={revalidateRecipes}
-          setRecipeModal={setRecipeModal}
-        />
+        <AddRecipeModal revalidateRecipes={mutate} setRecipeModal={setRecipeModal} />
       )}
       {editModal && <EditCookbookModal setEditModal={setEditModal} />}
       <header>
@@ -61,7 +69,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
           )}
         </div>
       </header>
-      {!recipes.length ? (
+      {!recipes.length && !isValidating ? (
         <div id='cta-ctr'>
           <h1>Somethings missing...</h1>
           <p>Don&apos;t forget to add some recipes and invite your friends and family!</p>
@@ -75,11 +83,24 @@ const CookbookDetailPage: React.FC<Props> = props => {
           </div>
         </div>
       ) : (
-        <div id='recipe-ctr'>
-          {recipes.map(recipe => (
-            <RecipeCard {...recipe} key={recipe.guid} />
-          ))}
-        </div>
+        <>
+          <div id='recipe-ctr'>
+            {recipes.map(recipe => (
+              <RecipeCard {...recipe} key={recipe.guid} />
+            ))}
+          </div>
+          <button
+            onClick={() => !endOfList && setSize(size + 1)}
+            id='pagin-btn'>
+            {isLoading || isValidating ? (
+              <Loader size={20} />
+            ) : endOfList ? (
+              'End of recipes'
+            ) : (
+              'More'
+            )}
+          </button>
+        </>
       )}
       <IoMdAddCircle id='add-recipe-btn' onClick={() => setRecipeModal(true)} />
     </Style>
@@ -90,7 +111,9 @@ export async function getServerSideProps(context: {
   params: { cookbook: string }
 }): Promise<{ props: Props }> {
   const cookbook = context.params.cookbook
-  const recipes = await fetcher(`${api}/recipes/cookbook?cookbook=${cookbook}`)
+  const recipes = await fetcher(
+    `${api}/recipes/cookbook?cookbook=${cookbook}&limit=12&offset=0`
+  )
   return { props: { recipes } }
 }
 
@@ -139,6 +162,14 @@ const Style = styled.main<StyleProps>`
     gap: 5px;
     grid-template-rows: repeat(1fr);
     grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  }
+  #pagin-btn {
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 25px;
+    margin-top: 50px;
+    cursor: pointer;
+    transition: 0.08s;
   }
   #cta-ctr {
     display: flex;

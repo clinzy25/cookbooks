@@ -58,7 +58,9 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
 const Style = styled.article`
   transition: 0.03s;
   border-radius: 10px;
-  letter-spacing: 0.5px;
+  &:not(.tag) {
+    letter-spacing: 0.5px;
+  }
   &:hover {
     transition: 0.03s;
     background-color: #f0f0f0;

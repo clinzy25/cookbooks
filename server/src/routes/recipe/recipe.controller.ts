@@ -47,6 +47,7 @@ const getRandomFallback = () => {
   return `${process.env.RECIPE_IMAGES_BUCKET_LINK}/recipe_fallback_${randomInt}.png`
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getRecipeImage = async (parsedRecipe: { [key: string]: any }): Promise<string> => {
   const possibleUrls = [parsedRecipe.image, parsedRecipe.image?.contentUrl]
   const url = possibleUrls.find(url => url && typeof url === 'string')
