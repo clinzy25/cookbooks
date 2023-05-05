@@ -158,7 +158,7 @@ const Style = styled.main<StyleProps>`
   #recipe-ctr {
     display: grid;
     width: 100%;
-    gap: 5px;
+    gap: 10px;
     grid-template-rows: repeat(1fr);
     grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
   }

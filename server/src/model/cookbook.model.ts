@@ -11,7 +11,8 @@ export async function dbGetCookbooks(user_guid: string) {
           c.cookbook_name,
           c.created_at,
           c.updated_at,
-          COALESCE(NULLIF(ARRAY_AGG(image_sub.image), '{NULL}'), '{}') AS recipe_images,
+          COUNT(DISTINCT r.id) as recipe_count,
+          COALESCE(NULLIF(ARRAY_AGG(r.image ORDER BY r.created_at DESC), '{NULL}'), '{}') AS recipe_images,
           COALESCE(JSON_AGG(DISTINCT JSONB_BUILD_OBJECT(
             'guid', member_sub.guid, 
             'email', member_sub.email, 
@@ -20,12 +21,7 @@ export async function dbGetCookbooks(user_guid: string) {
         FROM cookbooks c
         JOIN users u ON u.id = c.creator_user_id
         LEFT JOIN cookbook_members cm ON cm.cookbook_id = c.id
-        LEFT JOIN LATERAL (
-          SELECT r.image FROM recipes r 
-          WHERE r.cookbook_id = c.id
-          ORDER BY r.updated_at DESC
-          LIMIT 10
-        ) image_sub ON TRUE
+        LEFT JOIN recipes r on r.cookbook_id = c.id
         LEFT JOIN LATERAL (
           SELECT u.guid, u.email, u.username, c.id as cookbook_id
           FROM cookbook_members cm

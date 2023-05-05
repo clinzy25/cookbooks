@@ -51,7 +51,8 @@ const Styles = styled.main<StyleProps>`
   #cookbooks-ctr {
     display: grid;
     height: 100%;
-    gap: 20px;
+    gap: 10px;
+    grid-auto-rows: 50%;
     grid-template-columns: repeat(auto-fill, minmax(calc(50% - 20px), 1fr));
   }
   #add-cookbook-btn {

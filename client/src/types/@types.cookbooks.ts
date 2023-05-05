@@ -13,6 +13,7 @@ export interface ICookbookRes {
   cookbook_members: IMemberRes[]
   cookbook_name: string
   recipe_images: string[]
+  recipe_count: number
   created_at: string
   updated_at: string
 }
