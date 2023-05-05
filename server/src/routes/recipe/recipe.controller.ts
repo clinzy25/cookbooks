@@ -16,7 +16,7 @@ import {
   RESOURCE_NOT_FOUND,
 } from '../../utils/utils.errors'
 import { IRecipe } from '../../types/@types.recipes'
-import { uploadToS3 } from './recipe.utils'
+import { getRecipeImage } from './recipe.utils'
 
 export async function httpGetCookbookRecipes(req: Request, res: Response, next: NextFunction) {
   const cookbook = req.query.cookbook?.toString()
@@ -40,18 +40,6 @@ export async function httpGetRecipe(req: Request, res: Response, next: NextFunct
   } catch (e) {
     next(e)
   }
-}
-
-const getRandomFallback = () => {
-  const randomInt = Math.round(Math.random() * (3 - 1) + 1)
-  return `${process.env.RECIPE_IMAGES_BUCKET_LINK}/recipe_fallback_${randomInt}.png`
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getRecipeImage = async (parsedRecipe: { [key: string]: any }): Promise<string> => {
-  const possibleUrls = [parsedRecipe.image, parsedRecipe.image?.contentUrl]
-  const url = possibleUrls.find(url => url && typeof url === 'string')
-  return url ? await uploadToS3(url) : getRandomFallback()
 }
 
 export async function httpParseRecipe(req: Request, res: Response, next: NextFunction) {

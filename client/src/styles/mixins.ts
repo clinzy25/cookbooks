@@ -47,3 +47,10 @@ export const AddBtnMixin = css`
     transform: scale(1.05);
   }
 `
+
+export const AvatarMixin = css`
+  border: 1px solid black;
+  border-radius: 25px;
+  padding: 3px;
+  margin-left: 5px;
+`

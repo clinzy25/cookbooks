@@ -148,6 +148,11 @@ export async function dbAddRecipe(recipe: IRecipe) {
         SELECT id AS cookbook_id, creator_user_id, '${name}', '${image}', '${description}', '${cook_time}', '${prep_time}', '${total_time}', '${recipeYield}', '${ingredients}', '${instructions}', '${source_url}', '${source_type}', '${is_private}', ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks
         WHERE cookbooks.guid = '${cookbook_guid}'
         RETURNING recipes.id AS recipe_id
+        ),
+        update_cookbook AS (
+          UPDATE cookbooks c
+          SET updated_at = ${knex.fn.now()}
+          WHERE c.guid = '${cookbook_guid}'
         )
       INSERT INTO tags(recipe_id, tag_name)
       VALUES ${tags.map(t => `((SELECT recipe_id FROM insert_1), '${cleanTag(t)}')`).join(',')}

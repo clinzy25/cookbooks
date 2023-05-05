@@ -1,4 +1,4 @@
-import { TagMixin } from '@/styles/mixins'
+import { AvatarMixin, TagMixin } from '@/styles/mixins'
 import { IRecipeRes } from '@/types/@types.recipes'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -132,10 +132,7 @@ const Style = styled.article`
         white-space: nowrap;
         text-align: right;
         .avatar {
-          border: 1px solid black;
-          border-radius: 25px;
-          padding: 3px;
-          margin-left: 5px;
+          ${AvatarMixin}
         }
       }
     }
