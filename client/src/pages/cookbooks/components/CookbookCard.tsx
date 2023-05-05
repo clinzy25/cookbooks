@@ -40,6 +40,8 @@ const CookbookCard = ({ cookbook }: Props) => {
                 src={`${process.env.NEXT_PUBLIC_RECIPE_IMAGES_BUCKET_LINK}/recipe_fallback_${randomInt}.png`}
                 alt={cookbook_name}
                 fill
+                priority
+                sizes={recipe_images.length > 3 ? '300px' : '800px'}
               />
             </div>
           )}

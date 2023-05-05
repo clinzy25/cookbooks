@@ -11,12 +11,20 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
     query: { cookbook },
   } = useRouter()
   const { name, image, cook_time, prep_time, tags, guid, creator_user_email } = recipe
-
   return (
     <Style>
       <Link href={`${cookbook}/recipe/${guid}`}>
         <div className='img-ctr'>
-          {image && <Image className='img' src={image} alt={name} fill />}
+          {image && (
+            <Image
+              className='img'
+              src={image}
+              alt={name}
+              fill
+              priority
+              sizes='(max-width: 800px) 100vw, 303px'
+            />
+          )}
         </div>
         <div className='text-ctr'>
           <div>

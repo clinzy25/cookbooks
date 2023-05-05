@@ -26,7 +26,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
   } = useRouter()
   const { currentCookbook, isCookbookCreator } = useAppContext() as IAppContext
   const [recipes, setRecipes] = useState<IRecipeRes[]>(props.recipes)
-  const [limit] = useState(12)
+  const [limit] = useState(20)
   const [endOfList, setEndOfList] = useState(false)
   const [recipeModal, setRecipeModal] = useState(false)
   const [editModal, setEditModal] = useState(false)
