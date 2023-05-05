@@ -104,7 +104,7 @@ const Style = styled.article`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 140px;
+    height: 150px;
     gap: 5px;
     h3 {
       text-overflow: ellipsis;
@@ -114,6 +114,7 @@ const Style = styled.article`
       overflow: hidden;
       word-wrap: break-word;
       margin-bottom: 5px;
+      font-size: 1.3rem;
     }
     .tags-ctr {
       display: flex;
