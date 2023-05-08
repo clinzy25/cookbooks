@@ -30,7 +30,14 @@ const CookbookCard = ({ cookbook }: Props) => {
           {recipe_images?.length ? (
             recipe_images?.map(image => (
               <div key={image} className='ctr'>
-                <Image className='img' src={image} alt={image} fill />
+                <Image
+                  className='img'
+                  src={image}
+                  alt='Recipe'
+                  fill
+                  priority
+                  sizes={recipe_images.length > 3 ? '300px' : '800px'}
+                />
               </div>
             ))
           ) : (
