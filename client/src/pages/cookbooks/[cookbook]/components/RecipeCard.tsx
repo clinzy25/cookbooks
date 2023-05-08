@@ -15,7 +15,7 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
 
   return (
     <Style>
-      <Link href={`${cookbook}/recipe/${guid}`}>
+      <Link href={`/cookbooks/${cookbook}/recipe/${guid}`}>
         <div className='img-ctr'>
           {image && (
             <Image

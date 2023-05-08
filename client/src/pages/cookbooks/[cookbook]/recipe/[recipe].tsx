@@ -18,7 +18,7 @@ type Props = {
 
 const RecipePage: React.FC<Props> = props => {
   // prettier-ignore
-  const { guid, name, creator_user_email, image, description, cook_time, prep_time, total_time,
+  const { guid, name, creator_user_email, image, base64_image, description, cook_time, prep_time, total_time,
     yield: recipeYield, ingredients, instructions, tags, source_url, created_at,
   } = props.recipe
   const { setSnackbar, handleServerError, isCookbookCreator } = useAppContext() as IAppContext
@@ -87,7 +87,18 @@ const RecipePage: React.FC<Props> = props => {
       </div>
       <p>Uploaded by {creator_user_email}</p>
       <div className='img-ctr'>
-        {image && <Image className='img' src={image} alt={name} fill />}
+        {image && (
+          <Image
+            className='img'
+            src={image}
+            alt={name}
+            fill
+            priority
+            placeholder='blur'
+            blurDataURL={base64_image}
+            sizes='(max-width: 800px) 100vw, 303px'
+          />
+        )}
       </div>
       <div>
         <span>Cook time: {cook_time} </span>

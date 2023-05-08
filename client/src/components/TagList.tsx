@@ -217,7 +217,7 @@ const TagList: FC = () => {
               href={
                 cookbook
                   ? `/cookbooks/${cookbook}/search/${t.tag_name}`
-                  : `search/${t.tag_name}`
+                  : `/search/${t.tag_name}`
               }
               className='tag'
               key={t.guid}>

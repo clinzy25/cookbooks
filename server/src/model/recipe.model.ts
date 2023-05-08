@@ -84,6 +84,7 @@ export async function dbGetRecipe(guid: string) {
         'u.email',
         'r.name',
         'r.image',
+        'r.base64_image',
         'r.description',
         'r.cook_time',
         'r.cook_original_format',

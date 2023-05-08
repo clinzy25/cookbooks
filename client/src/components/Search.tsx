@@ -97,7 +97,7 @@ const Style = styled.div`
     background-color: whitesmoke;
     border: 1px solid ${({ theme }) => theme.softBorder};
     border-radius: 25px;
-    z-index: 3;
+    z-index: 5;
     transition: all 0.3s ease-out;
     div {
       display: flex;
