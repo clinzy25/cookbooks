@@ -5,6 +5,7 @@ export interface IRecipeRes {
   cookbook_guid: string
   name: string
   image: string
+  base64_image: string
   description: string
   cook_time: string
   cook_original_format: string

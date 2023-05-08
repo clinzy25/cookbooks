@@ -10,6 +10,7 @@ export async function dbGetCookbookRecipes(guid: string, limit: number, offset: 
         'u.email AS creator_user_email',
         'r.name',
         'r.image',
+        'r.base64_image',
         'r.cook_time',
         'r.prep_time',
         'r.total_time',
@@ -29,6 +30,7 @@ export async function dbGetCookbookRecipes(guid: string, limit: number, offset: 
         'r.name',
         'u.email',
         'r.image',
+        'r.base64_image',
         'r.cook_time',
         'r.prep_time',
         'r.total_time',
@@ -52,6 +54,7 @@ export async function dbGetRecipe(guid: string) {
         'u.email AS creator_user_email',
         'r.name',
         'r.image',
+        'r.base64_image',
         'r.description',
         'r.cook_time',
         'r.cook_original_format',
@@ -110,6 +113,7 @@ export async function dbAddRecipe(recipe: IRecipe) {
     cookbook_guid,
     name,
     image,
+    base64Image,
     description,
     cookTime: cook_time,
     prepTime: prep_time,
@@ -132,6 +136,7 @@ export async function dbAddRecipe(recipe: IRecipe) {
           creator_user_id,
           name,
           image,
+          base64_image,
           description,
           cook_time,
           prep_time,
@@ -145,7 +150,7 @@ export async function dbAddRecipe(recipe: IRecipe) {
           created_at,
           updated_at
           )
-        SELECT id AS cookbook_id, creator_user_id, '${name}', '${image}', '${description}', '${cook_time}', '${prep_time}', '${total_time}', '${recipeYield}', '${ingredients}', '${instructions}', '${source_url}', '${source_type}', '${is_private}', ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks
+        SELECT id AS cookbook_id, creator_user_id, '${name}', '${image}', '${base64Image}', '${description}', '${cook_time}', '${prep_time}', '${total_time}', '${recipeYield}', '${ingredients}', '${instructions}', '${source_url}', '${source_type}', '${is_private}', ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks
         WHERE cookbooks.guid = '${cookbook_guid}'
         RETURNING recipes.id AS recipe_id
         ),

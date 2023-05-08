@@ -31,10 +31,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
   const [recipeModal, setRecipeModal] = useState(false)
   const [editModal, setEditModal] = useState(false)
 
-  const { data, error, mutate, size, setSize, isValidating, isLoading } = useSWRInfinite<
-    IRecipeRes[],
-    Error
-  >(
+  const { data, error, mutate, size, setSize, isValidating, isLoading } = useSWRInfinite(
     (index: number) =>
       `${api}/recipes/cookbook?cookbook=${cookbook}&limit=${limit}&offset=${index * limit}`,
     fetcher

@@ -2,6 +2,7 @@ export interface IRecipe {
   cookbook_guid: string
   name: string
   image: string
+  base64Image: string
   description: string
   cookTime: string
   prepTime: string

@@ -10,7 +10,9 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
   const {
     query: { cookbook },
   } = useRouter()
-  const { name, image, cook_time, prep_time, tags, guid, creator_user_email } = recipe
+  const { name, image, base64_image, cook_time, prep_time, tags, guid, creator_user_email } =
+    recipe
+
   return (
     <Style>
       <Link href={`${cookbook}/recipe/${guid}`}>
@@ -22,6 +24,8 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
               alt={name}
               fill
               priority
+              placeholder='blur'
+              blurDataURL={base64_image}
               sizes='(max-width: 800px) 100vw, 303px'
             />
           )}

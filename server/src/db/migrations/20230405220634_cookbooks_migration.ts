@@ -41,6 +41,7 @@ export async function up(knex: Knex): Promise<void> {
       table.foreign('creator_user_id').references('users.id').onDelete('CASCADE')
       table.string('name', 100).notNullable()
       table.string('image', 250)
+      table.text('base64_image', 'text')
       table.text('description', 'text')
       table.string('cook_time', 100)
       table.string('cook_original_format', 100)
@@ -58,21 +59,6 @@ export async function up(knex: Knex): Promise<void> {
       table.integer('is_private').notNullable().defaultTo(0)
       table.timestamps()
     })
-    .createTable('ingredient_types', function (table) {
-      table.increments('id').primary()
-      table.uuid('guid', { useBinaryUuid: true }).defaultTo(uuid(knex))
-      table.string('ingredient_name', 100).notNullable()
-    })
-    .createTable('ingredients', function (table) {
-      table.increments('id').primary()
-      table.uuid('guid', { useBinaryUuid: true }).defaultTo(uuid(knex))
-      table.integer('ingredient_type_id').unsigned()
-      table.foreign('ingredient_type_id').references('ingredient_types.id').onDelete('CASCADE')
-      table.integer('recipe_id').unsigned()
-      table.foreign('recipe_id').references('recipes.id').onDelete('CASCADE')
-      table.string('unit', 50).notNullable()
-      table.decimal('amount').notNullable()
-    })
     .createTable('tags', function (table) {
       table.increments('id').primary()
       table.uuid('guid', { useBinaryUuid: true }).defaultTo(uuid(knex))
@@ -85,6 +71,6 @@ export async function up(knex: Knex): Promise<void> {
 
 export async function down(knex: Knex): Promise<void> {
   await knex.raw(
-    'DROP TABLE users, cookbook_members, cookbooks, recipes, ingredients, ingredient_types, tags CASCADE;'
+    'DROP TABLE users, cookbook_members, cookbooks, recipes, tags CASCADE;'
   )
 }
