@@ -15,7 +15,6 @@ const LandingPage: React.FC = () => (
 )
 
 const Styles = styled.main`
-  width: 100%;
   header {
     display: flex;
     flex-direction: column;

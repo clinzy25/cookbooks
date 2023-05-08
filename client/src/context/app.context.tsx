@@ -75,9 +75,10 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const getTagsQuery = () =>
     currentCookbook
-      ? pathname === '/cookbooks/[cookbook]' && `${api}/tags?cookbook_guid=${cookbook}&limit=${tagsLimit}&offset=${tagsOffset}`
-      : pathname === '/cookbooks' && `${api}/tags?user_guid=${user?.sub}&limit=${tagsLimit}&offset=${tagsOffset}`
-
+      ? pathname === '/cookbooks/[cookbook]' &&
+        `${api}/tags?cookbook_guid=${cookbook}&limit=${tagsLimit}&offset=${tagsOffset}`
+      : pathname === '/cookbooks' &&
+        `${api}/tags?user_guid=${user?.sub}&limit=${tagsLimit}&offset=${tagsOffset}`
 
   const {
     data: tagsData,
@@ -104,8 +105,14 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [pathname, cookbooks]) // eslint-disable-line
 
   useEffect(() => {
-    const timeout = setTimeout(() => setSnackbar({ msg: '', state: '' }), SNACKBAR_DURATION_MS)
-    return () => clearTimeout(timeout)
+    let timeout: ReturnType<typeof setTimeout>
+    if (snackbar.state) {
+      timeout = setTimeout(
+        () => setSnackbar({ msg: '', state: '' }),
+        SNACKBAR_DURATION_MS
+      )
+    }
+    return () => timeout && clearTimeout(timeout)
   }, [snackbar])
 
   return (

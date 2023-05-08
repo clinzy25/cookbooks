@@ -110,7 +110,7 @@ export async function getServerSideProps(context: {
 }): Promise<{ props: Props }> {
   const cookbook = context.params.cookbook
   const recipes = await fetcher(
-    `${api}/recipes/cookbook?cookbook=${cookbook}&limit=12&offset=0`
+    `${api}/recipes/cookbook?cookbook=${cookbook}&limit=20&offset=0`
   )
   return { props: { recipes } }
 }
@@ -124,7 +124,6 @@ const Style = styled.main<StyleProps>`
   flex-direction: column;
   align-items: center;
   height: 100%;
-  width: 100%;
   header {
     display: flex;
     justify-content: space-between;

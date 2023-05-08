@@ -23,11 +23,9 @@ const Search: FC = () => {
   useOutsideAlerter(resultsRef, () => setSearchResults(null))
 
   const searchRecipes = useCallback(async () => {
-    const query = `${
-      cookbook ? `cookbook_guid=${cookbook}` : `user_guid=${user?.sub}`
-    }&search_val=${searchVal}`
+    const query = `${cookbook ? `cookbook_guid=${cookbook}` : `user_guid=${user?.sub}`}`
     try {
-      const res = await fetcher(`${api}/search/recipes?${query}`)
+      const res = await fetcher(`${api}/search/recipes?${query}&search_val=${searchVal}`)
       setSearchResults(res)
     } catch (e) {
       handleServerError(e)

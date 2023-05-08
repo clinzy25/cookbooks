@@ -27,8 +27,8 @@ const CookbookCard = ({ cookbook }: Props) => {
     <Style BREAKPOINT_MOBILE={BREAKPOINT_MOBILE}>
       <Link className='cookbook-tile' href={`/cookbooks/${guid}`}>
         <div className='img-ctr'>
-          {recipe_images.length ? (
-            recipe_images.map(image => (
+          {recipe_images?.length ? (
+            recipe_images?.map(image => (
               <div key={image} className='ctr'>
                 <Image className='img' src={image} alt={image} fill />
               </div>
@@ -151,7 +151,7 @@ const Style = styled.div<StyleProps>`
       .crown-icon {
         position: absolute;
         top: -10px;
-        left: 17px;
+        left: 12px;
         color: #f0b132;
       }
     }

@@ -42,7 +42,6 @@ type StyleProps = {
 }
 
 const Styles = styled.main<StyleProps>`
-  width: 100%;
   display: flex;
   flex-direction: column;
   header {
