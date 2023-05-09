@@ -40,7 +40,7 @@ const PageWrapper = styled.div<StyleProps>`
     width: 100%;
   }
   @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
-    padding: ${props => props.navbarHeight + 15}px 15px 30px 15px;
+    padding: 20px 15px 30px 15px;
   }
 `
 

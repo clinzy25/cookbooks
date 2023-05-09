@@ -192,8 +192,11 @@ const Style = styled.main<StyleProps>`
   }
   #tag-ctr {
     display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
     .tag {
       ${TagMixin}
+      margin: 0;
       &:hover {
         text-decoration: none;
       }
