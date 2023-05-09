@@ -57,7 +57,7 @@ const Style = styled.div<StyleProps>`
     cursor: pointer;
   }
   @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
-    width: ${props => (props.type === 'confirm' ? '40%' : '85%')};
+    width: 85%;
   }
 `
 
