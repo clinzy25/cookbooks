@@ -12,9 +12,9 @@ export async function dbGetCookbooks(user_guid: string) {
           c.created_at,
           c.updated_at,
           COUNT(DISTINCT r.id) as recipe_count,
-          (COALESCE(ARRAY_AGG(
+          (COALESCE(NULLIF(ARRAY_AGG(
             r.image ORDER BY r.created_at DESC
-          ), '{}'))[1:10] AS recipe_images,
+          ), '{NULL}'), '{}'))[1:10] AS recipe_images,
           COALESCE(JSON_AGG(DISTINCT JSONB_BUILD_OBJECT(
             'guid', member_sub.guid, 
             'email', member_sub.email, 

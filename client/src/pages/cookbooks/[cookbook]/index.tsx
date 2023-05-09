@@ -120,7 +120,6 @@ const Style = styled.main<StyleProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
   header {
     display: flex;
     justify-content: space-between;
@@ -157,6 +156,7 @@ const Style = styled.main<StyleProps>`
     gap: 10px;
     grid-template-rows: repeat(1fr);
     grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    margin-bottom: 50px;
   }
   #pagin-btn {
     padding: 10px 15px;
@@ -165,6 +165,7 @@ const Style = styled.main<StyleProps>`
     margin-top: 50px;
     cursor: pointer;
     transition: 0.08s;
+    margin-top: auto;
   }
   #cta-ctr {
     display: flex;

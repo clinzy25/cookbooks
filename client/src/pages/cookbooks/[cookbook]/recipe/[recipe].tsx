@@ -11,6 +11,10 @@ import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import axios from 'axios'
 import Modal from '@/components/Modal'
+import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
+import { IconMixin } from '@/styles/mixins'
+import { TagMixin } from '@/styles/mixins'
+import moment from 'moment'
 
 type Props = {
   recipe: IRecipeRes
@@ -59,7 +63,7 @@ const RecipePage: React.FC<Props> = props => {
     return <p>error</p>
   }
   return (
-    <Style id='recipe-page-wrapper'>
+    <Style BREAKPOINT_MOBILE={BREAKPOINT_MOBILE} id='recipe-page-wrapper'>
       {confirm && (
         <Modal type='confirm' closeModal={() => setConfirm(false)}>
           <div id='confirmation-ctr'>
@@ -71,23 +75,25 @@ const RecipePage: React.FC<Props> = props => {
           </div>
         </Modal>
       )}
-      <header>
-        <h1>{name}</h1>
-        {allowEdit && (
-          <div>
-            <AiOutlineEdit id='edit-icon' />
-            <AiOutlineDelete onClick={() => setConfirm(true)} id='delete-icon' />
-          </div>
-        )}
-      </header>
-      <div id='tags'>
-        {tags?.split(',').map(t => (
-          <span key={t}>#{t}</span>
-        ))}
-      </div>
-      <p>Uploaded by {creator_user_email}</p>
-      <div className='img-ctr'>
-        {image && (
+      <>
+        <header>
+          <h1>{name}</h1>
+          {allowEdit && (
+            <div>
+              <AiOutlineEdit id='edit-icon' />
+              <AiOutlineDelete onClick={() => setConfirm(true)} id='delete-icon' />
+            </div>
+          )}
+        </header>
+        <div id='tag-ctr'>
+          {tags?.split(',').map(t => (
+            <span className='tag' key={t}>
+              <span className='hash'>#</span>
+              {t}
+            </span>
+          ))}
+        </div>
+        <div className='img-ctr'>
           <Image
             className='img'
             src={image}
@@ -98,29 +104,56 @@ const RecipePage: React.FC<Props> = props => {
             blurDataURL={base64_image}
             sizes='(max-width: 800px) 100vw, 303px'
           />
-        )}
-      </div>
-      <div>
-        <span>Cook time: {cook_time} </span>
-        <span>Prep time: {prep_time} </span>
-        <span>Total time: {total_time} </span>
-        <span>Servings: {recipeYield}</span>
-      </div>
-      <p>{source_url}</p>
-      <p>Created at: {created_at}</p>
-      <p>{description}</p>
-      <div id='ingredients'>
-        <h2>Ingredients</h2>
-        {ingredients.map(ingredient => (
-          <p key={ingredient}>{ingredient}</p>
-        ))}
-      </div>
-      <div id='instructions'>
-        <h2>Instructions</h2>
-        {instructions.map((step, i) => (
-          <p key={step}>{`${i + 1}. ${step}`}</p>
-        ))}
-      </div>
+        </div>
+        <div id='time-ctr'>
+          <p>
+            <span>Cook time: </span>
+            <span>{cook_time}</span>
+          </p>
+          <p>
+            <span>Prep time: </span>
+            <span>{prep_time}</span>
+          </p>
+          <p>
+            <span>Total time: </span>
+            <span>{total_time}</span>
+          </p>
+          <p>
+            <span>Servings: </span>
+            <span>{recipeYield}</span>
+          </p>
+        </div>
+        <div id='source-ctr'>
+          <p>
+            <span>Uploaded by: </span>
+            <span>{creator_user_email}</span>
+            <span> on </span>
+            <span>{moment(created_at).format('MMM D YYYY')}</span>
+          </p>
+          <a href={source_url} target='_blank'>
+            {new URL(source_url).host}
+          </a>
+        </div>
+        <div id='recipe-body-ctr'>
+          <p id='description'>{description}</p>
+          <div>
+            <h2>Ingredients</h2>
+            <ul id='ingredients'>
+              {ingredients.map(ingredient => (
+                <li key={ingredient}>{ingredient}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h2>Instructions</h2>
+            <ol id='instructions'>
+              {instructions.map((step, i) => (
+                <li key={step}>{step}</li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </>
     </Style>
   )
 }
@@ -133,20 +166,93 @@ export async function getServerSideProps(context: {
   return { props: { recipe } }
 }
 
-const Style = styled.main`
+type StyleProps = {
+  BREAKPOINT_MOBILE: number
+}
+
+const Style = styled.main<StyleProps>`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  margin: auto;
+  gap: 15px;
+  max-width: 700px;
   header {
     display: flex;
-    align-items: center;
-    width: 100%;
     justify-content: space-between;
-    #edit-icon,
-    #delete-icon {
-      font-size: 1.8rem;
-      cursor: pointer;
+    div {
+      #edit-icon,
+      #delete-icon {
+        font-size: 1.8rem;
+        cursor: pointer;
+        margin-left: 10px;
+        ${IconMixin}
+      }
+      white-space: nowrap;
     }
+  }
+  #tag-ctr {
+    display: flex;
+    .tag {
+      ${TagMixin}
+      &:hover {
+        text-decoration: none;
+      }
+      .hash {
+        margin: 0 3px;
+      }
+    }
+  }
+  .img-ctr {
+    position: relative;
+    width: 100%;
+    min-height: 450px;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 2px 2px 5px #b7b7b7;
+    .img {
+      object-fit: cover;
+    }
+  }
+  #time-ctr,
+  #source-ctr {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0 15px;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    p {
+      span:first-of-type,
+      span:nth-of-type(3) {
+        color: gray;
+      }
+    }
+  }
+  a {
+    color: #0000ee;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  #recipe-body-ctr {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 30px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    #description {
+      font-style: italic;
+    }
+    h2 {
+      margin-bottom: 10px;
+    }
+    ol,
+    ul {
+      padding-left: 15px;
+    }
+    max-width: 700px;
   }
   #confirmation-ctr {
     display: flex;
@@ -162,13 +268,17 @@ const Style = styled.main`
       border-radius: 10px;
     }
   }
-  .img-ctr {
-    position: relative;
-    width: 500px;
-    height: 400px;
-    overflow: hidden;
-    .img {
-      object-fit: cover;
+  @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
+    #meta-ctr {
+      header {
+        justify-content: space-between;
+        h1 {
+          font-size: 1.6rem;
+        }
+      }
+    }
+    .text-ctr {
+      padding: 0;
     }
   }
 `

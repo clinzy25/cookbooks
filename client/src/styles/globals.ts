@@ -79,13 +79,13 @@ export default createGlobalStyle`
     padding: 0;
     margin: 0;
   }
-  html,
-  body {
-    max-width: 100vw;
+  html {
     height: 100%;
-    overflow-x: hidden;
   }
   body {
+    max-width: 100vw;
+    overflow-x: hidden;
+    min-height: 100%;
     position: relative;
     font-family: 'Nunito Sans', sans-serif;
   }

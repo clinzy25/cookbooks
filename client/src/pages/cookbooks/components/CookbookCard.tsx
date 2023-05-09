@@ -91,7 +91,6 @@ type StyleProps = {
 
 const Style = styled.div<StyleProps>`
   border-radius: 10px;
-  height: 100%;
   box-shadow: 4px 4px 8px #b7b7b7;
   transition: 0.03s;
   &:hover {

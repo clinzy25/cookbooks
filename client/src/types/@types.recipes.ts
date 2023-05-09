@@ -19,7 +19,7 @@ export interface IRecipeRes {
   recipe_body: string[]
   notes: string[]
   tags: string
-  source_url: string[]
+  source_url: string
   source_type: string
   is_private: number
   created_at: string

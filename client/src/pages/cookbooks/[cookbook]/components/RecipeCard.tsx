@@ -89,7 +89,6 @@ const Style = styled.article`
   a {
     padding: 8px;
     display: inline-block;
-    height: 100%;
     width: 100%;
   }
   .img-ctr {

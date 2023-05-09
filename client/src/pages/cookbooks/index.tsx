@@ -51,8 +51,8 @@ const Styles = styled.main<StyleProps>`
     display: grid;
     height: 100%;
     gap: 10px;
-    grid-auto-rows: 50%;
-    grid-template-columns: repeat(auto-fill, minmax(calc(50% - 20px), 1fr));
+    grid-auto-rows: 40vh;
+    grid-template-columns: 1fr 1fr;
   }
   #add-cookbook-btn {
     ${AddBtnMixin}
