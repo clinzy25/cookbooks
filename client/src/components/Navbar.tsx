@@ -19,7 +19,9 @@ const Style = styled.div<StyleProps>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: absolute;
+  position: sticky;
+  z-index: 10;
+  background-color: white;
   top: 0;
   width: 100%;
   gap: 12px;

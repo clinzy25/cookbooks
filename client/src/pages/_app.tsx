@@ -34,7 +34,7 @@ type StyleProps = {
 
 const PageWrapper = styled.div<StyleProps>`
   display: flex;
-  padding: ${props => props.navbarHeight + 15}px 60px 30px 60px;
+  padding: 20px 60px;
   height: 100%;
   & > * {
     width: 100%;

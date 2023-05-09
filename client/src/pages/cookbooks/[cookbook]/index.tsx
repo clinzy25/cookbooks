@@ -53,7 +53,10 @@ const CookbookDetailPage: React.FC<Props> = props => {
     return <p>error</p>
   }
   return (
-    <Style BREAKPOINT_MOBILE={BREAKPOINT_MOBILE} id='cookbook-detail-page-wrapper'>
+    <Style
+      BREAKPOINT_MOBILE={BREAKPOINT_MOBILE}
+      endOfList={endOfList}
+      id='cookbook-detail-page-wrapper'>
       {recipeModal && (
         <AddRecipeModal revalidateRecipes={mutate} setRecipeModal={setRecipeModal} />
       )}
@@ -114,6 +117,7 @@ export async function getServerSideProps(context: {
 
 type StyleProps = {
   BREAKPOINT_MOBILE: number
+  endOfList: boolean
 }
 
 const Style = styled.main<StyleProps>`
@@ -163,9 +167,12 @@ const Style = styled.main<StyleProps>`
     border: 0;
     border-radius: 25px;
     margin-top: 50px;
-    cursor: pointer;
+    cursor: ${props => (props.endOfList ? 'auto' : 'pointer')};
     transition: 0.08s;
     margin-top: auto;
+    &:hover {
+      pointer-events: ${props => (props.endOfList ? 'none' : 'auto')};
+    }
   }
   #cta-ctr {
     display: flex;

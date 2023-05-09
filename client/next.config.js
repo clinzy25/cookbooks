@@ -2,6 +2,9 @@
 require('dotenv').config({ path: '../.env' })
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    scrollRestoration: true,
+  },
   images: {
     minimumCacheTTL: 31536000,
     formats: ['image/avif', 'image/webp'],
