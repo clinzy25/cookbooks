@@ -40,6 +40,7 @@ const Style = styled.div<StyleProps>`
   background-color: white;
   border: 1px solid gray;
   border-radius: 15px;
+  padding: 15px;
   animation: fadeIn 0.1s ease-out;
   @keyframes fadeIn {
     0% {
@@ -56,8 +57,11 @@ const Style = styled.div<StyleProps>`
     font-size: 1.5rem;
     cursor: pointer;
   }
+  @media screen and (max-width: 1300px) {
+    width: 70%;
+  }
   @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
-    width: 85%;
+    width: 90%;
   }
 `
 
