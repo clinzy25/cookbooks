@@ -48,9 +48,9 @@ export const transformParsedRecipe = (recipe: IRecipe) => {
   } = recipe
   return {
     ...recipe,
-    description: description.replace(/'/g, '&apos;'),
-    recipeIngredients: JSON.stringify(recipeIngredients).replace(/'/g, '&apos;'),
-    recipeInstructions: JSON.stringify(recipeInstructions).replace(/'/g, '&apos;'),
+    description: description,
+    recipeIngredients: JSON.stringify(recipeIngredients),
+    recipeInstructions: JSON.stringify(recipeInstructions),
     tags: recipeCategories.concat(recipeCuisines),
   }
 }

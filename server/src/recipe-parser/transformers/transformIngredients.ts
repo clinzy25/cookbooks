@@ -1,9 +1,10 @@
 import cleanIngredientAmounts from '../utils/cleanIngredientAmounts'
+import cleanString from '../utils/cleanString'
 
 const transformIngredients = value => {
   // jsonld
   if (value && typeof value[0] === 'string') {
-    return value.map(item => cleanIngredientAmounts(item))
+    return value.map(item => cleanString(cleanIngredientAmounts(item)))
   }
 
   // array of objects (microdata)
@@ -16,7 +17,7 @@ const transformIngredients = value => {
         const _name = name && name[0]
         const _amount = amount && amount[0]
         const singleLine = _amount ? `${_amount} ${_name}` : _name
-        mappedItems.push(cleanIngredientAmounts(singleLine))
+        mappedItems.push(cleanString(cleanIngredientAmounts(singleLine)))
       }
     }
   })
