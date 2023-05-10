@@ -139,7 +139,10 @@ const RecipePage: React.FC<Props> = props => {
             <h2>Ingredients</h2>
             <ul id='ingredients'>
               {ingredients.map(ingredient => (
-                <li key={ingredient}>{ingredient}</li>
+                <div key={ingredient.text}>
+                  <input type='checkbox' />
+                  <li key={ingredient}>{ingredient}</li>
+                </div>
               ))}
             </ul>
           </div>
@@ -148,14 +151,22 @@ const RecipePage: React.FC<Props> = props => {
             <ol id='instructions'>
               {instructions.map(step => {
                 if (step.type === 'HowToStep') {
-                  return <li key={step.text}>{step.text}</li>
+                  return (
+                    <div key={step.text}>
+                      <input type='checkbox' />
+                      <li key={step.text}>{step.text}</li>
+                    </div>
+                  )
                 } else if (step.type === 'HowToSection') {
                   return (
                     <>
                       <h3>{step.name}</h3>
                       <ol>
                         {step.instructions.map(step => (
-                          <li key={step.text}>{step.text}</li>
+                          <div key={step.text}>
+                            <input type='checkbox' />
+                            <li key={step.text}>{step.text}</li>
+                          </div>
                         ))}
                       </ol>
                     </>
@@ -253,6 +264,7 @@ const Style = styled.main`
     margin-top: 30px;
     line-height: 24px;
     letter-spacing: 0.5px;
+    max-width: 700px;
     #description {
       font-style: italic;
     }
@@ -265,8 +277,21 @@ const Style = styled.main`
     ul,
     ol {
       list-style-position: inside;
+      div {
+        display: flex;
+        align-items: flex-start;
+        input {
+          margin: 15px 8px 0 0;
+          transform: scale(1.4);
+        }
+        li {
+          margin: 10px 0;
+        }
+      }
     }
-    max-width: 700px;
+    #ingredients {
+      list-style-type: none;
+    }
   }
   #confirmation-ctr {
     display: flex;

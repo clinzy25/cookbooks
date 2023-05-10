@@ -41,6 +41,11 @@ class JsonLdScraper extends Scraper {
     // other: martha stewart, foodnetwork, eatingwell, allrecipes, myrecipes, seriouseats, skinnytaste
     const graphLevel = this.meta['@graph'] || this.meta
     this.recipeItem = Object.values(graphLevel).find(item => item['@type'] === 'Recipe')
+    if (this.recipeItem == null) {
+      this.recipeItem = Object.values(graphLevel).find(item =>
+        item['@type'].includes('Recipe')
+      )
+    }
   }
 }
 

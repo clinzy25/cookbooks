@@ -68,19 +68,19 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
 }
 
 const Style = styled.article`
-  transition: 0.03s;
+  transition: 0.1s;
   border-radius: 10px;
   box-shadow: 2px 2px 5px #b7b7b7;
   &:not(.tag) {
     letter-spacing: 0.5px;
   }
   &:hover {
-    transition: 0.03s;
+    transition: 0.1s;
     background-color: #f0f0f0;
     box-shadow: 4px 4px 7px #a6a6a6;
     .img-ctr {
       .img {
-        transition: 0.03s ease-out;
+        transition: 0.1s ease-out;
         transform: scale(1.01);
         filter: brightness(105%);
       }
@@ -99,7 +99,7 @@ const Style = styled.article`
     border-radius: 10px;
     margin-bottom: 7px;
     .img {
-      transition: 0.03s ease-in;
+      transition: 0.1s ease-in;
       object-fit: cover;
     }
   }

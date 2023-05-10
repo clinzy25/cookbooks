@@ -1,11 +1,14 @@
-function transformToString(value, key) {
+import cleanString from '../utils/cleanString'
+
+function transformToString(value) {
+  let result
   if (typeof value === 'string') {
-    return value
+    result = value
   }
   if (Array.isArray(value)) {
-    return value[0]
+    result = value[0]
   }
-  return value
+  return cleanString(result)
 }
 
 export default transformToString
