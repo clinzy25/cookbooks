@@ -5,7 +5,6 @@ import {
   dbGetCookbookRecipes,
   dbGetRecipe,
 } from '../../model/recipe.model'
-import recipeDataScraper from 'recipe-data-scraper'
 import {
   FAILED_TO_CREATE_RESOURCE,
   INCOMPLETE_REQUEST_BODY,
@@ -18,6 +17,7 @@ import { IRecipe } from '../../types/@types.recipes'
 import { getRecipeImage } from './recipe.utils'
 import { getPlaiceholder } from 'plaiceholder'
 import axios from 'axios'
+import recipeDataScraper from '../../recipe-parser/main'
 
 export async function httpGetCookbookRecipes(req: Request, res: Response, next: NextFunction) {
   const cookbook = req.query.cookbook?.toString()
@@ -55,7 +55,6 @@ export async function httpParseRecipe(req: Request, res: Response, next: NextFun
       const isValidUrl = await axios.get(url)
       if (isValidUrl.status !== 200) throw new Error(INVALID_URL)
 
-      console.log(recipes)
       const parsedRecipe = await recipeDataScraper(url)
       if (!parsedRecipe) throw new Error(RECIPE_NOT_FOUND)
       const imageUrl = await getRecipeImage(parsedRecipe)

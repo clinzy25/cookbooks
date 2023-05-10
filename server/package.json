@@ -3,10 +3,13 @@
     "@aws-sdk/client-s3": "^3.315.0",
     "@aws-sdk/types": "^3.310.0",
     "@types/cors": "^2.8.13",
+    "cheerio": "1.0.0-rc.12",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "iso8601-duration": "^2.1.1",
     "knex": "^2.4.2",
+    "microdata-node": "^2.0.0",
     "pg": "^8.10.0",
     "plaiceholder": "^2.5.0",
     "recipe-data-scraper": "^1.4.1"
