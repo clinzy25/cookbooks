@@ -155,9 +155,9 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
                     alt={m.username}
                   />
                   <span>{m.username}</span>
-                  <span className='email'>{m.email}</span>
+                  <span>{m.email}</span>
                 </div>
-                <span>Joined: {m.created_at}</span>
+                <span>Joined {m.created_at}</span>
               </li>
             ))
           ) : (
@@ -179,12 +179,10 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
                     height={25}
                     alt={m.username}
                   />
-                  <span>{m.email}</span>
+                  <span className='email'>{m.email}</span>
                 </div>
-                <div>
-                  <span>Sent {moment(m.created_at).format('M/D/YY')}</span>
-                  <button>Revoke</button>
-                </div>
+                <span className='sent'>Sent {moment(m.created_at).format('M/D/YY')}</span>
+                <button>Revoke</button>
               </li>
             ))
           ) : (
@@ -228,6 +226,7 @@ const Style = styled.article<StyleProps>`
   ${modalBtnMixin}
   h3 {
     font-size: 1.4rem;
+    margin: 15px 0 5px 0;
   }
   label {
     div {
@@ -239,7 +238,7 @@ const Style = styled.article<StyleProps>`
     }
   }
   h2 {
-    margin-bottom: 5px;
+    margin-bottom: 0;
     &:not(h2:first-of-type) {
       margin-top: 30px;
     }
@@ -251,11 +250,13 @@ const Style = styled.article<StyleProps>`
     border-radius: 10px;
     padding: 10px;
     max-height: 250px;
+    min-height: 43px;
     overflow-y: auto;
     li {
       background-color: white;
       letter-spacing: 0.5px;
       margin: 3px 0;
+      white-space: nowrap;
       button {
         border-radius: 25px;
         padding: 4px 12px;
@@ -271,14 +272,16 @@ const Style = styled.article<StyleProps>`
         overflow: hidden;
         span {
           margin: 0 10px;
-          white-space: nowrap;
+          align-self: flex-end;
         }
         .email {
-          white-space: nowrap;
-          text-overflow: ellipsis;
           display: inline-block;
-
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
+      }
+      .sent {
+        margin-left: auto;
       }
       display: flex;
       justify-content: space-between;
@@ -290,6 +293,8 @@ const Style = styled.article<StyleProps>`
   }
   #delete-btn {
     margin: 0;
+    background-color: ${({ theme }) => theme.errorColor};
+    color: white;
   }
   .confirmation-ctr {
     button:first-of-type {
@@ -303,6 +308,9 @@ const Style = styled.article<StyleProps>`
           width: 100%;
         }
       }
+    }
+    ul {
+      font-size: 0.9rem;
     }
   }
 `

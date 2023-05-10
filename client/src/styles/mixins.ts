@@ -94,6 +94,7 @@ export const modalBtnMixin = css`
     margin-left: 15px;
     border-radius: 10px;
     transition: ${({ theme }) => theme.buttonTransition};
+    font-weight: 600;
     cursor: pointer;
     &:hover {
       transition: ${({ theme }) => theme.buttonTransition};
