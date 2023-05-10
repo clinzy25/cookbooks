@@ -1,4 +1,4 @@
-import React, { useRef, useState, FormEvent, FC } from 'react'
+import React, { useRef, FormEvent, FC } from 'react'
 import styled from 'styled-components'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { api } from '@/api'
@@ -8,6 +8,8 @@ import { IAppContext } from '@/types/@types.context'
 import Modal from '@/components/Modal'
 import { useRouter } from 'next/router'
 import { ICookbookReq } from '@/types/@types.cookbooks'
+import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
+import { modalBtnMixin, modalFieldMixin } from '@/styles/mixins'
 
 type Props = {
   setModalOpen: (bool: boolean) => void
@@ -18,7 +20,6 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
     useAppContext() as IAppContext
   const router = useRouter()
   const { user } = useUser()
-  const [formError, setFormError] = useState(false)
   const nameFieldRef = useRef<HTMLInputElement>(null)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -37,7 +38,7 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
           router.push(`/cookbooks/${res.data}`)
         }
       } else {
-        setFormError(true)
+        setSnackbar({ msg: 'Your cookbook needs a name', state: 'error' })
       }
     } catch (e) {
       handleServerError(e)
@@ -46,79 +47,67 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
 
   return (
     <Modal closeModal={() => setModalOpen(false)}>
-      <Style>
-        <h1>Create a new cookbook</h1>
+      <Style BREAKPOINT_MOBILE={BREAKPOINT_MOBILE}>
+        <h2>Create a New Cookbook</h2>
         <form autoComplete='off' onSubmit={e => handleSubmit(e)}>
           <div />
           <label htmlFor='name'>
-            <h2>Name Your Cookbook</h2>
-            <input
-              autoFocus
-              placeholder='Type a name...'
-              type='text'
-              name='name'
-              ref={nameFieldRef}
-            />
-            {/* For enter key */}
-            <input type='submit' hidden />
-            {formError && <span className='error-msg'>Your cookbook needs a name!</span>}
+            <div>
+              <input
+                autoFocus
+                placeholder='Name Your Cookbook...'
+                type='text'
+                name='name'
+                ref={nameFieldRef}
+              />
+              {/* For enter key */}
+              <input type='submit' hidden />
+              <button type='submit'>Create Cookbook</button>
+            </div>
           </label>
-          <div className='btn-ctr'>
-            <button className='left-btn' onClick={() => setModalOpen(false)}>
-              Cancel
-            </button>
-            <button type='submit'>Create Cookbook</button>
-          </div>
         </form>
       </Style>
     </Modal>
   )
 }
 
-const Style = styled.div`
+type StyleProps = {
+  BREAKPOINT_MOBILE: number
+}
+
+const Style = styled.div<StyleProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100%;
-  h1 {
-    margin-top: 10px;
+  h2 {
+    font-size: 1.7rem;
+    margin-bottom: 10px;
   }
   form {
     width: 100%;
-    height: 100%;
+    height: 80%;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
     label {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 40%;
-      input {
+      width: 80%;
+      div {
+        display: flex;
+        margin-top: 10px;
+        ${modalFieldMixin}
+        ${modalBtnMixin}
+      }
+    }
+  }
+  @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
+    h2 {
+      font-size: 1.4rem;
+    }
+    form {
+      label {
         width: 100%;
-        height: 40px;
       }
-      .error-msg {
-        color: red;
-      }
-      white-space: nowrap;
-    }
-    .btn-ctr {
-      width: 100%;
-      display: flex;
-      justify-content: flex-end;
-    }
-    .left-btn {
-      margin-right: auto;
-    }
-    button {
-      padding: 15px 30px;
-      margin: 15px;
-      width: min-content;
-      white-space: nowrap;
-      border: 1px solid gray;
-      border-radius: 10px;
     }
   }
 `

@@ -56,6 +56,40 @@ export const AvatarMixin = css`
   padding: 3px;
 `
 
+export const modalFieldMixin = css`
+  input {
+    width: 100%;
+    height: 48px;
+    padding-left: 10px;
+    border: 1px solid ${({ theme }) => theme.softBorder};
+    border-radius: 10px;
+    &::placeholder {
+      margin-left: 10px;
+      font-size: 1rem;
+    }
+  }
+`
+export const modalBtnMixin = css`
+  button {
+    padding: 15px 30px;
+    width: min-content;
+    white-space: nowrap;
+    border: 1px solid ${({ theme }) => theme.softBorder};
+    background-color: ${({ theme }) => theme.buttonBackground};
+    margin-left: 15px;
+    border-radius: 10px;
+    transition: ${({ theme }) => theme.buttonTransition};
+    cursor: pointer;
+    &:hover {
+      transition: ${({ theme }) => theme.buttonTransition};
+      background-color: ${({ theme }) => theme.buttonBackgroundHover};
+    }
+    &:active {
+      background-color: ${({ theme }) => theme.buttonBackgroundActive};
+    }
+  }
+`
+
 export const CardGradient = css`
   background: linear-gradient(
     top,

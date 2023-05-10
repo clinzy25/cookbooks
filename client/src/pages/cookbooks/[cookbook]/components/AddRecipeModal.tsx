@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { BiLink } from 'react-icons/bi'
 import { AiFillCamera, AiOutlineEdit } from 'react-icons/ai'
 import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
+import { modalBtnMixin, modalFieldMixin } from '@/styles/mixins'
 
 type Props = {
   setRecipeModal: (bool: boolean) => void
@@ -97,9 +98,10 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
           <section>
             <div className='tab1 paste-link'>
               <label htmlFor='paste-link'>
-                Paste a link to a website with a recipe and we&apos;ll save the recipe for you.
+                Paste a link to a web page that contains a recipe and we&apos;ll extract the recipe and save the recipe for you.
                 <div>
                   <input
+                    autoFocus
                     onPaste={e => handlePaste(e)}
                     placeholder='Paste a link with a recipe...'
                     type='text'
@@ -221,43 +223,14 @@ const Style = styled.div<StyleProps>`
           text-align: center;
           div {
             display: flex;
-            & > * {
-              border-radius: 10px;
-            }
-            input {
-              width: 100%;
-              height: 48px;
-              padding-left: 10px;
-              border: 1px solid ${({ theme }) => theme.softBorder};
-              &::placeholder {
-                margin-left: 10px;
-                font-size: 1rem;
-              }
-            }
-            button {
-              padding: 15px 30px;
-              width: min-content;
-              white-space: nowrap;
-              border: 1px solid ${({ theme }) => theme.softBorder};
-              background-color: ${({ theme }) => theme.buttonBackground};
-              margin-left: 15px;
-              transition: ${({ theme }) => theme.buttonTransition};
-              cursor: pointer;
-              &:hover {
-                transition: ${({ theme }) => theme.buttonTransition};
-                background-color: ${({ theme }) => theme.buttonBackgroundHover};
-              }
-              &:active {
-                background-color: ${({ theme }) => theme.buttonBackgroundActive};
-              }
-            }
-            .error-msg {
-              color: red;
-            }
+            margin-top: 10px;
+            ${modalFieldMixin}
+            ${modalBtnMixin}
           }
         }
       }
-      .camera, .manual {
+      .camera,
+      .manual {
         height: 100%;
         div {
           height: 100%;
