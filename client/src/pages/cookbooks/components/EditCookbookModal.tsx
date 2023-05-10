@@ -22,11 +22,10 @@ type Props = {
 
 const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
   const {
-    query: { cookbook },
+    query: { cookbook, cookbook_name },
   } = useRouter()
   const router = useRouter()
-  const { setSnackbar, currentCookbook, revalidateCookbooks, handleServerError } =
-    useAppContext() as IAppContext
+  const { setSnackbar, handleServerError } = useAppContext() as IAppContext
   const [members, setMembers] = useState<IMemberRes[]>([])
   const [pendingInvites, setPendingInvites] = useState<IMemberRes[]>([])
   const [confirm, setConfirm] = useState(false)
@@ -44,7 +43,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
       const newName = nameRef.current?.value
       if (!nameRef.current?.value) {
         setSnackbar({ msg: 'Cookbook must have a name', state: 'error' })
-      } else if (newName !== currentCookbook?.cookbook_name) {
+      } else if (newName !== decodeURIComponent(cookbook_name?.toString() as string)) {
         const body = {
           cookbook_name: newName,
           cookbook_guid: cookbook,
@@ -53,7 +52,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
         if (res.status === 204) {
           setSnackbar({ msg: 'Cookbook updated', state: 'success' })
         }
-        revalidateCookbooks()
+        // revalidateCookbooks()
       }
     } catch (e) {
       handleServerError(e)
@@ -66,7 +65,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
       if (res.status === 200) {
         setSnackbar({ msg: 'Cookbook deleted', state: 'success' })
         router.push('/cookbooks')
-        revalidateCookbooks()
+        // revalidateCookbooks()
       }
     } catch (e) {
       handleServerError(e)
@@ -119,7 +118,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
               type='text'
               name='cookbook-name'
               ref={nameRef}
-              defaultValue={currentCookbook?.cookbook_name}
+              defaultValue={decodeURIComponent(cookbook_name?.toString() as string)}
               onKeyDown={e => e.key === 'Enter' && handleEditName()}
             />
             <button onClick={handleEditName}>Update</button>

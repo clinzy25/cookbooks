@@ -1,6 +1,5 @@
 import { api, fetcher } from '@/api'
 import { IAppContext, ISnackbar } from '@/types/@types.context'
-import { ICookbookRes } from '@/types/@types.cookbooks'
 import { ITag } from '@/types/@types.tags'
 import { SNACKBAR_DURATION_MS } from '@/utils/utils.constants'
 import { GENERIC_RES, serverErrorMessageMap } from '@/utils/utils.errors.server'
@@ -24,10 +23,8 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     query: { cookbook },
     pathname,
   } = useRouter()
-  const { user, error: userError, isLoading } = useUser()
+  const { user } = useUser()
   const [snackbar, setSnackbar] = useState<ISnackbar>({ msg: '', state: '' })
-  const [cookbooks, setCookbooks] = useState<ICookbookRes[]>([])
-  const [currentCookbook, setCurrentCookbook] = useState<ICookbookRes | null>(null)
   const [isCookbookCreator, setIsCookbookCreator] = useState(false)
   const [tags, setTags] = useState<ITag[]>([])
   const [tagsLimit] = useState(20)
@@ -52,16 +49,6 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }
 
-  const handleCurrentCookbook = () => {
-    if (pathname === '/cookbooks/[cookbook]') {
-      const cb = cookbooks.find((cb: ICookbookRes) => cb.guid === cookbook)
-      setIsCookbookCreator(cb?.creator_user_guid === user?.sub)
-      setCurrentCookbook(cb || null)
-    } else {
-      setCurrentCookbook(null)
-    }
-  }
-
   const handleTags = () => {
     if (tagsData) {
       tagsData.length < tagsLimit && setIsEndOfTags(true)
@@ -72,6 +59,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
       }
     }
   }
+  
   const getTagsQuery = () => {
     if (pathname.includes('/cookbooks/[cookbook]')) {
       return `${api}/tags?cookbook_guid=${cookbook}&limit=${tagsLimit}&offset=${tagsOffset}`
@@ -87,23 +75,9 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     mutate: revalidateTags,
   } = useSWR(getTagsQuery(), fetcher)
 
-  const {
-    data: cookbooksData,
-    error: cookbooksError,
-    mutate: revalidateCookbooks,
-  } = useSWR(!isLoading && !userError && `${api}/cookbooks?user_guid=${user?.sub}`, fetcher)
-
-  useEffect(() => {
-    cookbooksData && setCookbooks(cookbooksData)
-  }, [cookbooksData])
-
   useEffect(() => {
     handleTags()
   }, [tagsData]) // eslint-disable-line
-
-  useEffect(() => {
-    handleCurrentCookbook()
-  }, [pathname, cookbooks]) // eslint-disable-line
 
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>
@@ -116,13 +90,8 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
-        cookbooks,
-        cookbooksError,
-        currentCookbook,
-        setCurrentCookbook,
         snackbar,
         setSnackbar,
-        revalidateCookbooks,
         tags,
         tagsError,
         revalidateTags,

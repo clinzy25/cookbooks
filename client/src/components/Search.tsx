@@ -12,7 +12,7 @@ import { useRouter } from 'next/router'
 
 const Search: FC = () => {
   const {
-    query: { cookbook },
+    query: { cookbook, cookbook_name },
   } = useRouter()
   const { user } = useUser()
   const { handleServerError } = useAppContext() as IAppContext
@@ -59,7 +59,11 @@ const Search: FC = () => {
               title={r.name}
               className='search-result'
               onClick={() => setSearchVal('')}
-              href={`/cookbooks/${r.cookbook_guid}/recipe/${r.guid}`}
+              href={`/cookbooks/${r.cookbook_guid}/recipe/${
+                r.guid
+              }?cookbook_name=${encodeURIComponent(
+                cookbook_name?.toString() as string
+              )}&recipe_name=${encodeURIComponent(r.name)}`}
               key={r.guid}>
               {r.name}
             </Link>
@@ -73,8 +77,10 @@ const Search: FC = () => {
               onClick={() => setSearchVal('')}
               href={
                 cookbook
-                  ? `/cookbooks/${cookbook}/search/${t.name.substring(1)}`
-                  : `search/${t.name.substring(1)}`
+                  ? `/cookbooks/${cookbook}/search?cookbook_name=${encodeURIComponent(
+                      cookbook_name?.toString() as string
+                    )}&value=${encodeURIComponent(t.name.substring(1))}`
+                  : `/search?value=${encodeURIComponent(t.name.substring(1))}`
               }
               key={t.guid}>
               {t.name}

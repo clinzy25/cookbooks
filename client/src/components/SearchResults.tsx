@@ -9,16 +9,15 @@ import useSWR from 'swr'
 
 const SearchResults: FC = () => {
   const {
-    query: { tag, cookbook },
+    query: { value, cookbook },
   } = useRouter()
   const { user } = useUser()
   const [recipes, setRecipes] = useState([])
-
   const getSearchParams = () =>
     cookbook ? `cookbook_guid=${cookbook}` : `user_guid=${user?.sub}`
 
   const { data, error } = useSWR(
-    `${api}/search/recipes/tag?tag_name=${tag}&${getSearchParams()}`,
+    `${api}/search/recipes/tag?tag_name=${value}&${getSearchParams()}`,
     fetcher
   )
   useEffect(() => {
@@ -34,7 +33,7 @@ const SearchResults: FC = () => {
   return (
     <Style>
       <header>
-        <h1>#{tag}</h1>
+        <h1>#{value}</h1>
       </header>
       <div id='recipe-ctr'>
         {recipes?.map((recipe: IRecipeRes) => (

@@ -12,11 +12,11 @@ import { ModalBtnMixin, ModalFieldMixin, ModalHeaderMixin } from '@/styles/mixin
 
 type Props = {
   setModalOpen: (bool: boolean) => void
+  revalidateCookbooks: () => void
 }
 
-const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
-  const { setSnackbar, revalidateCookbooks, handleServerError } =
-    useAppContext() as IAppContext
+const AddCookbookModal: FC<Props> = ({ setModalOpen, revalidateCookbooks }) => {
+  const { setSnackbar, handleServerError } = useAppContext() as IAppContext
   const router = useRouter()
   const { user } = useUser()
   const nameFieldRef = useRef<HTMLInputElement>(null)

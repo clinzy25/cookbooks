@@ -17,7 +17,7 @@ import { IconMixin, TagMixin } from '@/styles/mixins'
 
 const TagList: FC = () => {
   const {
-    query: { cookbook },
+    query: { cookbook, cookbook_name },
   } = useRouter()
   const {
     tags,
@@ -216,8 +216,10 @@ const TagList: FC = () => {
             <Link
               href={
                 cookbook
-                  ? `/cookbooks/${cookbook}/search/${t.tag_name}`
-                  : `/search/${t.tag_name}`
+                  ? `/cookbooks/${cookbook}/search?cookbook_name=${encodeURIComponent(
+                      cookbook_name?.toString() as string
+                    )}&value=${encodeURIComponent(t.tag_name)}`
+                  : `/search?value=${encodeURIComponent(t.tag_name)}`
               }
               className='tag'
               key={t.guid}>

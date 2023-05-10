@@ -23,8 +23,10 @@ const CookbookCard = ({ cookbook }: Props) => {
   const [randomInt] = useState(randomInRange(1, 3))
 
   return (
-    <Style >
-      <Link className='cookbook-tile' href={`/cookbooks/${guid}`}>
+    <Style>
+      <Link
+        className='cookbook-tile'
+        href={`/cookbooks/${guid}?cookbook_name=${encodeURIComponent(cookbook_name)}`}>
         <div className='img-ctr'>
           {recipe_images?.length ? (
             recipe_images?.map(image => (
@@ -83,7 +85,6 @@ const CookbookCard = ({ cookbook }: Props) => {
     </Style>
   )
 }
-
 
 const Style = styled.div`
   border-radius: 10px;

@@ -8,6 +8,7 @@ import withContext from '@/context/WithContext'
 import styled, { ThemeProvider } from 'styled-components'
 import GlobalStyle from '@/styles/globals'
 import { LightTheme } from '@/styles/theme'
+import Breadcrumb from '@/components/Breadcrumb'
 
 const App = ({ Component, pageProps }: AppProps) => {
   const { snackbar } = useAppContext() as IAppContext
@@ -17,6 +18,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <ThemeProvider theme={LightTheme}>
       {asPath !== '/' && <Navbar />}
+      <Breadcrumb />
       <PageWrapper>
         <GlobalStyle />
         <Component {...pageProps} />
@@ -28,13 +30,13 @@ const App = ({ Component, pageProps }: AppProps) => {
 
 const PageWrapper = styled.div`
   display: flex;
-  padding: 20px 60px;
+  padding: 15px 60px;
   height: 100%;
   & > * {
     width: 100%;
   }
   @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
-    padding: 20px 15px 30px 15px;
+    padding: 15px 15px 30px 15px;
   }
 `
 

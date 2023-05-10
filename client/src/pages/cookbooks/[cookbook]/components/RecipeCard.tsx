@@ -8,14 +8,17 @@ import styled from 'styled-components'
 
 const RecipeCard: React.FC<IRecipeRes> = recipe => {
   const {
-    query: { cookbook },
+    query: { cookbook, cookbook_name },
   } = useRouter()
   const { name, image, base64_image, cook_time, prep_time, tags, guid, creator_user_email } =
     recipe
 
   return (
     <Style>
-      <Link href={`/cookbooks/${cookbook}/recipe/${guid}`}>
+      <Link
+        href={`/cookbooks/${cookbook}/recipe/${guid}?cookbook_name=${encodeURIComponent(
+          cookbook_name?.toString() as string
+        )}&recipe_name=${encodeURIComponent(name)}`}>
         <div className='img-ctr'>
           {image && (
             <Image
