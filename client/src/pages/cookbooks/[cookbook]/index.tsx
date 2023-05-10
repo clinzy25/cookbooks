@@ -11,7 +11,7 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import AddRecipeModal from './components/AddRecipeModal'
 import EditCookbookModal from '../components/EditCookbookModal'
 import { AiOutlineEdit } from 'react-icons/ai'
-import { AddBtnMixin, IconMixin } from '@/styles/mixins'
+import { AddBtnMixin, IconMixin, ModalBtnMixin } from '@/styles/mixins'
 import { IoMdAddCircle } from 'react-icons/io'
 import Loader from '@/components/Loader'
 
@@ -67,7 +67,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
       </header>
       {!recipes.length && !isValidating ? (
         <div id='cta-ctr'>
-          <h1>Somethings missing...</h1>
+          <h2>Somethings missing...</h2>
           <p>Don&apos;t forget to add some recipes and invite your friends and family!</p>
           <div>
             <button className='btn' onClick={() => setRecipeModal(true)}>
@@ -174,8 +174,11 @@ const Style = styled.main<StyleProps>`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 50%;
+    min-height: 500px;
+    ${ModalBtnMixin}
+    p {
+      margin: 15px 0;
+    }
   }
   #add-recipe-btn {
     ${AddBtnMixin}
