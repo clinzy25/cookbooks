@@ -127,7 +127,7 @@ const RecipePage: React.FC<Props> = props => {
             <span>Uploaded by: </span>
             <span>{creator_user_email}</span>
             <span> on </span>
-            <span>{moment(created_at).format('MMM D YYYY')}</span>
+            <span>{moment(created_at).format('MMM D, YYYY')}</span>
           </p>
           <a href={source_url} target='_blank'>
             {new URL(source_url).host}

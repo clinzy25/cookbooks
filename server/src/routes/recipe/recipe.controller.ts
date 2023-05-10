@@ -55,6 +55,7 @@ export async function httpParseRecipe(req: Request, res: Response, next: NextFun
       const isValidUrl = await axios.get(url)
       if (isValidUrl.status !== 200) throw new Error(INVALID_URL)
 
+      console.log(recipes)
       const parsedRecipe = await recipeDataScraper(url)
       if (!parsedRecipe) throw new Error(RECIPE_NOT_FOUND)
       const imageUrl = await getRecipeImage(parsedRecipe)
