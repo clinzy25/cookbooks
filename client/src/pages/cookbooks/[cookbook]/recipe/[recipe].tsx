@@ -139,7 +139,7 @@ const RecipePage: React.FC<Props> = props => {
             <h2>Ingredients</h2>
             <ul id='ingredients'>
               {ingredients.map(ingredient => (
-                <div key={ingredient.text}>
+                <div key={ingredient}>
                   <input type='checkbox' />
                   <li key={ingredient}>{ingredient}</li>
                 </div>

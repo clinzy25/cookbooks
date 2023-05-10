@@ -33,7 +33,9 @@ const SearchResults: FC = () => {
   }
   return (
     <Style>
-      <h1>#{tag}</h1>
+      <header>
+        <h1>#{tag}</h1>
+      </header>
       <div id='recipe-ctr'>
         {recipes?.map((recipe: IRecipeRes) => (
           <RecipeCard {...recipe} key={recipe.guid} />
@@ -46,7 +48,10 @@ const SearchResults: FC = () => {
 const Style = styled.main`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  header {
+    margin-bottom: 15px;
+  }
   #recipe-ctr {
     display: grid;
     width: 100%;
