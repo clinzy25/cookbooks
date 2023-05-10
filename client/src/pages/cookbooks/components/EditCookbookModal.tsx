@@ -2,10 +2,13 @@ import { fetcher } from '@/api'
 import { api } from '@/api'
 import Modal from '@/components/Modal'
 import useAppContext from '@/context/app.context'
+import { AvatarMixin, modalBtnMixin, modalFieldMixin, modalHeaderMixin } from '@/styles/mixins'
 import { IAppContext } from '@/types/@types.context'
 import { IMemberRes } from '@/types/@types.user'
+import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
 import { validateEmail } from '@/utils/utils.validateField'
 import axios from 'axios'
+import moment from 'moment'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { FC, MouseEvent, useEffect, useRef, useState } from 'react'
@@ -25,7 +28,6 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
     useAppContext() as IAppContext
   const [members, setMembers] = useState<IMemberRes[]>([])
   const [pendingInvites, setPendingInvites] = useState<IMemberRes[]>([])
-  const [formError, setFormError] = useState(false)
   const [confirm, setConfirm] = useState(false)
   const emailRef = useRef<HTMLInputElement>(null)
 
@@ -74,10 +76,15 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
   const sendInvite = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     const isValidInput = !emailRef.current || !validateEmail(emailRef.current.value)
+    const duplicateEmail = pendingInvites.some(
+      invite => invite.email === emailRef.current.value
+    )
+
     if (isValidInput) {
-      setFormError(true)
+      setSnackbar({ msg: 'Invalid email', state: 'error' })
+    } else if (duplicateEmail) {
+      setSnackbar({ msg: "You've already sent this person an invite!", state: 'error' })
     } else {
-      formError && setFormError(false)
       const invites = [
         {
           email: emailRef.current.value,
@@ -103,36 +110,42 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
 
   return (
     <Modal closeModal={() => setEditModal(false)}>
-      <Style>
-        <header>
-          <h1>Edit Cookbook</h1>
-        </header>
+      <Style BREAKPOINT_MOBILE={BREAKPOINT_MOBILE}>
+        <h2>Edit Cookbook</h2>
         <label htmlFor='cookbook-name'>
-          <h2>Edit Cookbook Name</h2>
-          <input
-            type='text'
-            name='cookbook-name'
-            ref={nameRef}
-            defaultValue={currentCookbook?.cookbook_name}
-            onKeyDown={e => e.key === 'Enter' && handleEditName()}
-          />
-          <button onClick={handleEditName}>Update</button>
+          <h3>Edit Cookbook Name</h3>
+          <div>
+            <input
+              type='text'
+              name='cookbook-name'
+              ref={nameRef}
+              defaultValue={currentCookbook?.cookbook_name}
+              onKeyDown={e => e.key === 'Enter' && handleEditName()}
+            />
+            <button onClick={handleEditName}>Update</button>
+          </div>
         </label>
-        <h2>People</h2>
-        <h3>Send invitation</h3>
-        <form>
-          <input ref={emailRef} placeholder='Type an email address' type='text' />
-          <button type='submit' onClick={e => sendInvite(e)}>
-            Send invite
-          </button>
-          {formError && <p id='form-error'>Invalid email</p>}
-        </form>
-        <h3>Cookbook Members</h3>
-        {error ? (
-          'error'
-        ) : (
-          <ul>
-            {members.map(m => (
+        <label htmlFor='email'>
+          <h3>People</h3>
+          <h4>Send invitation</h4>
+          <div>
+            <input
+              name='email'
+              ref={emailRef}
+              placeholder='Type an email address'
+              type='text'
+            />
+            <button type='submit' onClick={e => sendInvite(e)}>
+              Send invite
+            </button>
+          </div>
+        </label>
+        <h4>Cookbook Members</h4>
+        <ul>
+          {error ? (
+            'error'
+          ) : members.length ? (
+            members.map(m => (
               <li key={m.membership_guid}>
                 <div>
                   <Image
@@ -142,76 +155,87 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
                     alt={m.username}
                   />
                   <span>{m.username}</span>
-                  <span>{m.email}</span>
+                  <span className='email'>{m.email}</span>
                 </div>
                 <span>Joined: {m.created_at}</span>
               </li>
-            ))}
-          </ul>
-        )}
-        <h3>Pending Invitations</h3>
-        <ul>
-          {error
-            ? 'error'
-            : pendingInvites.map(m => (
-                <li key={m.membership_guid}>
-                  <div>
-                    <Image
-                      src='/assets/avatar-placeholder.png'
-                      width={25}
-                      height={25}
-                      alt={m.username}
-                    />
-                    <span>{m.username}</span>
-                    <span>{m.email}</span>
-                  </div>
-                  <span>Sent: {m.created_at}</span>
-                </li>
-              ))}
+            ))
+          ) : (
+            <p>No members. Invite some people!</p>
+          )}
         </ul>
-        <h2>Delete Cookbook</h2>
-        {!confirm ? (
-          <button onClick={() => setConfirm(true)}>Delete</button>
-        ) : (
-          <>
-            <p>Are you sure you want to delete this cookbook?</p>
-            <button type='button' onClick={handleDelete}>
-              Yes
+
+        <h4>Pending Invitations</h4>
+        <ul>
+          {error ? (
+            'error'
+          ) : pendingInvites.length ? (
+            pendingInvites.map(m => (
+              <li key={m.membership_guid}>
+                <div>
+                  <Image
+                    src='/assets/avatar-placeholder.png'
+                    width={25}
+                    height={25}
+                    alt={m.username}
+                  />
+                  <span>{m.email}</span>
+                </div>
+                <div>
+                  <span>Sent {moment(m.created_at).format('M/D/YY')}</span>
+                  <button>Revoke</button>
+                </div>
+              </li>
+            ))
+          ) : (
+            <p>No pending invites.</p>
+          )}
+        </ul>
+        <div>
+          <h3>Delete Cookbook</h3>
+          {!confirm ? (
+            <button id='delete-btn' onClick={() => setConfirm(true)}>
+              Delete
             </button>
-            <button type='button' onClick={() => setConfirm(false)}>
-              No
-            </button>
-          </>
-        )}
+          ) : (
+            <div className='confirmation-ctr'>
+              <p>Are you sure you want to delete this cookbook?</p>
+              <button type='button' onClick={handleDelete}>
+                Yes
+              </button>
+              <button type='button' onClick={() => setConfirm(false)}>
+                No
+              </button>
+            </div>
+          )}
+        </div>
       </Style>
     </Modal>
   )
 }
 
-const Style = styled.article`
+type StyleProps = {
+  BREAKPOINT_MOBILE: number
+}
+
+const Style = styled.article<StyleProps>`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   height: 100%;
-  padding: 20px 40px;
-  header {
-    text-align: center;
-    width: 100%;
+  ${modalHeaderMixin}
+  ${modalFieldMixin}
+  ${modalBtnMixin}
+  h3 {
     font-size: 1.4rem;
   }
-  input {
-    height: 48px;
-    width: 40%;
-  }
-  button {
-    padding: 15px 30px;
-    margin-left: 15px;
-    width: min-content;
-    white-space: nowrap;
-    border: 1px solid gray;
-    border-radius: 10px;
-  }
-  form {
-    #form-error {
-      color: red;
-      height: 22px;
+  label {
+    div {
+      display: flex;
+      margin-top: 5px;
+      input {
+        width: 50%;
+      }
     }
   }
   h2 {
@@ -222,15 +246,38 @@ const Style = styled.article`
   }
   ul {
     list-style-type: none;
+    text-align: center;
+    background-color: #e4e4e4;
+    border-radius: 10px;
+    padding: 10px;
+    max-height: 250px;
+    overflow-y: auto;
     li {
-      img {
+      background-color: white;
+      letter-spacing: 0.5px;
+      margin: 3px 0;
+      button {
         border-radius: 25px;
+        padding: 4px 12px;
+        background-color: ${({ theme }) => theme.errorColor};
+        color: white;
+      }
+      img {
+        ${AvatarMixin}
       }
       div {
         display: flex;
         align-items: center;
+        overflow: hidden;
         span {
           margin: 0 10px;
+          white-space: nowrap;
+        }
+        .email {
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          display: inline-block;
+
         }
       }
       display: flex;
@@ -239,6 +286,23 @@ const Style = styled.article`
       border: 1px solid gray;
       border-radius: 25px;
       padding: 5px;
+    }
+  }
+  #delete-btn {
+    margin: 0;
+  }
+  .confirmation-ctr {
+    button:first-of-type {
+      margin-left: 0;
+    }
+  }
+  @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
+    label {
+      div {
+        input {
+          width: 100%;
+        }
+      }
     }
   }
 `

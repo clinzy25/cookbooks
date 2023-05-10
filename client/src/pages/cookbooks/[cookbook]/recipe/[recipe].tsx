@@ -12,7 +12,7 @@ import { IAppContext } from '@/types/@types.context'
 import axios from 'axios'
 import Modal from '@/components/Modal'
 import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
-import { IconMixin } from '@/styles/mixins'
+import { IconMixin, modalBtnMixin } from '@/styles/mixins'
 import { TagMixin } from '@/styles/mixins'
 import moment from 'moment'
 
@@ -263,13 +263,10 @@ const Style = styled.main<StyleProps>`
     align-items: center;
     justify-content: center;
     height: 100%;
-    button {
-      padding: 15px 30px;
-      width: min-content;
-      white-space: nowrap;
-      border: 1px solid gray;
-      border-radius: 10px;
+    h2 {
+      margin-bottom: 10px;
     }
+    ${modalBtnMixin}
   }
   @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
     #meta-ctr {

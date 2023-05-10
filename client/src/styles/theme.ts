@@ -5,5 +5,9 @@ export const LightTheme = {
   buttonTransition: 'all 0.1s ease-out;',
   tagBackground: 'whitesmoke',
   softBorder: '#bfbfbf',
-  boxShadowColor: '#d2d2d2'
+  boxShadowColor: '#d2d2d2',
+
+  successColor: '#16a500',
+  errorColor: '#d80000',
+  neutralColor: '#bababa',
 }

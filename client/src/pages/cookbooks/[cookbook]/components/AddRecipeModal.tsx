@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 import { BiLink } from 'react-icons/bi'
 import { AiFillCamera, AiOutlineEdit } from 'react-icons/ai'
 import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
-import { modalBtnMixin, modalFieldMixin } from '@/styles/mixins'
+import { modalBtnMixin, modalFieldMixin, modalHeaderMixin } from '@/styles/mixins'
 
 type Props = {
   setRecipeModal: (bool: boolean) => void
@@ -98,7 +98,8 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
           <section>
             <div className='tab1 paste-link'>
               <label htmlFor='paste-link'>
-                Paste a link to a web page that contains a recipe and we&apos;ll extract the recipe and save the recipe for you.
+                Paste a link to a web page that contains a recipe and we&apos;ll extract the
+                recipe and save the recipe for you.
                 <div>
                   <input
                     autoFocus
@@ -143,10 +144,7 @@ const Style = styled.div<StyleProps>`
   display: flex;
   align-items: center;
   flex-direction: column;
-  h2 {
-    font-size: 1.7rem;
-    margin-bottom: 10px;
-  }
+  ${modalHeaderMixin}
   .tab-ctr {
     flex-direction: column;
     display: flex;

@@ -1,3 +1,4 @@
+import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
 import { css } from 'styled-components'
 
 export const TagMixin = css`
@@ -56,6 +57,19 @@ export const AvatarMixin = css`
   padding: 3px;
 `
 
+export const modalHeaderMixin = css`
+  h2 {
+    font-size: 1.7rem;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  @media screen and (max-width: ${BREAKPOINT_MOBILE}px) {
+    h2 {
+      font-size: 1.4rem;
+    }
+  }
+`
+
 export const modalFieldMixin = css`
   input {
     width: 100%;
@@ -63,6 +77,7 @@ export const modalFieldMixin = css`
     padding-left: 10px;
     border: 1px solid ${({ theme }) => theme.softBorder};
     border-radius: 10px;
+    font-size: 1rem;
     &::placeholder {
       margin-left: 10px;
       font-size: 1rem;

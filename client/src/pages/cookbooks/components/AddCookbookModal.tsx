@@ -9,7 +9,7 @@ import Modal from '@/components/Modal'
 import { useRouter } from 'next/router'
 import { ICookbookReq } from '@/types/@types.cookbooks'
 import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
-import { modalBtnMixin, modalFieldMixin } from '@/styles/mixins'
+import { modalBtnMixin, modalFieldMixin, modalHeaderMixin } from '@/styles/mixins'
 
 type Props = {
   setModalOpen: (bool: boolean) => void
@@ -80,10 +80,7 @@ const Style = styled.div<StyleProps>`
   flex-direction: column;
   align-items: center;
   height: 100%;
-  h2 {
-    font-size: 1.7rem;
-    margin-bottom: 10px;
-  }
+  ${modalHeaderMixin}
   form {
     width: 100%;
     height: 80%;
@@ -101,9 +98,6 @@ const Style = styled.div<StyleProps>`
     }
   }
   @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
-    h2 {
-      font-size: 1.4rem;
-    }
     form {
       label {
         width: 100%;

@@ -35,11 +35,11 @@ const Style = styled.div<StyleProps>`
   background-color: ${props => {
     switch (props.state) {
       case 'success':
-        return '#16a500'
+        return `${props.theme.successColor};`
       case 'error':
-        return '#d80000'
+        return `${props.theme.errorColor};`
       default:
-        return '#bababa'
+        return `${props.theme.neutralColor};`
     }
   }};
   animation: ${props => `snackbarIn ${props.duration}ms ease-out`};
