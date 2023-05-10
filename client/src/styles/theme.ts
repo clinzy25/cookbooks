@@ -1,4 +1,9 @@
+const Variables = {
+  breakpointMobile: 800,
+}
+
 export const LightTheme = {
+  ...Variables,
   buttonBackground: 'whitesmoke',
   buttonBackgroundHover: '#e4e4e4',
   buttonBackgroundActive: '#d3d3d3',

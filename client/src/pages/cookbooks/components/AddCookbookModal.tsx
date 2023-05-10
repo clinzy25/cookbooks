@@ -8,8 +8,7 @@ import { IAppContext } from '@/types/@types.context'
 import Modal from '@/components/Modal'
 import { useRouter } from 'next/router'
 import { ICookbookReq } from '@/types/@types.cookbooks'
-import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
-import { modalBtnMixin, modalFieldMixin, modalHeaderMixin } from '@/styles/mixins'
+import { ModalBtnMixin, ModalFieldMixin, ModalHeaderMixin } from '@/styles/mixins'
 
 type Props = {
   setModalOpen: (bool: boolean) => void
@@ -47,7 +46,7 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
 
   return (
     <Modal closeModal={() => setModalOpen(false)}>
-      <Style BREAKPOINT_MOBILE={BREAKPOINT_MOBILE}>
+      <Style>
         <h2>Create a New Cookbook</h2>
         <form autoComplete='off' onSubmit={e => handleSubmit(e)}>
           <div />
@@ -71,16 +70,12 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
   )
 }
 
-type StyleProps = {
-  BREAKPOINT_MOBILE: number
-}
-
-const Style = styled.div<StyleProps>`
+const Style = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100%;
-  ${modalHeaderMixin}
+  ${ModalHeaderMixin}
   form {
     width: 100%;
     height: 80%;
@@ -92,12 +87,12 @@ const Style = styled.div<StyleProps>`
       div {
         display: flex;
         margin-top: 10px;
-        ${modalFieldMixin}
-        ${modalBtnMixin}
+        ${ModalFieldMixin}
+        ${ModalBtnMixin}
       }
     }
   }
-  @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
+  @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     form {
       label {
         width: 100%;

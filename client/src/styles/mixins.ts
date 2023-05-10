@@ -1,4 +1,3 @@
-import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
 import { css } from 'styled-components'
 
 export const TagMixin = css`
@@ -57,20 +56,20 @@ export const AvatarMixin = css`
   padding: 3px;
 `
 
-export const modalHeaderMixin = css`
+export const ModalHeaderMixin = css`
   h2 {
     font-size: 1.7rem;
     margin-bottom: 10px;
     text-align: center;
   }
-  @media screen and (max-width: ${BREAKPOINT_MOBILE}px) {
+  @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     h2 {
       font-size: 1.4rem;
     }
   }
 `
 
-export const modalFieldMixin = css`
+export const ModalFieldMixin = css`
   input {
     width: 100%;
     height: 48px;
@@ -84,7 +83,7 @@ export const modalFieldMixin = css`
     }
   }
 `
-export const modalBtnMixin = css`
+export const ModalBtnMixin = css`
   button {
     padding: 15px 30px;
     width: min-content;

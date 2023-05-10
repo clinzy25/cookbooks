@@ -7,7 +7,6 @@ import AddCookbookModal from './components/AddCookbookModal'
 import { IoMdAddCircle } from 'react-icons/io'
 import { AddBtnMixin } from '@/styles/mixins'
 import CookbookCard from './components/CookbookCard'
-import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
 
 const CookbooksPage: React.FC = () => {
   const { cookbooks, cookbooksError } = useAppContext() as IAppContext
@@ -20,7 +19,7 @@ const CookbooksPage: React.FC = () => {
     return <p>error</p>
   }
   return (
-    <Styles BREAKPOINT_MOBILE={BREAKPOINT_MOBILE} id='cookbook-page-wrapper'>
+    <Styles id='cookbook-page-wrapper'>
       {modalOpen && <AddCookbookModal setModalOpen={setModalOpen} />}
       <header>
         <h1>Your Cookbooks</h1>
@@ -37,11 +36,7 @@ const CookbooksPage: React.FC = () => {
 
 export const getServerSideProps = withPageAuthRequired()
 
-type StyleProps = {
-  BREAKPOINT_MOBILE: number
-}
-
-const Styles = styled.main<StyleProps>`
+const Styles = styled.main`
   display: flex;
   flex-direction: column;
   header {
@@ -57,7 +52,7 @@ const Styles = styled.main<StyleProps>`
   #add-cookbook-btn {
     ${AddBtnMixin}
   }
-  @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
+  @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     #cookbooks-ctr {
       grid-template-columns: 1fr;
     }

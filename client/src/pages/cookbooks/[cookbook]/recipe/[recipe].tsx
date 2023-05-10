@@ -11,7 +11,6 @@ import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import axios from 'axios'
 import Modal from '@/components/Modal'
-import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
 import { IconMixin, modalBtnMixin } from '@/styles/mixins'
 import { TagMixin } from '@/styles/mixins'
 import moment from 'moment'
@@ -63,7 +62,7 @@ const RecipePage: React.FC<Props> = props => {
     return <p>error</p>
   }
   return (
-    <Style BREAKPOINT_MOBILE={BREAKPOINT_MOBILE} id='recipe-page-wrapper'>
+    <Style id='recipe-page-wrapper'>
       {confirm && (
         <Modal type='confirm' closeModal={() => setConfirm(false)}>
           <div id='confirmation-ctr'>
@@ -166,11 +165,8 @@ export async function getServerSideProps(context: {
   return { props: { recipe } }
 }
 
-type StyleProps = {
-  BREAKPOINT_MOBILE: number
-}
 
-const Style = styled.main<StyleProps>`
+const Style = styled.main`
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -268,7 +264,7 @@ const Style = styled.main<StyleProps>`
     }
     ${modalBtnMixin}
   }
-  @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
+  @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     #meta-ctr {
       header {
         justify-content: space-between;

@@ -1,21 +1,17 @@
 import styled from 'styled-components'
 import Search from './Search'
 import { FC } from 'react'
-import { NAVBAR_HEIGHT } from '@/utils/utils.constants'
 import TagList from './TagList'
 
 const Navbar: FC = () => (
-  <Style navbarHeight={NAVBAR_HEIGHT}>
+  <Style>
     <Search />
     <TagList />
   </Style>
 )
 
-type StyleProps = {
-  navbarHeight: number
-}
-
-const Style = styled.div<StyleProps>`
+const Style = styled.div`
+  height: 65px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -25,7 +21,6 @@ const Style = styled.div<StyleProps>`
   top: 0;
   width: 100%;
   gap: 12px;
-  height: ${props => `${props.navbarHeight}px`};
   border-bottom: 1px solid gray;
   padding: 12px;
   box-shadow: 3px 3px 5px #e3e3e3;

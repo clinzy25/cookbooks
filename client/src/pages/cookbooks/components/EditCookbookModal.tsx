@@ -2,10 +2,9 @@ import { fetcher } from '@/api'
 import { api } from '@/api'
 import Modal from '@/components/Modal'
 import useAppContext from '@/context/app.context'
-import { AvatarMixin, modalBtnMixin, modalFieldMixin, modalHeaderMixin } from '@/styles/mixins'
+import { AvatarMixin, ModalBtnMixin, ModalFieldMixin, ModalHeaderMixin } from '@/styles/mixins'
 import { IAppContext } from '@/types/@types.context'
 import { IMemberRes } from '@/types/@types.user'
-import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
 import { validateEmail } from '@/utils/utils.validateField'
 import axios from 'axios'
 import moment from 'moment'
@@ -110,7 +109,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
 
   return (
     <Modal closeModal={() => setEditModal(false)}>
-      <Style BREAKPOINT_MOBILE={BREAKPOINT_MOBILE}>
+      <Style>
         <h2>Edit Cookbook</h2>
         <label htmlFor='cookbook-name'>
           <h3>Edit Cookbook Name</h3>
@@ -212,18 +211,14 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
   )
 }
 
-type StyleProps = {
-  BREAKPOINT_MOBILE: number
-}
-
-const Style = styled.article<StyleProps>`
+const Style = styled.article`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  ${modalHeaderMixin}
-  ${modalFieldMixin}
-  ${modalBtnMixin}
+  ${ModalHeaderMixin}
+  ${ModalFieldMixin}
+  ${ModalBtnMixin}
   h3 {
     font-size: 1.4rem;
     margin: 15px 0 5px 0;
@@ -301,7 +296,7 @@ const Style = styled.article<StyleProps>`
       margin-left: 0;
     }
   }
-  @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
+  @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     label {
       div {
         input {

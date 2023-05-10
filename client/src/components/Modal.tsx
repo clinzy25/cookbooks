@@ -1,5 +1,4 @@
 import { ModalGlobalStyles } from '@/styles/globals.modifiers'
-import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
 import { useOutsideAlerter } from '@/utils/utils.hooks'
 import React, { FC, ReactNode, useRef } from 'react'
 import { AiFillCloseCircle } from 'react-icons/ai'
@@ -16,7 +15,7 @@ const Modal: FC<Props> = ({ closeModal, children, type }) => {
   useOutsideAlerter(modalRef, closeModal)
 
   return (
-    <Style BREAKPOINT_MOBILE={BREAKPOINT_MOBILE} ref={modalRef} id='modal' type={type}>
+    <Style ref={modalRef} id='modal' type={type}>
       <ModalGlobalStyles />
       <AiFillCloseCircle id='close-btn' onClick={closeModal} />
       {children}
@@ -26,7 +25,6 @@ const Modal: FC<Props> = ({ closeModal, children, type }) => {
 
 type StyleProps = {
   type?: 'confirm'
-  BREAKPOINT_MOBILE: number
 }
 
 const Style = styled.div<StyleProps>`
@@ -60,7 +58,7 @@ const Style = styled.div<StyleProps>`
   @media screen and (max-width: 1300px) {
     width: 70%;
   }
-  @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
+  @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     width: 90%;
   }
 `

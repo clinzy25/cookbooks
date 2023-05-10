@@ -1,6 +1,5 @@
 import { AvatarMixin, CardGradient, CardGradientHover } from '@/styles/mixins'
 import { ICookbookRes } from '@/types/@types.cookbooks'
-import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
 import randomInRange from '@/utils/utils.randomInRange'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -24,7 +23,7 @@ const CookbookCard = ({ cookbook }: Props) => {
   const [randomInt] = useState(randomInRange(1, 3))
 
   return (
-    <Style BREAKPOINT_MOBILE={BREAKPOINT_MOBILE}>
+    <Style >
       <Link className='cookbook-tile' href={`/cookbooks/${guid}`}>
         <div className='img-ctr'>
           {recipe_images?.length ? (
@@ -85,11 +84,8 @@ const CookbookCard = ({ cookbook }: Props) => {
   )
 }
 
-type StyleProps = {
-  BREAKPOINT_MOBILE: number
-}
 
-const Style = styled.div<StyleProps>`
+const Style = styled.div`
   border-radius: 10px;
   box-shadow: 4px 4px 8px #b7b7b7;
   transition: 0.03s;
@@ -166,7 +162,7 @@ const Style = styled.div<StyleProps>`
       margin-right: 5px;
     }
   }
-  @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
+  @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     a {
       .img-ctr {
         grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));

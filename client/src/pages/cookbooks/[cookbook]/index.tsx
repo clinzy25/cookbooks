@@ -11,7 +11,6 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import AddRecipeModal from './components/AddRecipeModal'
 import EditCookbookModal from '../components/EditCookbookModal'
 import { AiOutlineEdit } from 'react-icons/ai'
-import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
 import { AddBtnMixin, IconMixin } from '@/styles/mixins'
 import { IoMdAddCircle } from 'react-icons/io'
 import Loader from '@/components/Loader'
@@ -53,10 +52,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
     return <p>error</p>
   }
   return (
-    <Style
-      BREAKPOINT_MOBILE={BREAKPOINT_MOBILE}
-      endOfList={endOfList}
-      id='cookbook-detail-page-wrapper'>
+    <Style endOfList={endOfList} id='cookbook-detail-page-wrapper'>
       {recipeModal && (
         <AddRecipeModal revalidateRecipes={mutate} setRecipeModal={setRecipeModal} />
       )}
@@ -116,7 +112,6 @@ export async function getServerSideProps(context: {
 }
 
 type StyleProps = {
-  BREAKPOINT_MOBILE: number
   endOfList: boolean
 }
 
@@ -185,7 +180,7 @@ const Style = styled.main<StyleProps>`
   #add-recipe-btn {
     ${AddBtnMixin}
   }
-  @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
+  @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     header {
       font-size: 0.7rem;
     }

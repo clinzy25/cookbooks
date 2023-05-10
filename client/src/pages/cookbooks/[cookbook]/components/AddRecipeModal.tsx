@@ -10,8 +10,7 @@ import { IRecipeReq, RecipeSourceTypes } from '@/types/@types.recipes'
 import { useRouter } from 'next/router'
 import { BiLink } from 'react-icons/bi'
 import { AiFillCamera, AiOutlineEdit } from 'react-icons/ai'
-import { BREAKPOINT_MOBILE } from '@/utils/utils.constants'
-import { modalBtnMixin, modalFieldMixin, modalHeaderMixin } from '@/styles/mixins'
+import { ModalBtnMixin, ModalFieldMixin, ModalHeaderMixin } from '@/styles/mixins'
 
 type Props = {
   setRecipeModal: (bool: boolean) => void
@@ -61,7 +60,7 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
 
   return (
     <Modal closeModal={() => setRecipeModal(false)}>
-      <Style BREAKPOINT_MOBILE={BREAKPOINT_MOBILE}>
+      <Style>
         <h2>Add a Recipe</h2>
         <div className='tab-ctr'>
           <input defaultChecked id='tab1' type='radio' name='tab' />
@@ -136,7 +135,6 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
 
 type StyleProps = {
   type?: 'confirm'
-  BREAKPOINT_MOBILE: number
 }
 
 const Style = styled.div<StyleProps>`
@@ -144,7 +142,7 @@ const Style = styled.div<StyleProps>`
   display: flex;
   align-items: center;
   flex-direction: column;
-  ${modalHeaderMixin}
+  ${ModalHeaderMixin}
   .tab-ctr {
     flex-direction: column;
     display: flex;
@@ -222,8 +220,8 @@ const Style = styled.div<StyleProps>`
           div {
             display: flex;
             margin-top: 10px;
-            ${modalFieldMixin}
-            ${modalBtnMixin}
+            ${ModalFieldMixin}
+            ${ModalBtnMixin}
           }
         }
       }
@@ -244,7 +242,7 @@ const Style = styled.div<StyleProps>`
       }
     }
   }
-  @media screen and (max-width: ${props => props.BREAKPOINT_MOBILE}px) {
+  @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     h2 {
       font-size: 1.4rem;
     }
