@@ -1,3 +1,14 @@
+interface IInstructionStep {
+  type: 'HowToStep'
+  text: string
+}
+
+interface IInstructionSection {
+  type: 'HowToSection'
+  name: string
+  instructions: IInstructionStep[]
+}
+
 export interface IRecipeRes {
   guid: string
   creator_user_guid: string
@@ -15,7 +26,7 @@ export interface IRecipeRes {
   total_original_format: string
   yield: string
   ingredients: string[]
-  instructions: string[]
+  instructions: [IInstructionStep | IInstructionSection]
   recipe_body: string[]
   notes: string[]
   tags: string

@@ -11,7 +11,7 @@ import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import axios from 'axios'
 import Modal from '@/components/Modal'
-import { IconMixin, modalBtnMixin } from '@/styles/mixins'
+import { IconMixin, ModalBtnMixin } from '@/styles/mixins'
 import { TagMixin } from '@/styles/mixins'
 import moment from 'moment'
 
@@ -146,9 +146,22 @@ const RecipePage: React.FC<Props> = props => {
           <div>
             <h2>Instructions</h2>
             <ol id='instructions'>
-              {instructions.map((step, i) => (
-                <li key={step}>{step}</li>
-              ))}
+              {instructions.map(step => {
+                if (step.type === 'HowToStep') {
+                  return <li key={step.text}>{step.text}</li>
+                } else if (step.type === 'HowToSection') {
+                  return (
+                    <>
+                      <h3>{step.name}</h3>
+                      <ol>
+                        {step.instructions.map(step => (
+                          <li key={step.text}>{step.text}</li>
+                        ))}
+                      </ol>
+                    </>
+                  )
+                }
+              })}
             </ol>
           </div>
         </div>
@@ -164,7 +177,6 @@ export async function getServerSideProps(context: {
   const recipe = await fetcher(`${api}/recipes?recipe_guid=${guid}`)
   return { props: { recipe } }
 }
-
 
 const Style = styled.main`
   display: flex;
@@ -247,9 +259,12 @@ const Style = styled.main`
     h2 {
       margin-bottom: 10px;
     }
-    ol,
-    ul {
-      padding-left: 15px;
+    h3 {
+      margin: 10px 0 5px 0;
+    }
+    ul,
+    ol {
+      list-style-position: inside;
     }
     max-width: 700px;
   }
@@ -262,7 +277,7 @@ const Style = styled.main`
     h2 {
       margin-bottom: 10px;
     }
-    ${modalBtnMixin}
+    ${ModalBtnMixin}
   }
   @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     #meta-ctr {
