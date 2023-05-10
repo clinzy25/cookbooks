@@ -59,7 +59,7 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
   }
 
   return (
-    <Modal closeModal={() => setRecipeModal(false)}>
+    <Modal type='default' closeModal={() => setRecipeModal(false)}>
       <Style>
         <h2>Add a Recipe</h2>
         <div className='tab-ctr'>

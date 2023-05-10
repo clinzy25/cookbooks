@@ -10,7 +10,9 @@ import axios from 'axios'
 import moment from 'moment'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { FC, MouseEvent, useEffect, useRef, useState } from 'react'
+import React, { FC, MouseEvent, MutableRefObject, useEffect, useRef, useState } from 'react'
+import { BsFillSendFill } from 'react-icons/bs'
+import { FaBirthdayCake } from 'react-icons/fa'
 import styled from 'styled-components'
 import useSWR from 'swr'
 
@@ -28,8 +30,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
   const [members, setMembers] = useState<IMemberRes[]>([])
   const [pendingInvites, setPendingInvites] = useState<IMemberRes[]>([])
   const [confirm, setConfirm] = useState(false)
-  const emailRef = useRef<HTMLInputElement>(null)
-
+  const emailRef = useRef() as MutableRefObject<HTMLInputElement>
   const nameRef = useRef<HTMLInputElement>(null)
 
   const {
@@ -108,7 +109,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
   }, [data])
 
   return (
-    <Modal closeModal={() => setEditModal(false)}>
+    <Modal type='edit-cookbook' closeModal={() => setEditModal(false)}>
       <Style>
         <h2>Edit Cookbook</h2>
         <label htmlFor='cookbook-name'>
@@ -154,16 +155,17 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
                     alt={m.username}
                   />
                   <span>{m.username}</span>
-                  <span>{m.email}</span>
+                  <span className='email'>{m.email}</span>
                 </div>
-                <span>Joined {m.created_at}</span>
+                <span className='date'>
+                  <FaBirthdayCake className='icon' /> {moment(m.created_at).format('M/D/YY')}
+                </span>
               </li>
             ))
           ) : (
             <p>No members. Invite some people!</p>
           )}
         </ul>
-
         <h4>Pending Invitations</h4>
         <ul>
           {error ? (
@@ -180,7 +182,9 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
                   />
                   <span className='email'>{m.email}</span>
                 </div>
-                <span className='sent'>Sent {moment(m.created_at).format('M/D/YY')}</span>
+                <span className='date'>
+                  <BsFillSendFill className='icon' /> {moment(m.created_at).format('M/D/YY')}
+                </span>
                 <button>Revoke</button>
               </li>
             ))
@@ -221,7 +225,7 @@ const Style = styled.article`
   ${ModalBtnMixin}
   h3 {
     font-size: 1.4rem;
-    margin: 15px 0 5px 0;
+    margin: 10px 0 5px 0;
   }
   label {
     div {
@@ -244,7 +248,7 @@ const Style = styled.article`
     background-color: #e4e4e4;
     border-radius: 10px;
     padding: 10px;
-    max-height: 250px;
+    max-height: 200px;
     min-height: 43px;
     overflow-y: auto;
     li {
@@ -267,7 +271,6 @@ const Style = styled.article`
         overflow: hidden;
         span {
           margin: 0 10px;
-          align-self: flex-end;
         }
         .email {
           display: inline-block;
@@ -275,8 +278,14 @@ const Style = styled.article`
           overflow: hidden;
         }
       }
-      .sent {
+      .date {
+        display: flex;
+        align-items: center;
         margin-left: auto;
+        text-align: left;
+        .icon {
+          margin-right: 5px;
+        }
       }
       display: flex;
       justify-content: space-between;
