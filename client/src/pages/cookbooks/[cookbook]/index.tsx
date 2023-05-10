@@ -21,9 +21,8 @@ type Props = {
 
 const CookbookDetailPage: React.FC<Props> = props => {
   const {
-    query: { cookbook, cookbook_name },
+    query: { cookbook, cookbook_name, owner },
   } = useRouter()
-  const { isCookbookCreator } = useAppContext() as IAppContext
   const [recipes, setRecipes] = useState<IRecipeRes[]>(props.recipes)
   const [limit] = useState(20)
   const [endOfList, setEndOfList] = useState(false)
@@ -60,7 +59,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
       <header>
         <h1>{decodeURIComponent(cookbook_name?.toString() as string)}</h1>
         <div>
-          {isCookbookCreator && (
+          {owner && (
             <AiOutlineEdit className='edit-icon' onClick={() => setEditModal(true)} />
           )}
         </div>

@@ -8,7 +8,6 @@ export interface IAppContext {
   tagsError: boolean
   revalidateTags: KeyedMutator<ITag[]>
   handleServerError: (e: unknown) => void
-  isCookbookCreator: boolean
   tagsOffset: number
   tagsLimit: number
   isEndOfTags: boolean

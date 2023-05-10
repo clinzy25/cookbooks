@@ -17,7 +17,7 @@ import { IconMixin, TagMixin } from '@/styles/mixins'
 
 const TagList: FC = () => {
   const {
-    query: { cookbook, cookbook_name },
+    query: { cookbook, cookbook_name, owner },
   } = useRouter()
   const {
     tags,
@@ -29,7 +29,6 @@ const TagList: FC = () => {
     setSnackbar,
     handleServerError,
     revalidateTags,
-    isCookbookCreator,
   } = useAppContext() as IAppContext
   const [editMode, setEditMode] = useState(false)
   const [tagsToDelete, setTagsToDelete] = useState<ITag[]>([])
@@ -39,7 +38,7 @@ const TagList: FC = () => {
   const [scrollValues, setScrollValues] = useState<number[]>([])
 
   const scrollRef = useRef<HTMLDivElement>(null)
-  const showEditBtn = cookbook && isCookbookCreator && tags.length
+  const showEditBtn = cookbook && owner && tags.length
 
   const nextTags = (ctr: HTMLDivElement) => {
     for (const tag of Object.values(ctr.children) as HTMLElement[]) {

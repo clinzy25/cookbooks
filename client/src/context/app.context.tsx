@@ -25,7 +25,6 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   } = useRouter()
   const { user } = useUser()
   const [snackbar, setSnackbar] = useState<ISnackbar>({ msg: '', state: '' })
-  const [isCookbookCreator, setIsCookbookCreator] = useState(false)
   const [tags, setTags] = useState<ITag[]>([])
   const [tagsLimit] = useState(20)
   const [tagsOffset, setTagsOffset] = useState(0)
@@ -96,7 +95,6 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
         tagsError,
         revalidateTags,
         handleServerError,
-        isCookbookCreator,
         tagsOffset,
         tagsLimit,
         isEndOfTags,

@@ -24,15 +24,15 @@ const RecipePage: React.FC<Props> = props => {
   const { guid, name, creator_user_email, image, base64_image, description, cook_time, prep_time, total_time,
     yield: recipeYield, ingredients, instructions, tags, source_url, created_at,
   } = props.recipe
-  const { setSnackbar, handleServerError, isCookbookCreator } = useAppContext() as IAppContext
+  const { setSnackbar, handleServerError } = useAppContext() as IAppContext
   const {
-    query: { recipe: recipeGuid, cookbook },
+    query: { recipe: recipeGuid, cookbook, owner },
   } = useRouter()
   const router = useRouter()
   const { user } = useUser()
   const [recipe, setRecipe] = useState<IRecipeRes>(props.recipe)
   const [confirm, setConfirm] = useState(false)
-  const [allowEdit] = useState(creator_user_email === user?.email || isCookbookCreator)
+  const [allowEdit] = useState(creator_user_email === user?.email || owner)
 
   const { data, error } = useSWR<IRecipeRes, Error>(
     `${api}/recipes?recipe_guid=${recipeGuid}`,

@@ -1,6 +1,7 @@
 import { AvatarMixin, CardGradient, CardGradientHover } from '@/styles/mixins'
 import { ICookbookRes } from '@/types/@types.cookbooks'
 import randomInRange from '@/utils/utils.randomInRange'
+import { useUser } from '@auth0/nextjs-auth0/client'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -12,11 +13,13 @@ type Props = {
 }
 
 const CookbookCard = ({ cookbook }: Props) => {
+  const { user } = useUser()
   const {
     guid,
     cookbook_name,
     recipe_images,
     creator_username,
+    creator_user_guid,
     cookbook_members,
     recipe_count,
   } = cookbook
@@ -26,7 +29,9 @@ const CookbookCard = ({ cookbook }: Props) => {
     <Style>
       <Link
         className='cookbook-tile'
-        href={`/cookbooks/${guid}?cookbook_name=${encodeURIComponent(cookbook_name)}`}>
+        href={`/cookbooks/${guid}?cookbook_name=${encodeURIComponent(cookbook_name)}&owner=${
+          user?.sub === creator_user_guid ? 1 : 0
+        }`}>
         <div className='img-ctr'>
           {recipe_images?.length ? (
             recipe_images?.map(image => (
