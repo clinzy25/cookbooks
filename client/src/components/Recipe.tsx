@@ -15,7 +15,6 @@ import { IconMixin, ModalBtnMixin } from '@/styles/mixins'
 import { TagMixin } from '@/styles/mixins'
 import moment from 'moment'
 
-
 type Props = {
   recipe: IRecipeRes
 }
@@ -27,7 +26,7 @@ const Recipe: React.FC<Props> = props => {
   } = props.recipe
   const { setSnackbar, handleServerError } = useAppContext() as IAppContext
   const {
-    query: { recipe: recipeGuid, cookbook, owner },
+    query: { recipe: recipeGuid, cookbook, cookbook_name, owner },
   } = useRouter()
   const router = useRouter()
   const { user } = useUser()
@@ -46,7 +45,7 @@ const Recipe: React.FC<Props> = props => {
       if (res.status === 200) {
         setSnackbar({ msg: 'Recipe deleted', state: 'success' })
       }
-      router.push(`/cookbooks/${cookbook}`)
+      router.replace(`/cookbooks/${cookbook}?cookbook_name=${cookbook_name}&owner=${owner}`)
     } catch (e) {
       handleServerError(e)
     }

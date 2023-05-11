@@ -49,7 +49,6 @@ const TagList: FC = () => {
         const fetchMoreTags = ctr.scrollWidth - ctr.scrollLeft - ctr.clientWidth
         if (fetchMoreTags && !isEndOfTags) {
           setTagsOffset(tagsOffset + tagsLimit)
-          revalidateTags()
         }
         return ctr.scrollBy({
           left: scrollTo,
@@ -148,7 +147,6 @@ const TagList: FC = () => {
         await handleSubmitDeletes()
       }
       if (tagsToDelete.length || tagsToEdit.length) {
-        revalidateTags()
         setSnackbar({ msg: 'Tags updated', state: 'success' })
       }
       setEditMode(false)

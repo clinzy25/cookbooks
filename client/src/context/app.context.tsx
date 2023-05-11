@@ -50,7 +50,8 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }
 
-  const handleTags = () => {
+  const handleTags = (tagsData: ITag[]) => {
+    console.log(tagsData)
     if (tagsData) {
       tagsData.length < tagsLimit && setIsEndOfTags(true)
       if (tagsOffset === 0) {
@@ -75,7 +76,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     data: tagsData,
     error: tagsError,
     mutate: revalidateTags,
-  } = useSWR(getTagsQuery(), fetcher)
+  } = useSWR(!isLoading && !userError && getTagsQuery(), fetcher)
 
   const {
     data: cookbooksData,
@@ -88,7 +89,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [cookbooksData])
 
   useEffect(() => {
-    handleTags()
+    tagsData && handleTags(tagsData)
   }, [tagsData]) // eslint-disable-line
 
   useEffect(() => {

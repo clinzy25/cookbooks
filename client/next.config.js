@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 require('dotenv').config({ path: '../.env' })
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   experimental: {
     scrollRestoration: true,
   },

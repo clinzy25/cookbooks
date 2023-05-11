@@ -24,7 +24,8 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      if (nameFieldRef.current?.value && user?.sub) {
+      const cookbook_name = nameFieldRef.current?.value
+      if (cookbook_name && user?.sub) {
         const cookbook: ICookbookReq = {
           cookbook_name: nameFieldRef.current.value,
           creator_user_guid: user.sub,
@@ -34,7 +35,7 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
           revalidateCookbooks()
           setSnackbar({ msg: 'Cookbook created!', state: 'success' })
           setModalOpen(false)
-          router.push(`/cookbooks/${res.data}`)
+          router.push(`/cookbooks/${res.data}?cookbook_name=${cookbook_name}&owner=1`)
         }
       } else {
         setSnackbar({ msg: 'Your cookbook needs a name', state: 'error' })

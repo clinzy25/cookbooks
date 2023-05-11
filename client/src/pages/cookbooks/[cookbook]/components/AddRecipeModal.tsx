@@ -99,7 +99,7 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
               <label htmlFor='paste-link'>
                 Paste a link to a web page that contains a recipe and we&apos;ll extract the
                 recipe and save the recipe for you.
-                <div>
+                <div className='input-ctr'>
                   <input
                     autoFocus
                     onPaste={e => handlePaste(e)}
@@ -218,7 +218,7 @@ const Style = styled.div<StyleProps>`
         width: 80%;
         label {
           text-align: center;
-          div {
+          .input-ctr {
             display: flex;
             margin-top: 10px;
             ${ModalFieldMixin}

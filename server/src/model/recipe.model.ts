@@ -8,6 +8,7 @@ export async function dbGetCookbookRecipes(guid: string, limit: number, offset: 
       .select(
         'r.guid',
         'u.email AS creator_user_email',
+        'u.guid AS creator_user_guid',
         'r.name',
         'r.image',
         'r.base64_image',
@@ -29,6 +30,7 @@ export async function dbGetCookbookRecipes(guid: string, limit: number, offset: 
         'r.guid',
         'r.name',
         'u.email',
+        'u.guid',
         'r.image',
         'r.base64_image',
         'r.cook_time',
