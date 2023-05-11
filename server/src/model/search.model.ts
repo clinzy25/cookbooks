@@ -14,13 +14,17 @@ export async function dbTagSearchRecipesByCookbook(tag_name: string, cookbook_gu
         r.is_private,
         r.created_at,
         r.updated_at,
-        STRING_AGG(t.tag_name,',') as tags
+        (SELECT STRING_AGG(t2.tag_name, ',') 
+          FROM tags t2 
+          WHERE t2.recipe_id = r.id) 
+        AS tags
       FROM recipes r
       JOIN cookbooks ON cookbooks.id = r.cookbook_id
       LEFT JOIN tags t ON r.id = t.recipe_id
       WHERE t.tag_name = '${tag_name}'
       AND cookbooks.guid = '${cookbook_guid}'
       GROUP BY
+        r.id,
         r.guid,
         r.name,
         r.image,
@@ -52,7 +56,10 @@ export async function dbTagSearchRecipes(tag_name: string, user_guid: string) {
         r.is_private,
         r.created_at,
         r.updated_at,
-        STRING_AGG(t.tag_name,',') as tags
+        (SELECT STRING_AGG(t2.tag_name, ',') 
+          FROM tags t2 
+          WHERE t2.recipe_id = r.id) 
+        AS tags
       FROM recipes r
       JOIN users u ON u.id = r.creator_user_id
       JOIN cookbook_members cm ON cm.cookbook_id = r.cookbook_id
@@ -63,6 +70,7 @@ export async function dbTagSearchRecipes(tag_name: string, user_guid: string) {
         OR cm.cookbook_id = r.cookbook_id
       )
       GROUP BY
+        r.id,
         r.guid,
         r.name,
         r.image,
