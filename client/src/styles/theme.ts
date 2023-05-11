@@ -1,5 +1,7 @@
-const Variables = {
-  breakpointMobile: 800,
+import { ThemeProps } from "@/types/@types.theme"
+
+const Variables: ThemeProps = {
+  breakpointMobile: '800',
   successColor: '#16a500',
   errorColor: '#d80000',
   neutralColor: '#bababa',
@@ -7,7 +9,7 @@ const Variables = {
   linkColor: '#0000ee'
 }
 
-export const LightTheme = {
+export const LightTheme: ThemeProps = {
   ...Variables,
   mainBackgroundColor: '#fcfcfc',
   mainBackgroundColorHover: '#f0f0f0',

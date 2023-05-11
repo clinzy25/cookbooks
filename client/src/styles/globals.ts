@@ -1,6 +1,11 @@
-import { createGlobalStyle } from 'styled-components'
+import { ThemeProps } from '@/types/@types.theme'
+import { createGlobalStyle, withTheme } from 'styled-components'
 
-export default createGlobalStyle`
+type GlobalThemeProps = {
+  theme: ThemeProps
+}
+
+const globalStyle = createGlobalStyle`
   :root {
     --max-width: 1100px;
     --border-radius: 12px;
@@ -88,6 +93,7 @@ export default createGlobalStyle`
     min-height: 100%;
     position: relative;
     font-family: 'Nunito Sans', sans-serif;
+    background-color: ${({ theme }: GlobalThemeProps) => theme.mainBackgroundColor};
   }
   a {
     color: inherit;
@@ -100,3 +106,5 @@ export default createGlobalStyle`
     min-height: 100vh;
   }
 `
+
+export default withTheme(globalStyle)

@@ -71,11 +71,11 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
                 <p>{creator_user_email}</p>
               </div>
               <Image
-                src='/assets/avatar-placeholder.png'
+                src={user?.picture ? user.picture : '/assets/avatar-placeholder.png'}
                 className='avatar'
                 width={40}
                 height={40}
-                alt={'dfsadsfa'}
+                alt={user?.email || 'Avatar'}
               />
             </div>
           </div>

@@ -67,23 +67,23 @@ const CookbookCard = ({ cookbook }: Props) => {
           <div>
             <FaCrown className='crown-icon' />
             <Image
-              src='/assets/avatar-placeholder.png'
+              src={user?.picture ? user.picture : '/assets/avatar-placeholder.png'}
               className='avatar'
               width={40}
               height={40}
               alt={`${creator_username} (owner)`}
               title={`${creator_username} (owner)`}
             />
+
             {cookbook_members.length > 0 &&
               cookbook_members.map(m => (
                 <Image
                   key={m.guid}
-                  src='/assets/avatar-placeholder.png'
+                  src={m?.picture ? m.picture : '/assets/avatar-placeholder.png'}
                   className='avatar'
                   width={40}
                   height={40}
-                  alt={`${m.username} (member)`}
-                  title={`${m.username} (member)`}
+                  alt={user?.email || 'Avatar'}
                 />
               ))}
           </div>

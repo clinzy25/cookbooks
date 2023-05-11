@@ -2,6 +2,7 @@ interface IMemberRes {
   guid: string
   email: string
   username: string
+  picture?: string
 }
 
 export interface ICookbookRes {
