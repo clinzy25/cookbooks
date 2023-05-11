@@ -9,7 +9,7 @@ const Variables = {
 
 export const LightTheme = {
   ...Variables,
-  mainBackgroundColor: '#ffffff',
+  mainBackgroundColor: 'black',
   mainBackgroundColorHover: '#f0f0f0',
   secondaryBackgroundColor: '#e4e4e4',
   mainTextColor: '#000000',

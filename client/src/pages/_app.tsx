@@ -33,6 +33,7 @@ const PageWrapper = styled.div`
   flex-direction: column;
   padding: 15px 60px;
   height: 100%;
+  background-color: ${({ theme }) => theme.mainBackgroundColor};
   & > * {
     width: 100%;
   }
