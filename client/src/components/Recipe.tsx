@@ -137,9 +137,12 @@ const Recipe: React.FC<Props> = props => {
             <span> on </span>
             <span>{moment(created_at).format('MMM D, YYYY')}</span>
           </p>
-          <a href={source_url} target='_blank'>
-            {new URL(source_url).host}
-          </a>
+          <p>
+            <span>Source: </span>
+            <a href={source_url} target='_blank'>
+              {new URL(source_url).host}
+            </a>
+          </p>
         </div>
         <div id='recipe-body-ctr'>
           {description && <p id='description'>{description}</p>}
