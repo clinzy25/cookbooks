@@ -142,6 +142,7 @@ const Style = styled.div<StyleProps>`
   display: flex;
   align-items: center;
   flex-direction: column;
+  background-color: ${({ theme }) => theme.mainBackgroundColor};
   ${ModalHeaderMixin}
   .tab-ctr {
     flex-direction: column;
@@ -201,7 +202,7 @@ const Style = styled.div<StyleProps>`
     #tab2:checked ~ nav .tab2,
     #tab3:checked ~ nav .tab3 {
       label {
-        background: white;
+        background: ${({ theme }) => theme.mainBackgroundColor};
         position: relative;
       }
     }

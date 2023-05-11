@@ -74,19 +74,20 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
 }
 
 const Style = styled.article`
-  transition: 0.1s;
+  transition: ${({ theme }) => theme.cardTransition};
+  box-shadow: 2px 2px 5px ${({ theme }) => theme.darkBoxShadowColor};
+  background-color: ${({ theme }) => theme.mainBackgroundColor};
   border-radius: 10px;
-  box-shadow: 2px 2px 5px #b7b7b7;
   &:not(.tag) {
     letter-spacing: 0.5px;
   }
   &:hover {
-    transition: 0.1s;
-    background-color: #f0f0f0;
-    box-shadow: 4px 4px 7px #a6a6a6;
+    transition: ${({ theme }) => theme.cardTransition};
+    background-color: ${({ theme }) => theme.mainBackgroundColorHover};
+    box-shadow: 4px 4px 7px ${({ theme }) => theme.darkBoxShadowColorHover};
     .img-ctr {
       .img {
-        transition: 0.1s ease-out;
+        transition: ${({ theme }) => theme.cardTransition};
         transform: scale(1.01);
         filter: brightness(105%);
       }
@@ -105,7 +106,7 @@ const Style = styled.article`
     border-radius: 10px;
     margin-bottom: 7px;
     .img {
-      transition: 0.1s ease-in;
+      transition: ${({ theme }) => theme.cardTransition};
       object-fit: cover;
     }
   }
@@ -146,6 +147,7 @@ const Style = styled.article`
       display: flex;
       justify-content: space-between;
       font-size: 0.85rem;
+      color: ${({ theme }) => theme.secondaryTextColor};
       .uploader-ctr {
         display: flex;
         align-items: flex-end;

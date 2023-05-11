@@ -19,9 +19,10 @@ export const LightTheme = {
   buttonBackgroundHover: '#e4e4e4',
   buttonBackgroundActive: '#d3d3d3',
   buttonTransition: 'all 0.1s ease-out;',
-  cardTransition: 'all 0.1s',
+  cardTransition: 'all 0.1s ease-out',
   tagBackground: 'whitesmoke',
   softBorder: '#bfbfbf',
   lightBoxShadowColor: '#e3e3e3',
   darkBoxShadowColor: '#d2d2d2',
+  darkBoxShadowColorHover: '#b5b5b5',
 }

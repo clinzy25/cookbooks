@@ -75,6 +75,7 @@ const Style = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100%;
+  background-color: ${({ theme }) => theme.mainBackgroundColor};
   ${ModalHeaderMixin}
   form {
     width: 100%;

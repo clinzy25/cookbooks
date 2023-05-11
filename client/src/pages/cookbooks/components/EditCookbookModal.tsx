@@ -223,6 +223,7 @@ const Style = styled.article`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  background-color: ${({ theme }) => theme.mainBackgroundColor};
   ${ModalHeaderMixin}
   ${ModalFieldMixin}
   ${ModalBtnMixin}
@@ -248,14 +249,14 @@ const Style = styled.article`
   ul {
     list-style-type: none;
     text-align: center;
-    background-color: #e4e4e4;
+    background-color: ${({ theme }) => theme.secondaryBackgroundColor};
     border-radius: 10px;
     padding: 10px;
     max-height: 200px;
     min-height: 43px;
     overflow-y: auto;
     li {
-      background-color: white;
+      background-color: ${({ theme }) => theme.mainBackgroundColor};
       letter-spacing: 0.5px;
       margin: 3px 0;
       white-space: nowrap;
@@ -263,7 +264,7 @@ const Style = styled.article`
         border-radius: 25px;
         padding: 4px 12px;
         background-color: ${({ theme }) => theme.errorColor};
-        color: white;
+        color: ${({ theme }) => theme.mainLightTextColor};
       }
       img {
         ${AvatarMixin}
@@ -301,7 +302,7 @@ const Style = styled.article`
   #delete-btn {
     margin: 0;
     background-color: ${({ theme }) => theme.errorColor};
-    color: white;
+    color: ${({ theme }) => theme.mainLightTextColor};
   }
   .confirmation-ctr {
     button:first-of-type {

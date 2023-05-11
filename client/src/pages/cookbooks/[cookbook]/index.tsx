@@ -130,21 +130,6 @@ const Style = styled.main<StyleProps>`
     .edit-icon {
       ${IconMixin}
     }
-    ul {
-      position: absolute;
-      right: -135px;
-      top: 40px;
-      list-style-type: none;
-      border: 1px solid gray;
-      border-radius: 5px;
-      padding: 8px;
-      z-index: 2;
-      background-color: #e8e8e8;
-      li {
-        padding: 5px;
-        cursor: pointer;
-      }
-    }
   }
   #recipe-ctr {
     display: grid;

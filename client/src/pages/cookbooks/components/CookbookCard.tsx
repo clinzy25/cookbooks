@@ -95,11 +95,11 @@ const CookbookCard = ({ cookbook }: Props) => {
 
 const Style = styled.div`
   border-radius: 10px;
-  box-shadow: 4px 4px 8px #b7b7b7;
-  transition: 0.03s;
+  box-shadow: 2px 2px 5px ${({ theme }) => theme.darkBoxShadowColor};
+  transition: ${({ theme }) => theme.cardTransition};
   &:hover {
-    transition: 0.03s;
-    box-shadow: 5px 5px 10px #a6a6a6;
+    transition: ${({ theme }) => theme.cardTransition};
+    box-shadow: 4px 4px 7px ${({ theme }) => theme.darkBoxShadowColorHover};
     a {
       &::before {
         ${CardGradientHover}

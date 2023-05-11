@@ -17,7 +17,7 @@ const Style = styled.div`
   align-items: center;
   position: sticky;
   z-index: 10;
-  background-color: white;
+  background-color: ${({ theme }) => theme.mainBackgroundColor};
   top: 0;
   width: 100%;
   gap: 12px;
