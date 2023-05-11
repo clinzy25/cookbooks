@@ -50,7 +50,7 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
         </div>
         <div className='text-ctr'>
           <div>
-            <h3>{name}</h3>
+            <h3>{name.toUpperCase()}</h3>
             <div className='tags-ctr'>
               {tags?.split(',').map((tag: string) => (
                 <span className='tag' key={tag}>
@@ -129,6 +129,7 @@ const Style = styled.article`
     height: 150px;
     gap: 5px;
     h3 {
+      font-family: ${({ theme }) => theme.headerFont};
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-box-orient: vertical;
@@ -143,8 +144,9 @@ const Style = styled.article`
       flex-wrap: wrap;
       gap: 4px;
       overflow: hidden;
+      padding-bottom: 5px;
       -webkit-line-clamp: 2; /* number of lines to show */
-      max-height: 44px;
+      max-height: 45px;
       .tag {
         ${TagMixin}
         font-size: 0.8rem;

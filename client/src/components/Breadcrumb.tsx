@@ -69,7 +69,7 @@ const Breadcrumb: FC = () => {
 }
 
 const Style = styled.nav`
-  margin-bottom: 5px;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   .icon {

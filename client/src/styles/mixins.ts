@@ -61,6 +61,7 @@ export const ModalHeaderMixin = css`
     font-size: 1.7rem;
     margin-bottom: 10px;
     text-align: center;
+    font-family: ${({ theme }) => theme.headerFont};
   }
   @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     h2 {
@@ -95,6 +96,7 @@ export const ModalBtnMixin = css`
     transition: ${({ theme }) => theme.buttonTransition};
     font-weight: 600;
     cursor: pointer;
+    font-family: ${({ theme }) => theme.headerFont};
     &:hover {
       transition: ${({ theme }) => theme.buttonTransition};
       background-color: ${({ theme }) => theme.buttonBackgroundHover};

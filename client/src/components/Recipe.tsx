@@ -76,7 +76,7 @@ const Recipe: React.FC<Props> = props => {
       )}
       <>
         <header>
-          <h1>{name}</h1>
+          <h1>{name.toUpperCase()}</h1>
           {allowEdit && (
             <div>
               <AiOutlineEdit id='edit-icon' />
@@ -198,7 +198,7 @@ const Style = styled.main`
   header {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
+    font-family: ${({ theme }) => theme.headerFont};
     div {
       #edit-icon,
       #delete-icon {

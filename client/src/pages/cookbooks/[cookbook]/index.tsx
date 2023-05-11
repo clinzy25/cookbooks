@@ -122,6 +122,7 @@ const Style = styled.main<StyleProps>`
     align-items: center;
     width: 100%;
     margin-bottom: 15px;
+    font-family: ${({ theme }) => theme.headerFont};
     div {
       position: relative;
       align-items: center;

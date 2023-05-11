@@ -28,7 +28,7 @@ const Style = styled.div<StyleProps>`
   margin: auto;
   padding: 6px 50px;
   border-radius: 5px;
-  box-shadow: 5px 5px 10px ${({ theme }) => theme.darkBoxShadowColor};
+  box-shadow: ${({ theme }) => theme.boxShadowOverOtherElements};
   border: 1px solid gray;
   z-index: 3;
   color: ${({ theme }) => theme.mainLightTextColor};

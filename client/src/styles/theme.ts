@@ -9,7 +9,7 @@ const Variables = {
 
 export const LightTheme = {
   ...Variables,
-  mainBackgroundColor: '#ffffff',
+  mainBackgroundColor: '#fcfcfc',
   mainBackgroundColorHover: '#f0f0f0',
   secondaryBackgroundColor: '#e4e4e4',
   mainTextColor: '#000000',
@@ -25,4 +25,6 @@ export const LightTheme = {
   lightBoxShadowColor: '#e3e3e3',
   darkBoxShadowColor: '#d2d2d2',
   darkBoxShadowColorHover: '#b5b5b5',
+  boxShadowOverOtherElements: '1px 1px 10px #252525',
+  headerFont: "'Montserrat', sans-serif",
 }

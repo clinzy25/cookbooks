@@ -153,6 +153,9 @@ const Style = styled.div`
     position: absolute;
     bottom: 0;
     z-index: 3;
+    h2 {
+      font-family: ${({ theme }) => theme.headerFont};
+    }
     p {
       margin-bottom: 12px;
     }

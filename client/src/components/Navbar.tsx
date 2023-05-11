@@ -21,9 +21,8 @@ const Style = styled.div`
   top: 0;
   width: 100%;
   gap: 12px;
-  border-bottom: 1px solid gray;
   padding: 12px;
-  box-shadow: 3px 3px 5px ${({ theme }) => theme.lightBoxShadowColor};
+  box-shadow: ${({ theme }) => theme.boxShadowOverOtherElements};
   button {
     padding: 10px 20px;
     width: min-content;

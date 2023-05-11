@@ -40,6 +40,7 @@ const Styles = styled.main`
   display: flex;
   flex-direction: column;
   header {
+    font-family: ${({ theme }) => theme.headerFont};
     margin-bottom: 15px;
   }
   #cookbooks-ctr {

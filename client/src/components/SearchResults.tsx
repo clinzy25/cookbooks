@@ -51,6 +51,7 @@ const Style = styled.main`
   align-items: flex-start;
   header {
     margin-bottom: 15px;
+    font-family: ${({ theme }) => theme.headerFont};
   }
   #recipe-ctr {
     display: grid;
