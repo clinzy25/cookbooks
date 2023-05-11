@@ -2,7 +2,7 @@ import { IBreadcrumb } from '@/types/@types.breadcrumb'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
-import { BiChevronRight, BiChevronsRight } from 'react-icons/bi'
+import { BiChevronRight } from 'react-icons/bi'
 import styled from 'styled-components'
 
 const Breadcrumb: FC = () => {

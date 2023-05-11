@@ -59,11 +59,15 @@ const Search: FC = () => {
               title={r.name}
               className='search-result'
               onClick={() => setSearchVal('')}
-              href={`/cookbooks/${r.cookbook_guid}/recipe/${
-                r.guid
-              }?cookbook_name=${encodeURIComponent(
-                cookbook_name?.toString() as string
-              )}&recipe_name=${encodeURIComponent(r.name)}`}
+              href={
+                cookbook
+                  ? `/cookbooks/${r.cookbook_guid}/recipe/${
+                      r.guid
+                    }?cookbook_name=${encodeURIComponent(
+                      cookbook_name?.toString() as string
+                    )}&recipe_name=${encodeURIComponent(r.name)}`
+                  : `/recipe/${r.guid}?recipe_name=${encodeURIComponent(r.name)}`
+              }
               key={r.guid}>
               {r.name}
             </Link>
