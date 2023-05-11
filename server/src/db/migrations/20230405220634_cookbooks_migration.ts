@@ -65,7 +65,6 @@ export async function up(knex: Knex): Promise<void> {
       table.integer('recipe_id').unsigned()
       table.foreign('recipe_id').references('recipes.id').onDelete('CASCADE')
       table.string('tag_name', 50).notNullable()
-      table.integer('weight').defaultTo(1).notNullable()
     })
 }
 
