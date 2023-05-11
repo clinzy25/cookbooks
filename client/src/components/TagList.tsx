@@ -38,7 +38,7 @@ const TagList: FC = () => {
   const [scrollValues, setScrollValues] = useState<number[]>([])
 
   const scrollRef = useRef<HTMLDivElement>(null)
-  const showEditBtn = cookbook && owner && tags.length
+  const showEditBtn = cookbook && Number(owner) && tags.length
 
   const nextTags = (ctr: HTMLDivElement) => {
     for (const tag of Object.values(ctr.children) as HTMLElement[]) {

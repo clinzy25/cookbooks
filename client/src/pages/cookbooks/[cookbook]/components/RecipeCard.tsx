@@ -1,5 +1,6 @@
 import { AvatarMixin, TagMixin } from '@/styles/mixins'
 import { IRecipeRes } from '@/types/@types.recipes'
+import { useUser } from '@auth0/nextjs-auth0/client'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -10,13 +11,24 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
   const {
     query: { cookbook, cookbook_name },
   } = useRouter()
-  const { name, image, base64_image, cook_time, prep_time, tags, guid, creator_user_email } =
-    recipe
+  const { user } = useUser()
+  const {
+    name,
+    image,
+    base64_image,
+    cook_time,
+    prep_time,
+    tags,
+    guid,
+    creator_user_email,
+    creator_user_guid,
+  } = recipe
 
   const handleHref = () => {
     const c_name = encodeURIComponent(cookbook_name?.toString() as string)
     const recipe_name = encodeURIComponent(name)
-    return `/cookbooks/${cookbook}/recipe/${guid}?cookbook_name=${c_name}&recipe_name=${recipe_name}`
+    const owner = user?.sub === creator_user_guid ? 1 : 0
+    return `/cookbooks/${cookbook}/recipe/${guid}?cookbook_name=${c_name}&recipe_name=${recipe_name}&owner=${owner}`
   }
 
   return (

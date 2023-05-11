@@ -33,7 +33,7 @@ const Recipe: React.FC<Props> = props => {
   const { user } = useUser()
   const [recipe, setRecipe] = useState<IRecipeRes>(props.recipe)
   const [confirm, setConfirm] = useState(false)
-  const [allowEdit] = useState(creator_user_email === user?.email || owner)
+  const [allowEdit] = useState(creator_user_email === user?.email || Number(owner) === 1)
 
   const { data, error } = useSWR<IRecipeRes, Error>(
     `${api}/recipes?recipe_guid=${recipeGuid}`,

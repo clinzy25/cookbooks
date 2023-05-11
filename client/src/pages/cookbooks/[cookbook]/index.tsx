@@ -57,7 +57,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
       <header>
         <h1>{decodeURIComponent(cookbook_name?.toString() as string)}</h1>
         <div>
-          {owner && (
+          {Number(owner) === 1 && (
             <AiOutlineEdit className='edit-icon' onClick={() => setEditModal(true)} />
           )}
         </div>
