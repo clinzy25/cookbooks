@@ -51,7 +51,6 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   const handleTags = (tagsData: ITag[]) => {
-    console.log(tagsData)
     if (tagsData) {
       tagsData.length < tagsLimit && setIsEndOfTags(true)
       if (tagsOffset === 0) {
