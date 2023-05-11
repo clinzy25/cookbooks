@@ -22,10 +22,13 @@ type Props = {
 
 const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
   const {
+    query,
     query: { cookbook, cookbook_name },
+    replace,
   } = useRouter()
   const router = useRouter()
-  const { setSnackbar, handleServerError } = useAppContext() as IAppContext
+  const { setSnackbar, handleServerError, revalidateCookbooks } =
+    useAppContext() as IAppContext
   const [members, setMembers] = useState<IMemberRes[]>([])
   const [pendingInvites, setPendingInvites] = useState<IMemberRes[]>([])
   const [confirm, setConfirm] = useState(false)
@@ -52,7 +55,8 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
         if (res.status === 204) {
           setSnackbar({ msg: 'Cookbook updated', state: 'success' })
         }
-        // revalidateCookbooks()
+        revalidateCookbooks()
+        replace({ query: { ...query, cookbook_name: newName } }, undefined, { shallow: true })
       }
     } catch (e) {
       handleServerError(e)
@@ -65,7 +69,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
       if (res.status === 200) {
         setSnackbar({ msg: 'Cookbook deleted', state: 'success' })
         router.push('/cookbooks')
-        // revalidateCookbooks()
+        revalidateCookbooks()
       }
     } catch (e) {
       handleServerError(e)

@@ -1,30 +1,16 @@
 import styled from 'styled-components'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import AddCookbookModal from './components/AddCookbookModal'
 import { IoMdAddCircle } from 'react-icons/io'
 import { AddBtnMixin } from '@/styles/mixins'
 import CookbookCard from './components/CookbookCard'
-import { useUser } from '@auth0/nextjs-auth0/client'
-import useSWR from 'swr'
-import { api, fetcher } from '@/api'
-import { ICookbookRes } from '@/types/@types.cookbooks'
+import useAppContext from '@/context/app.context'
+import { IAppContext } from '@/types/@types.context'
 
 const CookbooksPage: React.FC = () => {
-  const { user, error: userError, isLoading } = useUser()
-
+  const { cookbooks, cookbooksError } = useAppContext() as IAppContext
   const [modalOpen, setModalOpen] = useState(false)
-  const [cookbooks, setCookbooks] = useState<ICookbookRes[]>([])
-
-  const {
-    data: cookbooksData,
-    error: cookbooksError,
-    mutate: revalidateCookbooks,
-  } = useSWR(!isLoading && !userError && `${api}/cookbooks?user_guid=${user?.sub}`, fetcher)
-
-  useEffect(() => {
-    cookbooksData && setCookbooks(cookbooksData)
-  }, [cookbooksData])
 
   if (!cookbooks) {
     return <p>...loading</p>
@@ -34,21 +20,13 @@ const CookbooksPage: React.FC = () => {
   }
   return (
     <Styles id='cookbook-page-wrapper'>
-      {modalOpen && (
-        <AddCookbookModal
-          revalidateCookbooks={revalidateCookbooks}
-          setModalOpen={setModalOpen}
-        />
-      )}
+      {modalOpen && <AddCookbookModal setModalOpen={setModalOpen} />}
       <header>
         <h1>Your Cookbooks</h1>
       </header>
       <div id='cookbooks-ctr'>
         {cookbooks.map(cb => (
-          <CookbookCard
-            key={cb.guid}
-            cookbook={cb}
-          />
+          <CookbookCard key={cb.guid} cookbook={cb} />
         ))}
       </div>
       <IoMdAddCircle id='add-cookbook-btn' onClick={() => setModalOpen(true)} />

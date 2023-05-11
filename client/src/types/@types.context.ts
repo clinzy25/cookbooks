@@ -1,7 +1,11 @@
 import { KeyedMutator } from 'swr'
 import { ITag } from './@types.tags'
+import { ICookbookRes } from './@types.cookbooks'
 
 export interface IAppContext {
+  cookbooks: ICookbookRes[]
+  cookbooksError: boolean
+  revalidateCookbooks: () => void
   snackbar: ISnackbar
   setSnackbar: (snackbar: ISnackbar) => void
   tags: ITag[]
