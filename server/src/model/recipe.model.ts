@@ -118,20 +118,19 @@ export async function dbAddRecipe(recipe: IRecipe) {
     image,
     base64Image,
     description,
-    cookTime: cook_time,
-    prepTime: prep_time,
-    totalTime: total_time,
+    cook_time,
+    prep_time,
+    total_time,
     recipeYield,
-    recipeIngredients: ingredients,
-    recipeInstructions: instructions,
-    url: source_url,
+    ingredients,
+    instructions,
+    source_url,
     source_type,
     is_private,
     tags,
   } = transformParsedRecipe(recipe)
-  try {
-    const cleanTag = (tag: string) => tag.replace(/\s/g, '').toLowerCase()
 
+  try {
     return await knex.raw(`
       WITH insert_1 AS (
         INSERT INTO recipes(
@@ -153,9 +152,9 @@ export async function dbAddRecipe(recipe: IRecipe) {
           created_at,
           updated_at
           )
-        SELECT id AS cookbook_id, creator_user_id, '${name}', '${image}', '${base64Image}', '${description}', '${cook_time}', '${prep_time}', '${total_time}', '${recipeYield}', '${ingredients}', '${instructions}', '${source_url}', '${source_type}', '${is_private}', ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks
+        SELECT id AS cookbook_id, creator_user_id, '${name}', NULLIF('${image}', 'null'),  NULLIF('${base64Image}', 'null'), NULLIF('${description}', 'null'), NULLIF('${cook_time}', 'null'),  NULLIF('${prep_time}', 'null'),  NULLIF('${total_time}', 'null'),  NULLIF('${recipeYield}', 'null'), '${ingredients}', '${instructions}', '${source_url}', '${source_type}', '${is_private}', ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks
         WHERE cookbooks.guid = '${cookbook_guid}'
-        RETURNING recipes.id AS recipe_id
+        RETURNING recipes.id AS recipe_id 
         ),
         update_cookbook AS (
           UPDATE cookbooks c
@@ -163,7 +162,7 @@ export async function dbAddRecipe(recipe: IRecipe) {
           WHERE c.guid = '${cookbook_guid}'
         )
       INSERT INTO tags(recipe_id, tag_name)
-      VALUES ${tags.map(t => `((SELECT recipe_id FROM insert_1), '${cleanTag(t)}')`).join(',')}
+      VALUES ${tags.map(t => `((SELECT recipe_id FROM insert_1), '${t}')`).join(',')}
       RETURNING recipe_id
     `)
   } catch (e) {

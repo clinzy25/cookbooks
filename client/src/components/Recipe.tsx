@@ -105,22 +105,30 @@ const Recipe: React.FC<Props> = props => {
           />
         </div>
         <div id='time-ctr'>
-          <p>
-            <span>Cook time: </span>
-            <span>{cook_time}</span>
-          </p>
-          <p>
-            <span>Prep time: </span>
-            <span>{prep_time}</span>
-          </p>
-          <p>
-            <span>Total time: </span>
-            <span>{total_time}</span>
-          </p>
-          <p>
-            <span>Servings: </span>
-            <span>{recipeYield}</span>
-          </p>
+          {cook_time && (
+            <p>
+              <span>Cook time: </span>
+              <span>{cook_time}</span>
+            </p>
+          )}
+          {prep_time && (
+            <p>
+              <span>Prep time: </span>
+              <span>{prep_time}</span>
+            </p>
+          )}
+          {total_time && (
+            <p>
+              <span>Total time: </span>
+              <span>{total_time}</span>
+            </p>
+          )}
+          {recipeYield && (
+            <p>
+              <span>Servings: </span>
+              <span>{recipeYield}</span>
+            </p>
+          )}
         </div>
         <div id='source-ctr'>
           <p>
@@ -134,7 +142,7 @@ const Recipe: React.FC<Props> = props => {
           </a>
         </div>
         <div id='recipe-body-ctr'>
-          <p id='description'>{description}</p>
+          {description && <p id='description'>{description}</p>}
           <div>
             <h2>Ingredients</h2>
             <ul id='ingredients'>
@@ -190,6 +198,7 @@ const Style = styled.main`
   header {
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
     div {
       #edit-icon,
       #delete-icon {
@@ -273,11 +282,11 @@ const Style = styled.main`
         display: flex;
         align-items: flex-start;
         input {
-          margin: 15px 8px 0 0;
+          margin: 10px 8px 0 0;
           transform: scale(1.4);
         }
         li {
-          margin: 10px 0;
+          margin: 5px 0;
         }
       }
     }

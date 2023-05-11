@@ -31,7 +31,7 @@ export const transformSearchResults = (sqlResult: ISearchResult[]) => {
         name: sqlRes.name,
         guid: sqlRes.guid,
         cookbook_guid: sqlRes.cookbook_guid,
-        creator_user_guid: sqlRes.creator_user_guid
+        creator_user_guid: sqlRes.creator_user_guid,
       }
       result.recipes.push(recipe)
     }
@@ -39,19 +39,50 @@ export const transformSearchResults = (sqlResult: ISearchResult[]) => {
   return result
 }
 
+const cleanTag = (tag: string) => tag.replace(/\s/g, '').replace(/&amp;/g, '&').toLowerCase()
+
 export const transformParsedRecipe = (recipe: IRecipe) => {
   const {
-    description,
     recipeIngredients,
     recipeInstructions,
     recipeCategories,
     recipeCuisines,
+    keywords,
+    description,
+    cookbook_guid,
+    name,
+    image,
+    base64Image,
+    cookTime,
+    prepTime,
+    totalTime,
+    recipeYield,
+    url,
+    source_type,
+    is_private,
   } = recipe
+  const tags = [
+    ...(recipeCategories ? recipeCategories : []),
+    ...(recipeCuisines ? recipeCuisines : []),
+    ...(keywords ? keywords : []),
+  ]
+  const cleanedTags = tags.map(t => cleanTag(t))
+
   return {
-    ...recipe,
-    description: description,
-    recipeIngredients: JSON.stringify(recipeIngredients),
-    recipeInstructions: JSON.stringify(recipeInstructions),
-    tags: recipeCategories.concat(recipeCuisines),
+    cookbook_guid,
+    name,
+    image: image || null,
+    base64Image: base64Image || null,
+    description: description || null,
+    cook_time: cookTime || null,
+    prep_time: prepTime || null,
+    total_time: totalTime || null,
+    recipeYield: recipeYield || null,
+    source_url: url,
+    source_type,
+    is_private,
+    ingredients: JSON.stringify(recipeIngredients),
+    instructions: JSON.stringify(recipeInstructions),
+    tags: cleanedTags,
   }
 }

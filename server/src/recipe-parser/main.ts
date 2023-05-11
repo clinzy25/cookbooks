@@ -2,8 +2,7 @@ import axios from 'axios'
 import cheerio from 'cheerio'
 import MicrodataScraper from './scrapers/MicrodataScraper'
 import JsonLdScraper from './scrapers/JsonLdScraper'
-
-const errorMessage = 'Could not find recipe data'
+import { RECIPE_NOT_FOUND } from '../utils/utils.errors'
 
 export default async function recipeDataScraper(url: string) {
   let chtml
@@ -11,7 +10,7 @@ export default async function recipeDataScraper(url: string) {
     const resp = await axios(url)
     chtml = cheerio.load(resp.data)
   } catch (error) {
-    throw new Error(errorMessage)
+    throw new Error(RECIPE_NOT_FOUND)
   }
   try {
     const jsonLdScraper = new JsonLdScraper(chtml, url)
@@ -35,5 +34,5 @@ export default async function recipeDataScraper(url: string) {
   } catch (e) {
     console.error(e)
   }
-  throw new Error(errorMessage)
+  throw new Error(RECIPE_NOT_FOUND)
 }

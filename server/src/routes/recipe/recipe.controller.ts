@@ -16,7 +16,6 @@ import {
 import { IRecipe } from '../../types/@types.recipes'
 import { getRecipeImage } from './recipe.utils'
 import { getPlaiceholder } from 'plaiceholder'
-import axios from 'axios'
 import recipeDataScraper from '../../recipe-parser/main'
 
 export async function httpGetCookbookRecipes(req: Request, res: Response, next: NextFunction) {
@@ -51,9 +50,6 @@ export async function httpParseRecipe(req: Request, res: Response, next: NextFun
     for (let i = 0; i < recipes.length; i++) {
       const { url, cookbook_guid, source_type, is_private } = recipes[i]
       if (!url || !cookbook_guid) throw new Error(INCOMPLETE_REQUEST_BODY)
-
-      const isValidUrl = await axios.get(url)
-      if (isValidUrl.status !== 200) throw new Error(INVALID_URL)
 
       const parsedRecipe = await recipeDataScraper(url)
       if (!parsedRecipe) throw new Error(RECIPE_NOT_FOUND)

@@ -62,8 +62,8 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
           </div>
           <div className='meta-ctr'>
             <div>
-              <p>Cook Time: {cook_time}</p>
-              <p>Prep Time: {prep_time}</p>
+              {cook_time && <p>Cook Time: {cook_time}</p>}
+              {prep_time && <p>Prep Time: {prep_time}</p>}
             </div>
             <div className='uploader-ctr'>
               <div>
@@ -141,11 +141,16 @@ const Style = styled.article`
     .tags-ctr {
       display: flex;
       flex-wrap: wrap;
+      gap: 4px;
+      overflow: hidden;
+      -webkit-line-clamp: 2; /* number of lines to show */
+      max-height: 44px;
       .tag {
         ${TagMixin}
         font-size: 0.8rem;
-        margin: 0 5px 0 0;
+        margin: 0 0px 0 0;
         padding: 0 4px;
+        width: min-content;
         &:hover {
           text-decoration: none;
         }
