@@ -128,7 +128,7 @@ export async function dbAddRecipe(recipe: IRecipe) {
     tags,
   } = transformParsedRecipe(recipe)
   try {
-    const cleanTag = (tag: string) => tag.replace(/\s/g, '').replace(/\//g, '-').toLowerCase()
+    const cleanTag = (tag: string) => tag.replace(/\s/g, '').toLowerCase()
 
     return await knex.raw(`
       WITH insert_1 AS (
