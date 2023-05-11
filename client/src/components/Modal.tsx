@@ -51,7 +51,7 @@ const Style = styled.div<StyleProps>`
   z-index: 2;
   height: ${props => props.dimensions[props.type].height}%;
   width: ${props => props.dimensions[props.type].width}%;
-  background-color: white;
+  background-color: ${({ theme }) => theme.mainBackgroundColor};
   border: 1px solid gray;
   border-radius: 15px;
   padding: 15px;

@@ -20,6 +20,7 @@ const SearchResults: FC = () => {
     `${api}/search/recipes/tag?tag_name=${value}&${getSearchParams()}`,
     fetcher
   )
+
   useEffect(() => {
     data && setRecipes(data)
   }, [data])

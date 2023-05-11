@@ -78,7 +78,7 @@ const Style = styled.nav`
   .breadcrumb {
     letter-spacing: 0.5px;
     font-weight: 600;
-    color: #585858;
+    color: ${({ theme }) => theme.secondaryTextColor};
     &:hover {
       text-decoration: underline;
       color: #858585;

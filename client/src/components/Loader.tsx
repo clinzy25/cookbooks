@@ -29,7 +29,6 @@ const Style = styled.div<Props>`
     border: 3px solid transparent;
     border-bottom-color: #ff3d00;
   }
-
   @keyframes rotation {
     0% {
       transform: rotate(0deg);

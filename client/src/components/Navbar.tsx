@@ -23,7 +23,7 @@ const Style = styled.div`
   gap: 12px;
   border-bottom: 1px solid gray;
   padding: 12px;
-  box-shadow: 3px 3px 5px #e3e3e3;
+  box-shadow: 3px 3px 5px ${({ theme }) => theme.lightBoxShadowColor};
   button {
     padding: 10px 20px;
     width: min-content;

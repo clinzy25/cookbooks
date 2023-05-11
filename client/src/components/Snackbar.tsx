@@ -28,10 +28,10 @@ const Style = styled.div<StyleProps>`
   margin: auto;
   padding: 6px 50px;
   border-radius: 5px;
-  box-shadow: 5px 5px 10px #00000055;
+  box-shadow: 5px 5px 10px ${({ theme }) => theme.darkBoxShadowColor};
   border: 1px solid gray;
   z-index: 3;
-  color: white;
+  color: ${({ theme }) => theme.mainLightTextColor};
   background-color: ${props => {
     switch (props.state) {
       case 'success':

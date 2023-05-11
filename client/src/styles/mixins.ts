@@ -9,7 +9,7 @@ export const TagMixin = css`
   margin: 0 5px;
   padding: 0 7px;
   font-family: 'DM Mono', monospace;
-  box-shadow: 2px 2px 2px ${({ theme }) => theme.boxShadowColor};
+  box-shadow: 2px 2px 2px ${({ theme }) => theme.darkBoxShadowColor};
   transition: ${({ theme }) => theme.buttonTransition};
   white-space: nowrap;
   &:hover {

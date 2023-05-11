@@ -286,15 +286,16 @@ const Style = styled.div<StyleProps>`
       padding: 2px;
       &:hover {
         color: white;
-        background-color: #696969;
+        background-color: #727272;
       }
     }
     .deleted {
       text-decoration: line-through;
-      background-color: #4c4c4c;
+      background-color: ${({ theme }) => theme.nullifiedColor};
       color: white;
       &:hover {
         text-decoration: line-through;
+        background-color: ${({ theme }) => theme.nullifiedColor};
       }
     }
     input {

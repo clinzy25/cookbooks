@@ -223,7 +223,7 @@ const Style = styled.main`
     min-height: 450px;
     overflow: hidden;
     border-radius: 15px;
-    box-shadow: 2px 2px 5px #b7b7b7;
+    box-shadow: 2px 2px 5px ${({ theme }) => theme.darkBoxShadowColor};
     .img {
       object-fit: cover;
     }
@@ -244,7 +244,7 @@ const Style = styled.main`
     }
   }
   a {
-    color: #0000ee;
+    color: ${({ theme }) => theme.linkColor};
     cursor: pointer;
     &:hover {
       text-decoration: underline;

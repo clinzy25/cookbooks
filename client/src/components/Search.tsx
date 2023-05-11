@@ -109,7 +109,7 @@ const Style = styled.div`
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: whitesmoke;
+    background-color: ${({ theme }) => theme.buttonBackground};
     border: 1px solid ${({ theme }) => theme.softBorder};
     border-radius: 25px;
     z-index: 5;
@@ -155,7 +155,7 @@ const Style = styled.div`
       white-space: nowrap;
       padding: 4px;
       &:hover {
-        background-color: #cecece;
+        background-color: ${({ theme }) => theme.buttonBackgroundHover};
       }
     }
     &:hover > div > input {
