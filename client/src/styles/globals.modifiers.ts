@@ -5,6 +5,7 @@ export const ModalGlobalStyles = createGlobalStyle`
     overflow: hidden;
   }
   #recipe-page-wrapper > *:not(#modal), 
+  #breadcrumb-wrapper > *:not(#modal), 
   #cookbook-detail-page-wrapper > *:not(#modal), 
   #cookbook-page-wrapper > *:not(#modal) {
     pointer-events: none;

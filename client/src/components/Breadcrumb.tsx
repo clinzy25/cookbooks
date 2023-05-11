@@ -2,6 +2,7 @@ import { IBreadcrumb } from '@/types/@types.breadcrumb'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
+import { BiChevronRight, BiChevronsRight } from 'react-icons/bi'
 import styled from 'styled-components'
 
 const Breadcrumb: FC = () => {
@@ -51,10 +52,10 @@ const Breadcrumb: FC = () => {
   }, [pathname, query]) // eslint-disable-line
 
   return (
-    <Style>
+    <Style id='breadcrumb-wrapper'>
       {breadcrumb.map((bc, i) => (
         <>
-          {i > 0 && ' > '}
+          {i > 0 && <BiChevronRight className='icon' />}
           <Link
             className='breadcrumb'
             key={i === breadcrumb.length ? '#' : bc.display}
@@ -68,7 +69,12 @@ const Breadcrumb: FC = () => {
 }
 
 const Style = styled.nav`
-  margin: 20px 0 0 60px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  .icon {
+    font-size: 1.1rem;
+  }
   .breadcrumb {
     letter-spacing: 0.5px;
     font-weight: 600;
@@ -77,9 +83,6 @@ const Style = styled.nav`
       text-decoration: underline;
       color: #858585;
     }
-  }
-  @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
-    margin: 10px 0 0 15px;
   }
 `
 

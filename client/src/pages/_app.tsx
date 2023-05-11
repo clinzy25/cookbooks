@@ -18,8 +18,8 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <ThemeProvider theme={LightTheme}>
       {asPath !== '/' && <Navbar />}
-      <Breadcrumb />
       <PageWrapper>
+        <Breadcrumb />
         <GlobalStyle />
         <Component {...pageProps} />
       </PageWrapper>
@@ -30,6 +30,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
 const PageWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   padding: 15px 60px;
   height: 100%;
   & > * {
