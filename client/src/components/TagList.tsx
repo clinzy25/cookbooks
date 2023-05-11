@@ -160,6 +160,15 @@ const TagList: FC = () => {
     }
   }
 
+  const handleTagHref = (tag: ITag) => {
+    const value = encodeURIComponent(tag.tag_name)
+    const c_name = encodeURIComponent(cookbook_name?.toString() as string)
+    if (cookbook) {
+      return `/cookbooks/${cookbook}/search?cookbook_name=${c_name}&value=${value}`
+    }
+    return `/search?value=${value}`
+  }
+
   useEffect(() => {
     submitTrigger && handleSubmit()
   }, [submitTrigger]) // eslint-disable-line
@@ -212,16 +221,7 @@ const TagList: FC = () => {
               </span>
             </div>
           ) : (
-            <Link
-              href={
-                cookbook
-                  ? `/cookbooks/${cookbook}/search?cookbook_name=${encodeURIComponent(
-                      cookbook_name?.toString() as string
-                    )}&value=${encodeURIComponent(t.tag_name)}`
-                  : `/search?value=${encodeURIComponent(t.tag_name)}`
-              }
-              className='tag'
-              key={t.guid}>
+            <Link href={handleTagHref(t)} className='tag' key={t.guid}>
               <span className='hash'>#</span>
               {t.tag_name}
             </Link>

@@ -13,12 +13,15 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
   const { name, image, base64_image, cook_time, prep_time, tags, guid, creator_user_email } =
     recipe
 
+  const handleHref = () => {
+    const c_name = encodeURIComponent(cookbook_name?.toString() as string)
+    const recipe_name = encodeURIComponent(name)
+    return `/cookbooks/${cookbook}/recipe/${guid}?cookbook_name=${c_name}&recipe_name=${recipe_name}`
+  }
+
   return (
     <Style>
-      <Link
-        href={`/cookbooks/${cookbook}/recipe/${guid}?cookbook_name=${encodeURIComponent(
-          cookbook_name?.toString() as string
-        )}&recipe_name=${encodeURIComponent(name)}`}>
+      <Link href={handleHref()}>
         <div className='img-ctr'>
           {image && (
             <Image

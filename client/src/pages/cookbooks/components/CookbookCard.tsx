@@ -25,13 +25,15 @@ const CookbookCard = ({ cookbook }: Props) => {
   } = cookbook
   const [randomInt] = useState(randomInRange(1, 3))
 
+  const handleHref = () => {
+    const c_name = encodeURIComponent(cookbook_name)
+    const owner = user?.sub === creator_user_guid ? 1 : 0
+    return `/cookbooks/${guid}?cookbook_name=${c_name}&owner=${owner}`
+  }
+
   return (
     <Style>
-      <Link
-        className='cookbook-tile'
-        href={`/cookbooks/${guid}?cookbook_name=${encodeURIComponent(cookbook_name)}&owner=${
-          user?.sub === creator_user_guid ? 1 : 0
-        }`}>
+      <Link className='cookbook-tile' href={handleHref()}>
         <div className='img-ctr'>
           {recipe_images?.length ? (
             recipe_images?.map(image => (

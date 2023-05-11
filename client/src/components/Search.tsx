@@ -32,6 +32,25 @@ const Search: FC = () => {
     }
   }, [searchVal, cookbook, user?.sub, handleServerError])
 
+  const handleRecipeHref = (recipe: ISearchResult) => {
+    const recipe_name = encodeURIComponent(recipe.name)
+    const recipe_guid = encodeURIComponent(recipe.guid)
+    const c_name = encodeURIComponent(cookbook_name?.toString() as string)
+    if (cookbook) {
+      return `/cookbooks/${cookbook}/recipe/${recipe_guid}?cookbook_name=${c_name}&recipe_name=${recipe_name}`
+    }
+    return `/recipe/${recipe_guid}?recipe_name=${recipe_name}`
+  }
+
+  const handleTagHref = (tag: ISearchResult) => {
+    const value = encodeURIComponent(tag.name.substring(1))
+    const c_name = encodeURIComponent(cookbook_name?.toString() as string)
+    if (cookbook) {
+      return `/cookbooks/${cookbook}/search?cookbook_name=${c_name}&value=${value}`
+    }
+    return `/search?value=${value}`
+  }
+
   useEffect(() => {
     searchVal ? searchRecipes() : setSearchResults(null)
   }, [searchVal]) // eslint-disable-line
@@ -59,15 +78,7 @@ const Search: FC = () => {
               title={r.name}
               className='search-result'
               onClick={() => setSearchVal('')}
-              href={
-                cookbook
-                  ? `/cookbooks/${r.cookbook_guid}/recipe/${
-                      r.guid
-                    }?cookbook_name=${encodeURIComponent(
-                      cookbook_name?.toString() as string
-                    )}&recipe_name=${encodeURIComponent(r.name)}`
-                  : `/recipe/${r.guid}?recipe_name=${encodeURIComponent(r.name)}`
-              }
+              href={handleRecipeHref(r)}
               key={r.guid}>
               {r.name}
             </Link>
@@ -79,13 +90,7 @@ const Search: FC = () => {
             <Link
               className='search-result'
               onClick={() => setSearchVal('')}
-              href={
-                cookbook
-                  ? `/cookbooks/${cookbook}/search?cookbook_name=${encodeURIComponent(
-                      cookbook_name?.toString() as string
-                    )}&value=${encodeURIComponent(t.name.substring(1))}`
-                  : `/search?value=${encodeURIComponent(t.name.substring(1))}`
-              }
+              href={handleTagHref(t)}
               key={t.guid}>
               {t.name}
             </Link>
