@@ -38,7 +38,7 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
       revalidateRecipes()
       revalidateTags()
       setRecipeModal(false)
-    } catch (e: unknown) {
+    } catch (e) {
       handleServerError(e)
     }
     setLoading(false)

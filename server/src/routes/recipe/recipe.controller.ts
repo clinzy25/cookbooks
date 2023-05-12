@@ -51,7 +51,12 @@ export async function httpParseRecipe(req: Request, res: Response, next: NextFun
       if (!url || !cookbook_guid) throw new Error(INCOMPLETE_REQUEST_BODY)
 
       const parsedRecipe = await recipeDataScraper(url)
-      if (!parsedRecipe) throw new Error(RECIPE_NOT_FOUND)
+      if (!parsedRecipe) {
+        if (recipes.length === 1) {
+          throw new Error(RECIPE_NOT_FOUND)
+        }
+        continue
+      }
       const imageUrl = await getRecipeImage(parsedRecipe)
       const { base64 } = await getPlaiceholder(imageUrl)
 

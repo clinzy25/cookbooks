@@ -48,23 +48,21 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
         const { data: cookbook_guid } = res
         recipes.forEach(r => (r['cookbook_guid'] = cookbook_guid))
         invites.forEach(r => (r['cookbook_guid'] = cookbook_guid))
-        const rPromise = await axios.post(`${api}/recipes/parse`, { recipes })
-        const iPromise = await axios.post(`${api}/users/invite`, { invites })
-        const allRes = await Promise.all([iPromise, rPromise])
-        if (!allRes.every(r => r.data.status === 201)) {
-          setSnackbar({ msg: 'Some actions were not have been completed.', state: 'error' })
-        }
+        const rPromise = axios.post(`${api}/recipes/parse`, { recipes })
+        const iPromise = axios.post(`${api}/users/invite`, { invites })
+        await Promise.allSettled([iPromise, rPromise]).then(res => {
+          if (!res.every(r => r.status === 'fulfilled')) {
+            setSnackbar({ msg: 'Some actions were not completed.', state: 'error' })
+          } else {
+            setSnackbar({ msg: 'Cookbook created!', state: 'success' })
+          }
+        })
         return res
       })
-      if (cookbookRes.status === 201) {
-        setSnackbar({ msg: 'Cookbook created!', state: 'success' })
-        setModalOpen(false)
-        router.push(
-          `/cookbooks/${cookbookRes.data}?cookbook_name=${cookbook.cookbook_name}&owner=1`
-        )
-      } else {
-        throw new Error('Cookbook creation failed')
-      }
+      setModalOpen(false)
+      router.push(
+        `/cookbooks/${cookbookRes.data}?cookbook_name=${cookbook.cookbook_name}&owner=1`
+      )
     } catch (e) {
       handleServerError(e)
       console.error(e)
@@ -100,28 +98,32 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
     }
   }
 
-  const handleAddRecipeClick = () => {
-    const url = linkFieldRef.current?.value
-    if (url) {
-      const newRecipe: IRecipeReq = {
-        url,
-        source_type: selection,
-        is_private: 0,
+  const validateUrl = async (url: string) => {
+    try {
+      if (recipes.length === 10) {
+        setSnackbar({ msg: 'Max 10, you can add more later!', state: 'error' })
+      } else {
+        new URL(url)
+        const newRecipe: IRecipeReq = {
+          url,
+          source_type: selection,
+          is_private: 0,
+        }
+        setRecipes([...recipes, newRecipe])
       }
-      setRecipes([...recipes, newRecipe])
+    } catch (_) {
+      setSnackbar({ msg: 'Invalid url', state: 'error' })
     }
   }
 
-  const handleAddRecipePaste = (e: ClipboardEvent) => {
+  const handleAddRecipeClick = () => {
+    const url = linkFieldRef.current?.value
+    url && validateUrl(url)
+  }
+
+  const handleAddRecipePaste = async (e: ClipboardEvent) => {
     const url = e.clipboardData?.getData('Text')
-    if (url) {
-      const newRecipe: IRecipeReq = {
-        url,
-        source_type: selection,
-        is_private: 0,
-      }
-      setRecipes([...recipes, newRecipe])
-    }
+    url && validateUrl(url)
   }
 
   const handleRecipeDelete = (i: number) => {
@@ -175,7 +177,7 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
                 setSelection={setSelection}
               />
               <ul className='list'>
-                <h3>Recipe Queue</h3>
+                <h3>Recipe Queue (Max 10)</h3>
                 {recipes.map((r, i) => (
                   <li className='pending-list-item' key={r.url}>
                     <span>{r.url}</span>
