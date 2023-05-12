@@ -31,7 +31,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   const [tagsOffset, setTagsOffset] = useState(0)
   const [isEndOfTags, setIsEndOfTags] = useState(false)
   const [cookbooks, setCookbooks] = useState<ICookbookRes[]>([])
-  const [tagsEditMode, setTagsEditMode] = useState(true)
+  const [tagsEditMode, setTagsEditMode] = useState(false)
 
   /**
    * Catch a server error of a specific type
