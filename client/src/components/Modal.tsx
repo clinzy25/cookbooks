@@ -7,12 +7,12 @@ import styled from 'styled-components'
 type Props = {
   closeModal: () => void
   children: ReactNode
-  type: 'confirm' | 'edit-cookbook' | 'default'
+  type: 'confirm' | 'edit-cookbook' | 'default' | 'welcome'
 }
 
 const Modal: FC<Props> = ({ closeModal, children, type }) => {
   const modalRef = useRef(null)
-  useOutsideAlerter(modalRef, closeModal)
+  useOutsideAlerter(modalRef, type !== 'welcome' ? closeModal : () => null)
 
   const dimensions = {
     confirm: {
@@ -20,6 +20,10 @@ const Modal: FC<Props> = ({ closeModal, children, type }) => {
       width: 40,
     },
     'edit-cookbook': {
+      height: 80,
+      width: 50,
+    },
+    welcome: {
       height: 80,
       width: 50,
     },
@@ -32,14 +36,14 @@ const Modal: FC<Props> = ({ closeModal, children, type }) => {
   return (
     <Style ref={modalRef} id='modal' type={type} dimensions={dimensions}>
       <ModalGlobalStyles />
-      <AiFillCloseCircle id='close-btn' onClick={closeModal} />
+      {type !== 'welcome' && <AiFillCloseCircle id='close-btn' onClick={closeModal} />}
       {children}
     </Style>
   )
 }
 
 type StyleProps = {
-  type: 'confirm' | 'edit-cookbook' | 'default'
+  type: 'confirm' | 'edit-cookbook' | 'default' | 'welcome'
   dimensions: { [key: string]: { height: number; width: number } }
 }
 
@@ -48,7 +52,7 @@ const Style = styled.div<StyleProps>`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 2;
+  z-index: 10;
   height: ${props => props.dimensions[props.type].height}%;
   width: ${props => props.dimensions[props.type].width}%;
   background-color: ${({ theme }) => theme.mainBackgroundColor};

@@ -1,16 +1,24 @@
 import styled from 'styled-components'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AddCookbookModal from './components/AddCookbookModal'
 import { IoMdAddCircle } from 'react-icons/io'
 import { AddBtnMixin } from '@/styles/mixins'
 import CookbookCard from './components/CookbookCard'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
+import WelcomeModal from './components/WelcomeModal'
+import { useUser } from '@auth0/nextjs-auth0/client'
 
 const CookbooksPage: React.FC = () => {
   const { cookbooks, cookbooksError } = useAppContext() as IAppContext
-  const [modalOpen, setModalOpen] = useState(false)
+  const [addCookbookModal, setAddcookbookModal] = useState(false)
+  const [welcomeModal, setWelcomeModal] = useState(true)
+  const { isLoading } = useUser()
+
+  useEffect(() => {
+    !cookbooks.length && !isLoading && setWelcomeModal(true)
+  }, [cookbooks]) // eslint-disable-line
 
   if (!cookbooks) {
     return <p>...loading</p>
@@ -20,7 +28,8 @@ const CookbooksPage: React.FC = () => {
   }
   return (
     <Styles id='cookbook-page-wrapper'>
-      {modalOpen && <AddCookbookModal setModalOpen={setModalOpen} />}
+      {addCookbookModal && <AddCookbookModal setModalOpen={setAddcookbookModal} />}
+      {welcomeModal && <WelcomeModal setModalOpen={setWelcomeModal} />}
       <header>
         <h1>Your Cookbooks</h1>
       </header>
@@ -29,7 +38,7 @@ const CookbooksPage: React.FC = () => {
           <CookbookCard key={cb.guid} cookbook={cb} />
         ))}
       </div>
-      <IoMdAddCircle id='add-cookbook-btn' onClick={() => setModalOpen(true)} />
+      <IoMdAddCircle id='add-cookbook-btn' onClick={() => setAddcookbookModal(true)} />
     </Styles>
   )
 }

@@ -43,7 +43,7 @@ export const AddBtnMixin = css`
   transition: ${({ theme }) => theme.buttonTransition};
   border: 1px solid ${({ theme }) => theme.softBorder};
   padding: 0;
-  z-index: 10;
+  z-index: 5;
   &:hover {
     ${({ theme }) => theme.buttonTransition};
     transform: scale(1.05);
@@ -57,6 +57,10 @@ export const AvatarMixin = css`
 `
 
 export const ModalHeaderMixin = css`
+  h1 {
+    font-family: ${({ theme }) => theme.headerFont};
+    text-align: center;
+  }
   h2 {
     font-size: 1.7rem;
     margin-bottom: 10px;
@@ -64,6 +68,9 @@ export const ModalHeaderMixin = css`
     font-family: ${({ theme }) => theme.headerFont};
   }
   @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
+    h1 {
+      font-size: 1.7rem;
+    }
     h2 {
       font-size: 1.4rem;
     }

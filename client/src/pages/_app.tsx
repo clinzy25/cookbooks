@@ -19,7 +19,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     <ThemeProvider theme={LightTheme}>
       {asPath !== '/' && <Navbar />}
       <PageWrapper>
-        <Breadcrumb />
+        {asPath !== '/' && <Breadcrumb />}
         <GlobalStyle />
         <Component {...pageProps} />
       </PageWrapper>
