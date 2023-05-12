@@ -278,6 +278,23 @@ const Style = styled.article<StyleProps>`
       font-size: 1.3rem;
       margin-right: 5px;
     }
+    ${props =>
+      props.tagsEditMode &&
+      `
+      animation: pulse 0.5s infinite;
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.08);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      
+    `}
   }
   ul {
     list-style-type: none;
