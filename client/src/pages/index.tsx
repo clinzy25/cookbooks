@@ -1,11 +1,12 @@
+import { ModalBtnMixin } from '@/styles/mixins'
 import styled from 'styled-components'
 
 const LandingPage: React.FC = () => (
-  <Styles>
+  <Styles className='page-wrapper'>
     <header>
       <h1>Cookbooks</h1>
-      <p>Create a shared cookbook with your friends and family.</p>
     </header>
+    <p>Create a collaborative cookbook with your friends and family.</p>
     <div id='btn-ctr'>
       <a href='/api/auth/login'>
         <button>Login / Signup</button>
@@ -15,16 +16,14 @@ const LandingPage: React.FC = () => (
 )
 
 const Styles = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 300px;
-    font-family: 'Nunito Sans', sans-serif;
-    h1,
-    p {
-      margin-top: auto;
+    font-family: ${({ theme }) => theme.headerFont};
+    h1 {
+      font-size: 3rem;
     }
   }
   #btn-ctr {
@@ -32,10 +31,7 @@ const Styles = styled.main`
     justify-content: center;
     align-items: center;
     height: 200px;
-    button {
-      padding: 10px 20px;
-      margin: 10px;
-    }
+    ${ModalBtnMixin}
   }
 `
 

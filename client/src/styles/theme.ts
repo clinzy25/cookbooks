@@ -1,6 +1,6 @@
 import { ThemeProps } from "@/types/@types.theme"
 
-const Variables: ThemeProps = {
+const Globals: ThemeProps = {
   breakpointMobile: '800',
   successColor: '#16a500',
   errorColor: '#d80000',
@@ -10,7 +10,7 @@ const Variables: ThemeProps = {
 }
 
 export const LightTheme: ThemeProps = {
-  ...Variables,
+  ...Globals,
   mainBackgroundColor: '#fcfcfc',
   mainBackgroundColorHover: '#f0f0f0',
   secondaryBackgroundColor: '#e4e4e4',
