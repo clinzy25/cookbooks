@@ -1,4 +1,6 @@
+import useAppContext from '@/context/app.context'
 import { ModalGlobalStyles } from '@/styles/globals.modifiers'
+import { IAppContext } from '@/types/@types.context'
 import { useOutsideAlerter } from '@/utils/utils.hooks'
 import React, { FC, ReactNode, useRef } from 'react'
 import { AiFillCloseCircle } from 'react-icons/ai'
@@ -11,8 +13,9 @@ type Props = {
 }
 
 const Modal: FC<Props> = ({ closeModal, children, type }) => {
+  const { tagsEditMode } = useAppContext() as IAppContext
   const modalRef = useRef(null)
-  useOutsideAlerter(modalRef, type !== 'welcome' ? closeModal : () => null)
+  useOutsideAlerter(modalRef, type !== 'welcome' && !tagsEditMode ? closeModal : () => null)
 
   const dimensions = {
     confirm: {
@@ -20,7 +23,7 @@ const Modal: FC<Props> = ({ closeModal, children, type }) => {
       width: 40,
     },
     'edit-cookbook': {
-      height: 80,
+      height: 'min-content',
       width: 50,
     },
     welcome: {
@@ -44,7 +47,7 @@ const Modal: FC<Props> = ({ closeModal, children, type }) => {
 
 type StyleProps = {
   type: 'confirm' | 'edit-cookbook' | 'default' | 'welcome'
-  dimensions: { [key: string]: { height: number; width: number } }
+  dimensions: { [key: string]: { height: number | string; width: number } }
 }
 
 const Style = styled.div<StyleProps>`

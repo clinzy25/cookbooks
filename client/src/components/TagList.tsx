@@ -2,9 +2,7 @@ import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import Link from 'next/link'
 import React, { FC, FocusEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
-import { AiOutlineEdit } from 'react-icons/ai'
 import { IoMdClose } from 'react-icons/io'
-import { BsCheckLg } from 'react-icons/bs'
 import { FaUndoAlt } from 'react-icons/fa'
 import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
 import styled from 'styled-components'
@@ -17,7 +15,7 @@ import { IconMixin, TagMixin } from '@/styles/mixins'
 
 const TagList: FC = () => {
   const {
-    query: { cookbook, cookbook_name, owner },
+    query: { cookbook, cookbook_name },
   } = useRouter()
   const {
     tags,
@@ -25,12 +23,13 @@ const TagList: FC = () => {
     tagsOffset,
     tagsLimit,
     isEndOfTags,
+    tagsEditMode,
+    setTagsEditMode,
     setTagsOffset,
     setSnackbar,
     handleServerError,
     revalidateTags,
   } = useAppContext() as IAppContext
-  const [editMode, setEditMode] = useState(false)
   const [tagsToDelete, setTagsToDelete] = useState<ITag[]>([])
   const [tagsToEdit, setTagsToEdit] = useState<IEditTag[]>([])
   const [submitTrigger, setSubmitTrigger] = useState(false)
@@ -38,7 +37,6 @@ const TagList: FC = () => {
   const [scrollValues, setScrollValues] = useState<number[]>([])
 
   const scrollRef = useRef<HTMLDivElement>(null)
-  const showEditBtn = cookbook && Number(owner) && tags.length
 
   const nextTags = (ctr: HTMLDivElement) => {
     for (const tag of Object.values(ctr.children) as HTMLElement[]) {
@@ -149,7 +147,7 @@ const TagList: FC = () => {
       if (tagsToDelete.length || tagsToEdit.length) {
         setSnackbar({ msg: 'Tags updated', state: 'success' })
       }
-      setEditMode(false)
+      setTagsEditMode(false)
       setSubmitTrigger(false)
       setTagsToDelete([])
       setTagsToEdit([])
@@ -170,6 +168,11 @@ const TagList: FC = () => {
   useEffect(() => {
     submitTrigger && handleSubmit()
   }, [submitTrigger]) // eslint-disable-line
+  
+  useEffect(() => {
+    !tagsEditMode && setSubmitTrigger(true)
+  }, [tagsEditMode])
+  
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -186,15 +189,15 @@ const TagList: FC = () => {
     return <p>Error loading tags</p>
   }
   return (
-    <Style editMode={editMode}>
+    <Style tagsEditMode={tagsEditMode}>
       <div className='icon-ctr'>
         {showPaginBtns && (
           <BsChevronLeft className='icon pagin-icon' onClick={() => handlePaginate(0)} />
         )}
       </div>
-      <div className='scroll-ctr' ref={scrollRef}>
+      <div id='tags-ctr' className='scroll-ctr' ref={scrollRef}>
         {tags?.map((t: ITag) =>
-          editMode ? (
+          tagsEditMode ? (
             <div key={t.guid} className={`tag ${tagsToDelete.includes(t) && 'deleted'}`}>
               {tagsToDelete.includes(t) ? (
                 <FaUndoAlt
@@ -214,7 +217,8 @@ const TagList: FC = () => {
                 suppressContentEditableWarning={true}
                 spellCheck={false}
                 onBlur={e => handleQueEdits(e, t)}
-                contentEditable={!tagsToDelete.includes(t)}>
+                contentEditable={!tagsToDelete.includes(t)}
+                className='editable-tag'>
                 {t.tag_name}
               </span>
             </div>
@@ -231,29 +235,12 @@ const TagList: FC = () => {
           <BsChevronRight className='icon pagin-icon' onClick={() => handlePaginate(1)} />
         )}
       </div>
-      <div className='icon-ctr'>
-        {showEditBtn ? (
-          editMode ? (
-            <BsCheckLg
-              title='Submit Tag Edits'
-              onClick={handleSubmit}
-              className='icon edit-icon'
-            />
-          ) : (
-            <AiOutlineEdit
-              title='Edit Tags'
-              onClick={() => setEditMode(true)}
-              className='icon edit-icon'
-            />
-          )
-        ) : null}
-      </div>
     </Style>
   )
 }
 
 type StyleProps = {
-  editMode: boolean
+  tagsEditMode: boolean
 }
 
 const Style = styled.div<StyleProps>`
@@ -263,6 +250,7 @@ const Style = styled.div<StyleProps>`
   overflow-x: hidden;
   margin: 0 auto 0 auto;
   flex-shrink: 100;
+  border-radius: 25px;
   .scroll-ctr {
     display: flex;
     align-items: center;
@@ -273,6 +261,10 @@ const Style = styled.div<StyleProps>`
     margin: 0 12px;
     .tag {
       ${TagMixin}
+      background-color: ${props =>
+        props.tagsEditMode
+          ? props.theme.buttonBackgroundActive
+          : props.theme.buttonBackground};
       .hash {
         margin: 0 3px;
       }
@@ -313,11 +305,11 @@ const Style = styled.div<StyleProps>`
   }
   .edit-icon {
     ${IconMixin}
-    background-color: ${props => (props.editMode ? '#00d600' : 'whitesmoke')};
+    background-color: ${props => (props.tagsEditMode ? '#00d600' : 'whitesmoke')};
     margin-left: 12px;
     &:hover {
       transition: all 0.1s ease-out;
-      background-color: ${props => (props.editMode ? '#69ff69' : '#d2d2d2')};
+      background-color: ${props => (props.tagsEditMode ? '#69ff69' : '#d2d2d2')};
     }
   }
 `

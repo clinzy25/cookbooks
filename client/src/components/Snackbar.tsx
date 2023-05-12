@@ -30,7 +30,7 @@ const Style = styled.div<StyleProps>`
   border-radius: 5px;
   box-shadow: ${({ theme }) => theme.boxShadowOverOtherElements};
   border: 1px solid gray;
-  z-index: 3;
+  z-index: 11;
   color: ${({ theme }) => theme.mainLightTextColor};
   background-color: ${props => {
     switch (props.state) {

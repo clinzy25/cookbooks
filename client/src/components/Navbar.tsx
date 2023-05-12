@@ -4,13 +4,13 @@ import { FC } from 'react'
 import TagList from './TagList'
 
 const Navbar: FC = () => (
-  <Style>
+  <Style id='navbar'>
     <Search />
     <TagList />
   </Style>
 )
 
-const Style = styled.div`
+const Style = styled.nav`
   height: 65px;
   display: flex;
   justify-content: space-between;

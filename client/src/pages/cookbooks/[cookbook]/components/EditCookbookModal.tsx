@@ -11,7 +11,8 @@ import moment from 'moment'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { FC, MouseEvent, MutableRefObject, useEffect, useRef, useState } from 'react'
-import { BsFillSendFill } from 'react-icons/bs'
+import { AiOutlineEdit } from 'react-icons/ai'
+import { BsCheckLg, BsFillSendFill } from 'react-icons/bs'
 import { FaBirthdayCake } from 'react-icons/fa'
 import styled from 'styled-components'
 import useSWR from 'swr'
@@ -27,8 +28,13 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
     replace,
   } = useRouter()
   const router = useRouter()
-  const { setSnackbar, handleServerError, revalidateCookbooks } =
-    useAppContext() as IAppContext
+  const {
+    setSnackbar,
+    handleServerError,
+    revalidateCookbooks,
+    setTagsEditMode,
+    tagsEditMode,
+  } = useAppContext() as IAppContext
   const [members, setMembers] = useState<IMemberRes[]>([])
   const [pendingInvites, setPendingInvites] = useState<IMemberRes[]>([])
   const [confirm, setConfirm] = useState(false)
@@ -113,7 +119,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
 
   return (
     <Modal type='edit-cookbook' closeModal={() => setEditModal(false)}>
-      <Style>
+      <Style tagsEditMode={tagsEditMode}>
         <h2>Edit Cookbook</h2>
         <label htmlFor='cookbook-name'>
           <h3>Edit Cookbook Name</h3>
@@ -128,6 +134,18 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
             <button onClick={handleEditName}>Update</button>
           </div>
         </label>
+        <h3>Edit Tags</h3>
+        <button
+          type='button'
+          id='edit-tags-btn'
+          onClick={() => setTagsEditMode(!tagsEditMode)}>
+          {tagsEditMode ? (
+            <BsCheckLg title='Submit Tag Edits' className='icon edit-icon' />
+          ) : (
+            <AiOutlineEdit className='edit-icon' />
+          )}
+          Edit Tags
+        </button>
         <label htmlFor='email'>
           <h3>People</h3>
           <h4>Send invitation</h4>
@@ -218,10 +236,14 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
   )
 }
 
-const Style = styled.article`
+type StyleProps = {
+  tagsEditMode: boolean
+}
+
+const Style = styled.article<StyleProps>`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   height: 100%;
   background-color: ${({ theme }) => theme.mainBackgroundColor};
   ${ModalHeaderMixin}
@@ -244,6 +266,17 @@ const Style = styled.article`
     margin-bottom: 0;
     &:not(h2:first-of-type) {
       margin-top: 30px;
+    }
+  }
+  #edit-tags-btn {
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+    background-color: ${props =>
+      props.tagsEditMode ? props.theme.successColor : props.theme.buttonBackground};
+    .edit-icon {
+      font-size: 1.3rem;
+      margin-right: 5px;
     }
   }
   ul {

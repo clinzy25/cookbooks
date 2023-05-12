@@ -16,6 +16,8 @@ export interface IAppContext {
   tagsLimit: number
   isEndOfTags: boolean
   setTagsOffset: (offset: number) => void
+  tagsEditMode: boolean
+  setTagsEditMode: (bool: boolean) => void
 }
 
 export interface ISnackbar {
