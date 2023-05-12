@@ -14,6 +14,7 @@ export const LightTheme: ThemeProps = {
   mainBackgroundColor: '#fcfcfc',
   mainBackgroundColorHover: '#f0f0f0',
   secondaryBackgroundColor: '#e4e4e4',
+  secondaryBackgroundColorHover: '#d0d0d0',
   mainTextColor: '#000000',
   secondaryTextColor: '#585858',
   mainLightTextColor: '#ffffff',
