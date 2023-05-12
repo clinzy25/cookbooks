@@ -13,7 +13,7 @@ import { useUser } from '@auth0/nextjs-auth0/client'
 const CookbooksPage: React.FC = () => {
   const { cookbooks, cookbooksError } = useAppContext() as IAppContext
   const [addCookbookModal, setAddcookbookModal] = useState(false)
-  const [welcomeModal, setWelcomeModal] = useState(true)
+  const [welcomeModal, setWelcomeModal] = useState(false)
   const { isLoading } = useUser()
 
   useEffect(() => {
