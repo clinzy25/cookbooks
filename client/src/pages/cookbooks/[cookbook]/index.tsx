@@ -49,7 +49,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
     return <p>error</p>
   }
   return (
-    <Style endOfList={endOfList} id='cookbook-detail-page-wrapper'>
+    <Style endOfList={endOfList} className='page-wrapper' id='cookbook-detail-page-wrapper'>
       {recipeModal && (
         <AddRecipeModal revalidateRecipes={mutate} setRecipeModal={setRecipeModal} />
       )}

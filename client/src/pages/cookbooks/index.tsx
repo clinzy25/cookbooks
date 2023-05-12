@@ -27,7 +27,7 @@ const CookbooksPage: React.FC = () => {
     return <p>error</p>
   }
   return (
-    <Styles id='cookbook-page-wrapper'>
+    <Styles className='page-wrapper' id='cookbook-page-wrapper'>
       {addCookbookModal && <AddCookbookModal setModalOpen={setAddcookbookModal} />}
       {welcomeModal && <WelcomeModal setModalOpen={setWelcomeModal} />}
       <header>

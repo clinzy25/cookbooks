@@ -89,8 +89,8 @@ const globalStyle = createGlobalStyle`
   }
   body {
     max-width: 100vw;
-    overflow-x: hidden;
     min-height: 100%;
+    overflow-x: hidden;
     position: relative;
     font-family: 'Nunito Sans', sans-serif;
     background-color: ${({ theme }: GlobalThemeProps) => theme.mainBackgroundColor};
@@ -99,11 +99,22 @@ const globalStyle = createGlobalStyle`
     color: inherit;
     text-decoration: none;
   }
+  .page-wrapper {
+    flex-grow: 1;
+    padding: 15px 60px 30px 60px;
+  }
   #simplifyJobsContainer {
     position: absolute;
   }
   #__next {
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
+    .page-wrapper {
+      padding: 10px 15px 30px 15px;
+    }
   }
 `
 

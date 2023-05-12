@@ -69,7 +69,7 @@ const Breadcrumb: FC = () => {
 }
 
 const Style = styled.nav`
-  margin-bottom: 20px;
+  margin: 20px 0 0 60px;
   display: flex;
   align-items: center;
   .icon {
@@ -83,6 +83,9 @@ const Style = styled.nav`
       text-decoration: underline;
       color: #858585;
     }
+  }
+  @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
+    margin: 10px 0 0 15px;
   }
 `
 

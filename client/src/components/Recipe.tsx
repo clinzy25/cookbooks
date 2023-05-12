@@ -14,6 +14,7 @@ import Modal from '@/components/Modal'
 import { IconMixin, ModalBtnMixin } from '@/styles/mixins'
 import { TagMixin } from '@/styles/mixins'
 import moment from 'moment'
+import Loader from './Loader'
 
 type Props = {
   recipe: IRecipeRes
@@ -62,7 +63,7 @@ const Recipe: React.FC<Props> = props => {
     return <p>error</p>
   }
   return (
-    <Style id='recipe-page-wrapper'>
+    <Style className='page-wrapper' id='recipe-page-wrapper'>
       {confirm && (
         <Modal type='confirm' closeModal={() => setConfirm(false)}>
           <div id='confirmation-ctr'>

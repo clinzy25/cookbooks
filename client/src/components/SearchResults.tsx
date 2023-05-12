@@ -32,7 +32,7 @@ const SearchResults: FC = () => {
     return <p>Error...</p>
   }
   return (
-    <Style>
+    <Style className='page-wrapper'>
       <header>
         <h1>#{value}</h1>
       </header>
