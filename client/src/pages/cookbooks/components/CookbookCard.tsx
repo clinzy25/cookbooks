@@ -37,13 +37,15 @@ const CookbookCard = ({ cookbook }: Props) => {
         <div className='img-ctr'>
           {recipe_images?.length ? (
             recipe_images?.map(image => (
-              <div key={image} className='ctr'>
+              <div key={image.image} className='ctr'>
                 <Image
                   className='img'
-                  src={image}
+                  src={image.image}
                   alt='Recipe'
                   fill
                   priority
+                  placeholder='blur'
+                  blurDataURL={image.base64_image}
                   sizes={recipe_images.length > 3 ? '300px' : '800px'}
                 />
               </div>
