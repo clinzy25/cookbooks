@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Loader from './Loader'
 import { AiFillCamera, AiOutlineEdit } from 'react-icons/ai'
 import { RecipeSourceTypes } from '@/types/@types.recipes'
-import { ModalBtnMixin, ModalFieldMixin, ModalHeaderMixin } from '@/styles/mixins'
+import { ModalBtnMixin, ModalFieldMixin, ModalHeaderMixin, PlannedFeature } from '@/styles/mixins'
 import { BiLink } from 'react-icons/bi'
 
 type Props = {
@@ -72,15 +72,15 @@ const AddRecipeComponent = forwardRef<HTMLInputElement, Props>((props, ref) => {
             </label>
           </div>
           <div className='tab2 camera'>
-            <div>
+            <div className='feature'>
               This feature is coming soon!!!
-              <AiFillCamera className='icon' />
+              <AiFillCamera className='feature-icon' />
             </div>
           </div>
           <div className='tab3 manual'>
-            <div>
+            <div className='feature'>
               This feature is coming soon!!!
-              <AiOutlineEdit className='icon' />
+              <AiOutlineEdit className='feature-icon' />
             </div>
           </div>
         </section>
@@ -179,17 +179,7 @@ const Style = styled.div`
       .camera,
       .manual {
         height: 100%;
-        div {
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          .icon {
-            font-size: 8rem;
-            color: ${({ theme }) => theme.buttonBackground};
-          }
-        }
+        ${PlannedFeature}
       }
     }
   }

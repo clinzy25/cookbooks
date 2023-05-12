@@ -114,6 +114,20 @@ export const ModalBtnMixin = css`
     }
   }
 `
+export const PlannedFeature = css`
+  .feature {
+    height: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .feature-icon {
+      font-size: 8rem;
+      color: ${({ theme }) => theme.buttonBackground};
+    }
+  }
+`
 
 export const CardGradient = css`
   background: linear-gradient(

@@ -13,9 +13,16 @@ import { IRecipeReq } from '@/types/@types.recipes'
 import { IMemberReq } from '@/types/@types.user'
 import Loader from '@/components/Loader'
 import Modal from '@/components/Modal'
-import { ModalBtnMixin, ModalFieldMixin, ModalHeaderMixin } from '@/styles/mixins'
+import {
+  ModalBtnMixin,
+  ModalFieldMixin,
+  ModalHeaderMixin,
+  PlannedFeature,
+} from '@/styles/mixins'
 import AddRecipeComponent from '@/components/AddRecipeComponent'
 import { IoMdClose } from 'react-icons/io'
+import packageJson from '../../../../../package.json'
+import { BsFillPersonPlusFill } from 'react-icons/bs'
 
 type Props = {
   setModalOpen: (bool: boolean) => void
@@ -213,35 +220,44 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
             <div id='step-members'>
               <h1>Invite People</h1>
               <p>Invite your friends and family to view and add recipes.</p>
-              <label className='label' htmlFor='email'>
-                <div className='input-ctr'>
-                  <input
-                    name='email'
-                    ref={emailFieldRef}
-                    placeholder='Type an email address...'
-                    onKeyDown={e => e.key === 'Enter' && validateInvite(e)}
-                    type='text'
-                  />
-                  <button type='button' name='invite-field' onClick={validateInvite}>
-                    Queue invite
-                  </button>
+              {packageJson.version !== '1.2.0' ? (
+                <div className='feature'>
+                  <p>Membership and invites coming soon!</p>
+                  <BsFillPersonPlusFill className='feature-icon' />
                 </div>
-              </label>
-              <ul className='list'>
-                <h3>Pending Invitations</h3>
-                {invites.map((invite, i) => (
-                  <li className='pending-list-item' key={invite.email}>
-                    <span>{invite.email}</span>
-                    <div>
-                      <IoMdClose
-                        title='Dequeue Member'
-                        onClick={() => handleInviteDelete(i)}
-                        className='delete-icon'
+              ) : (
+                <>
+                  <label className='label' htmlFor='email'>
+                    <div className='input-ctr'>
+                      <input
+                        name='email'
+                        ref={emailFieldRef}
+                        placeholder='Type an email address...'
+                        onKeyDown={e => e.key === 'Enter' && validateInvite(e)}
+                        type='text'
                       />
+                      <button type='button' name='invite-field' onClick={validateInvite}>
+                        Queue invite
+                      </button>
                     </div>
-                  </li>
-                ))}
-              </ul>
+                  </label>
+                  <ul className='list'>
+                    <h3>Pending Invitations</h3>
+                    {invites.map((invite, i) => (
+                      <li className='pending-list-item' key={invite.email}>
+                        <span>{invite.email}</span>
+                        <div>
+                          <IoMdClose
+                            title='Dequeue Member'
+                            onClick={() => handleInviteDelete(i)}
+                            className='delete-icon'
+                          />
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
               <div className='btn-ctr'>
                 <button type='button' className='left-btn' onClick={() => setStep(1)}>
                   <AiOutlineArrowLeft className='arrow-icon left' />
@@ -294,6 +310,7 @@ const Style = styled.main`
         }
       }
     }
+    ${PlannedFeature}
     .btn-ctr {
       width: 100%;
       display: flex;

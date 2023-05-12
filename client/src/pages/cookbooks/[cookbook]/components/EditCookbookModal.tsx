@@ -2,7 +2,13 @@ import { fetcher } from '@/api'
 import { api } from '@/api'
 import Modal from '@/components/Modal'
 import useAppContext from '@/context/app.context'
-import { AvatarMixin, ModalBtnMixin, ModalFieldMixin, ModalHeaderMixin } from '@/styles/mixins'
+import {
+  AvatarMixin,
+  ModalBtnMixin,
+  ModalFieldMixin,
+  ModalHeaderMixin,
+  PlannedFeature,
+} from '@/styles/mixins'
 import { IAppContext } from '@/types/@types.context'
 import { IMemberRes } from '@/types/@types.user'
 import { validateEmail } from '@/utils/utils.validateField'
@@ -12,10 +18,11 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { FC, MouseEvent, MutableRefObject, useEffect, useRef, useState } from 'react'
 import { AiOutlineEdit } from 'react-icons/ai'
-import { BsCheckLg, BsFillSendFill } from 'react-icons/bs'
+import { BsCheckLg, BsFillPersonPlusFill, BsFillSendFill } from 'react-icons/bs'
 import { FaBirthdayCake } from 'react-icons/fa'
 import styled from 'styled-components'
 import useSWR from 'swr'
+import packageJson from '../../../../../../package.json'
 
 type Props = {
   setEditModal: (bool: boolean) => void
@@ -147,73 +154,84 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
           )}
           Edit Tags
         </button>
-        <label htmlFor='email'>
-          <h3>People</h3>
-          <h4>Send invitation</h4>
-          <div>
-            <input
-              name='email'
-              ref={emailRef}
-              placeholder='Type an email address'
-              type='text'
-            />
-            <button type='submit' onClick={e => sendInvite(e)}>
-              Send invite
-            </button>
+        <h3>People</h3>
+        {packageJson.version !== '1.2.0' ? (
+          <div className='feature'>
+            <p>Membership and invites coming soon!</p>
+            <BsFillPersonPlusFill className='feature-icon' />
           </div>
-        </label>
-        <h4>Cookbook Members</h4>
-        <ul>
-          {error ? (
-            'error'
-          ) : members.length ? (
-            members.map(m => (
-              <li key={m.membership_guid}>
-                <div>
-                  <Image
-                    src='/assets/avatar-placeholder.png'
-                    width={25}
-                    height={25}
-                    alt={m.username}
-                  />
-                  <span>{m.username}</span>
-                  <span className='email'>{m.email}</span>
-                </div>
-                <span className='date'>
-                  <FaBirthdayCake className='icon' /> {moment(m.created_at).format('M/D/YY')}
-                </span>
-              </li>
-            ))
-          ) : (
-            <p>No members. Invite some people!</p>
-          )}
-        </ul>
-        <h4>Pending Invitations</h4>
-        <ul>
-          {error ? (
-            'error'
-          ) : pendingInvites.length ? (
-            pendingInvites.map(m => (
-              <li key={m.membership_guid}>
-                <div>
-                  <Image
-                    src='/assets/avatar-placeholder.png'
-                    width={25}
-                    height={25}
-                    alt={m.username}
-                  />
-                  <span className='email'>{m.email}</span>
-                </div>
-                <span className='date'>
-                  <BsFillSendFill className='icon' /> {moment(m.created_at).format('M/D/YY')}
-                </span>
-                <button>Revoke</button>
-              </li>
-            ))
-          ) : (
-            <p>No pending invites.</p>
-          )}
-        </ul>
+        ) : (
+          <>
+            <label htmlFor='email'>
+              <h4>Send invitation</h4>
+              <div>
+                <input
+                  name='email'
+                  ref={emailRef}
+                  placeholder='Type an email address'
+                  type='text'
+                />
+                <button type='submit' onClick={e => sendInvite(e)}>
+                  Send invite
+                </button>
+              </div>
+            </label>
+            <h4>Cookbook Members</h4>
+            <ul>
+              {error ? (
+                'error'
+              ) : members.length ? (
+                members.map(m => (
+                  <li key={m.membership_guid}>
+                    <div>
+                      <Image
+                        src='/assets/avatar-placeholder.png'
+                        width={25}
+                        height={25}
+                        alt={m.username}
+                      />
+                      <span>{m.username}</span>
+                      <span className='email'>{m.email}</span>
+                    </div>
+                    <span className='date'>
+                      <FaBirthdayCake className='icon' />{' '}
+                      {moment(m.created_at).format('M/D/YY')}
+                    </span>
+                  </li>
+                ))
+              ) : (
+                <p>No members. Invite some people!</p>
+              )}
+            </ul>
+            <h4>Pending Invitations</h4>
+            <ul>
+              {error ? (
+                'error'
+              ) : pendingInvites.length ? (
+                pendingInvites.map(m => (
+                  <li key={m.membership_guid}>
+                    <div>
+                      <Image
+                        src='/assets/avatar-placeholder.png'
+                        width={25}
+                        height={25}
+                        alt={m.username}
+                      />
+                      <span className='email'>{m.email}</span>
+                    </div>
+                    <span className='date'>
+                      <BsFillSendFill className='icon' />{' '}
+                      {moment(m.created_at).format('M/D/YY')}
+                    </span>
+                    <button>Revoke</button>
+                  </li>
+                ))
+              ) : (
+                <p>No pending invites.</p>
+              )}
+            </ul>
+          </>
+        )}
         <div>
           <h3>Delete Cookbook</h3>
           {!confirm ? (
@@ -253,6 +271,7 @@ const Style = styled.article<StyleProps>`
   h3 {
     font-size: 1.4rem;
     margin: 10px 0 5px 0;
+    font-family: ${({ theme }) => theme.headerFont};
   }
   label {
     div {
@@ -360,6 +379,7 @@ const Style = styled.article<StyleProps>`
       margin-left: 0;
     }
   }
+  ${PlannedFeature}
   @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     label {
       div {
