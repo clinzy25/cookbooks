@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 import Loader from './Loader'
 import { IEditTag, ITag } from '@/types/@types.tags'
 import { IconMixin, TagMixin } from '@/styles/mixins'
+import Error from './Error'
 
 const TagList: FC = () => {
   const {
@@ -168,11 +169,10 @@ const TagList: FC = () => {
   useEffect(() => {
     submitTrigger && handleSubmit()
   }, [submitTrigger]) // eslint-disable-line
-  
+
   useEffect(() => {
     !tagsEditMode && setSubmitTrigger(true)
   }, [tagsEditMode])
-  
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -186,7 +186,7 @@ const TagList: FC = () => {
     return <Loader size={20} />
   }
   if (tagsError) {
-    return <p>Error loading tags</p>
+    return <Error fontSize={1} />
   }
   return (
     <Style tagsEditMode={tagsEditMode}>

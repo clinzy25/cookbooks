@@ -12,6 +12,7 @@ import { AiOutlineEdit } from 'react-icons/ai'
 import { AddBtnMixin, IconMixin, ModalBtnMixin } from '@/styles/mixins'
 import { IoMdAddCircle } from 'react-icons/io'
 import Loader from '@/components/Loader'
+import Error from '@/components/Error'
 
 type Props = {
   recipes: IRecipeRes[]
@@ -39,14 +40,14 @@ const CookbookDetailPage: React.FC<Props> = props => {
   }
 
   useEffect(() => {
-    handleRecipes()
+    data && handleRecipes()
   }, [data]) // eslint-disable-line
 
   if (!data && !recipes) {
-    return <p>loading...</p>
+    return <Loader size={50} fillSpace />
   }
   if (error) {
-    return <p>error</p>
+    return <Error fillSpace />
   }
   return (
     <Style endOfList={endOfList} className='page-wrapper' id='cookbook-detail-page-wrapper'>
@@ -62,7 +63,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
           )}
         </div>
       </header>
-      {!recipes.length && !isValidating ? (
+      {!recipes.length ? (
         <div id='cta-ctr'>
           <h2>Somethings missing...</h2>
           <p>Don&apos;t forget to add some recipes and invite your friends and family!</p>
@@ -86,7 +87,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
             {isLoading || isValidating ? (
               <Loader size={20} />
             ) : endOfList ? (
-              'End of recipes'
+              'End of Recipes'
             ) : (
               'More'
             )}

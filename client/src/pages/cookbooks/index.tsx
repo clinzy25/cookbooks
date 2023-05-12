@@ -9,6 +9,8 @@ import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import WelcomeModal from './components/WelcomeModal'
 import { useUser } from '@auth0/nextjs-auth0/client'
+import Loader from '@/components/Loader'
+import Error from '@/components/Error'
 
 const CookbooksPage: React.FC = () => {
   const { cookbooks, cookbooksError } = useAppContext() as IAppContext
@@ -21,10 +23,10 @@ const CookbooksPage: React.FC = () => {
   }, [cookbooks]) // eslint-disable-line
 
   if (!cookbooks) {
-    return <p>...loading</p>
+    return <Loader size={50} fillSpace />
   }
   if (cookbooksError) {
-    return <p>error</p>
+    return <Error fillSpace />
   }
   return (
     <Styles className='page-wrapper' id='cookbook-page-wrapper'>

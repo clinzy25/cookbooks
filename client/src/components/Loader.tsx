@@ -3,12 +3,12 @@ import styled from 'styled-components'
 
 type Props = {
   size: number
-  fillSpace: boolean
+  fillSpace?: boolean
 }
 
 const Loader: FC<Props> = ({ size, fillSpace }) => (
-  <Style fillSpace={fillSpace} size={size}>
-    <div className='loader'/>
+  <Style className={fillSpace ? 'page-wrapper' : ''} fillSpace={fillSpace} size={size}>
+    <div className='loader' />
   </Style>
 )
 
@@ -20,8 +20,8 @@ const Style = styled.div<Props>`
     justify-content: center;
     align-items: center;
     height: 100%;
-    width: 100%;
-  `}
+    width: 100%
+  `};
   .loader {
     width: ${props => `${props.size}px`};
     height: ${props => `${props.size}px`};

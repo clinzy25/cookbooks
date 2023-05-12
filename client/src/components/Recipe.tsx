@@ -15,6 +15,7 @@ import { IconMixin, ModalBtnMixin } from '@/styles/mixins'
 import { TagMixin } from '@/styles/mixins'
 import moment from 'moment'
 import Loader from './Loader'
+import Error from './Error'
 
 type Props = {
   recipe: IRecipeRes
@@ -57,10 +58,10 @@ const Recipe: React.FC<Props> = props => {
   }, [data])
 
   if (!data && !recipe) {
-    return <p>loading...</p>
+    return <Loader size={50} fillSpace />
   }
   if (error) {
-    return <p>error</p>
+    return <Error fillSpace />
   }
   return (
     <Style className='page-wrapper' id='recipe-page-wrapper'>

@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
+import Loader from './Loader'
+import Error from './Error'
 
 const SearchResults: FC = () => {
   const {
@@ -26,10 +28,10 @@ const SearchResults: FC = () => {
   }, [data])
 
   if (!data) {
-    return <p>Loading...</p>
+    return <Loader size={50} fillSpace />
   }
   if (error) {
-    return <p>Error...</p>
+    return <Error fillSpace />
   }
   return (
     <Style className='page-wrapper'>
