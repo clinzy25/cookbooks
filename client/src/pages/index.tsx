@@ -20,6 +20,7 @@ const Styles = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
   header {
     font-family: ${({ theme }) => theme.headerFont};
     h1 {

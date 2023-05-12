@@ -1,4 +1,4 @@
-import { ThemeProps } from "@/types/@types.theme"
+import { ThemeProps } from '@/types/@types.theme'
 
 const Globals: ThemeProps = {
   breakpointMobile: '800',
@@ -6,7 +6,7 @@ const Globals: ThemeProps = {
   errorColor: '#d80000',
   neutralColor: '#bababa',
   nullifiedColor: '#4c4c4c',
-  linkColor: '#0000ee'
+  linkColor: '#0000ee',
 }
 
 export const LightTheme: ThemeProps = {
@@ -29,5 +29,5 @@ export const LightTheme: ThemeProps = {
   darkBoxShadowColor: '#d2d2d2',
   darkBoxShadowColorHover: '#b5b5b5',
   boxShadowOverOtherElements: '1px 1px 10px #252525',
-  headerFont: "'Montserrat', sans-serif",
+  headerFont: 'Montserrat, sans-serif',
 }
