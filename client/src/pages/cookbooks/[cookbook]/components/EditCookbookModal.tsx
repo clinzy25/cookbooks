@@ -19,6 +19,7 @@ import useSWR from 'swr'
 
 type Props = {
   setEditModal: (bool: boolean) => void
+  editModal: boolean
 }
 
 const EditCookbookModal: FC<Props> = ({ setEditModal }) => {

@@ -13,6 +13,8 @@ import { AddBtnMixin, IconMixin, ModalBtnMixin } from '@/styles/mixins'
 import { IoMdAddCircle } from 'react-icons/io'
 import Loader from '@/components/Loader'
 import Error from '@/components/Error'
+import useAppContext from '@/context/app.context'
+import { IAppContext } from '@/types/@types.context'
 
 type Props = {
   recipes: IRecipeRes[]
@@ -22,6 +24,9 @@ const CookbookDetailPage: React.FC<Props> = props => {
   const {
     query: { cookbook, cookbook_name, owner },
   } = useRouter()
+   const {
+     setTagsEditMode,
+   } = useAppContext() as IAppContext
   const [recipes, setRecipes] = useState<IRecipeRes[]>(props.recipes)
   const [limit] = useState(20)
   const [endOfList, setEndOfList] = useState(false)
@@ -43,6 +48,10 @@ const CookbookDetailPage: React.FC<Props> = props => {
     data && handleRecipes()
   }, [data]) // eslint-disable-line
 
+  useEffect(() => {
+    !editModal && setTagsEditMode(false)
+  }, [editModal]) // eslint-disable-line
+
   if (!data && !recipes) {
     return <Loader size={50} fillSpace />
   }
@@ -54,7 +63,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
       {recipeModal && (
         <AddRecipeModal revalidateRecipes={mutate} setRecipeModal={setRecipeModal} />
       )}
-      {editModal && <EditCookbookModal setEditModal={setEditModal} />}
+      {editModal && <EditCookbookModal editModal={editModal} setEditModal={setEditModal} />}
       <header>
         <h1>{decodeURIComponent(cookbook_name?.toString() as string)}</h1>
         <div>
