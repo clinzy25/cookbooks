@@ -134,8 +134,6 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
   return (
     <Modal type='welcome' closeModal={() => setModalOpen(false)}>
       <Style>
-        <h1>Welcome to Cookbooks!</h1>
-        <p>To get started, let&apos;s create a cookbook.</p>
         <form autoComplete='off' onSubmit={e => handleSubmit(e)}>
           {/* disable enter key submit */}
           <input type='submit' disabled hidden />
@@ -143,8 +141,9 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
           {/* Cookbook */}
           {formSteps[step] === 'cookbook' && (
             <div id='step-cookbook'>
-              <div />
-              <label htmlFor='cookbook-name'>
+              <h1>Welcome to Cookbooks!</h1>
+              <p>To get started, let&apos;s create a cookbook.</p>
+              <label className='label' htmlFor='cookbook-name'>
                 <h2>Name Your Cookbook</h2>
                 <input
                   onKeyDown={e => e.key === 'Enter' && validateCookbook(e)}
@@ -175,8 +174,8 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
                 loading={false}
                 setSelection={setSelection}
               />
-              <h3>Recipe Queue</h3>
               <ul className='list'>
+                <h3>Recipe Queue</h3>
                 {recipes.map((r, i) => (
                   <li className='pending-list-item' key={r.url}>
                     <span>{r.url}</span>
@@ -210,11 +209,9 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
           {/* Members */}
           {formSteps[step] === 'invite' && (
             <div id='step-members'>
-              <h2>Invite People</h2>
-              <label htmlFor='email'>
-                <div className='cta-ctr'>
-                  <p>Invite your friends and family to view and add recipes.</p>
-                </div>
+              <h1>Invite People</h1>
+              <p>Invite your friends and family to view and add recipes.</p>
+              <label className='label' htmlFor='email'>
                 <div className='input-ctr'>
                   <input
                     name='email'
@@ -228,8 +225,8 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
                   </button>
                 </div>
               </label>
-              <h3>Pending Invitations</h3>
               <ul className='list'>
+                <h3>Pending Invitations</h3>
                 {invites.map((invite, i) => (
                   <li className='pending-list-item' key={invite.email}>
                     <span>{invite.email}</span>
@@ -264,19 +261,10 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
 }
 
 const Style = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   height: 100%;
-  width: 100%;
   ${ModalHeaderMixin}
   form {
-    width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 15px;
     #step-cookbook,
     #step-recipes,
     #step-members {
@@ -286,22 +274,20 @@ const Style = styled.main`
       flex-direction: column;
       align-items: center;
       justify-content: center;
-    }
-    #step-cookbook {
-      label {
+      ${ModalFieldMixin}
+      & > p {
+        text-align: center;
+      }
+      .label {
         margin: auto;
-        width: 80%;
-        ${ModalFieldMixin}
+        width: 70%;
       }
     }
     #step-members {
-      label {
-        margin: auto;
-        width: 75%;
-        ${ModalFieldMixin}
+      .label {
         .input-ctr {
           display: flex;
-          margin-top: 10px;
+          margin: 150px 0 10px 0;
           ${ModalBtnMixin}
         }
       }
@@ -310,14 +296,11 @@ const Style = styled.main`
       width: 100%;
       display: flex;
       justify-content: flex-end;
-      margin-top: auto;
       ${ModalBtnMixin}
       .left-btn {
         margin: 0 auto 0 0;
       }
       button {
-        display: inline-flex;
-        align-items: center;
         .right {
           margin-left: 5px;
         }
@@ -327,15 +310,15 @@ const Style = styled.main`
       }
     }
     .list {
+      flex-grow: 1;
+      width: 70%;
+      text-align: left;
       list-style-type: none;
-      text-align: center;
-      background-color: ${({ theme }) => theme.secondaryBackgroundColor};
-      border-radius: 10px;
-      padding: 10px;
-      height: 200px;
       overflow-y: auto;
-      width: 75%;
+      padding: 10px;
       margin-bottom: 20px;
+      border-radius: 10px;
+      background-color: ${({ theme }) => theme.secondaryBackgroundColor};
       .pending-list-item {
         display: flex;
         align-items: center;
@@ -378,7 +361,8 @@ const Style = styled.main`
         width: 100%;
       }
     }
-    .btn-ctr {
+    .btn-ctr,
+    .input-ctr {
       button {
         padding: 10px 8px !important;
       }

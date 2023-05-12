@@ -18,7 +18,7 @@ const AddRecipeComponent = forwardRef<HTMLInputElement, Props>((props, ref) => {
   const { handlePaste, handleClick, loading, setSelection } = props
   return (
     <Style>
-      <h2>Add Recipes</h2>
+      <h1>Add Recipes</h1>
       <div className='tab-ctr'>
         <input defaultChecked id='tab1' type='radio' name='tab' />
         <input id='tab2' type='radio' name='tab' />
@@ -92,7 +92,6 @@ const AddRecipeComponent = forwardRef<HTMLInputElement, Props>((props, ref) => {
 AddRecipeComponent.displayName = 'AddRecipeComponent'
 
 const Style = styled.div`
-  height: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -102,7 +101,6 @@ const Style = styled.div`
     flex-direction: column;
     display: flex;
     width: 75%;
-    height: 100%;
     & > input,
     & section > div {
       display: none;
@@ -161,7 +159,6 @@ const Style = styled.div`
       }
     }
     section {
-      height: 70%;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -171,10 +168,9 @@ const Style = styled.div`
       .paste-link {
         width: 100%;
         label {
-          text-align: center;
           .input-ctr {
             display: flex;
-            margin-top: 10px;
+            margin: 70px 0 10px 0;
             ${ModalFieldMixin}
             ${ModalBtnMixin}
           }

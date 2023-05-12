@@ -15,7 +15,7 @@ import Error from '@/components/Error'
 const CookbooksPage: React.FC = () => {
   const { cookbooks, cookbooksError } = useAppContext() as IAppContext
   const [addCookbookModal, setAddcookbookModal] = useState(false)
-  const [welcomeModal, setWelcomeModal] = useState(false)
+  const [welcomeModal, setWelcomeModal] = useState(true)
   const { isLoading } = useUser()
 
   useEffect(() => {

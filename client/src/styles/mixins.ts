@@ -60,6 +60,7 @@ export const ModalHeaderMixin = css`
   h1 {
     font-family: ${({ theme }) => theme.headerFont};
     text-align: center;
+    margin-bottom: 10px;
   }
   h2 {
     font-size: 1.7rem;
