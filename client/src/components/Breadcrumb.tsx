@@ -54,15 +54,14 @@ const Breadcrumb: FC = () => {
   return (
     <Style id='breadcrumb-wrapper'>
       {breadcrumb.map((bc, i) => (
-        <>
+        <div key={bc.display}>
           {i > 0 && <BiChevronRight className='icon' />}
           <Link
             className='breadcrumb'
-            key={i === breadcrumb.length ? '#' : bc.display}
-            href={bc.href}>
+            href={i === breadcrumb.length - 1 ? '#' : bc.display}>
             {bc.display}
           </Link>
-        </>
+        </div>
       ))}
     </Style>
   )
@@ -72,6 +71,11 @@ const Style = styled.nav`
   margin: 20px 0 0 60px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  div {
+    align-items: center;
+    display: flex;
+  }
   .icon {
     font-size: 1.1rem;
   }
@@ -79,6 +83,7 @@ const Style = styled.nav`
     letter-spacing: 0.5px;
     font-weight: 600;
     color: ${({ theme }) => theme.secondaryTextColor};
+    white-space: nowrap;
     &:hover {
       text-decoration: underline;
       color: #858585;
@@ -86,6 +91,7 @@ const Style = styled.nav`
   }
   @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     margin: 10px 0 0 15px;
+    font-size: 0.9rem;
   }
 `
 
