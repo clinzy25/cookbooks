@@ -64,7 +64,7 @@ export const transformParsedRecipe = (recipe: IRecipe) => {
   const tags = [
     ...(recipeCategories ? recipeCategories : []),
     ...(recipeCuisines ? recipeCuisines : []),
-    ...(keywords ? keywords : []),
+    ...(!recipeCategories && !recipeCuisines && keywords ? keywords : []),
   ]
   const cleanedTags = tags.map(t => cleanTag(t))
 
