@@ -2,7 +2,7 @@ import { api, fetcher } from '@/api'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import { ISearchResult, ISearchResults } from '@/types/@types.search'
-import { useOutsideAlerter } from '@/utils/utils.hooks'
+import { useOutsideAlerter, useWindowSize } from '@/utils/utils.hooks'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import Link from 'next/link'
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
@@ -21,6 +21,7 @@ const Search: FC = () => {
 
   const resultsRef = useRef(null)
   useOutsideAlerter(resultsRef, () => setSearchResults(null))
+  const size = useWindowSize()
 
   const searchRecipes = useCallback(async () => {
     const query = `${cookbook ? `cookbook_guid=${cookbook}` : `user_guid=${user?.sub}`}`
@@ -57,7 +58,7 @@ const Search: FC = () => {
   }, [searchVal]) // eslint-disable-line
 
   return (
-    <Style searchResults={searchResults}>
+    <Style width={size.width} searchResults={searchResults}>
       <div className='search-ctr'>
         <div>
           <input
@@ -103,14 +104,15 @@ const Search: FC = () => {
 }
 
 type StyleProps = {
-  searchResults: ISearchResults
+  searchResults: ISearchResults | null
+  width: number | undefined
 }
 
 const Style = styled.div<StyleProps>`
   display: flex;
   height: 100%;
   align-items: flex-start;
-   .search-ctr {
+  .search-ctr {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -165,11 +167,17 @@ const Style = styled.div<StyleProps>`
       }
     }
     &:hover > div > input {
-      width: 240px;
+      width: calc(
+        ${props => (props.width > props.theme.breakpointMobile ? '375' : props.width)}px -
+          135px
+      );
       padding: 0 6px;
     }
     &:active > div > input {
-      width: 240px;
+      width: calc(
+        ${props => (props.width > props.theme.breakpointMobile ? '375' : props.width)}px -
+          135px
+      );
       padding: 0 6px;
     }
   }
