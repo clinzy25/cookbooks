@@ -1,6 +1,8 @@
 import { IRecipe } from '../types/@types.recipes'
 import { ISearchResults, ISearchResult } from '../types/@types.search'
+import { ITag } from '../types/@types.tags'
 import { IMemberResult, IMemberResults } from '../types/@types.users'
+import { FORBIDDEN_TAGS } from '../utils/utils.constants'
 
 export const transformMembers = (sqlResult: IMemberResult[]): IMemberResults => {
   const result: IMemberResults = {
@@ -39,7 +41,32 @@ export const transformSearchResults = (sqlResult: ISearchResult[]) => {
   return result
 }
 
-const cleanTag = (tag: string) => tag.replace(/\s/g, '').replace(/&amp;/g, '&').toLowerCase()
+const splitTagsWithSlash = (tags: string[]) => {
+  const cleanedTags: string[] = []
+  for (let i = 0; i < tags.length; i++) {
+    if (tags[i].includes('/')) {
+      const splitTags = tags[i].split('/')
+      splitTags.forEach(t => cleanedTags.push(t))
+    } else {
+      cleanedTags.push(tags[i])
+    }
+  }
+  return cleanedTags
+}
+
+const cleanTag = (tag: string) =>
+  tag.replace(/\s/g, '').replace(/&amp;/g, '&').toLowerCase().trim()
+
+const cleanTags = (tags: string[]) => {
+  const splitTags = splitTagsWithSlash(tags)
+  return splitTags.reduce((acc: string[], tag: string) => {
+    const cleanedTag = cleanTag(tag)
+    if (!FORBIDDEN_TAGS.includes(cleanedTag)) {
+      acc.push(cleanedTag)
+    }
+    return acc
+  }, [])
+}
 
 export const transformParsedRecipe = (recipe: IRecipe) => {
   const {
@@ -66,7 +93,7 @@ export const transformParsedRecipe = (recipe: IRecipe) => {
     ...(recipeCuisines ? recipeCuisines : []),
     ...(!recipeCategories && !recipeCuisines && keywords ? keywords : []),
   ]
-  const cleanedTags = tags.map(t => cleanTag(t))
+  const cleanedTags = cleanTags(tags)
 
   return {
     cookbook_guid,
