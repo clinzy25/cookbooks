@@ -1,4 +1,4 @@
-import { MATCH_APOS, MATCH_HTML_TAGS, MATCH_LINE_BREAK, MATCH_MULTI_SPACE } from './regex'
+import { MATCH_APOS, MATCH_HTML_TAGS, MATCH_LINE_BREAK, MATCH_MULTI_SPACE, MATCH_QUOTE } from './regex'
 
 // for transformInstructions
 export default function cleanString(str) {
@@ -7,5 +7,6 @@ export default function cleanString(str) {
     .replace(MATCH_LINE_BREAK, ' ') // replace line breaks with spaces
     .replace(MATCH_MULTI_SPACE, ' ') // replace multiple spaces with single spaces
     .replace(MATCH_APOS, "''")
+    .replace(MATCH_QUOTE, '"')
     .trim()
 }
