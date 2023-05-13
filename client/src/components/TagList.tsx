@@ -115,36 +115,40 @@ const TagList: FC = () => {
   const handleUndo = (tag: ITag) => setTagsToDelete(tagsToDelete.filter(t => t !== tag))
 
   const handleSubmitEdits = async () => {
-    const optimisticData = tags.map(t => {
-      const editedTag = tagsToEdit.find(tt => tt.tag_name === t.tag_name)
-      return editedTag ? { ...t, tag_name: editedTag.new_tag_name } : t
-    })
-    revalidateTags(optimisticData, false)
-    const body = {
-      tags: tagsToEdit,
-      cookbook_guid: cookbook,
+    if (tagsToEdit.length) {
+      const optimisticData = tags.map(t => {
+        const editedTag = tagsToEdit.find(tt => tt.tag_name === t.tag_name)
+        return editedTag ? { ...t, tag_name: editedTag.new_tag_name } : t
+      })
+      const body = {
+        tags: tagsToEdit,
+        cookbook_guid: cookbook,
+      }
+      await axios.patch(`${api}/tags`, body)
+      return optimisticData
+    } else {
+      return tags
     }
-    await axios.patch(`${api}/tags`, body)
   }
 
-  const handleSubmitDeletes = async () => {
-    const optimisticData = tags.filter(t => !tagsToDelete.includes(t))
-    revalidateTags(optimisticData, false)
-    const body = {
-      tags: tagsToDelete,
-      cookbook_guid: cookbook,
+  const handleSubmitDeletes = async (editOptimistic: ITag[]) => {
+    if (tagsToDelete.length) {
+      const optimisticData = editOptimistic.filter(t => !tagsToDelete.includes(t))
+      const body = {
+        tags: tagsToDelete,
+        cookbook_guid: cookbook,
+      }
+      await axios.delete(`${api}/tags`, { data: body })
+      return optimisticData
+    } else {
+      return editOptimistic
     }
-    await axios.delete(`${api}/tags`, { data: body })
   }
 
   const handleSubmit = async () => {
     try {
-      if (tagsToEdit.length) {
-        await handleSubmitEdits()
-      }
-      if (tagsToDelete.length) {
-        await handleSubmitDeletes()
-      }
+      const optimisticData = await handleSubmitEdits().then(res => handleSubmitDeletes(res))
+      revalidateTags(optimisticData, false)
       if (tagsToDelete.length || tagsToEdit.length) {
         setSnackbar({ msg: 'Tags updated', state: 'success' })
       }
