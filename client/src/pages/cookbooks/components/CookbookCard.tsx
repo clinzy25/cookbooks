@@ -14,29 +14,20 @@ type Props = {
 
 const CookbookCard = ({ cookbook }: Props) => {
   const { user } = useUser()
-  const {
-    guid,
-    cookbook_name,
-    recipe_images,
-    creator_username,
-    creator_user_guid,
-    cookbook_members,
-    recipe_count,
-  } = cookbook
   const [randomInt] = useState(randomInRange(1, 3))
 
   const handleHref = () => {
-    const c_name = encodeURIComponent(cookbook_name)
-    const owner = user?.sub === creator_user_guid ? 1 : 0
-    return `/cookbooks/${guid}?cookbook_name=${c_name}&owner=${owner}`
+    const c_name = encodeURIComponent(cookbook?.cookbook_name)
+    const owner = user?.sub === cookbook?.creator_user_guid ? 1 : 0
+    return `/cookbooks/${cookbook?.guid}?cookbook_name=${c_name}&owner=${owner}`
   }
 
   return (
     <Style>
       <Link className='cookbook-tile' href={handleHref()}>
         <div className='img-ctr'>
-          {recipe_images?.length ? (
-            recipe_images?.map(image => (
+          {cookbook?.recipe_images?.length ? (
+            cookbook?.recipe_images?.map(image => (
               <div key={image.image} className='ctr'>
                 <Image
                   className='img'
@@ -46,7 +37,7 @@ const CookbookCard = ({ cookbook }: Props) => {
                   priority
                   placeholder='blur'
                   blurDataURL={image.base64_image}
-                  sizes={recipe_images.length > 3 ? '300px' : '800px'}
+                  sizes={cookbook?.recipe_images.length > 3 ? '300px' : '800px'}
                 />
               </div>
             ))
@@ -55,17 +46,17 @@ const CookbookCard = ({ cookbook }: Props) => {
               <Image
                 className='img'
                 src={`${process.env.NEXT_PUBLIC_RECIPE_IMAGES_BUCKET_LINK}/recipe_fallback_${randomInt}.png`}
-                alt={cookbook_name}
+                alt={cookbook?.cookbook_name}
                 fill
                 priority
-                sizes={recipe_images.length > 3 ? '300px' : '800px'}
+                sizes={cookbook?.recipe_images.length > 3 ? '300px' : '800px'}
               />
             </div>
           )}
         </div>
         <div className='meta-ctr'>
-          <h2>{cookbook_name}</h2>
-          <p>{recipe_count} Recipes</p>
+          <h2>{cookbook?.cookbook_name}</h2>
+          <p>{cookbook?.recipe_count} Recipes</p>
           <div>
             <FaCrown className='crown-icon' />
             <Image
@@ -73,12 +64,12 @@ const CookbookCard = ({ cookbook }: Props) => {
               className='avatar'
               width={40}
               height={40}
-              alt={`${creator_username} (owner)`}
-              title={`${creator_username} (owner)`}
+              alt={`${cookbook?.creator_username} (owner)`}
+              title={`${cookbook?.creator_username} (owner)`}
             />
 
-            {cookbook_members.length > 0 &&
-              cookbook_members.map(m => (
+            {cookbook?.cookbook_members.length > 0 &&
+              cookbook?.cookbook_members.map(m => (
                 <Image
                   key={m.guid}
                   src={m?.picture ? m.picture : '/assets/avatar-placeholder.png'}

@@ -1,4 +1,5 @@
 import { ModalBtnMixin } from '@/styles/mixins'
+import Link from 'next/link'
 import styled from 'styled-components'
 
 const LandingPage: React.FC = () => (
@@ -8,9 +9,9 @@ const LandingPage: React.FC = () => (
     </header>
     <p>Create a collaborative cookbook with your friends and family.</p>
     <div id='btn-ctr'>
-      <a href='/api/auth/login'>
+      <Link href='/api/auth/login'>
         <button>Login / Signup</button>
-      </a>
+      </Link>
     </div>
   </Styles>
 )

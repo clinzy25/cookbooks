@@ -168,15 +168,19 @@ const Style = styled.div<StyleProps>`
     }
     &:hover > div > input {
       width: calc(
-        ${props => (props.width > props.theme.breakpointMobile ? '375' : props.width)}px -
-          135px
+        ${props =>
+            props.width && props.width > props.theme.breakpointMobile
+              ? '375'
+              : props.width}px - 135px
       );
       padding: 0 6px;
     }
     &:active > div > input {
       width: calc(
-        ${props => (props.width > props.theme.breakpointMobile ? '375' : props.width)}px -
-          135px
+        ${props =>
+            props.width && props.width > props.theme.breakpointMobile
+              ? '375'
+              : props.width}px - 135px
       );
       padding: 0 6px;
     }

@@ -52,7 +52,7 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
         </div>
         <div className='text-ctr'>
           <div>
-            <h3>{name.toUpperCase()}</h3>
+            <h3>{name?.toUpperCase()}</h3>
             <div className='tags-ctr'>
               {tags?.split(',').map((tag: string) => (
                 <span className='tag' key={tag}>

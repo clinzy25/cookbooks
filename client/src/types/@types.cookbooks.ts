@@ -6,8 +6,7 @@ interface IMemberRes {
 }
 
 export interface ICookbookRes {
-  // client does not have guid when creating a cookbook on welcome screen
-  guid?: string
+  guid: string
   creator_user_guid: string
   creator_user_email: string
   creator_username: string
