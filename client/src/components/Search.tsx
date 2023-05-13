@@ -57,7 +57,7 @@ const Search: FC = () => {
   }, [searchVal]) // eslint-disable-line
 
   return (
-    <Style>
+    <Style searchResults={searchResults}>
       <div className='search-ctr'>
         <div>
           <input
@@ -102,17 +102,21 @@ const Search: FC = () => {
   )
 }
 
-const Style = styled.div`
+type StyleProps = {
+  searchResults: ISearchResults
+}
+
+const Style = styled.div<StyleProps>`
   display: flex;
-  align-items: flex-start;
   height: 100%;
-  .search-ctr {
+  align-items: flex-start;
+   .search-ctr {
     position: relative;
     display: flex;
     flex-direction: column;
     background-color: ${({ theme }) => theme.buttonBackground};
     border: 1px solid ${({ theme }) => theme.softBorder};
-    border-radius: 25px;
+    border-radius: ${props => (props.searchResults ? '10px' : '25px')};
     z-index: 5;
     transition: all 0.3s ease-out;
     div {
@@ -155,6 +159,7 @@ const Style = styled.div`
       text-overflow: ellipsis;
       white-space: nowrap;
       padding: 4px;
+      border-radius: 10px;
       &:hover {
         background-color: ${({ theme }) => theme.buttonBackgroundHover};
       }
