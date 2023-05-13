@@ -11,7 +11,7 @@ import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import axios from 'axios'
 import Modal from '@/components/Modal'
-import { IconMixin, ModalBtnMixin } from '@/styles/mixins'
+import { AvatarMixin, IconMixin, ModalBtnMixin } from '@/styles/mixins'
 import { TagMixin } from '@/styles/mixins'
 import moment from 'moment'
 import Loader from './Loader'
@@ -134,17 +134,24 @@ const Recipe: React.FC<Props> = props => {
         </div>
         <div id='source-ctr'>
           <p>
-            <span>Uploaded by: </span>
-            <span>{creator_user_email}</span>
-            <span> on </span>
-            <span>{moment(created_at).format('MMM D, YYYY')}</span>
-          </p>
-          <p>
             <span>Source: </span>
             <a href={source_url} target='_blank'>
               {new URL(source_url).host}
             </a>
           </p>
+          <div className='uploader-ctr'>
+            <div>
+              <p>Uploaded by</p>
+              <p>{creator_user_email}</p>
+            </div>
+            <Image
+              src={user?.picture ? user.picture : '/assets/avatar-placeholder.png'}
+              className='avatar'
+              width={40}
+              height={40}
+              alt={user?.email || 'Avatar'}
+            />
+          </div>
         </div>
         <div id='recipe-body-ctr'>
           {description && <p id='description'>{description}</p>}
@@ -253,6 +260,16 @@ const Style = styled.main`
       span:first-of-type,
       span:nth-of-type(3) {
         color: gray;
+      }
+    }
+    .uploader-ctr {
+      display: flex;
+      align-items: flex-end;
+      white-space: nowrap;
+      text-align: right;
+      .avatar {
+        ${AvatarMixin}
+        margin-left: 5px;
       }
     }
   }
