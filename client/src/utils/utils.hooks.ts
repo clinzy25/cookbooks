@@ -4,7 +4,7 @@ import { MouseEvent, useEffect, RefObject, useState } from 'react'
 
 export const useOutsideAlerter = (ref: RefObject<HTMLElement>, task: () => void) => {
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent<Element, MouseEvent>) => {
+    const handleClickOutside = (e: MouseEvent<HTMLElement>) => {
       const isOutside = ref?.current && !ref?.current?.contains(e.target as Node)
       if (isOutside) {
         e.stopPropagation()
@@ -12,10 +12,10 @@ export const useOutsideAlerter = (ref: RefObject<HTMLElement>, task: () => void)
       }
     }
     // @ts-ignore
-    document.addEventListener('mousedown', e => handleClickOutside(e))
+    document.addEventListener('mousedown', handleClickOutside)
     return () => {
       // @ts-ignore
-      document.removeEventListener('mousedown', e => handleClickOutside(e))
+      document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [ref, task])
 }

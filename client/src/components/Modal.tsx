@@ -2,7 +2,7 @@ import useAppContext from '@/context/app.context'
 import { ModalGlobalStyles } from '@/styles/globals.modifiers'
 import { IAppContext } from '@/types/@types.context'
 import { useOutsideAlerter } from '@/utils/utils.hooks'
-import React, { FC, ReactNode, useRef } from 'react'
+import React, { FC, ReactNode, useEffect, useRef, useState } from 'react'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import styled from 'styled-components'
 
@@ -15,7 +15,12 @@ type Props = {
 const Modal: FC<Props> = ({ closeModal, children, type }) => {
   const { tagsEditMode } = useAppContext() as IAppContext
   const modalRef = useRef(null)
-  useOutsideAlerter(modalRef, type !== 'welcome' && !tagsEditMode ? closeModal : () => null)
+  const [overrideClose, setOverrideClose] = useState(false)
+  useOutsideAlerter(modalRef, overrideClose ? () => null : closeModal)
+
+  useEffect(() => {
+    setOverrideClose(type === 'welcome' || tagsEditMode)
+  }, [tagsEditMode]) // eslint-disable-line
 
   const dimensions = {
     confirm: {
