@@ -58,7 +58,7 @@ const Breadcrumb: FC = () => {
           {i > 0 && <BiChevronRight className='icon' />}
           <Link
             className='breadcrumb'
-            href={i === breadcrumb.length - 1 ? '#' : bc.display}>
+            href={i === breadcrumb.length - 1 ? '#' : bc.href}>
             {bc.display}
           </Link>
         </div>
