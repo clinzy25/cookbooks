@@ -1,9 +1,14 @@
-import React, { ClipboardEvent, FC, RefObject, forwardRef } from 'react'
+import React, { ClipboardEvent, RefObject, forwardRef } from 'react'
 import styled from 'styled-components'
 import Loader from './Loader'
 import { AiFillCamera, AiOutlineEdit } from 'react-icons/ai'
 import { RecipeSourceTypes } from '@/types/@types.recipes'
-import { ModalBtnMixin, ModalFieldMixin, ModalHeaderMixin, PlannedFeature } from '@/styles/mixins'
+import {
+  ModalBtnMixin,
+  ModalFieldMixin,
+  ModalHeaderMixin,
+  PlannedFeature,
+} from '@/styles/mixins'
 import { BiLink } from 'react-icons/bi'
 
 type Props = {
@@ -26,7 +31,7 @@ const AddRecipeComponent = forwardRef<HTMLInputElement, Props>((props, ref) => {
         <nav>
           <ul>
             <li className='tab1'>
-              <label htmlFor='tab1' onClick={() => setSelection('link')}>
+              <label className='nav-label' htmlFor='tab1' onClick={() => setSelection('link')}>
                 <div>
                   <BiLink className='tab-icon' />
                 </div>
@@ -34,7 +39,7 @@ const AddRecipeComponent = forwardRef<HTMLInputElement, Props>((props, ref) => {
               </label>
             </li>
             <li className='tab2' onClick={() => setSelection('camera')}>
-              <label htmlFor='tab2'>
+              <label className='nav-label' htmlFor='tab2'>
                 <div>
                   <AiFillCamera className='tab-icon' />
                 </div>
@@ -42,7 +47,7 @@ const AddRecipeComponent = forwardRef<HTMLInputElement, Props>((props, ref) => {
               </label>
             </li>
             <li className='tab3' onClick={() => setSelection('manual')}>
-              <label htmlFor='tab3'>
+              <label className='nav-label' htmlFor='tab3'>
                 <div>
                   <AiOutlineEdit className='tab-icon' />
                 </div>
@@ -95,12 +100,15 @@ const Style = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  height: 50%;
   background-color: ${({ theme }) => theme.mainBackgroundColor};
   ${ModalHeaderMixin}
   .tab-ctr {
     flex-direction: column;
     display: flex;
+    justify-content: space-between;
     width: 75%;
+    height: 100%;
     & > input,
     & section > div {
       display: none;
@@ -159,9 +167,9 @@ const Style = styled.div`
       }
     }
     section {
+      height: 50%;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      align-items: flex-end;
       & > * {
         width: 100%;
       }
@@ -170,7 +178,7 @@ const Style = styled.div`
         label {
           .input-ctr {
             display: flex;
-            margin: 70px 0 10px 0;
+            margin: 10px 0 10px 0;
             ${ModalFieldMixin}
             ${ModalBtnMixin}
           }
@@ -189,17 +197,11 @@ const Style = styled.div`
     }
     .tab-ctr {
       width: 100%;
-      nav {
-        ul {
-          li {
-            label {
-              font-size: 0.8rem;
-              .tab-icon {
-                font-size: 1.2rem;
-                margin-right: 5px;
-              }
-            }
-          }
+      .nav-label {
+        font-size: 0.8rem;
+        .tab-icon {
+          font-size: 1.2rem;
+          margin-right: 5px;
         }
       }
     }
