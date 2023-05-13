@@ -28,7 +28,9 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
     const c_name = encodeURIComponent(cookbook_name?.toString() as string)
     const recipe_name = encodeURIComponent(name)
     const owner = user?.sub === creator_user_guid ? 1 : 0
-    return `/cookbooks/${cookbook}/recipe/${guid}?cookbook_name=${c_name}&recipe_name=${recipe_name}&owner=${owner}`
+    return cookbook
+      ? `/cookbooks/${cookbook}/recipe/${guid}?cookbook_name=${c_name}&recipe_name=${recipe_name}&owner=${owner}`
+      : `/recipe/${guid}?&recipe_name=${recipe_name}&owner=${owner}`
   }
 
   return (

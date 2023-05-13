@@ -4,6 +4,7 @@ import { FC, useState } from 'react'
 import TagList from './TagList'
 import { FaUserCircle } from 'react-icons/fa'
 import { IconMixin } from '@/styles/mixins'
+import Link from 'next/link'
 
 const Navbar: FC = () => {
   const [dropdown, setDropdown] = useState(false)
@@ -16,7 +17,7 @@ const Navbar: FC = () => {
         <div id='dropdown'>
           <ul>
             <li>
-              <a href='/api/auth/logout'>Logout</a>
+              <Link href='/api/auth/logout'>Logout</Link>
             </li>
           </ul>
         </div>

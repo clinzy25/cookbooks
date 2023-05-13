@@ -13,9 +13,9 @@ import axios from 'axios'
 import Modal from '@/components/Modal'
 import { AvatarMixin, IconMixin, ModalBtnMixin } from '@/styles/mixins'
 import { TagMixin } from '@/styles/mixins'
-import moment from 'moment'
 import Loader from './Loader'
 import Error from './Error'
+import moment from 'moment'
 
 type Props = {
   recipe: IRecipeRes
@@ -24,7 +24,7 @@ type Props = {
 const Recipe: React.FC<Props> = props => {
   // prettier-ignore
   const { guid, name, creator_user_email, image, base64_image, description, cook_time, prep_time, total_time,
-    yield: recipeYield, ingredients, instructions, tags, source_url, created_at,
+    yield: recipeYield, ingredients, instructions, tags, source_url, created_at
   } = props.recipe
   const { setSnackbar, handleServerError } = useAppContext() as IAppContext
   const {
@@ -141,8 +141,8 @@ const Recipe: React.FC<Props> = props => {
           </p>
           <div className='uploader-ctr'>
             <div>
-              <p>Uploaded by</p>
               <p>{creator_user_email}</p>
+              <span>{moment(created_at).format('MMM D, YYYY')}</span>
             </div>
             <Image
               src={user?.picture ? user.picture : '/assets/avatar-placeholder.png'}
