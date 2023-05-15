@@ -36,8 +36,8 @@ const Search: FC = () => {
   const handleRecipeHref = (recipe: ISearchResult) => {
     const recipe_name = encodeURIComponent(recipe.name)
     const recipe_guid = encodeURIComponent(recipe.guid)
-    const owner = user?.sub === recipe.creator_user_guid ? 1 : 0
     const c_name = encodeURIComponent(cookbook_name?.toString() as string)
+    const owner = user?.sub === recipe.creator_user_guid ? 1 : 0
     if (cookbook) {
       return `/cookbooks/${cookbook}/recipe/${recipe_guid}?cookbook_name=${c_name}&recipe_name=${recipe_name}&owner=${owner}`
     }

@@ -1,20 +1,24 @@
 import styled from 'styled-components'
-import Search from './Search'
-import { FC, useState } from 'react'
-import TagList from './TagList'
+import Search from './components/Search'
+import { FC, useRef, useState } from 'react'
+import TagList from './components/TagList'
 import { FaUserCircle } from 'react-icons/fa'
 import { IconMixin } from '@/styles/mixins'
 import Link from 'next/link'
+import { useOutsideAlerter } from '@/utils/utils.hooks'
 
 const Navbar: FC = () => {
   const [dropdown, setDropdown] = useState(false)
+  const dropdownRef = useRef(null)
+  useOutsideAlerter(dropdownRef, () => setDropdown(false))
+
   return (
     <Style id='navbar'>
       <Search />
       <TagList />
       <FaUserCircle id='user-btn' onClick={() => setDropdown(!dropdown)} />
       {dropdown && (
-        <div id='dropdown'>
+        <div ref={dropdownRef} id='dropdown'>
           <ul>
             <li>
               <Link href='/api/auth/logout'>Logout</Link>

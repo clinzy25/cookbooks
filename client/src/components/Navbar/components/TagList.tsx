@@ -9,10 +9,10 @@ import styled from 'styled-components'
 import { api } from '@/api'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import Loader from './Loader'
+import Loader from '../../Loader'
 import { IEditTag, ITag } from '@/types/@types.tags'
 import { IconMixin, TagMixin } from '@/styles/mixins'
-import Error from './Error'
+import Error from '../../Error'
 
 const TagList: FC = () => {
   const {
@@ -124,7 +124,8 @@ const TagList: FC = () => {
         tags: tagsToEdit,
         cookbook_guid: cookbook,
       }
-      await axios.patch(`${api}/tags`, body)
+      // don't await, update with optimisticData
+      axios.patch(`${api}/tags`, body)
       return optimisticData
     } else {
       return tags
@@ -138,7 +139,8 @@ const TagList: FC = () => {
         tags: tagsToDelete,
         cookbook_guid: cookbook,
       }
-      await axios.delete(`${api}/tags`, { data: body })
+      // don't await, update with optimisticData
+      axios.delete(`${api}/tags`, { data: body })
       return optimisticData
     } else {
       return editOptimistic

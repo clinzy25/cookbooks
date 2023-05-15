@@ -1,6 +1,6 @@
 import useAppContext from '@/context/app.context'
 import type { AppProps } from 'next/app'
-import Navbar from '@/components/Navbar'
+import Navbar from '@/components/Navbar/Navbar'
 import { useRouter } from 'next/router'
 import Snackbar from '@/components/Snackbar'
 import { IAppContext } from '@/types/@types.context'

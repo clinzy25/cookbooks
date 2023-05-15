@@ -42,13 +42,10 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     if (e instanceof AxiosError) {
       const errorKey = e.response?.data.type
       if (serverErrorMessageMap.has(errorKey)) {
-        setSnackbar({ msg: serverErrorMessageMap.get(errorKey), state: 'error' })
-      } else {
-        setSnackbar({ msg: GENERIC_RES, state: 'error' })
+        return setSnackbar({ msg: serverErrorMessageMap.get(errorKey), state: 'error' })
       }
-    } else {
-      setSnackbar({ msg: GENERIC_RES, state: 'error' })
     }
+    return setSnackbar({ msg: GENERIC_RES, state: 'error' })
   }
 
   const handleTags = (tagsData: ITag[]) => {
