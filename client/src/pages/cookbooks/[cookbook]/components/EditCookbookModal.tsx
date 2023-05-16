@@ -7,7 +7,7 @@ import {
   ModalBtnMixin,
   ModalFieldMixin,
   ModalHeaderMixin,
-  PlannedFeature,
+  PlannedFeatureMixin,
 } from '@/styles/mixins'
 import { IAppContext } from '@/types/@types.context'
 import { IMemberRes } from '@/types/@types.user'
@@ -379,7 +379,7 @@ const Style = styled.article<StyleProps>`
       margin-left: 0;
     }
   }
-  ${PlannedFeature}
+  ${PlannedFeatureMixin}
   @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     label {
       div {

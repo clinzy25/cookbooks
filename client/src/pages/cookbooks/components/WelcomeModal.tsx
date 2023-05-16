@@ -17,7 +17,7 @@ import {
   ModalBtnMixin,
   ModalFieldMixin,
   ModalHeaderMixin,
-  PlannedFeature,
+  PlannedFeatureMixin,
 } from '@/styles/mixins'
 import AddRecipeComponent from '@/components/AddRecipeComponent'
 import { IoMdClose } from 'react-icons/io'
@@ -310,7 +310,7 @@ const Style = styled.main`
         }
       }
     }
-    ${PlannedFeature}
+    ${PlannedFeatureMixin}
     .btn-ctr {
       width: 100%;
       display: flex;

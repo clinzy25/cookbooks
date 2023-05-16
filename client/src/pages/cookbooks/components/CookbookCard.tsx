@@ -1,4 +1,4 @@
-import { AvatarMixin, CardGradient, CardGradientHover } from '@/styles/mixins'
+import { AvatarMixin, CardGradientMixin, CardGradientHoverMixin } from '@/styles/mixins'
 import { ICookbookRes } from '@/types/@types.cookbooks'
 import randomInRange from '@/utils/utils.randomInRange'
 import { useUser } from '@auth0/nextjs-auth0/client'
@@ -95,7 +95,7 @@ const Style = styled.div`
     box-shadow: 4px 4px 7px ${({ theme }) => theme.darkBoxShadowColorHover};
     a {
       &::before {
-        ${CardGradientHover}
+        ${CardGradientHoverMixin}
       }
     }
   }
@@ -107,7 +107,7 @@ const Style = styled.div`
     border-radius: inherit;
     &::before {
       content: '';
-      ${CardGradient}
+      ${CardGradientMixin}
       height: 100%;
       border-radius: inherit;
       position: absolute;

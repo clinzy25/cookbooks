@@ -114,7 +114,7 @@ export const ModalBtnMixin = css`
     }
   }
 `
-export const PlannedFeature = css`
+export const PlannedFeatureMixin = css`
   .feature {
     height: 100%;
     height: 100%;
@@ -129,7 +129,7 @@ export const PlannedFeature = css`
   }
 `
 
-export const CardGradient = css`
+export const CardGradientMixin = css`
   background: linear-gradient(
     top,
     rgba(255, 255, 255, 0) 0%,
@@ -161,7 +161,7 @@ export const CardGradient = css`
   );
 `
 
-export const CardGradientHover = css`
+export const CardGradientHoverMixin = css`
   background: linear-gradient(
     top,
     rgba(255, 255, 255, 0) 0%,

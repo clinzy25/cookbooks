@@ -7,7 +7,7 @@ import {
   ModalBtnMixin,
   ModalFieldMixin,
   ModalHeaderMixin,
-  PlannedFeature,
+  PlannedFeatureMixin,
 } from '@/styles/mixins'
 import { BiLink } from 'react-icons/bi'
 
@@ -187,7 +187,7 @@ const Style = styled.div`
       .camera,
       .manual {
         height: 100%;
-        ${PlannedFeature}
+        ${PlannedFeatureMixin}
       }
     }
   }
