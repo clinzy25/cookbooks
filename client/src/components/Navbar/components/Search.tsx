@@ -9,6 +9,7 @@ import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { BiSearch } from 'react-icons/bi'
 import { useRouter } from 'next/router'
+import { DropdownAnimationMixin } from '@/styles/mixins'
 
 const Search: FC = () => {
   const {
@@ -150,6 +151,10 @@ const Style = styled.div<StyleProps>`
           cursor: pointer;
         }
       }
+    }
+    h3,
+    .search-result {
+      ${DropdownAnimationMixin}
     }
     h3 {
       padding: 5px;

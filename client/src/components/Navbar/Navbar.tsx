@@ -3,7 +3,7 @@ import Search from './components/Search'
 import { FC, useRef, useState } from 'react'
 import TagList from './components/TagList'
 import { FaUserCircle } from 'react-icons/fa'
-import { IconMixin } from '@/styles/mixins'
+import { DropdownAnimationMixin, IconMixin } from '@/styles/mixins'
 import Link from 'next/link'
 import { useOutsideAlerter } from '@/utils/utils.hooks'
 
@@ -55,6 +55,7 @@ const Style = styled.nav`
     top: 50px;
     background-color: ${({ theme }) => theme.secondaryBackgroundColor};
     border-radius: 10px;
+    ${DropdownAnimationMixin}
     ul {
       li {
         padding: 10px;
