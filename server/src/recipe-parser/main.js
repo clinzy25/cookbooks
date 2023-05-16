@@ -18,6 +18,7 @@ export default async function recipeDataScraper(url) {
 
     return {
       ...recipe,
+      url,
     }
   } catch (e) {
     console.error(e)
@@ -28,6 +29,7 @@ export default async function recipeDataScraper(url) {
 
     return {
       ...recipe,
+      url,
     }
   } catch (e) {
     console.error(e)

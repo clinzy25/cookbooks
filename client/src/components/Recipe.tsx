@@ -133,12 +133,14 @@ const Recipe: React.FC<Props> = props => {
           )}
         </div>
         <div id='source-ctr'>
-          <p>
-            <span>Source: </span>
-            <a href={source_url} target='_blank'>
-              {new URL(source_url).host}
-            </a>
-          </p>
+          {source_url && (
+            <p>
+              <span>Source: </span>
+              <a href={source_url} target='_blank'>
+                {new URL(source_url).host}
+              </a>
+            </p>
+          )}
           <div className='uploader-ctr'>
             <div>
               <p>{creator_user_email}</p>
