@@ -4,7 +4,7 @@ import MicrodataScraper from './scrapers/MicrodataScraper'
 import JsonLdScraper from './scrapers/JsonLdScraper'
 import { RECIPE_NOT_FOUND } from '../utils/utils.errors'
 
-export default async function recipeDataScraper(url: string) {
+export default async function recipeDataScraper(url) {
   let chtml
   try {
     const resp = await axios(url)
@@ -18,7 +18,6 @@ export default async function recipeDataScraper(url: string) {
 
     return {
       ...recipe,
-      url,
     }
   } catch (e) {
     console.error(e)
@@ -29,7 +28,6 @@ export default async function recipeDataScraper(url: string) {
 
     return {
       ...recipe,
-      url,
     }
   } catch (e) {
     console.error(e)

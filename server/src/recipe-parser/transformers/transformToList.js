@@ -1,4 +1,4 @@
-function transformToList(value, key) {
+function transformToList(value) {
   if (typeof value === 'string') {
     if (value.includes(',')) {
       return value.split(',').map(item => item.trim())

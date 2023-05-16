@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { NextFunction, Request, Response } from 'express'
 import {
   dbAddRecipe,
@@ -68,7 +69,9 @@ export async function httpParseRecipe(req: Request, res: Response, next: NextFun
         source_type,
         is_private,
       }
+      // @ts-ignore -- will disable when recipe-parser is typed
       const result = await dbAddRecipe(fullRecipe)
+      // @ts-ignore -- will disable when recipe-parser is typed
       response.push(fullRecipe)
       if (!result?.rows?.[0]?.recipe_id) {
         throw new Error(FAILED_TO_CREATE_RESOURCE)
