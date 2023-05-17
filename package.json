@@ -5,6 +5,8 @@
   "scripts": {
     "install": "concurrently \"pnpm i --prefix client\" \"pnpm i --prefix server\"",
     "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "build": "concurrently \"npm run build --prefix server\" \"npm run build --prefix client\"",
+    "start": "concurrently \"npm start --prefix server\" \"npm start --prefix client\"",
     "db:create": "knex migrate:latest --knexfile server/src/db/knexfile.js",
     "db:seed": "knex seed:run --knexfile server/src/db/knexfile.js",
     "db:destroy": "knex migrate:down --knexfile server/src/db/knexfile.js"
