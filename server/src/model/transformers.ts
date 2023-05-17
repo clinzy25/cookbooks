@@ -1,6 +1,5 @@
 import { IRecipe } from '../types/@types.recipes'
 import { ISearchResults, ISearchResult } from '../types/@types.search'
-import { ITag } from '../types/@types.tags'
 import { IMemberResult, IMemberResults } from '../types/@types.users'
 import { FORBIDDEN_TAGS } from '../utils/utils.constants'
 
@@ -61,7 +60,7 @@ const cleanTags = (tags: string[]) => {
   const splitTags = splitTagsWithSlash(tags)
   return splitTags.reduce((acc: string[], tag: string) => {
     const cleanedTag = cleanTag(tag)
-    if (!FORBIDDEN_TAGS.includes(cleanedTag)) {
+    if (!FORBIDDEN_TAGS.includes(cleanedTag) && tag) {
       acc.push(cleanedTag)
     }
     return acc

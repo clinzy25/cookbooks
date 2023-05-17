@@ -162,7 +162,15 @@ export async function dbAddRecipe(recipe: IRecipe) {
           WHERE c.guid = '${cookbook_guid}'
         )
       INSERT INTO tags(recipe_id, tag_name)
-      VALUES ${tags.map(t => `((SELECT recipe_id FROM insert_1), '${t}')`).join(',')}
+      SELECT (SELECT recipe_id FROM insert_1), tag_name
+      FROM (
+        VALUES ${
+          tags.length
+            ? tags.map(t => `((SELECT recipe_id FROM insert_1), '${t}')`).join(',')
+            : `((SELECT recipe_id FROM insert_1), NULL)`
+        }
+      ) s (recipe_id, tag_name)
+      WHERE tag_name IS NOT NULL
       RETURNING recipe_id
     `)
   } catch (e) {

@@ -73,7 +73,7 @@ export async function httpParseRecipe(req: Request, res: Response, next: NextFun
       const result = await dbAddRecipe(fullRecipe)
       // @ts-ignore -- will disable when recipe-parser is typed
       response.push(fullRecipe)
-      if (!result?.rows?.[0]?.recipe_id) {
+      if (!result.rows?.[0]?.recipe_id && !result.fields.length) {
         throw new Error(FAILED_TO_CREATE_RESOURCE)
       }
     }
