@@ -5,6 +5,8 @@ import cors from 'cors'
 import { api } from './routes/api'
 import { errorHandler } from './utils/utils.errors'
 import { S3 } from '@aws-sdk/client-s3'
+import helmet from 'helmet'
+import morgan from 'morgan'
 
 dotenv.config({
   path: path.resolve(__dirname, '..', '..', '.env'),
@@ -27,6 +29,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 app.use(express.json())
+app.use(helmet())
+app.use(morgan('tiny'))
 app.use('/v1', api)
 app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
   errorHandler(err, res)
