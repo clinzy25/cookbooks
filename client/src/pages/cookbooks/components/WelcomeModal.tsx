@@ -21,7 +21,7 @@ import {
 } from '@/styles/mixins'
 import AddRecipeComponent from '@/components/AddRecipeComponent'
 import { IoMdClose } from 'react-icons/io'
-import packageJson from '../../../../../package.json'
+import packageJson from '../../../../package.json'
 import { BsFillPersonPlusFill } from 'react-icons/bs'
 
 type Props = {

@@ -1,0 +1,30 @@
+version: "3"
+services:
+  server:
+    build: server/
+    restart: always
+    environment:
+      - PROD_DB=${PROD_DB}
+      - PROD_DB_HOST=${PROD_DB_HOST}
+      - PROD_DB_PORT=${PROD_DB_PORT}
+      - PROD_DB_USER=${PROD_DB_USER}
+      - PROD_DB_PASS=${PROD_DB_PASS}
+      - SERVER_PORT=${SERVER_PORT}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - RECIPE_IMAGES_BUCKET=${RECIPE_IMAGES_BUCKET}
+      - NODE_ENV=production
+    ports:
+      - "8080:8080"
+  client:
+    build: client/
+    restart: always
+    environment:
+      - NEXT_PUBLIC_DEV_API=${NEXT_PUBLIC_DEV_API}
+      - NEXT_PUBLIC_RECIPE_IMAGES_BUCKET_LINK=${NEXT_PUBLIC_RECIPE_IMAGES_BUCKET_LINK}
+      - NODE_ENV=production
+    ports:
+      - '3000:3000'
+    depends_on:
+      - server

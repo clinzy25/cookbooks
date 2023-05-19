@@ -6,7 +6,8 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:@typescript-eslint/recommended',
+    'next/babel',
+    'prettier',
   ],
   overrides: [],
   ignorePatterns: ['dist', '.eslintrc.js', 'next.config.js'],

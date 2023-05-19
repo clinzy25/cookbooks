@@ -22,7 +22,7 @@ import { BsCheckLg, BsFillPersonPlusFill, BsFillSendFill } from 'react-icons/bs'
 import { FaBirthdayCake } from 'react-icons/fa'
 import styled from 'styled-components'
 import useSWR from 'swr'
-import packageJson from '../../../../../../package.json'
+import packageJson from '../../../../../package.json'
 
 type Props = {
   setEditModal: (bool: boolean) => void
