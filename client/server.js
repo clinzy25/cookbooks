@@ -26,15 +26,11 @@ app
       server.use('/v1', createProxyMiddleware(apiPaths['/v1']))
     }
 
-    server.all('*', (req, res) => {
-      return handle(req, res)
-    })
+    server.all('*', (req, res) => handle(req, res))
 
     server.listen(port, err => {
       if (err) throw err
-      console.log(`> Ready on http://localhost:${port}`)
+      console.log(`Server is running on http://localhost:${port}`)
     })
   })
-  .catch(err => {
-    console.log('Error:::::', err)
-  })
+  .catch(err => console.log('Error:', err))
