@@ -9,12 +9,16 @@ import useSWR from 'swr'
 import Loader from './Loader'
 import Error from './Error'
 
-const SearchResults: FC = () => {
+type Props = {
+  recipes?: IRecipeRes[]
+}
+
+const SearchResults: FC<Props> = props => {
   const {
     query: { value, cookbook },
   } = useRouter()
   const { user } = useUser()
-  const [recipes, setRecipes] = useState([])
+  const [recipes, setRecipes] = useState(props.recipes || [])
   const getSearchParams = () =>
     cookbook ? `cookbook_guid=${cookbook}` : `user_guid=${user?.sub}`
 
@@ -27,7 +31,7 @@ const SearchResults: FC = () => {
     data && setRecipes(data)
   }, [data])
 
-  if (!data) {
+  if (!data && !recipes) {
     return <Loader size={50} fillSpace />
   }
   if (error) {
