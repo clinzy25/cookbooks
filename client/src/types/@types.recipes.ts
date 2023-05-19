@@ -31,7 +31,7 @@ export interface IRecipeRes {
   notes: string[]
   tags: string
   source_url: string
-  source_type: string
+  source_type: RecipeSourceTypes
   is_private: number
   created_at: string
   updated_at: string

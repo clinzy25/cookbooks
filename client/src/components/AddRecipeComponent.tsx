@@ -1,4 +1,4 @@
-import React, { ClipboardEvent, RefObject, forwardRef } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Loader from './Loader'
 import { AiFillCamera, AiOutlineEdit } from 'react-icons/ai'
@@ -12,15 +12,14 @@ import {
 import { BiLink } from 'react-icons/bi'
 
 type Props = {
-  ref: RefObject<HTMLInputElement>
-  handlePaste: (e: ClipboardEvent) => void
-  handleClick: () => void
   loading: boolean
-  setSelection: (selection: RecipeSourceTypes) => void
+  handleSubmit: (url: string, selection: RecipeSourceTypes) => void
 }
 
-const AddRecipeComponent = forwardRef<HTMLInputElement, Props>((props, ref) => {
-  const { handlePaste, handleClick, loading, setSelection } = props
+const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading }) => {
+  const [selection, setSelection] = useState<RecipeSourceTypes>('link')
+  const linkFieldRef = useRef<HTMLInputElement>(null)
+
   return (
     <Style>
       <h1>Add Recipes</h1>
@@ -64,13 +63,18 @@ const AddRecipeComponent = forwardRef<HTMLInputElement, Props>((props, ref) => {
               <div className='input-ctr'>
                 <input
                   autoFocus
-                  onPaste={e => handlePaste(e)}
+                  onPaste={e => handleSubmit(e.clipboardData?.getData('Text'), selection)}
                   placeholder='Paste a link with a recipe...'
                   type='text'
-                  ref={ref}
+                  ref={linkFieldRef}
                   name='paste-link'
                 />
-                <button type='button' onClick={handleClick}>
+                <button
+                  type='button'
+                  onClick={() =>
+                    linkFieldRef.current &&
+                    handleSubmit(linkFieldRef.current?.value, selection)
+                  }>
                   {loading ? <Loader size={15} /> : 'Add'}
                 </button>
               </div>
@@ -92,7 +96,7 @@ const AddRecipeComponent = forwardRef<HTMLInputElement, Props>((props, ref) => {
       </div>
     </Style>
   )
-})
+}
 
 AddRecipeComponent.displayName = 'AddRecipeComponent'
 

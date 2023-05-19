@@ -1,5 +1,5 @@
 import Modal from '@/components/Modal'
-import React, { useRef, useState, ClipboardEvent, FC } from 'react'
+import React, { useState, FC } from 'react'
 import { api } from '@/api'
 import axios from 'axios'
 import useAppContext from '@/context/app.context'
@@ -18,11 +18,9 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
     query: { cookbook },
   } = useRouter()
   const { setSnackbar, revalidateTags, handleServerError } = useAppContext() as IAppContext
-  const [selection, setSelection] = useState<RecipeSourceTypes>('link')
   const [loading, setLoading] = useState(false)
-  const linkFieldRef = useRef<HTMLInputElement>(null)
 
-  const parseRecipe = async (url: string) => {
+  const parseRecipe = async (url: string, selection: RecipeSourceTypes) => {
     try {
       setLoading(true)
       const recipes: IRecipeReq[] = [
@@ -44,25 +42,9 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
     setLoading(false)
   }
 
-  const handleClick = () => {
-    const url = linkFieldRef.current?.value
-    url && parseRecipe(url)
-  }
-
-  const handlePaste = (e: ClipboardEvent) => {
-    const url = e.clipboardData?.getData('Text')
-    parseRecipe(url)
-  }
-
   return (
     <Modal type='default' closeModal={() => setRecipeModal(false)}>
-      <AddRecipeComponent
-        ref={linkFieldRef}
-        handlePaste={handlePaste}
-        handleClick={handleClick}
-        loading={loading}
-        setSelection={setSelection}
-      />
+      <AddRecipeComponent handleSubmit={parseRecipe} loading={loading} />
     </Modal>
   )
 }

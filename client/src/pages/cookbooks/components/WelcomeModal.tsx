@@ -1,4 +1,4 @@
-import React, { useRef, useState, FormEvent, ClipboardEvent, KeyboardEvent, FC } from 'react'
+import React, { useRef, useState, FormEvent, KeyboardEvent, FC } from 'react'
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useUser } from '@auth0/nextjs-auth0/client'
@@ -9,7 +9,7 @@ import { IAppContext } from '@/types/@types.context'
 import { useRouter } from 'next/router'
 import { ICookbookReq } from '@/types/@types.cookbooks'
 import { validateEmail } from '@/utils/utils.validateField'
-import { IRecipeReq } from '@/types/@types.recipes'
+import { IRecipeReq, RecipeSourceTypes } from '@/types/@types.recipes'
 import { IMemberReq } from '@/types/@types.user'
 import Loader from '@/components/Loader'
 import Modal from '@/components/Modal'
@@ -33,7 +33,6 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
   const router = useRouter()
   const { user } = useUser()
   const [step, setStep] = useState<0 | 1 | 2>(0)
-  const [selection, setSelection] = useState<'link' | 'camera' | 'manual' | ''>('link')
   const [createLoading, setCreateLoading] = useState(false)
   const [recipes, setRecipes] = useState<IRecipeReq[]>([])
   const [invites, setInvites] = useState<IMemberReq[]>([])
@@ -43,7 +42,6 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
   })
 
   const nameFieldRef = useRef<HTMLInputElement>(null)
-  const linkFieldRef = useRef<HTMLInputElement>(null)
   const emailFieldRef = useRef<HTMLInputElement>(null)
   const formSteps = ['cookbook', 'recipes', 'invite']
 
@@ -111,31 +109,28 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
         setSnackbar({ msg: 'Max 10, you can add more later!', state: 'error' })
       } else {
         new URL(url)
-        const newRecipe: IRecipeReq = {
-          url,
-          source_type: selection,
-          is_private: 0,
-        }
-        setRecipes([...recipes, newRecipe])
       }
     } catch (_) {
       setSnackbar({ msg: 'Invalid url', state: 'error' })
     }
   }
 
-  const handleAddRecipeClick = () => {
-    const url = linkFieldRef.current?.value
-    url && validateUrl(url)
-  }
-
-  const handleAddRecipePaste = async (e: ClipboardEvent) => {
-    const url = e.clipboardData?.getData('Text')
-    url && validateUrl(url)
+  const handleRecipeAdd = (url: string, selection: RecipeSourceTypes) => {
+    if (url) {
+      validateUrl(url)
+      const newRecipe: IRecipeReq = {
+        url,
+        source_type: selection,
+        is_private: 0,
+      }
+      setRecipes([...recipes, newRecipe])
+    }
   }
 
   const handleRecipeDelete = (i: number) => {
     setRecipes([...recipes.slice(0, i), ...recipes.slice(i + 1)])
   }
+
   const handleInviteDelete = (i: number) => {
     setInvites([...invites.slice(0, i), ...invites.slice(i + 1)])
   }
@@ -176,13 +171,7 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
           {/* Recipes */}
           {formSteps[step] === 'recipes' && (
             <div id='step-recipes'>
-              <AddRecipeComponent
-                ref={linkFieldRef}
-                handlePaste={handleAddRecipePaste}
-                handleClick={handleAddRecipeClick}
-                loading={false}
-                setSelection={setSelection}
-              />
+              <AddRecipeComponent handleSubmit={handleRecipeAdd} loading={false} />
               <ul className='list'>
                 <h3>Recipe Queue (Max 10)</h3>
                 {recipes.map((r, i) => (
