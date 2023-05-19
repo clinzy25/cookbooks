@@ -22,6 +22,6 @@ From project root:
 Build app for production and connect to production database.
 
 1. Obtain prod DB credentials and cookbooks-bastion.pem, add pem to project root
-2. Connect to RDS bastion server `ssh -i cookbooks-bastion.pem -NL 3002:10.0.11.34:5432 ec2-user@44.229.246.97 -v`
+2. In an new terminal, connect to RDS bastion server `ssh -i cookbooks-bastion.pem -NL 3002:10.0.11.34:5432 ec2-user@44.229.246.97 -v`
 3. `npm run build`
 4. `npm run stage`
