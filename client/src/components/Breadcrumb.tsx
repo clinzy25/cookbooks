@@ -14,7 +14,7 @@ const Breadcrumb: FC = () => {
     const recipe_name = decodeURIComponent(query.recipe_name as string)
     const search_val = decodeURIComponent(query.value as string)
     const splitPath = window.location.pathname.split('/').filter(v => v)
-    const paths: { [key: string]: string } = {
+    const pathsToQueryMap: { [key: string]: string } = {
       cookbooks: cookbook_name,
       recipe: recipe_name,
       search: search_val,
@@ -23,28 +23,23 @@ const Breadcrumb: FC = () => {
       display: 'Your Cookbooks',
       href: '/cookbooks',
     }
-    const breadcrumb = [home]
+    const newBreadcrumb = [home]
 
-    if (pathname !== '/cookbooks') {
+    if (pathname !== home.href) {
       for (let i = 0; i < splitPath.length; i++) {
         const path = splitPath[i]
         const guid = splitPath[i + 1]
-        if (paths[path]) {
+        if (pathsToQueryMap[path]) {
           const params = window.location.href.split('?')[1]
-          const bc = guid
-            ? {
-                display: paths[path],
-                href: `/${path}/${guid}?${params}`,
-              }
-            : {
-                display: paths[path],
-                href: `/${path}?${params}`,
-              }
-          breadcrumb.push(bc)
+          const _breadcrumb = {
+            display: pathsToQueryMap[path],
+            href: `/${path}/${guid ? guid : ''}?${params}`,
+          }
+          newBreadcrumb.push(_breadcrumb)
         }
       }
     }
-    setBreadcrumb(breadcrumb)
+    setBreadcrumb(newBreadcrumb)
   }
 
   useEffect(() => {
@@ -56,9 +51,7 @@ const Breadcrumb: FC = () => {
       {breadcrumb.map((bc, i) => (
         <div key={bc.display}>
           {i > 0 && <BiChevronRight className='icon' />}
-          <Link
-            className='breadcrumb'
-            href={i === breadcrumb.length - 1 ? '#' : bc.href}>
+          <Link className='breadcrumb' href={i === breadcrumb.length - 1 ? '#' : bc.href}>
             {bc.display}
           </Link>
         </div>
