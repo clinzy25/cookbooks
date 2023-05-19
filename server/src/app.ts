@@ -7,13 +7,21 @@ import { errorHandler } from './utils/utils.errors'
 import { S3 } from '@aws-sdk/client-s3'
 import helmet from 'helmet'
 import morgan from 'morgan'
+import { readFileSync } from 'fs'
+import https from 'https'
 
 dotenv.config({
   path: path.resolve(__dirname, '..', '..', '.env'),
 })
 
-export const router: Router = express.Router()
 export const app: Express = express()
+const options = {
+  key: readFileSync(path.join(__dirname, '../', 'key.pem')),
+  cert: readFileSync(path.join(__dirname, '../', 'cert.pem')),
+}
+https.createServer(options, app)
+export const router: Router = express.Router()
+
 export const s3Client = new S3({
   region: process.env.AWS_REGION,
   credentials: {

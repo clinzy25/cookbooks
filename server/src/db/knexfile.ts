@@ -10,7 +10,7 @@ const config: { [key: string]: Knex.Config } = {
   development: {
     client: 'postgresql',
     connection: {
-      database: process.env.DATABASE,
+      database: process.env.DEV_DB,
       user: process.env.DEV_DB_USER,
       password: process.env.DEV_DB_PASS,
       multipleStatements: true,
@@ -23,13 +23,14 @@ const config: { [key: string]: Knex.Config } = {
       tableName: 'knex_migrations',
     },
   },
-
   staging: {
     client: 'postgresql',
     connection: {
-      database: 'my_db',
-      user: 'username',
-      password: 'password',
+      database: process.env.PROD_DB,
+      host: process.env.DEV_DB_HOST,
+      port: Number(process.env.BASTION_PORT),
+      user: process.env.PROD_DB_USER,
+      password: process.env.PROD_DB_PASS,
       multipleStatements: true,
     },
     pool: {
@@ -40,13 +41,14 @@ const config: { [key: string]: Knex.Config } = {
       tableName: 'knex_migrations',
     },
   },
-
   production: {
     client: 'postgresql',
     connection: {
-      database: 'my_db',
-      user: 'username',
-      password: 'password',
+      database: process.env.PROD_DB,
+      host: process.env.PROD_DB_HOST,
+      port: Number(process.env.PROD_DB_PORT),
+      user: process.env.PROD_DB_USER,
+      password: process.env.PROD_DB_PASS,
       multipleStatements: true,
     },
     pool: {
