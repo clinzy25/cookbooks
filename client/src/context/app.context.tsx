@@ -61,10 +61,11 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const getTagsQuery = () => {
     const commonParams = `limit=${tagsLimit}&offset=${tagsOffset}`
+    const globalTagsRoutes = ['/cookbooks', '/search']
     if (pathname.includes('/cookbooks/[cookbook]')) {
       return `${api}/tags?cookbook_guid=${cookbook}&${commonParams}`
     }
-    if (pathname === '/cookbooks') {
+    if (globalTagsRoutes.includes(pathname)) {
       return `${api}/tags?user_guid=${user?.sub}&${commonParams}`
     }
   }
