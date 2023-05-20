@@ -6,10 +6,6 @@ locals {
   database_subnets = ["10.0.0.0/20", "10.0.16.0/20"]
   public_subnets   = ["10.0.32.0/20", "10.0.48.0/20"]
   private_subnets  = ["10.0.64.0/20", "10.0.80.0/20"]
-
-  tags = {
-    Example = local.name
-  }
 }
 
 resource "aws_vpc" "cookbooks_vpc" {

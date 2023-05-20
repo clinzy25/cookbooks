@@ -1,6 +1,7 @@
 version: "3"
 services:
   server:
+    image: ${DOCKER_REGISTRY}/server
     build: server/
     restart: always
     environment:
@@ -18,6 +19,7 @@ services:
     ports:
       - "8080:8080"
   client:
+    image: ${DOCKER_REGISTRY}/client
     build: client/
     restart: always
     environment:

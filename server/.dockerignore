@@ -1,5 +1,5 @@
 .gitignore
 .git/
-node_modules/
+node_modules
 pnpm-lock.yaml
 infra
