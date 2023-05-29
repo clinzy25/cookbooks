@@ -30,7 +30,7 @@ app
 
     server.listen(port, err => {
       if (err) throw err
-      console.log(`Server is running on http://localhost:${port}`)
+      console.log(`Client is running on http://localhost:${port}`)
     })
   })
   .catch(err => console.log('Error:', err))

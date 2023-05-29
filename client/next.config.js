@@ -2,6 +2,12 @@
 require('dotenv').config({ path: '../.env' })
 
 const nextConfig = {
+  env: {
+    AUTH0_BASE_URL:
+      process.env.NODE_ENV === 'development'
+        ? process.env.AUTH0_BASE_URL
+        : process.env.AUTH0_BASE_URL_PROD,
+  },
   reactStrictMode: true,
   experimental: {
     scrollRestoration: true,
