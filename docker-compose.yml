@@ -27,6 +27,7 @@ services:
       - NEXT_PUBLIC_RECIPE_IMAGES_BUCKET_LINK=${NEXT_PUBLIC_RECIPE_IMAGES_BUCKET_LINK}
       - NODE_ENV=production
     ports:
-      - '3000:3000'
+      - "3000:3000"
+      - "443:443"
     depends_on:
       - server

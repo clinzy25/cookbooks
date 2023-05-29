@@ -6,4 +6,3 @@ RUN pnpm i
 COPY . .
 RUN pnpm run build
 CMD pnpm start
-EXPOSE 3000
