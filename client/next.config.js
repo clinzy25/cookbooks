@@ -1,12 +1,12 @@
 /** @type {import('next').NextConfig} */
 require('dotenv').config({ path: '../.env' })
 
+const { NEXT_PUBLIC_APP_ENV, AUTH0_BASE_URL, AUTH0_BASE_URL_PROD } = process.env
+
 const nextConfig = {
   env: {
     AUTH0_BASE_URL:
-      process.env.NODE_ENV === 'development'
-        ? process.env.AUTH0_BASE_URL
-        : process.env.AUTH0_BASE_URL_PROD,
+      NEXT_PUBLIC_APP_ENV === 'development' ? AUTH0_BASE_URL : AUTH0_BASE_URL_PROD,
   },
   reactStrictMode: true,
   experimental: {

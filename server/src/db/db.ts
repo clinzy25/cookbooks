@@ -7,6 +7,6 @@ dotenv.config({
 })
 
 // eslint-disable-next-line
-const knex = require('knex')(knexConfig[process.env.NODE_ENV ?? 'development'])
+const knex = require('knex')(knexConfig[process.env.APP_ENV ?? 'development'])
 
 export default knex

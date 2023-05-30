@@ -25,9 +25,10 @@ export const s3Client = new S3({
 
 const port = process.env.SERVER_PORT
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://cook-books.io'],
+  methods: 'GET,POST,PATCH,DELETE,OPTIONS',
+  origin: '*',
 }
-
+app.options('*', cors())
 app.use(cors(corsOptions))
 app.use(express.json())
 app.use(helmet())

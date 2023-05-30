@@ -1,15 +1,9 @@
 import { Knex } from 'knex'
-import path from 'path'
-import dotenv from 'dotenv'
-
-dotenv.config({
-  path: path.resolve(__dirname, '..', '..', '..', '..', '.env'),
-})
 
 const uuid = (knex: Knex) => knex.raw('uuid_generate_v4()')
 
 export async function up(knex: Knex): Promise<void> {
-  if (process.env.NODE_ENV === 'development') {
+  if (knex.client.config.connection.host === '127.0.0.1') {
     await knex.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
     await knex.schema
       .createTable('users', function (table) {
@@ -74,11 +68,16 @@ export async function up(knex: Knex): Promise<void> {
         table.foreign('recipe_id').references('recipes.id').onDelete('CASCADE')
         table.string('tag_name', 50).notNullable()
       })
+      .then()
+  } else {
+    throw new Error('Can only run migrations local database')
   }
 }
 
 export async function down(knex: Knex): Promise<void> {
-  if (process.env.NODE_ENV === 'development') {
+  if (knex.client.config.connection.host === '127.0.0.1') {
     await knex.raw('DROP TABLE users, cookbook_members, cookbooks, recipes, tags CASCADE;')
+  } else {
+    throw new Error('Can only run migrations local database')
   }
 }

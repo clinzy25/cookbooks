@@ -1,14 +1,8 @@
 import { Knex } from 'knex'
 import axios from 'axios'
-import path from 'path'
-import dotenv from 'dotenv'
-
-dotenv.config({
-  path: path.resolve(__dirname, '..', '..', '..', '..', '.env'),
-})
 
 export async function seed(knex: Knex): Promise<void> {
-  if (process.env.NODE_ENV === 'development') {
+  if (knex.client.config.connection.host === '127.0.0.1') {
     await knex.raw(
       'TRUNCATE TABLE users, cookbook_members, cookbooks, recipes, tags RESTART IDENTITY;'
     )
@@ -155,5 +149,7 @@ export async function seed(knex: Knex): Promise<void> {
       },
     ]
     await axios.post(`http://localhost:8080/v1/recipes/parse`, { recipes })
+  } else {
+    throw new Error('Can only seed local database')
   }
 }

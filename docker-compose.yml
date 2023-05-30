@@ -1,13 +1,13 @@
-version: "3"
+version: '3'
 services:
   server:
     image: ${DOCKER_REGISTRY}/server
     build: server/
     restart: always
     environment:
-      - PROD_DB=${PROD_DB}
+      - DB=${DB}
+      - DB_PORT=${DB_PORT}
       - PROD_DB_HOST=${PROD_DB_HOST}
-      - PROD_DB_PORT=${PROD_DB_PORT}
       - PROD_DB_USER=${PROD_DB_USER}
       - PROD_DB_PASS=${PROD_DB_PASS}
       - SERVER_PORT=${SERVER_PORT}
@@ -15,9 +15,10 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - RECIPE_IMAGES_BUCKET=${RECIPE_IMAGES_BUCKET}
-      - NODE_ENV=production
+      - NEXT_PUBLIC_APP_ENV=production
+      - APP_ENV=production
     ports:
-      - "8080:8080"
+      - '8080:8080'
   client:
     image: ${DOCKER_REGISTRY}/client
     build: client/
@@ -26,9 +27,10 @@ services:
       - NEXT_PUBLIC_DEV_API=${NEXT_PUBLIC_DEV_API}
       - NEXT_PUBLIC_RECIPE_IMAGES_BUCKET_LINK=${NEXT_PUBLIC_RECIPE_IMAGES_BUCKET_LINK}
       - AUTH0_BASE_URL=${AUTH0_BASE_URL}
-      - NODE_ENV=production
+      - NEXT_PUBLIC_PROD_PROXY=${NEXT_PUBLIC_PROD_PROXY}
+      - NEXT_PUBLIC_APP_ENV=production
     ports:
-      - "3000:3000"
-      - "443:443"
+      - '3000:3000'
+      - '443:443'
     depends_on:
       - server
