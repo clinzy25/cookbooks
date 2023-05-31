@@ -36,7 +36,7 @@ export async function dbGetTagsByUser(user_guid: string, limit: number, offset: 
           JOIN recipes r ON r.id = t.recipe_id
           JOIN cookbooks c ON c.id = r.cookbook_id
           JOIN users u ON u.id = c.creator_user_id
-          JOIN cookbook_members cm ON cm.cookbook_id = c.id
+          LEFT JOIN cookbook_members cm ON cm.cookbook_id = c.id
           WHERE u.guid = '${user_guid}'
           OR cm.cookbook_id = c.id
           GROUP BY tag_name
@@ -44,7 +44,7 @@ export async function dbGetTagsByUser(user_guid: string, limit: number, offset: 
         JOIN recipes r ON r.id = t.recipe_id
         JOIN cookbooks c ON c.id = r.cookbook_id
         JOIN users u ON u.id = c.creator_user_id
-        JOIN cookbook_members cm ON cm.cookbook_id = c.id
+        LEFT JOIN cookbook_members cm ON cm.cookbook_id = c.id
         WHERE u.guid = '${user_guid}'
         OR cm.cookbook_id = c.id
         GROUP BY t.tag_name, t.guid, tt.weight

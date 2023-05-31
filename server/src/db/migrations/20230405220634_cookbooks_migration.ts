@@ -13,7 +13,6 @@ export async function up(knex: Knex): Promise<void> {
         table.string('email', 100).notNullable()
         table.integer('is_readonly').notNullable().defaultTo(0)
         table.string('avatar', 250)
-        table.unique(['guid'])
         table.timestamps()
       })
       .createTable('cookbooks', function (table) {
