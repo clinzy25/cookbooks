@@ -1,5 +1,4 @@
 // @ts-nocheck
-import NextCors from 'nextjs-cors'
 import { createProxyMiddleware } from 'http-proxy-middleware'
 
 const url =
