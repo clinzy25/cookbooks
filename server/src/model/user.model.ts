@@ -1,4 +1,21 @@
 import knex from '../db/db'
+import { IUserReq } from '../types/@types.users'
+
+export async function dbCreateUserIfNotExists(user: IUserReq) {
+  const { email, guid, username, avatar } = user
+  try {
+    return await knex.raw(`
+      INSERT INTO users (guid, email, username, avatar)
+      SELECT '${guid}', '${email}', '${username}', '${avatar}'
+      WHERE NOT EXISTS (
+        SELECT * FROM users
+        WHERE guid = '${guid}'
+      )
+    `)
+  } catch (e) {
+    console.error(e)
+  }
+}
 
 export async function dbGetCookbookMembers(guid: string) {
   try {

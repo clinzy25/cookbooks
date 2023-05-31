@@ -12,3 +12,10 @@ export interface IMemberResults {
   members: IMemberResult[]
   pending_invites: IMemberResult[]
 }
+
+export interface IUserReq {
+  guid: string
+  email: string
+  username: string
+  avatar: string
+}

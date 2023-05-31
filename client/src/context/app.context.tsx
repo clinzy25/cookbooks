@@ -5,7 +5,7 @@ import { ITag } from '@/types/@types.tags'
 import { SNACKBAR_DURATION_MS } from '@/utils/utils.constants'
 import { GENERIC_RES, serverErrorMessageMap } from '@/utils/utils.errors.server'
 import { useUser } from '@auth0/nextjs-auth0/client'
-import { AxiosError } from 'axios'
+import axios, { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
 import React, {
   useContext,
@@ -48,6 +48,22 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     return setSnackbar({ msg: GENERIC_RES, state: 'error' })
   }
 
+  const handleUserDb = async () => {
+    if (user) {
+      const body = {
+        guid: user.sub,
+        email: user.email,
+        username: user.nickname,
+        avatar: user.picture,
+      }
+      try {
+        await axios.post(`${api}/users/create`, body)
+      } catch (e) {
+        handleServerError(e)
+      }
+    }
+  }
+
   const handleTags = (tagsData: ITag[]) => {
     if (tagsData) {
       tagsData.length < tagsLimit && setIsEndOfTags(true)
@@ -81,6 +97,10 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     error: cookbooksError,
     mutate: revalidateCookbooks,
   } = useSWR(!isLoading && !userError && `${api}/cookbooks?user_guid=${user?.sub}`, fetcher)
+
+  useEffect(() => {
+    handleUserDb()
+  }, [user])
 
   useEffect(() => {
     cookbooksData && setCookbooks(cookbooksData)

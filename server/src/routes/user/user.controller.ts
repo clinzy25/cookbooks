@@ -4,9 +4,25 @@ import {
   INCOMPLETE_REQUEST_BODY,
   MISSING_REQUIRED_PARAMS,
 } from '../../utils/utils.errors'
-import { dbGetCookbookMembers, dbSendInvite } from '../../model/user.model'
+import {
+  dbGetCookbookMembers,
+  dbSendInvite,
+  dbCreateUserIfNotExists,
+} from '../../model/user.model'
 import { transformMembers } from '../../model/transformers'
 
+export async function httpCreateUser(req: Request, res: Response, next: NextFunction) {
+  try {
+    if (!req.body) throw new Error(INCOMPLETE_REQUEST_BODY)
+    const result = await dbCreateUserIfNotExists(req.body)
+    if (result.rowCount > 0) {
+      return res.status(201).json('Welcome to cookbooks!')
+    }
+    return res.status(200).json('Welcome back')
+  } catch (e) {
+    next(e)
+  }
+}
 
 export async function httpGetCookbookMembers(req: Request, res: Response, next: NextFunction) {
   const cookbook_guid = req.query.cookbook_guid?.toString()
