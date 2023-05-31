@@ -104,6 +104,7 @@ const Recipe: React.FC<Props> = props => {
             placeholder='blur'
             blurDataURL={base64_image}
             sizes='(max-width: 800px) 100vw, 303px'
+            unoptimized
           />
         </div>
         <div id='time-ctr'>
