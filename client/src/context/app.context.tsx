@@ -96,7 +96,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     data: cookbooksData,
     error: cookbooksError,
     mutate: revalidateCookbooks,
-  } = useSWR(!isLoading && !userError && `${api}/cookbooks?user_guid=${user?.sub}`, fetcher)
+  } = useSWR(user && `${api}/cookbooks?user_guid=${user?.sub}`, fetcher)
 
   useEffect(() => {
     handleUserDb()
