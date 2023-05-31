@@ -38,6 +38,7 @@ const CookbookCard = ({ cookbook }: Props) => {
                   placeholder='blur'
                   blurDataURL={image.base64_image}
                   sizes={cookbook?.recipe_images.length > 3 ? '300px' : '800px'}
+                  unoptimized
                 />
               </div>
             ))

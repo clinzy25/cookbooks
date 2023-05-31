@@ -152,6 +152,7 @@ const Recipe: React.FC<Props> = props => {
               width={40}
               height={40}
               alt={user?.email || 'Avatar'}
+              unoptimized
             />
           </div>
         </div>
