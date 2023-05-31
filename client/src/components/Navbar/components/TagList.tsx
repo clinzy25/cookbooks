@@ -198,10 +198,10 @@ const TagList: FC = () => {
     <Style tagsEditMode={tagsEditMode}>
       <div className='icon-ctr'>
         {showPaginBtns && (
-          <BsChevronLeft className='icon pagin-icon' onClick={() => handlePaginate(0)} />
+          <BsChevronLeft className='pagin-icon' onClick={() => handlePaginate(0)} />
         )}
       </div>
-      <div id='tags-ctr' className='scroll-ctr' ref={scrollRef}>
+      <div id='tags-ctr' ref={scrollRef}>
         {tags?.map((t: ITag) =>
           tagsEditMode ? (
             <div key={t.guid} className={`tag ${tagsToDelete.includes(t) && 'deleted'}`}>
@@ -238,7 +238,7 @@ const TagList: FC = () => {
       </div>
       <div className='icon-ctr'>
         {showPaginBtns && (
-          <BsChevronRight className='icon pagin-icon' onClick={() => handlePaginate(1)} />
+          <BsChevronRight className='pagin-icon' onClick={() => handlePaginate(1)} />
         )}
       </div>
     </Style>
@@ -257,7 +257,7 @@ const Style = styled.div<StyleProps>`
   margin: 0 auto 0 auto;
   flex-shrink: 100;
   border-radius: 25px;
-  .scroll-ctr {
+  #tags-ctr {
     display: flex;
     align-items: center;
     position: relative;
@@ -306,7 +306,7 @@ const Style = styled.div<StyleProps>`
     display: flex;
     align-items: center;
   }
-  .icon {
+  .pagin-icon {
     ${IconMixin}
   }
   .edit-icon {
