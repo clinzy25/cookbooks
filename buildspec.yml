@@ -8,7 +8,7 @@ phases:
       - tar xzf docker-linux-amd64.tar.gz
       - chmod +x docker/docker
       - ls -ltr
-      - docker/docker compose --help
+      - docker compose --help
       - which docker
       - ln -s $(which docker) /usr/local/bin/com.docker.cli
   pre_build:
