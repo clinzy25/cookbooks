@@ -261,10 +261,15 @@ const Style = styled.div<StyleProps>`
     display: flex;
     align-items: center;
     position: relative;
-    overflow-x: hidden;
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     white-space: nowrap;
     height: 40px;
     margin: 0 12px;
+    &::-webkit-scrollbar {
+      display: none;
+    }
     .tag {
       ${TagMixin}
       background-color: ${props =>
