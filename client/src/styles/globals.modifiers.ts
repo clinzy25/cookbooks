@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
 
 export const ModalGlobalStyles = createGlobalStyle`
-  body, html {
+  body {
     overflow: hidden;
   }
   .page-wrapper > *:not(#modal), 
