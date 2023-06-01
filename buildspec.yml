@@ -8,7 +8,7 @@ phases:
       - tar xzf docker-linux-amd64.tar.gz
       - chmod +x docker/docker
       - ls -ltr
-      - docker compose --help
+      - docker-compose --help
       - which docker
       - ln -s $(which docker) /usr/local/bin/com.docker.cli
   pre_build:
@@ -20,9 +20,9 @@ phases:
   build:
     commands:
       - echo "Building containers"
-      - docker compose build
+      - docker-compose build
       - echo "Pushing containers to ECR"
-      - docker compose push
+      - docker-compose push
     on-failure: ABORT
   post_build:
     commands:
