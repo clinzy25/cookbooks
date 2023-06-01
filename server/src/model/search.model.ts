@@ -106,7 +106,7 @@ export async function dbCharSearchRecipes(
       FROM recipes r
       JOIN cookbooks c ON c.id = r.cookbook_id
       JOIN users u ON u.id = c.creator_user_id
-      JOIN cookbook_members cm ON cm.cookbook_id = c.id
+      LEFT JOIN cookbook_members cm ON cm.cookbook_id = c.id
       WHERE name ILIKE '%${searchVal}%'
       ${whereClause}
       LIMIT 10)
@@ -119,7 +119,7 @@ export async function dbCharSearchRecipes(
       JOIN recipes r ON r.id = t.recipe_id
       JOIN cookbooks c ON c.id = r.cookbook_id
       JOIN users u ON u.id = c.creator_user_id
-      JOIN cookbook_members cm ON cm.cookbook_id = c.id
+      LEFT JOIN cookbook_members cm ON cm.cookbook_id = c.id
       WHERE tag_name ILIKE '%${searchVal}%'
       ${whereClause}
       LIMIT 10)

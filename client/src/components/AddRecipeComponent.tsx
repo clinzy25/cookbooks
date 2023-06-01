@@ -69,7 +69,6 @@ const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading }) => {
               recipe and save it in your cookbook.
               <div className='input-ctr'>
                 <input
-                  autoFocus
                   onPaste={e => handleSubmit(e.clipboardData?.getData('Text'), selection)}
                   placeholder='Paste a link with a recipe...'
                   type='text'

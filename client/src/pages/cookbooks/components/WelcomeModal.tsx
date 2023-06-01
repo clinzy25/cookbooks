@@ -28,7 +28,7 @@ type Props = {
 }
 
 const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
-  const { setSnackbar, handleServerError, revalidateCookbooks } =
+  const { setSnackbar, handleServerError, revalidateCookbooks, revalidateTags } =
     useAppContext() as IAppContext
   const { user } = useUser()
   const [step, setStep] = useState<0 | 1 | 2>(0)
@@ -65,6 +65,7 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
       })
       setModalOpen(false)
       revalidateCookbooks()
+      revalidateTags()
     } catch (e) {
       handleServerError(e)
       console.error(e)
