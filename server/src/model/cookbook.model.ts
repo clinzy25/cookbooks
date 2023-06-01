@@ -14,7 +14,7 @@ export async function dbGetCookbooks(user_guid: string) {
           COUNT(DISTINCT r.id) AS recipe_count,
           (COALESCE(ARRAY_AGG(JSONB_BUILD_OBJECT(
             'image', r.image, 
-           'base64_image', r.base64_image
+            'base64_image', r.base64_image
           )) FILTER (WHERE r.image IS NOT NULL), '{}'))[1:10] AS recipe_images,
           COALESCE(JSON_AGG(DISTINCT JSONB_BUILD_OBJECT(
             'guid', member_sub.guid, 

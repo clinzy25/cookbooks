@@ -6,7 +6,6 @@ import { api } from '@/api'
 import axios from 'axios'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
-import { useRouter } from 'next/router'
 import { ICookbookReq } from '@/types/@types.cookbooks'
 import { validateEmail } from '@/utils/utils.validateField'
 import { IRecipeReq, RecipeSourceTypes } from '@/types/@types.recipes'
@@ -29,8 +28,8 @@ type Props = {
 }
 
 const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
-  const { setSnackbar, handleServerError } = useAppContext() as IAppContext
-  const router = useRouter()
+  const { setSnackbar, handleServerError, revalidateCookbooks } =
+    useAppContext() as IAppContext
   const { user } = useUser()
   const [step, setStep] = useState<0 | 1 | 2>(0)
   const [createLoading, setCreateLoading] = useState(false)
@@ -49,7 +48,7 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
     e.preventDefault()
     try {
       setCreateLoading(true)
-      const cookbookRes = await axios.post(`${api}/cookbooks`, cookbook).then(async res => {
+      await axios.post(`${api}/cookbooks`, cookbook).then(async res => {
         const { data: cookbook_guid } = res
         recipes.forEach(r => (r['cookbook_guid'] = cookbook_guid))
         invites.forEach(r => (r['cookbook_guid'] = cookbook_guid))
@@ -65,9 +64,7 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
         return res
       })
       setModalOpen(false)
-      router.push(
-        `/cookbooks/${cookbookRes.data}?cookbook_name=${cookbook.cookbook_name}&owner=1`
-      )
+      revalidateCookbooks()
     } catch (e) {
       handleServerError(e)
       console.error(e)
@@ -103,27 +100,32 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
     }
   }
 
-  const validateUrl = async (url: string) => {
+  const validateUrl = (url: string) => {
     try {
       if (recipes.length === 10) {
         setSnackbar({ msg: 'Max 10, you can add more later!', state: 'error' })
+        return false
       } else {
         new URL(url)
+        return true
       }
     } catch (_) {
       setSnackbar({ msg: 'Invalid url', state: 'error' })
+      return false
     }
   }
 
   const handleRecipeAdd = (url: string, selection: RecipeSourceTypes) => {
     if (url) {
-      validateUrl(url)
-      const newRecipe: IRecipeReq = {
-        url,
-        source_type: selection,
-        is_private: 0,
+      const isValid = validateUrl(url)
+      if (isValid) {
+        const newRecipe: IRecipeReq = {
+          url,
+          source_type: selection,
+          is_private: 0,
+        }
+        setRecipes([...recipes, newRecipe])
       }
-      setRecipes([...recipes, newRecipe])
     }
   }
 
@@ -176,7 +178,7 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
                 <h3>Recipe Queue (Max 10)</h3>
                 {recipes.map((r, i) => (
                   <li className='pending-list-item' key={r.url}>
-                    <span>{r.url}</span>
+                    <a href={r.url} target='_blank'>{r.url}</a>
                     <div>
                       <IoMdClose
                         title='Remove recipe'
@@ -342,10 +344,11 @@ const Style = styled.main`
         div {
           display: flex;
         }
-        span {
+        a {
           display: inline-block;
           overflow: hidden;
           text-overflow: ellipsis;
+          color: ${({ theme }) => theme.linkColor};
         }
         .delete-icon {
           background-color: ${({ theme }) => theme.errorColor};

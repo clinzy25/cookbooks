@@ -20,6 +20,13 @@ const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading }) => {
   const [selection, setSelection] = useState<RecipeSourceTypes>('link')
   const linkFieldRef = useRef<HTMLInputElement>(null)
 
+  const handleClick = () => {
+    if (linkFieldRef.current) {
+      handleSubmit(linkFieldRef.current?.value, selection)
+      linkFieldRef.current.value = ''
+    }
+  }
+
   return (
     <Style>
       <h1>Add Recipes</h1>
@@ -69,12 +76,7 @@ const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading }) => {
                   ref={linkFieldRef}
                   name='paste-link'
                 />
-                <button
-                  type='button'
-                  onClick={() =>
-                    linkFieldRef.current &&
-                    handleSubmit(linkFieldRef.current?.value, selection)
-                  }>
+                <button type='button' onClick={handleClick}>
                   {loading ? <Loader size={15} /> : 'Add'}
                 </button>
               </div>
