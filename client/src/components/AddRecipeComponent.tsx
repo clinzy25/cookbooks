@@ -57,7 +57,7 @@ const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading }) => {
                 <div>
                   <AiOutlineEdit className='tab-icon' />
                 </div>
-                Enter Manually
+                Type
               </label>
             </li>
           </ul>
@@ -203,7 +203,7 @@ const Style = styled.div`
     .tab-ctr {
       width: 100%;
       .nav-label {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         .tab-icon {
           font-size: 1.2rem;
           margin-right: 5px;

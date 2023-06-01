@@ -98,6 +98,13 @@ const Style = styled.div`
     form {
       label {
         width: 100%;
+        div {
+          flex-wrap: wrap;
+          justify-content: center;
+          button {
+            margin: 20px 0 0 0;
+          }
+        }
       }
     }
   }
