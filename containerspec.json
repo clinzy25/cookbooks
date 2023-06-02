@@ -1,0 +1,15 @@
+{
+  "cookbooks-prod-server": {
+    "image": "576765093341.dkr.ecr.us-west-2.amazonaws.com/cookbooks/prod/server",
+    "ports": {
+      "8080": "HTTP"
+    }
+  },
+  "cookbooks-prod-client": {
+    "image": "576765093341.dkr.ecr.us-west-2.amazonaws.com/cookbooks/prod/client",
+    "ports": {
+      "443": "HTTPS",
+      "3000": "HTTP"
+    }
+  }
+}

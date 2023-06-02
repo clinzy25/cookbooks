@@ -1,0 +1,13 @@
+version: 0.2
+  phases:
+    pre_build:
+      commands:
+        - echo "Deploying containers to lightsail..."
+    build:
+      commands:
+        - aws lightsail create-container-service-deployment --service-name cookbooks
+          --containers file://containerspec.json
+          --public-endpoint containerName=cookbooks-prod-client,containerPort=3000
+      on-failure: ABORT
+    post_build:
+      - echo "Deployment successful"
