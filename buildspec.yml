@@ -21,6 +21,7 @@ phases:
       - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
   build:
     commands:
+      - env | grep -e AUTH0_ >> .env.production
       - echo "Building containers"
       - docker-compose build
       - echo "Pushing containers to ECR"
@@ -29,4 +30,7 @@ phases:
   post_build:
     commands:
       - echo "Build successful"
+artifacts:
+  files:
+    - '**/*'
     
