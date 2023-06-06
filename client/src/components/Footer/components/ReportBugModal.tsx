@@ -25,7 +25,7 @@ const ReportBugModal: FC<Props> = ({ closeModal }) => {
   }, [state.succeeded])
 
   return (
-    <Modal closeModal={closeModal}>
+    <Modal type='bug' closeModal={closeModal}>
       <Style>
         <h2>Report a Bug</h2>
         <p id='prompt'>
@@ -63,7 +63,7 @@ const Style = styled.div`
       margin: 0 auto;
     }
     textarea {
-      height: 300px;
+      height: 100%;
       padding-top: 10px;
       &::placeholder {
         font-family: 'Nunito Sans', sans-serif;
