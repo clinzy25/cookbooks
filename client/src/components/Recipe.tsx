@@ -55,15 +55,15 @@ const Recipe: React.FC<Props> = props => {
       handleServerError(e)
     }
   }
-  
-    const handleTagHref = (tag: string) => {
-      const value = encodeURIComponent(tag)
-      const c_name = encodeURIComponent(cookbook_name?.toString() as string)
-      if (cookbook) {
-        return `/cookbooks/${cookbook}/search?cookbook_name=${c_name}&value=${value}`
-      }
-      return `/search?value=${value}`
+
+  const handleTagHref = (tag: string) => {
+    const value = encodeURIComponent(tag)
+    const c_name = encodeURIComponent(cookbook_name?.toString() as string)
+    if (cookbook) {
+      return `/cookbooks/${cookbook}/search?cookbook_name=${c_name}&value=${value}`
     }
+    return `/search?value=${value}`
+  }
 
   useEffect(() => {
     data && setRecipe(data)
@@ -96,7 +96,7 @@ const Recipe: React.FC<Props> = props => {
           <h1>{name.toUpperCase()}</h1>
           <div>
             <div id='tag-ctr'>
-              {tags?.split(',').map((t) => (
+              {tags?.split(',').map(t => (
                 <Link href={handleTagHref(t)} className='tag' key={t}>
                   <span className='hash'>#</span>
                   {t}
@@ -166,7 +166,7 @@ const Recipe: React.FC<Props> = props => {
             </div>
           </div>
           {source_url && (
-            <p>
+            <p className='source-url'>
               <span>Source: </span>
               <a href={source_url} target='_blank'>
                 {new URL(source_url).host}
@@ -279,11 +279,13 @@ const Style = styled.main`
       object-fit: cover;
     }
   }
+  #time-ctr {
+    flex-wrap: wrap;
+  }
   #time-ctr,
   #source-ctr {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
     gap: 0 15px;
     font-size: 0.95rem;
     white-space: nowrap;
@@ -303,12 +305,18 @@ const Style = styled.main`
         margin-right: 5px;
       }
     }
-  }
-  a {
-    color: ${({ theme }) => theme.linkColor};
-    cursor: pointer;
-    &:hover {
-      text-decoration: underline;
+    .source-url {
+      a {
+        color: ${({ theme }) => theme.linkColor};
+        cursor: pointer;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        word-break: break-word;
+        hyphens: auto;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
   }
   #recipe-body-ctr {
@@ -335,7 +343,7 @@ const Style = styled.main`
         display: flex;
         align-items: flex-start;
         input {
-          margin: 13px 8px 0 0;
+          margin: 11px 8px 0 0;
           transform: scale(1.4);
         }
         li {
