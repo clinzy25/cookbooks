@@ -1,6 +1,6 @@
 import { ThemeProps } from '@/types/@types.theme'
 
-const Globals: ThemeProps = {
+export const Globals: ThemeProps = {
   breakpointMobile: '800',
   successColor: '#16a500',
   errorColor: '#d80000',

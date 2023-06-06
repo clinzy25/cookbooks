@@ -13,6 +13,8 @@ import Loader from '../../Loader'
 import { IEditTag, ITag } from '@/types/@types.tags'
 import { IconMixin, TagMixin } from '@/styles/mixins'
 import Error from '../../Error'
+import { useWindowSize } from '@/utils/utils.hooks'
+import { Globals } from '@/styles/theme'
 
 const TagList: FC = () => {
   const {
@@ -38,6 +40,7 @@ const TagList: FC = () => {
   const [scrollValues, setScrollValues] = useState<number[]>([])
 
   const scrollRef = useRef<HTMLDivElement>(null)
+  const { width } = useWindowSize()
 
   const nextTags = (ctr: HTMLDivElement) => {
     for (const tag of Object.values(ctr.children) as HTMLElement[]) {
@@ -172,21 +175,25 @@ const TagList: FC = () => {
     return `/search?value=${value}`
   }
 
+  const handleArrows = () => {
+    if (scrollRef.current && width) {
+      const isOverflow = scrollRef.current.scrollWidth > scrollRef.current.clientWidth
+      const isMobile = width < Number(Globals.breakpointMobile)
+      setShowPaginBtns(isOverflow && tags.length > 0 && !isMobile)
+    }
+  }
+
   useEffect(() => {
     submitTrigger && handleSubmit()
-  }, [submitTrigger]) // eslint-disable-line
+  }, [submitTrigger])
 
   useEffect(() => {
     !tagsEditMode && setSubmitTrigger(true)
   }, [tagsEditMode])
 
   useEffect(() => {
-    if (scrollRef.current) {
-      setShowPaginBtns(
-        scrollRef.current.scrollWidth > scrollRef.current.clientWidth && tags.length > 0
-      )
-    }
-  }, [scrollRef.current, tags]) // eslint-disable-line
+    handleArrows()
+  }, [scrollRef.current, tags])
 
   if (!tags) {
     return <Loader size={20} />
@@ -198,7 +205,7 @@ const TagList: FC = () => {
     <Style tagsEditMode={tagsEditMode}>
       <div className='icon-ctr'>
         {showPaginBtns && (
-          <BsChevronLeft className='pagin-icon' onClick={() => handlePaginate(0)} />
+          <BsChevronLeft className='pagin-icon left' onClick={() => handlePaginate(0)} />
         )}
       </div>
       <div id='tags-ctr' ref={scrollRef}>
@@ -238,7 +245,7 @@ const TagList: FC = () => {
       </div>
       <div className='icon-ctr'>
         {showPaginBtns && (
-          <BsChevronRight className='pagin-icon' onClick={() => handlePaginate(1)} />
+          <BsChevronRight className='pagin-icon right' onClick={() => handlePaginate(1)} />
         )}
       </div>
     </Style>
@@ -266,7 +273,6 @@ const Style = styled.div<StyleProps>`
     scrollbar-width: none;
     white-space: nowrap;
     height: 40px;
-    margin: 0 12px;
     &::-webkit-scrollbar {
       display: none;
     }
@@ -313,6 +319,12 @@ const Style = styled.div<StyleProps>`
   }
   .pagin-icon {
     ${IconMixin}
+  }
+  .left {
+    margin-right: 12px;
+  }
+  .right {
+    margin-left: 12px;
   }
   .edit-icon {
     ${IconMixin}

@@ -22,7 +22,7 @@ const Search: FC = () => {
 
   const resultsRef = useRef(null)
   useOutsideAlerter(resultsRef, () => setSearchResults(null))
-  const size = useWindowSize()
+  const { width } = useWindowSize()
 
   const searchRecipes = useCallback(async () => {
     const query = `${cookbook ? `cookbook_guid=${cookbook}` : `user_guid=${user?.sub}`}`
@@ -59,7 +59,7 @@ const Search: FC = () => {
   }, [searchVal]) // eslint-disable-line
 
   return (
-    <Style width={size.width} searchResults={searchResults}>
+    <Style width={width} searchResults={searchResults}>
       <div className='search-ctr'>
         <div>
           <input

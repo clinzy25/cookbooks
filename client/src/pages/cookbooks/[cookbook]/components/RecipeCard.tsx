@@ -151,7 +151,6 @@ const Style = styled.article`
       overflow: hidden;
       padding-bottom: 5px;
       -webkit-line-clamp: 2; /* number of lines to show */
-      max-height: 49px;
       .tag {
         ${TagMixin}
         font-size: 0.9rem;
