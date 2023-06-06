@@ -9,7 +9,7 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import AddRecipeModal from './components/AddRecipeModal'
 import EditCookbookModal from './components/EditCookbookModal'
 import { AiOutlineEdit } from 'react-icons/ai'
-import { AddBtnMixin, IconMixin, ModalBtnMixin, PageHeaderMixin } from '@/styles/mixins'
+import { AddBtnMixin, IconMixin, ModalBtnMixin, PageHeaderMixin, RecipeCardGridMixin } from '@/styles/mixins'
 import { IoMdAddCircle } from 'react-icons/io'
 import Loader from '@/components/Loader'
 import Error from '@/components/Error'
@@ -151,12 +151,7 @@ const Style = styled.main<StyleProps>`
     }
   }
   #recipe-ctr {
-    display: grid;
-    width: 100%;
-    gap: 10px;
-    grid-template-rows: repeat(1fr);
-    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-    margin-bottom: 50px;
+    ${RecipeCardGridMixin}
   }
   #pagin-btn {
     padding: 10px 15px;

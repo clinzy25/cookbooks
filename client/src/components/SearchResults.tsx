@@ -9,6 +9,7 @@ import useSWR from 'swr'
 import Loader from './Loader'
 import Error from './Error'
 import Head from 'next/head'
+import { PageHeaderMixin, RecipeCardGridMixin } from '@/styles/mixins'
 
 type Props = {
   recipes?: IRecipeRes[]
@@ -59,16 +60,12 @@ const Style = styled.main`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  ${PageHeaderMixin}
   header {
     margin-bottom: 15px;
-    font-family: ${({ theme }) => theme.headerFont};
   }
   #recipe-ctr {
-    display: grid;
-    width: 100%;
-    gap: 20px;
-    grid-template-rows: repeat(1fr);
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    ${RecipeCardGridMixin}
   }
 `
 

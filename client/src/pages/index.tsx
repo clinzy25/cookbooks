@@ -27,9 +27,8 @@ const Styles = styled.main`
   justify-content: center;
   text-align: center;
   header {
-    font-family: ${({ theme }) => theme.headerFont};
     h1 {
-      font-size: 3rem;
+      font: 3.5rem Montserrat, sans-serif;
     }
   }
   #btn-ctr {

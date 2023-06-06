@@ -50,8 +50,8 @@ const Breadcrumb: FC = () => {
     <Style id='breadcrumb-wrapper'>
       {breadcrumb.map((bc, i) => (
         <div key={bc.display}>
-          {i > 0 && <BiChevronRight className='icon' />}
           <Link className='breadcrumb' href={i === breadcrumb.length - 1 ? '#' : bc.href}>
+            {i > 0 && <BiChevronRight className='icon' />}
             {bc.display}
           </Link>
         </div>
@@ -66,17 +66,20 @@ const Style = styled.nav`
   align-items: center;
   flex-wrap: wrap;
   div {
-    align-items: center;
-    display: flex;
-  }
-  .icon {
-    font-size: 1.1rem;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .breadcrumb {
     letter-spacing: 0.5px;
     font-weight: 600;
     color: ${({ theme }) => theme.secondaryTextColor};
     white-space: nowrap;
+    .icon {
+      vertical-align: middle;
+      font-size: 1.1rem;
+      margin-bottom: 3px;
+    }
     &:hover {
       text-decoration: underline;
       color: #858585;

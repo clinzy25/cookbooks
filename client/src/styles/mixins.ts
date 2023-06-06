@@ -100,7 +100,7 @@ export const ModalBtnMixin = css`
     transition: ${({ theme }) => theme.buttonTransition};
     font-weight: 600;
     cursor: pointer;
-    font-family: ${({ theme }) => theme.headerFont};
+    font-family: Montserrat, sans-serif;
     &:hover {
       transition: ${({ theme }) => theme.buttonTransition};
       background-color: ${({ theme }) => theme.buttonBackgroundHover};
@@ -217,4 +217,13 @@ export const PageHeaderMixin = css`
       }
     }
   }
+`
+
+export const RecipeCardGridMixin = css`
+  display: grid;
+  width: 100%;
+  gap: 10px;
+  grid-template-rows: repeat(1fr);
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  margin-bottom: 50px;
 `
