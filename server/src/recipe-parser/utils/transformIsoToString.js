@@ -8,7 +8,9 @@ export default function transformISOToString(dateObj) {
   }
   if (dateObj.minutes) {
     if (dateObj.minutes > 60) {
-      result += `${Math.floor(dateObj.minutes / 60)}h ${dateObj.minutes % 60}m`
+      const hours = Math.floor(dateObj.minutes / 60)
+      const minutes = dateObj.minutes % 60 > 0 ? `${dateObj.minutes % 60}m` : ''
+      result += `${hours}h ${minutes}`
     } else {
       result += `${dateObj.minutes}m `
     }

@@ -17,6 +17,8 @@ import Loader from './Loader'
 import Error from './Error'
 import moment from 'moment'
 import Head from 'next/head'
+import { ITag } from '@/types/@types.tags'
+import Link from 'next/link'
 
 type Props = {
   recipe: IRecipeRes
@@ -53,6 +55,15 @@ const Recipe: React.FC<Props> = props => {
       handleServerError(e)
     }
   }
+  
+    const handleTagHref = (tag: string) => {
+      const value = encodeURIComponent(tag)
+      const c_name = encodeURIComponent(cookbook_name?.toString() as string)
+      if (cookbook) {
+        return `/cookbooks/${cookbook}/search?cookbook_name=${c_name}&value=${value}`
+      }
+      return `/search?value=${value}`
+    }
 
   useEffect(() => {
     data && setRecipe(data)
@@ -83,21 +94,23 @@ const Recipe: React.FC<Props> = props => {
       <>
         <header>
           <h1>{name.toUpperCase()}</h1>
-          {allowEdit && (
-            <div>
-              <AiOutlineEdit id='edit-icon' />
-              <AiOutlineDelete onClick={() => setConfirm(true)} id='delete-icon' />
+          <div>
+            <div id='tag-ctr'>
+              {tags?.split(',').map((t) => (
+                <Link href={handleTagHref(t)} className='tag' key={t}>
+                  <span className='hash'>#</span>
+                  {t}
+                </Link>
+              ))}
             </div>
-          )}
+            {allowEdit && (
+              <div id='icon-ctr'>
+                <AiOutlineEdit id='edit-icon' />
+                <AiOutlineDelete onClick={() => setConfirm(true)} id='delete-icon' />
+              </div>
+            )}
+          </div>
         </header>
-        <div id='tag-ctr'>
-          {tags?.split(',').map(t => (
-            <span className='tag' key={t}>
-              <span className='hash'>#</span>
-              {t}
-            </span>
-          ))}
-        </div>
         <div className='img-ctr'>
           <Image
             className='img'
@@ -138,19 +151,7 @@ const Recipe: React.FC<Props> = props => {
           )}
         </div>
         <div id='source-ctr'>
-          {source_url && (
-            <p>
-              <span>Source: </span>
-              <a href={source_url} target='_blank'>
-                {new URL(source_url).host}
-              </a>
-            </p>
-          )}
           <div className='uploader-ctr'>
-            <div>
-              <p>{creator_user_email}</p>
-              <span>{moment(created_at).format('MMM D, YYYY')}</span>
-            </div>
             <Image
               src={user?.picture ? user.picture : '/assets/avatar-placeholder.png'}
               className='avatar'
@@ -159,7 +160,19 @@ const Recipe: React.FC<Props> = props => {
               alt={user?.email || 'Avatar'}
               unoptimized
             />
+            <div>
+              <p>{creator_user_email}</p>
+              <span>{moment(created_at).format('MMM D, YYYY')}</span>
+            </div>
           </div>
+          {source_url && (
+            <p>
+              <span>Source: </span>
+              <a href={source_url} target='_blank'>
+                {new URL(source_url).host}
+              </a>
+            </p>
+          )}
         </div>
         <div id='recipe-body-ctr'>
           {description && <p id='description'>{description}</p>}
@@ -217,31 +230,41 @@ const Style = styled.main`
   max-width: 700px;
   header {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     font-family: ${({ theme }) => theme.headerFont};
     div {
-      #edit-icon,
-      #delete-icon {
-        font-size: 1.8rem;
-        cursor: pointer;
-        margin-left: 10px;
-        ${IconMixin}
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 8px;
+      #icon-ctr {
+        #edit-icon,
+        #delete-icon {
+          font-size: 1.8rem;
+          cursor: pointer;
+          margin-left: 10px;
+          ${IconMixin}
+        }
+        white-space: nowrap;
       }
-      white-space: nowrap;
-    }
-  }
-  #tag-ctr {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    .tag {
-      ${TagMixin}
-      margin: 0;
-      &:hover {
-        text-decoration: none;
-      }
-      .hash {
-        margin: 0 3px;
+      #tag-ctr {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 5px;
+        .tag {
+          ${TagMixin}
+          color: black;
+          margin: 0;
+          max-height: 23px;
+          &:hover {
+            text-decoration: none;
+          }
+          .hash {
+            margin: 0 3px;
+          }
+        }
       }
     }
   }
@@ -274,10 +297,10 @@ const Style = styled.main`
       display: flex;
       align-items: flex-end;
       white-space: nowrap;
-      text-align: right;
+      text-align: left;
       .avatar {
         ${AvatarMixin}
-        margin-left: 5px;
+        margin-right: 5px;
       }
     }
   }
@@ -312,7 +335,7 @@ const Style = styled.main`
         display: flex;
         align-items: flex-start;
         input {
-          margin: 10px 8px 0 0;
+          margin: 13px 8px 0 0;
           transform: scale(1.4);
         }
         li {
