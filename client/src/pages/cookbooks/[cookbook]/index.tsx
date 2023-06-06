@@ -9,7 +9,7 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import AddRecipeModal from './components/AddRecipeModal'
 import EditCookbookModal from './components/EditCookbookModal'
 import { AiOutlineEdit } from 'react-icons/ai'
-import { AddBtnMixin, IconMixin, ModalBtnMixin } from '@/styles/mixins'
+import { AddBtnMixin, IconMixin, ModalBtnMixin, PageHeaderMixin } from '@/styles/mixins'
 import { IoMdAddCircle } from 'react-icons/io'
 import Loader from '@/components/Loader'
 import Error from '@/components/Error'
@@ -73,7 +73,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
       )}
       {editModal && <EditCookbookModal editModal={editModal} setEditModal={setEditModal} />}
       <header>
-        <h1>{_cookbook_name.current}</h1>
+        <h1>{_cookbook_name.current?.toUpperCase()}</h1>
         <div>
           {Number(owner) === 1 && (
             <AiOutlineEdit className='edit-icon' onClick={() => setEditModal(true)} />
@@ -134,13 +134,13 @@ const Style = styled.main<StyleProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
+  ${PageHeaderMixin}
   header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     margin-bottom: 15px;
-    font-family: ${({ theme }) => theme.headerFont};
     div {
       position: relative;
       align-items: center;
@@ -183,11 +183,6 @@ const Style = styled.main<StyleProps>`
   }
   #add-recipe-btn {
     ${AddBtnMixin}
-  }
-  @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
-    header {
-      font-size: 0.7rem;
-    }
   }
 `
 

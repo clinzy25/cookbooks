@@ -57,23 +57,19 @@ export const AvatarMixin = css`
 `
 
 export const ModalHeaderMixin = css`
-  h1 {
-    font-family: ${({ theme }) => theme.headerFont};
-    text-align: center;
-    margin-bottom: 10px;
-  }
+  h1,
   h2 {
-    font-size: 1.7rem;
     margin-bottom: 10px;
     text-align: center;
-    font-family: ${({ theme }) => theme.headerFont};
+    font: ${({ theme }) => theme.modalHeaderFont};
+  }
+  h3 {
+    font: ${({ theme }) => theme.modalSubHeaderFont};
   }
   @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
-    h1 {
-      font-size: 1.7rem;
-    }
+    h1,
     h2 {
-      font-size: 1.4rem;
+      font: ${({ theme }) => theme.modalHeaderFontMobile};
     }
   }
 `
@@ -206,4 +202,19 @@ export const CardGradientHoverMixin = css`
     rgba(240, 240, 240, 0.97) 70%,
     rgba(240, 240, 240, 1) 100%
   );
+`
+
+export const PageHeaderMixin = css`
+  header {
+    h1 {
+      font: ${({ theme }) => theme.pageHeaderFont};
+    }
+  }
+  @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
+    header {
+      h1 {
+        font: ${({ theme }) => theme.pageHeaderFontMobile};
+      }
+    }
+  }
 `

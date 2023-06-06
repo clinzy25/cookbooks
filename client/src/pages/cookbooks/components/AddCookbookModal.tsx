@@ -48,7 +48,7 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
   return (
     <Modal type='default' closeModal={() => setModalOpen(false)}>
       <Style>
-        <h2>Create a New Cookbook</h2>
+        <h1>Create a New Cookbook</h1>
         <form autoComplete='off' onSubmit={e => handleSubmit(e)}>
           <div />
           <label htmlFor='name'>

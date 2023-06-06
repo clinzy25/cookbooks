@@ -29,5 +29,10 @@ export const LightTheme: ThemeProps = {
   darkBoxShadowColor: '#d2d2d2',
   darkBoxShadowColorHover: '#b5b5b5',
   boxShadowOverOtherElements: '1px 1px 10px #252525',
-  headerFont: 'Montserrat, sans-serif',
+  pageHeaderFont: '2.4rem Montserrat, sans-serif',
+  pageHeaderFontMobile: '1.8rem Montserrat, sans-serif',
+  cardHeaderFont: '1.7rem Montserrat, sans-serif',
+  modalHeaderFont: '1.7rem Montserrat, sans-serif',
+  modalHeaderFontMobile: '1.5rem Montserrat, sans-serif',
+  modalSubHeaderFont: '1.3rem Montserrat, sans-serif',
 }

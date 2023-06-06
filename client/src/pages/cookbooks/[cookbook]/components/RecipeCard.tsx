@@ -134,7 +134,7 @@ const Style = styled.article`
     height: 150px;
     gap: 5px;
     h3 {
-      font-family: ${({ theme }) => theme.headerFont};
+      font: ${({ theme }) => theme.cardHeaderFont};
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-box-orient: vertical;

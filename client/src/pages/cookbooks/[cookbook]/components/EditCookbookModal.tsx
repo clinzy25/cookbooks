@@ -269,9 +269,7 @@ const Style = styled.article<StyleProps>`
   ${ModalFieldMixin}
   ${ModalBtnMixin}
   h3 {
-    font-size: 1.4rem;
     margin: 10px 0 5px 0;
-    font-family: ${({ theme }) => theme.headerFont};
   }
   label {
     div {

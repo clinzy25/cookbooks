@@ -56,7 +56,7 @@ const CookbookCard = ({ cookbook }: Props) => {
           )}
         </div>
         <div className='meta-ctr'>
-          <h2>{cookbook?.cookbook_name}</h2>
+          <h3>{cookbook?.cookbook_name.toUpperCase()}</h3>
           <p>{cookbook?.recipe_count} Recipes</p>
           <div>
             <FaCrown className='crown-icon' />
@@ -147,8 +147,8 @@ const Style = styled.div`
     position: absolute;
     bottom: 0;
     z-index: 3;
-    h2 {
-      font-family: ${({ theme }) => theme.headerFont};
+    h3 {
+      font: ${({ theme }) => theme.cardHeaderFont};
     }
     p {
       margin-bottom: 12px;

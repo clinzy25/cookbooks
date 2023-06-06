@@ -3,7 +3,7 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useEffect, useState } from 'react'
 import AddCookbookModal from './components/AddCookbookModal'
 import { IoMdAddCircle } from 'react-icons/io'
-import { AddBtnMixin } from '@/styles/mixins'
+import { AddBtnMixin, PageHeaderMixin } from '@/styles/mixins'
 import CookbookCard from './components/CookbookCard'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
@@ -37,7 +37,7 @@ const CookbooksPage: React.FC = () => {
       {addCookbookModal && <AddCookbookModal setModalOpen={setAddcookbookModal} />}
       {welcomeModal && <WelcomeModal setModalOpen={setWelcomeModal} />}
       <header>
-        <h1>Your Cookbooks</h1>
+        <h1>YOUR COOKBOOKS</h1>
       </header>
       <div id='cookbooks-ctr'>
         {cookbooks.map(cb => (
@@ -54,8 +54,8 @@ export const getServerSideProps = withPageAuthRequired()
 const Styles = styled.main`
   display: flex;
   flex-direction: column;
+  ${PageHeaderMixin}
   header {
-    font-family: ${({ theme }) => theme.headerFont};
     margin-bottom: 15px;
   }
   #cookbooks-ctr {

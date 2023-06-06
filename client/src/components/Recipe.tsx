@@ -11,7 +11,7 @@ import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import axios from 'axios'
 import Modal from '@/components/Modal'
-import { AvatarMixin, IconMixin, ModalBtnMixin } from '@/styles/mixins'
+import { AvatarMixin, IconMixin, ModalBtnMixin, PageHeaderMixin } from '@/styles/mixins'
 import { TagMixin } from '@/styles/mixins'
 import Loader from './Loader'
 import Error from './Error'
@@ -228,11 +228,11 @@ const Style = styled.main`
   margin: auto;
   gap: 15px;
   max-width: 700px;
+  ${PageHeaderMixin}
   header {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    font-family: ${({ theme }) => theme.headerFont};
     div {
       display: flex;
       justify-content: space-between;
@@ -361,20 +361,14 @@ const Style = styled.main`
     align-items: center;
     justify-content: center;
     height: 100%;
+    text-align: center;
     h2 {
       margin-bottom: 10px;
+      font: ${({ theme }) => theme.modalSubHeaderFont};
     }
     ${ModalBtnMixin}
   }
   @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
-    #meta-ctr {
-      header {
-        justify-content: space-between;
-        h1 {
-          font-size: 1.6rem;
-        }
-      }
-    }
     .text-ctr {
       padding: 0;
     }
