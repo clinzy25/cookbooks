@@ -55,7 +55,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
 
   useEffect(() => {
     _cookbook_name.current = decodeURIComponent(cookbook_name?.toString() as string)
-  }, [])
+  }, [cookbook_name])
 
   if (!data && !recipes) {
     return <Loader size={50} fillSpace />
