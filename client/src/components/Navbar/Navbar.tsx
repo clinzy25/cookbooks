@@ -47,6 +47,7 @@ const Style = styled.nav`
     ${IconMixin}
     padding: 0;
     color: #f1c410;
+    min-width: 35px;
   }
   #dropdown {
     position: absolute;

@@ -121,7 +121,7 @@ const Style = styled.div<StyleProps>`
     flex-direction: column;
     background-color: ${({ theme }) => theme.buttonBackground};
     border: 1px solid ${({ theme }) => theme.softBorder};
-    border-radius: ${props => (props.searchResults ? '10px' : '25px')};
+    border-radius: ${props => (props.searchResults ? '10px' : '50px')};
     z-index: 5;
     transition: all 0.3s ease-out;
     div {
@@ -143,7 +143,7 @@ const Style = styled.div<StyleProps>`
             ${props =>
                 props.width && props.width > props.theme.breakpointMobile
                   ? '375'
-                  : props.width}px - 135px
+                  : props.width}px - 120px
           );
           padding: 0 6px;
         }
@@ -179,7 +179,7 @@ const Style = styled.div<StyleProps>`
         ${props =>
             props.width && props.width > props.theme.breakpointMobile
               ? '375'
-              : props.width}px - 135px
+              : props.width}px - 120px
       );
       padding: 0 6px;
     }
@@ -188,7 +188,7 @@ const Style = styled.div<StyleProps>`
         ${props =>
             props.width && props.width > props.theme.breakpointMobile
               ? '375'
-              : props.width}px - 135px
+              : props.width}px - 120px
       );
       padding: 0 6px;
     }
