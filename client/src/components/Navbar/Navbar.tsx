@@ -2,21 +2,30 @@ import styled from 'styled-components'
 import Search from './components/Search'
 import { FC, useRef, useState } from 'react'
 import TagList from './components/TagList'
-import { FaUserCircle } from 'react-icons/fa'
-import { DropdownAnimationMixin, IconMixin } from '@/styles/mixins'
+import { AvatarMixin, DropdownAnimationMixin } from '@/styles/mixins'
 import Link from 'next/link'
 import { useOutsideAlerter } from '@/utils/utils.hooks'
+import Image from 'next/image'
+import { useUser } from '@auth0/nextjs-auth0/client'
 
 const Navbar: FC = () => {
   const [dropdown, setDropdown] = useState(false)
   const dropdownRef = useRef(null)
   useOutsideAlerter(dropdownRef, () => setDropdown(false))
+  const { user } = useUser()
 
   return (
     <Style id='navbar'>
       <Search />
       <TagList />
-      <FaUserCircle id='user-btn' onClick={() => setDropdown(!dropdown)} />
+      <Image
+        src={user?.picture ? user.picture : '/assets/avatar-placeholder.png'}
+        className='avatar'
+        width={40}
+        height={40}
+        alt={user?.email || 'Avatar'}
+        onClick={() => setDropdown(!dropdown)}
+      />
       {dropdown && (
         <div ref={dropdownRef} id='dropdown'>
           <ul>
@@ -43,18 +52,17 @@ const Style = styled.nav`
   gap: 12px;
   padding: 12px;
   box-shadow: ${({ theme }) => theme.boxShadowOverOtherElements};
-  #user-btn {
-    ${IconMixin}
-    padding: 0;
-    color: #f1c410;
-    min-width: 35px;
+  .avatar {
+    ${AvatarMixin}
+    cursor: pointer;
   }
   #dropdown {
     position: absolute;
     z-index: 3;
     right: 20px;
     top: 50px;
-    background-color: ${({ theme }) => theme.secondaryBackgroundColor};
+    background-color: ${({ theme }) => theme.buttonBackground};
+    border: 1px solid ${({ theme }) => theme.softBorder};
     border-radius: 10px;
     ${DropdownAnimationMixin}
     ul {

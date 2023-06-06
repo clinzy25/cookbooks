@@ -5,7 +5,11 @@ import { MouseEvent, useEffect, RefObject, useState } from 'react'
 export const useOutsideAlerter = (ref: RefObject<HTMLElement>, task: () => void) => {
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent<HTMLElement>) => {
-      const isOutside = ref?.current && !ref?.current?.contains(e.target as Node)
+      const isOutside =
+        ref?.current &&
+        !ref?.current?.contains(e.target as Node) &&
+        // @ts-ignore
+        !(e.target.className === 'avatar')
       if (isOutside) {
         e.stopPropagation()
         task()

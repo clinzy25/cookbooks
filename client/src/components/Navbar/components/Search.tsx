@@ -82,7 +82,12 @@ const Search: FC = () => {
             ref={inputRef}
           />
           <div id='btn-ctr'>
-            <BiSearch onClick={() => !(document.activeElement === inputRef.current) && inputRef.current?.focus()} id='search-btn' />
+            <BiSearch
+              onClick={() =>
+                !(document.activeElement === inputRef.current) && inputRef.current?.focus()
+              }
+              id='search-btn'
+            />
           </div>
         </div>
         {searchResults?.recipes.map((r: ISearchResult, i) => (
@@ -140,7 +145,6 @@ const Style = styled.div<StyleProps>`
     border: 1px solid ${({ theme }) => theme.softBorder};
     border-radius: ${props => (props.searchResults ? '10px' : '50px')};
     z-index: 5;
-    transition: all 0.3s ease-out;
     div {
       display: flex;
       justify-content: center;
@@ -165,7 +169,7 @@ const Style = styled.div<StyleProps>`
         width: 36px;
         #search-btn {
           height: 100%;
-          font-size: 1.5rem;
+          font-size: 1.4rem;
           border-radius: 25px;
           transition: all 0.3s ease-out;
           cursor: pointer;
@@ -174,7 +178,7 @@ const Style = styled.div<StyleProps>`
     }
     h2 {
       padding: 5px;
-      font-family: ${({ theme }) => theme.headerFont};
+      font: 1.4rem Montserrat, sans-serif;
     }
     .search-result {
       max-width: calc(${props => handleSearchBarWidth(props)} + 37px);
