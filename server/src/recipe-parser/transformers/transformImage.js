@@ -8,7 +8,7 @@ function transformImage(value) {
   }
 
   if (Array.isArray(value)) {
-    return value[0]
+    return value[0].url ||  value[0]
   }
 
   return value
