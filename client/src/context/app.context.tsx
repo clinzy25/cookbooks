@@ -118,6 +118,20 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     return () => timeout && clearTimeout(timeout)
   }, [snackbar])
 
+  useEffect(() => {
+    setTimeout(function () {
+      let viewport = document.querySelector('meta[name=viewport]')
+      viewport?.setAttribute(
+        'content',
+        'height=' +
+          window.innerHeight +
+          'px, width=' +
+          window.innerWidth +
+          'px, initial-scale=1.0'
+      )
+    }, 300)
+  }, [])
+
   return (
     <AppContext.Provider
       value={{
