@@ -38,6 +38,8 @@ const TagList: FC = () => {
   const [submitTrigger, setSubmitTrigger] = useState(false)
   const [showPaginBtns, setShowPaginBtns] = useState(false)
   const [scrollValues, setScrollValues] = useState<number[]>([])
+  const [shadowLeft, setShadowLeft] = useState(false)
+  const [shadowRight, setShadowRight] = useState(false)
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const { width } = useWindowSize()
@@ -183,6 +185,23 @@ const TagList: FC = () => {
     }
   }
 
+  const handleShadow = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current
+      const maxScroll = scrollWidth - clientWidth
+      if (scrollLeft > 0 && !shadowLeft) {
+        setShadowLeft(true)
+      } else if (scrollLeft === 0 && shadowLeft) {
+        setShadowLeft(false)
+      }
+      if (scrollLeft > maxScroll - 1 && shadowRight) {
+        setShadowRight(false)
+      } else if (scrollLeft < maxScroll - 1 && !shadowRight) {
+        setShadowRight(true)
+      }
+    }
+  }
+
   useEffect(() => {
     submitTrigger && handleSubmit()
   }, [submitTrigger])
@@ -193,6 +212,7 @@ const TagList: FC = () => {
 
   useEffect(() => {
     handleArrows()
+    handleShadow()
   }, [scrollRef.current, tags])
 
   if (!tags) {
@@ -202,13 +222,13 @@ const TagList: FC = () => {
     return <Error fontSize={1} />
   }
   return (
-    <Style tagsEditMode={tagsEditMode}>
+    <Style tagsEditMode={tagsEditMode} right={shadowRight} left={shadowLeft}>
       <div className='icon-ctr'>
         {showPaginBtns && (
           <BsChevronLeft className='pagin-icon left' onClick={() => handlePaginate(0)} />
         )}
       </div>
-      <div id='tags-ctr' ref={scrollRef}>
+      <div id='tags-ctr' ref={scrollRef} onScroll={handleShadow}>
         {tags?.map((t: ITag) =>
           tagsEditMode ? (
             <div key={t.guid} className={`tag ${tagsToDelete.includes(t) && 'deleted'}`}>
@@ -254,6 +274,8 @@ const TagList: FC = () => {
 
 type StyleProps = {
   tagsEditMode: boolean
+  right: boolean
+  left: boolean
 }
 
 const Style = styled.div<StyleProps>`
@@ -272,6 +294,24 @@ const Style = styled.div<StyleProps>`
     scrollbar-width: none;
     white-space: nowrap;
     height: 40px;
+    ${props => {
+      const { right, left } = props
+      if (left && right) {
+        return `mask-image: -moz-linear-gradient(to left, rgba(255, 255, 255, 0.233), rgba(0, 0, 0, 1) 10%), -moz-linear-gradient(to right, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 1) 10%); 
+                  mask-composite: intersect;
+                  -webkit-mask-image: linear-gradient(to left, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 1) 10%), linear-gradient(to right, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 1) 10%);
+                  -webkit-mask-composite: source-in;
+                  `
+      }
+      if (right) {
+        return `mask-image: -moz-linear-gradient(to left, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 1) 10%); 
+                  -webkit-mask-image: linear-gradient(to left, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 1) 10%);`
+      }
+      if (left) {
+        return `mask-image: -moz-linear-gradient(to right, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 1) 10%);
+                  -webkit-mask-image: linear-gradient(to right, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 1) 10%);`
+      }
+    }};
     &::-webkit-scrollbar {
       display: none;
     }
