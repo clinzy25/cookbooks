@@ -26,6 +26,7 @@ phases:
                 "AWS_ACCESS_KEY_ID": "'"$AWS_ACCESS_KEY_ID"'",
                 "AWS_SECRET_ACCESS_KEY": "'"$AWS_SECRET_ACCESS_KEY"'",
                 "RECIPE_IMAGES_BUCKET": "'"$RECIPE_IMAGES_BUCKET"'",
+                "NEXT_PUBLIC_RECIPE_IMAGES_BUCKET_LINK": "'"$NEXT_PUBLIC_RECIPE_IMAGES_BUCKET_LINK"'",
                 "NEXT_PUBLIC_APP_ENV": "production",
                 "APP_ENV": "production"
               }
