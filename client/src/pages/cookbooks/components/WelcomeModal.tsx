@@ -151,7 +151,7 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
               <h1>Welcome to Cookbooks!</h1>
               <p>To get started, let&apos;s create a cookbook.</p>
               <label className='label' htmlFor='cookbook-name'>
-                <h2>Name Your Cookbook</h2>
+                <h3 className='sub-header'>Name Your Cookbook</h3>
                 <input
                   onKeyDown={e => e.key === 'Enter' && validateCookbook(e)}
                   autoFocus
@@ -176,7 +176,7 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
             <div id='step-recipes'>
               <AddRecipeComponent handleSubmit={handleRecipeAdd} loading={false} />
               <ul className='list'>
-                <h3>Recipe Queue (Max 10)</h3>
+                <h3 className='sub-header'>Recipe Queue (Max 10)</h3>
                 {recipes.map((r, i) => (
                   <li className='pending-list-item' key={r.url}>
                     <a href={r.url} target='_blank'>{r.url}</a>
@@ -234,7 +234,7 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
                     </div>
                   </label>
                   <ul className='list'>
-                    <h3>Pending Invitations</h3>
+                    <h3 className='sub-header'>Pending Invitations</h3>
                     {invites.map((invite, i) => (
                       <li className='pending-list-item' key={invite.email}>
                         <span>{invite.email}</span>
@@ -273,6 +273,9 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
 const Style = styled.main`
   height: 100%;
   ${ModalHeaderMixin}
+  .sub-header {
+    font: ${({ theme }) => theme.modalSubHeaderFont};
+  }
   form {
     height: 100%;
     #step-cookbook,
