@@ -113,7 +113,7 @@ const globalStyle = createGlobalStyle`
   }
   @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     .page-wrapper {
-      padding: 10px 15px 30px 15px;
+      padding: 10px 15px 80px 15px;
     }
   }
 `
