@@ -62,7 +62,7 @@ export async function dbTagSearchRecipes(tag_name: string, user_guid: string) {
         AS tags
       FROM recipes r
       JOIN users u ON u.id = r.creator_user_id
-      JOIN cookbook_members cm ON cm.cookbook_id = r.cookbook_id
+      LEFT JOIN cookbook_members cm ON cm.cookbook_id = r.cookbook_id
       LEFT JOIN tags t ON r.id = t.recipe_id
       WHERE t.tag_name = '${tag_name}'
       AND (
