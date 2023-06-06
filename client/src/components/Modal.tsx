@@ -9,10 +9,10 @@ import styled from 'styled-components'
 type Props = {
   closeModal: () => void
   children: ReactNode
-  type: 'confirm' | 'edit-cookbook' | 'default' | 'welcome'
+  type?: 'confirm' | 'edit-cookbook' | 'default' | 'welcome'
 }
 
-const Modal: FC<Props> = ({ closeModal, children, type }) => {
+const Modal: FC<Props> = ({ closeModal, children, type = 'default' }) => {
   const { tagsEditMode } = useAppContext() as IAppContext
   const modalRef = useRef(null)
   const [overrideClose, setOverrideClose] = useState(false)
@@ -20,7 +20,7 @@ const Modal: FC<Props> = ({ closeModal, children, type }) => {
 
   useEffect(() => {
     setOverrideClose(type === 'welcome' || tagsEditMode)
-  }, [tagsEditMode]) // eslint-disable-line
+  }, [tagsEditMode])
 
   const dimensions = {
     confirm: {

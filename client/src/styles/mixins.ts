@@ -75,7 +75,7 @@ export const ModalHeaderMixin = css`
 `
 
 export const ModalFieldMixin = css`
-  input {
+  input, textarea {
     width: 100%;
     height: 48px;
     padding-left: 10px;

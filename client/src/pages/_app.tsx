@@ -9,6 +9,7 @@ import { ThemeProvider } from 'styled-components'
 import GlobalStyle from '@/styles/globals'
 import { LightTheme } from '@/styles/theme'
 import Breadcrumb from '@/components/Breadcrumb'
+import Footer from '@/components/Footer/Footer'
 
 const App = ({ Component, pageProps }: AppProps) => {
   const { snackbar } = useAppContext() as IAppContext
@@ -22,6 +23,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       <GlobalStyle />
       <Component {...pageProps} />
       {snackbar.msg && <Snackbar snackbar={snackbar} />}
+      <Footer/>
     </ThemeProvider>
   )
 }
