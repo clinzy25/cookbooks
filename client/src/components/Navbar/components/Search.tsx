@@ -21,6 +21,7 @@ const Search: FC = () => {
   const [searchResults, setSearchResults] = useState<ISearchResults | null>(null)
 
   const resultsRef = useRef(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   useOutsideAlerter(resultsRef, () => setSearchResults(null))
   const { width } = useWindowSize()
 
@@ -69,9 +70,10 @@ const Search: FC = () => {
             onChange={e => setSearchVal(e.target.value)}
             onBlur={() => setTimeout(() => setSearchResults(null), 200)}
             onFocus={() => searchVal && searchRecipes()}
+            ref={inputRef}
           />
           <div id='btn-ctr'>
-            <BiSearch id='search-btn' />
+            <BiSearch onClick={() => inputRef.current?.focus()} id='search-btn' />
           </div>
         </div>
         {searchResults?.recipes.map((r: ISearchResult, i) => (
@@ -112,7 +114,7 @@ type StyleProps = {
 const Style = styled.div<StyleProps>`
   display: flex;
   height: 100%;
-  align-items: flex-start;
+  align-items: ${props => (props.searchResults ? 'flex-start' : 'center')};
   .search-ctr {
     position: relative;
     display: flex;
@@ -137,7 +139,12 @@ const Style = styled.div<StyleProps>`
         line-height: 36px;
         &:focus,
         &:not(:placeholder-shown) {
-          width: 240px;
+          width: calc(
+            ${props =>
+                props.width && props.width > props.theme.breakpointMobile
+                  ? '375'
+                  : props.width}px - 135px
+          );
           padding: 0 6px;
         }
       }
@@ -151,10 +158,6 @@ const Style = styled.div<StyleProps>`
           cursor: pointer;
         }
       }
-    }
-    h3,
-    .search-result {
-      ${DropdownAnimationMixin}
     }
     h3 {
       padding: 5px;
