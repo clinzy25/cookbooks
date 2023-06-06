@@ -119,7 +119,7 @@ const Search: FC = () => {
 const handleSearchBarWidth = (props: StyleProps) => {
   return `calc(${
     props.width && props.width > Number(props.theme.breakpointMobile) ? '375' : props.width
-  }px - 135px)`
+  }px - 120px)`
 }
 
 type StyleProps = {
