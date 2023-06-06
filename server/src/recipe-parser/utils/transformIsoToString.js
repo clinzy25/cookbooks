@@ -1,21 +1,18 @@
-export default function transformISOToString(dateObj = {}) {
-  let date = ''
-
+export default function transformISOToString(dateObj) {
+  let result = ''
   if (dateObj.days) {
-    date += dateObj.days > 1 ? `${dateObj.days} days ` : `${dateObj.days} day `
+    result += `${dateObj.days} days `
   }
-
   if (dateObj.hours) {
-    date += dateObj.hours > 1 ? `${dateObj.hours} hours ` : `${dateObj.hours} hour `
+    result += `${dateObj.hours} hr `
   }
-
   if (dateObj.minutes) {
-    date += dateObj.minutes > 1 ? `${dateObj.minutes} minutes ` : `${dateObj.minutes} minute `
+    if (dateObj.minutes > 60) {
+      result += `${Math.floor(dateObj.minutes / 60)}h ${dateObj.minutes % 60}m`
+    } else {
+      result += `${dateObj.minutes}m `
+    }
   }
 
-  if (dateObj.seconds) {
-    date += dateObj.seconds > 1 ? `${dateObj.seconds} seconds ` : `${dateObj.seconds} second `
-  }
-
-  return date.trim()
+  return result.trim()
 }

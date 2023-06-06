@@ -22,6 +22,7 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
     guid,
     creator_user_email,
     creator_user_guid,
+    total_time,
   } = recipe
 
   const handleHref = () => {
@@ -67,6 +68,7 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
             <div>
               {cook_time && <p>Cook Time: {cook_time}</p>}
               {prep_time && <p>Prep Time: {prep_time}</p>}
+              {!prep_time && !cook_time &&  <p>Total Time: {total_time}</p>}
             </div>
             <div className='uploader-ctr'>
               <div>
@@ -140,7 +142,7 @@ const Style = styled.article`
       overflow: hidden;
       word-wrap: break-word;
       margin-bottom: 5px;
-      font-size: 1.3rem;
+      font-size: 1.35rem;
     }
     .tags-ctr {
       display: flex;
@@ -152,7 +154,7 @@ const Style = styled.article`
       max-height: 45px;
       .tag {
         ${TagMixin}
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         margin: 0 0px 0 0;
         padding: 0 4px;
         width: min-content;
@@ -165,8 +167,9 @@ const Style = styled.article`
       }
     }
     .meta-ctr {
-      height: min-content;
       display: flex;
+      align-items: flex-end;
+      height: min-content;
       justify-content: space-between;
       font-size: 0.85rem;
       color: ${({ theme }) => theme.secondaryTextColor};
