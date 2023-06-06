@@ -66,6 +66,7 @@ const Recipe: React.FC<Props> = props => {
   }
 
   useEffect(() => {
+    console.log(instructions)
     data && setRecipe(data)
   }, [data])
 
@@ -329,9 +330,11 @@ const Style = styled.main`
     max-width: 700px;
     #description {
       font-style: italic;
+      color: ${({ theme }) => theme.secondaryTextColor};
     }
     h2 {
       margin-bottom: 10px;
+      font: ${({ theme }) => theme.modalHeaderFont};
     }
     h3 {
       margin: 10px 0 5px 0;

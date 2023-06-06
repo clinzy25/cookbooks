@@ -68,7 +68,7 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
             <div>
               {cook_time && <p>Cook Time: {cook_time}</p>}
               {prep_time && <p>Prep Time: {prep_time}</p>}
-              {!prep_time && !cook_time &&  <p>Total Time: {total_time}</p>}
+              {!prep_time && !cook_time && total_time && <p>Total Time: {total_time}</p>}
             </div>
             <div className='uploader-ctr'>
               <div>

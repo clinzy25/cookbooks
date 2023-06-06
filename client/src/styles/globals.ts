@@ -101,7 +101,7 @@ const globalStyle = createGlobalStyle`
   }
   .page-wrapper {
     flex-grow: 1;
-    padding: 15px 60px 30px 60px;
+    padding: 15px 60px 100px 60px;
   }
   #simplifyJobsContainer {
     position: absolute;

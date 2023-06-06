@@ -15,9 +15,14 @@ function transformInstructions(value) {
     // microdata
     const firstItem = value[0]
     if (typeof firstItem === 'string') {
-      return value.map(item => cleanString(item)) // loop through items and clean
+      return value.map(item => {
+        return {
+          type: 'HowToStep',
+          text: cleanString(item),
+        }
+      })
     }
-    
+
     // json ld
     return value.map(item => {
       if (item['@type'] === 'HowToStep') {

@@ -28,7 +28,7 @@ const Style = styled.div<Props>`
     width: 100%
   `};
   font-size: ${props => props.fontSize}rem;
-  font-family: ${({ theme }) => theme.headerFont};
+  font: ${({ theme }) => theme.modalHeaderFont};
 `
 
 export default Error
