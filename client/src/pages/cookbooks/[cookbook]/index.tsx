@@ -1,7 +1,7 @@
 import { api, fetcher } from '@/api'
 import { IRecipeRes } from '@/types/@types.recipes'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import useSWRInfinite from 'swr/infinite'
 import RecipeCard from './components/RecipeCard'
@@ -15,6 +15,7 @@ import Loader from '@/components/Loader'
 import Error from '@/components/Error'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
+import Head from 'next/head'
 
 type Props = {
   recipes: IRecipeRes[]
@@ -24,14 +25,14 @@ const CookbookDetailPage: React.FC<Props> = props => {
   const {
     query: { cookbook, cookbook_name, owner },
   } = useRouter()
-   const {
-     setTagsEditMode,
-   } = useAppContext() as IAppContext
+  const { setTagsEditMode } = useAppContext() as IAppContext
   const [recipes, setRecipes] = useState<IRecipeRes[]>(props.recipes)
   const [limit] = useState(20)
   const [endOfList, setEndOfList] = useState(false)
   const [recipeModal, setRecipeModal] = useState(false)
   const [editModal, setEditModal] = useState(false)
+
+  const _cookbook_name = useRef<string>()
 
   const { data, error, mutate, size, setSize, isValidating, isLoading } = useSWRInfinite(
     (index: number) =>
@@ -52,6 +53,10 @@ const CookbookDetailPage: React.FC<Props> = props => {
     !editModal && setTagsEditMode(false)
   }, [editModal]) // eslint-disable-line
 
+  useEffect(() => {
+    _cookbook_name.current = decodeURIComponent(cookbook_name?.toString() as string)
+  }, [])
+
   if (!data && !recipes) {
     return <Loader size={50} fillSpace />
   }
@@ -60,12 +65,15 @@ const CookbookDetailPage: React.FC<Props> = props => {
   }
   return (
     <Style endOfList={endOfList} className='page-wrapper' id='cookbook-detail-page-wrapper'>
+      <Head>
+        <title>{_cookbook_name.current}</title>
+      </Head>
       {recipeModal && (
         <AddRecipeModal revalidateRecipes={mutate} setRecipeModal={setRecipeModal} />
       )}
       {editModal && <EditCookbookModal editModal={editModal} setEditModal={setEditModal} />}
       <header>
-        <h1>{decodeURIComponent(cookbook_name?.toString() as string)}</h1>
+        <h1>{_cookbook_name.current}</h1>
         <div>
           {Number(owner) === 1 && (
             <AiOutlineEdit className='edit-icon' onClick={() => setEditModal(true)} />

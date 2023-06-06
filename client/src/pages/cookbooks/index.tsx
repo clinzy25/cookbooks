@@ -11,6 +11,7 @@ import WelcomeModal from './components/WelcomeModal'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import Loader from '@/components/Loader'
 import Error from '@/components/Error'
+import Head from 'next/head'
 
 const CookbooksPage: React.FC = () => {
   const { cookbooks, cookbooksError } = useAppContext() as IAppContext
@@ -30,6 +31,9 @@ const CookbooksPage: React.FC = () => {
   }
   return (
     <Styles className='page-wrapper' id='cookbook-page-wrapper'>
+      <Head>
+        <title>Your Cookbooks</title>
+      </Head>
       {addCookbookModal && <AddCookbookModal setModalOpen={setAddcookbookModal} />}
       {welcomeModal && <WelcomeModal setModalOpen={setWelcomeModal} />}
       <header>

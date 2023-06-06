@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import useSWR from 'swr'
 import Loader from './Loader'
 import Error from './Error'
+import Head from 'next/head'
 
 type Props = {
   recipes?: IRecipeRes[]
@@ -39,6 +40,9 @@ const SearchResults: FC<Props> = props => {
   }
   return (
     <Style className='page-wrapper'>
+      <Head>
+        <title>Cookbooks - #{value}</title>
+      </Head>
       <header>
         <h1>#{value}</h1>
       </header>

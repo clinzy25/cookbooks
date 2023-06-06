@@ -16,6 +16,7 @@ import { TagMixin } from '@/styles/mixins'
 import Loader from './Loader'
 import Error from './Error'
 import moment from 'moment'
+import Head from 'next/head'
 
 type Props = {
   recipe: IRecipeRes
@@ -65,6 +66,9 @@ const Recipe: React.FC<Props> = props => {
   }
   return (
     <Style className='page-wrapper' id='recipe-page-wrapper'>
+      <Head>
+        <title>{name}</title>
+      </Head>
       {confirm && (
         <Modal type='confirm' closeModal={() => setConfirm(false)}>
           <div id='confirmation-ctr'>
