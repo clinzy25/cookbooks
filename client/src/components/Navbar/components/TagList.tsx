@@ -263,7 +263,6 @@ const Style = styled.div<StyleProps>`
   overflow-x: hidden;
   margin: 0 auto 0 auto;
   flex-shrink: 100;
-  border-radius: 25px;
   #tags-ctr {
     display: flex;
     align-items: center;

@@ -9,7 +9,7 @@ import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { BiSearch } from 'react-icons/bi'
 import { useRouter } from 'next/router'
-import { DropdownAnimationMixin } from '@/styles/mixins'
+import { Globals } from '../../../styles/theme'
 
 const Search: FC = () => {
   const {
@@ -19,6 +19,7 @@ const Search: FC = () => {
   const { handleServerError } = useAppContext() as IAppContext
   const [searchVal, setSearchVal] = useState('')
   const [searchResults, setSearchResults] = useState<ISearchResults | null>(null)
+  const [loading, setLoading] = useState(true)
 
   const resultsRef = useRef(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -28,11 +29,13 @@ const Search: FC = () => {
   const searchRecipes = useCallback(async () => {
     const query = `${cookbook ? `cookbook_guid=${cookbook}` : `user_guid=${user?.sub}`}`
     try {
+      setLoading(true)
       const res = await fetcher(`${api}/search/recipes?${query}&search_val=${searchVal}`)
       setSearchResults(res)
     } catch (e) {
       handleServerError(e)
     }
+    setLoading(false)
   }, [searchVal, cookbook, user?.sub, handleServerError])
 
   const handleRecipeHref = (recipe: ISearchResult) => {
@@ -55,9 +58,15 @@ const Search: FC = () => {
     return `/search?value=${value}`
   }
 
+  const showNoResultsMsg = () =>
+    searchResults?.tags.length === 0 &&
+    searchResults?.recipes.length === 0 &&
+    searchVal &&
+    !loading
+
   useEffect(() => {
     searchVal ? searchRecipes() : setSearchResults(null)
-  }, [searchVal]) // eslint-disable-line
+  }, [searchVal])
 
   return (
     <Style width={width} searchResults={searchResults}>
@@ -73,12 +82,12 @@ const Search: FC = () => {
             ref={inputRef}
           />
           <div id='btn-ctr'>
-            <BiSearch onClick={() => inputRef.current?.focus()} id='search-btn' />
+            <BiSearch onClick={() => !(document.activeElement === inputRef.current) && inputRef.current?.focus()} id='search-btn' />
           </div>
         </div>
         {searchResults?.recipes.map((r: ISearchResult, i) => (
           <>
-            {i === 0 && <h3>Recipes</h3>}
+            {i === 0 && <h2>Recipes</h2>}
             <Link
               title={r.name}
               className='search-result'
@@ -91,7 +100,7 @@ const Search: FC = () => {
         ))}
         {searchResults?.tags.map((t: ISearchResult, i) => (
           <>
-            {i === 0 && <h3>Tags</h3>}
+            {i === 0 && <h2>Tags</h2>}
             <Link
               className='search-result'
               onClick={() => setSearchVal('')}
@@ -101,14 +110,22 @@ const Search: FC = () => {
             </Link>
           </>
         ))}
+        {showNoResultsMsg() && <h2>No Results :(</h2>}
       </div>
     </Style>
   )
 }
 
+const handleSearchBarWidth = (props: StyleProps) => {
+  return `calc(${
+    props.width && props.width > Number(props.theme.breakpointMobile) ? '375' : props.width
+  }px - 135px)`
+}
+
 type StyleProps = {
   searchResults: ISearchResults | null
   width: number | undefined
+  theme: typeof Globals
 }
 
 const Style = styled.div<StyleProps>`
@@ -137,14 +154,10 @@ const Style = styled.div<StyleProps>`
         padding: 0;
         transition: all 0.3s ease-out;
         line-height: 36px;
+        font-size: 16px;
         &:focus,
         &:not(:placeholder-shown) {
-          width: calc(
-            ${props =>
-                props.width && props.width > props.theme.breakpointMobile
-                  ? '375'
-                  : props.width}px - 120px
-          );
+          width: ${props => handleSearchBarWidth(props)};
           padding: 0 6px;
         }
       }
@@ -159,37 +172,24 @@ const Style = styled.div<StyleProps>`
         }
       }
     }
-    h3 {
+    h2 {
       padding: 5px;
-      border-bottom: 1px solid ${({ theme }) => theme.softBorder};
+      font-family: ${({ theme }) => theme.headerFont};
     }
     .search-result {
-      max-width: 280px;
+      max-width: calc(${props => handleSearchBarWidth(props)} + 37px);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       padding: 4px;
       border-radius: 10px;
+      color: ${({ theme }) => theme.secondaryTextColor};
       &:hover {
         background-color: ${({ theme }) => theme.buttonBackgroundHover};
       }
     }
     &:hover > div > input {
-      width: calc(
-        ${props =>
-            props.width && props.width > props.theme.breakpointMobile
-              ? '375'
-              : props.width}px - 120px
-      );
-      padding: 0 6px;
-    }
-    &:active > div > input {
-      width: calc(
-        ${props =>
-            props.width && props.width > props.theme.breakpointMobile
-              ? '375'
-              : props.width}px - 120px
-      );
+      width: ${props => handleSearchBarWidth(props)};
       padding: 0 6px;
     }
   }

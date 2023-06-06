@@ -98,7 +98,7 @@ export async function dbCharSearchRecipes(
   if (cookbook_guid) whereClause = `AND c.guid = '${cookbook_guid}'`
   try {
     return await knex.raw(`
-      (SELECT DISTINCT 
+      (SELECT DISTINCT ON (name)
         name, 
         r.guid, 
         c.guid AS cookbook_guid,
