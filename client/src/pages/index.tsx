@@ -1,9 +1,13 @@
 import { ModalBtnMixin } from '@/styles/mixins'
 import Link from 'next/link'
 import styled from 'styled-components'
+import Head from 'next/head'
 
 const LandingPage: React.FC = () => (
   <Styles className='page-wrapper'>
+    <Head>
+      <title>Cookbooks</title>
+    </Head>
     <header>
       <h1>Cookbooks</h1>
     </header>
