@@ -49,7 +49,7 @@ const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading }) => {
                 <div>
                   <AiFillCamera className='tab-icon' />
                 </div>
-                From Camera
+                Take Picture
               </label>
             </li>
             <li className='tab3' onClick={() => setSelection('manual')}>
@@ -57,7 +57,7 @@ const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading }) => {
                 <div>
                   <AiOutlineEdit className='tab-icon' />
                 </div>
-                Type
+                Create
               </label>
             </li>
           </ul>
@@ -112,6 +112,7 @@ const Style = styled.div`
     flex-direction: column;
     display: flex;
     justify-content: space-between;
+    gap: 20px;
     width: 75%;
     height: 100%;
     & > input,
@@ -183,7 +184,7 @@ const Style = styled.div`
         label {
           .input-ctr {
             display: flex;
-            margin: 10px 0 10px 0;
+            margin: 20px 0 10px 0;
             ${ModalFieldMixin}
             ${ModalBtnMixin}
           }
@@ -207,6 +208,19 @@ const Style = styled.div`
         .tab-icon {
           font-size: 1.2rem;
           margin-right: 5px;
+        }
+      }
+      section {
+        .paste-link {
+          label {
+            .input-ctr {
+              flex-wrap: wrap;
+              justify-content: center;
+              button {
+                margin: 20px 0 0 0;
+              }
+            }
+          }
         }
       }
     }
