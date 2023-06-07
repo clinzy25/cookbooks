@@ -2,6 +2,7 @@ import { api, fetcher } from '@/api'
 import { IAppContext, ISnackbar } from '@/types/@types.context'
 import { ICookbookRes } from '@/types/@types.cookbooks'
 import { ITag } from '@/types/@types.tags'
+import { SNACKBAR_DURATION_MS } from '@/utils/utils.constants'
 import { GENERIC_RES, serverErrorMessageMap } from '@/utils/utils.errors.server'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import axios, { AxiosError } from 'axios'
@@ -107,21 +108,15 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     tagsData && handleTags(tagsData)
-  }, [tagsData])
+  }, [tagsData]) // eslint-disable-line
 
   useEffect(() => {
-    setTimeout(function () {
-      let viewport = document.querySelector('meta[name=viewport]')
-      viewport?.setAttribute(
-        'content',
-        'height=' +
-          window.innerHeight +
-          'px, width=' +
-          window.innerWidth +
-          'px, initial-scale=1.0'
-      )
-    }, 300)
-  }, [])
+    let timeout: ReturnType<typeof setTimeout>
+    if (snackbar.state) {
+      timeout = setTimeout(() => setSnackbar({ msg: '', state: '' }), SNACKBAR_DURATION_MS)
+    }
+    return () => timeout && clearTimeout(timeout)
+  }, [snackbar])
 
   return (
     <AppContext.Provider
