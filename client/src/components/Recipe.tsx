@@ -259,9 +259,6 @@ const Style = styled.main`
           color: black;
           margin: 0;
           max-height: 23px;
-          &:hover {
-            text-decoration: none;
-          }
           .hash {
             margin: 0 3px;
           }

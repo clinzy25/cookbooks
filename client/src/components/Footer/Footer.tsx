@@ -9,28 +9,30 @@ const Footer: FC = () => {
   return (
     <Style>
       {bugModal && <ReportBugModal closeModal={() => setBugModal(false)} />}
-      <p>© Conner Linzy 2023</p>
+      <a className='link' target='_blank' href='https://connerlinzy.com/'>
+        © Conner Linzy 2023
+      </a>
       <span className='dot'>•</span>
       <a
-        className='coffee-btn pointer'
+        className='coffee-btn link'
         target='_blank'
         href='https://www.buymeacoffee.com/clinzy'>
         <img
           src='https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg'
-          alt='Buy me a coffee'
+          alt='Buy Me a Coffee'
         />
-        <span>Buy me a coffee</span>
+        <span>Buy Me a Coffee</span>
       </a>
       <span className='dot'>•</span>
-      <p className='pointer' onClick={() => setBugModal(true)}>
+      <p className='link' onClick={() => setBugModal(true)}>
         Report a Bug
       </p>
       <span className='dot'>•</span>
-      <Link className='pointer' target='_blank' href='https://github.com/clinzy25/cookbooks'>
+      <Link className='link' target='_blank' href='https://github.com/clinzy25/cookbooks'>
         Contribute
       </Link>
       <span className='dot'>•</span>
-      <Link className='pointer' target='_blank' href='/privacy.html'>
+      <Link className='link' target='_blank' href='/privacy.html'>
         Privacy Policy
       </Link>
     </Style>
@@ -46,7 +48,9 @@ const Style = styled.footer`
   width: 100%;
   font-size: 0.9rem;
   box-shadow: ${({ theme }) => theme.boxShadowOverOtherElements};
-  .pointer {
+  position: absolute;
+  bottom: -85px;
+  .link {
     cursor: pointer;
     text-decoration: underline;
     &:hover {
@@ -76,6 +80,7 @@ const Style = styled.footer`
     height: min-content;
     align-items: flex-start;
     flex-direction: column;
+    bottom: -230px;
     .dot {
       display: none;
     }
