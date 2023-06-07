@@ -55,6 +55,8 @@ const Style = styled.nav`
   .avatar {
     ${AvatarMixin}
     cursor: pointer;
+    height: 40px;
+    width: 40px;
   }
   #dropdown {
     position: absolute;

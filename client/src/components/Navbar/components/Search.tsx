@@ -124,7 +124,7 @@ const Search: FC = () => {
 const handleSearchBarWidth = (props: StyleProps) => {
   return `calc(${
     props.width && props.width > Number(props.theme.breakpointMobile) ? '375' : props.width
-  }px - 120px)`
+  }px - 130px)`
 }
 
 type StyleProps = {
@@ -157,7 +157,7 @@ const Style = styled.div<StyleProps>`
         width: 0;
         padding: 0;
         transition: all 0.3s ease-out;
-        line-height: 36px;
+        line-height: 40px;
         font-size: 16px;
         &:focus,
         &:not(:placeholder-shown) {
@@ -166,7 +166,7 @@ const Style = styled.div<StyleProps>`
         }
       }
       #btn-ctr {
-        width: 36px;
+        width: 40px;
         #search-btn {
           height: 100%;
           font-size: 1.4rem;

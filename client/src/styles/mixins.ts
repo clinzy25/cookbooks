@@ -20,7 +20,7 @@ export const TagMixin = css`
 `
 
 export const IconMixin = css`
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   background-color: ${({ theme }) => theme.buttonBackground};
   border: 1px solid ${({ theme }) => theme.softBorder};
   border-radius: 25px;
