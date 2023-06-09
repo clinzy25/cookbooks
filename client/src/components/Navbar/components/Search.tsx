@@ -74,7 +74,7 @@ const Search: FC = () => {
         <div>
           <input
             type='text'
-            placeholder={cookbook ? 'Search this cookbook...' : 'Search all recipes...'}
+            placeholder={cookbook ? 'Search this cookbook...' : 'Search all cookbooks...'}
             value={searchVal}
             onChange={e => setSearchVal(e.target.value)}
             onBlur={() => setTimeout(() => setSearchResults(null), 200)}

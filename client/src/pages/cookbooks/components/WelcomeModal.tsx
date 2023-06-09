@@ -278,11 +278,11 @@ const Style = styled.main`
   }
   form {
     height: 100%;
+    display: flex;
     #step-cookbook,
     #step-recipes,
     #step-members {
       width: 100%;
-      height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -310,6 +310,7 @@ const Style = styled.main`
       width: 100%;
       display: flex;
       justify-content: flex-end;
+      margin-top: auto;
       ${ModalBtnMixin}
       .left-btn {
         margin: 0 auto 0 0;

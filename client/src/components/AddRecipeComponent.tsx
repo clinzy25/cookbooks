@@ -173,7 +173,6 @@ const Style = styled.div`
       }
     }
     section {
-      height: 50%;
       display: flex;
       align-items: flex-end;
       & > * {
@@ -182,6 +181,7 @@ const Style = styled.div`
       .paste-link {
         width: 100%;
         label {
+          height: 50px;
           .input-ctr {
             display: flex;
             margin: 20px 0 10px 0;
