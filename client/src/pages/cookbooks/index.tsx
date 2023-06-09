@@ -16,7 +16,7 @@ import Head from 'next/head'
 const CookbooksPage: React.FC = () => {
   const { cookbooks, cookbooksError } = useAppContext() as IAppContext
   const [addCookbookModal, setAddcookbookModal] = useState(false)
-  const [welcomeModal, setWelcomeModal] = useState(true)
+  const [welcomeModal, setWelcomeModal] = useState(false)
   const { isLoading } = useUser()
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const Styles = styled.main`
     display: grid;
     height: 100%;
     gap: 10px;
-    grid-auto-rows: 40vh;
+    grid-auto-rows: 37vh;
     grid-template-columns: 1fr 1fr;
   }
   #add-cookbook-btn {
