@@ -9,7 +9,7 @@ import styled from 'styled-components'
 type Props = {
   closeModal: () => void
   children: ReactNode
-  type?: 'confirm' | 'edit-cookbook' | 'default' | 'welcome' | 'bug'
+  type?: 'confirm' | 'default' | 'welcome' | 'bug'
 }
 
 const Modal: FC<Props> = ({ closeModal, children, type = 'default' }) => {
@@ -26,10 +26,6 @@ const Modal: FC<Props> = ({ closeModal, children, type = 'default' }) => {
     confirm: {
       height: 40,
       width: 40,
-    },
-    'edit-cookbook': {
-      height: 70,
-      width: 50,
     },
     welcome: {
       height: 80,
@@ -55,17 +51,18 @@ const Modal: FC<Props> = ({ closeModal, children, type = 'default' }) => {
 }
 
 type StyleProps = {
-  type: 'confirm' | 'edit-cookbook' | 'default' | 'welcome' | 'bug'
+  type: 'confirm' | 'default' | 'welcome' | 'bug'
   dimensions: { [key: string]: { height: number | string; width: number } }
 }
 
 const Style = styled.div<StyleProps>`
   position: fixed;
-  top: 50%;
+  top: 140px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   z-index: 10;
   height: ${props => props.dimensions[props.type].height}%;
+  min-height: 600px;
   width: ${props => props.dimensions[props.type].width}%;
   background-color: ${({ theme }) => theme.mainBackgroundColor};
   border: 1px solid gray;

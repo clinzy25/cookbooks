@@ -34,7 +34,6 @@ const CookbookCard = ({ cookbook }: Props) => {
                   src={image.image}
                   alt='Recipe'
                   fill
-                  priority
                   placeholder='blur'
                   blurDataURL={image.base64_image}
                   sizes={cookbook?.recipe_images.length > 3 ? '300px' : '800px'}
@@ -49,7 +48,6 @@ const CookbookCard = ({ cookbook }: Props) => {
                 src={`${process.env.NEXT_PUBLIC_RECIPE_IMAGES_BUCKET_LINK}/recipe_fallback_${randomInt}.png`}
                 alt={cookbook?.cookbook_name}
                 fill
-                priority
                 sizes={cookbook?.recipe_images.length > 3 ? '300px' : '800px'}
               />
             </div>

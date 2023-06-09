@@ -126,7 +126,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
   }, [data])
 
   return (
-    <Modal type='edit-cookbook' closeModal={() => setEditModal(false)}>
+    <Modal closeModal={() => setEditModal(false)}>
       <Style tagsEditMode={tagsEditMode}>
         <h2>Edit Cookbook</h2>
         <label htmlFor='cookbook-name'>

@@ -44,7 +44,6 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
               src={image}
               alt={name}
               fill
-              priority
               placeholder='blur'
               blurDataURL={base64_image}
               sizes='(max-width: 800px) 100vw, 303px'

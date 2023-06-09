@@ -29,7 +29,7 @@ const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading }) => {
 
   return (
     <Style>
-      <h1>Add Recipes</h1>
+      <h1>Add Recipe</h1>
       <div className='tab-ctr'>
         <input defaultChecked id='tab1' type='radio' name='tab' />
         <input id='tab2' type='radio' name='tab' />
@@ -181,6 +181,7 @@ const Style = styled.div`
       }
       .paste-link {
         width: 100%;
+        height: min-content;
         label {
           .input-ctr {
             display: flex;
