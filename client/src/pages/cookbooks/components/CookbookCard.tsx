@@ -48,6 +48,7 @@ const CookbookCard = ({ cookbook }: Props) => {
                 src={`${process.env.NEXT_PUBLIC_RECIPE_IMAGES_BUCKET_LINK}/recipe_fallback_${randomInt}.png`}
                 alt={cookbook?.cookbook_name}
                 fill
+                priority
                 sizes={cookbook?.recipe_images.length > 3 ? '300px' : '800px'}
               />
             </div>
@@ -63,6 +64,7 @@ const CookbookCard = ({ cookbook }: Props) => {
               className='avatar'
               width={40}
               height={40}
+              priority
               alt={`${cookbook?.creator_username} (owner)`}
               title={`${cookbook?.creator_username} (owner)`}
             />
@@ -75,6 +77,7 @@ const CookbookCard = ({ cookbook }: Props) => {
                   className='avatar'
                   width={40}
                   height={40}
+                  priority
                   alt={user?.email || 'Avatar'}
                 />
               ))}

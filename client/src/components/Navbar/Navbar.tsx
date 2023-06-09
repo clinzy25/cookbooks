@@ -23,6 +23,7 @@ const Navbar: FC = () => {
         className='avatar'
         width={40}
         height={40}
+        priority
         alt={user?.email || 'Avatar'}
         onClick={() => setDropdown(!dropdown)}
       />

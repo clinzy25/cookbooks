@@ -188,6 +188,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
                         src='/assets/avatar-placeholder.png'
                         width={25}
                         height={25}
+                        priority
                         alt={m.username}
                       />
                       <span>{m.username}</span>
@@ -216,6 +217,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
                         width={25}
                         height={25}
                         alt={m.username}
+                        priority
                       />
                       <span className='email'>{m.email}</span>
                     </div>

@@ -118,7 +118,7 @@ const Recipe: React.FC<Props> = props => {
             src={image}
             alt={name}
             fill
-            
+            priority
             placeholder='blur'
             blurDataURL={base64_image}
             sizes='(max-width: 800px) 100vw, 303px'
@@ -158,6 +158,7 @@ const Recipe: React.FC<Props> = props => {
               className='avatar'
               width={40}
               height={40}
+              priority
               alt={user?.email || 'Avatar'}
               unoptimized
             />
