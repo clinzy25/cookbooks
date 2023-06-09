@@ -14,9 +14,14 @@ const GlobalRecipePage: FC<Props> = props => <Recipe recipe={props.recipe} />
 
 export async function getServerSideProps(context: {
   params: { recipe: string }
-}): Promise<{ props: Props }> {
+}): Promise<{ props: Props } | { notFound: true }> {
   const guid = context.params.recipe
   const recipe = await fetcher(`${api}/recipes?recipe_guid=${guid}`)
+  if (!recipe) {
+    return {
+      notFound: true,
+    }
+  }
   return { props: { recipe } }
 }
 

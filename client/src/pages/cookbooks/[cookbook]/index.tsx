@@ -9,7 +9,13 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import AddRecipeModal from './components/AddRecipeModal'
 import EditCookbookModal from './components/EditCookbookModal'
 import { AiOutlineEdit } from 'react-icons/ai'
-import { AddBtnMixin, IconMixin, ModalBtnMixin, PageHeaderMixin, RecipeCardGridMixin } from '@/styles/mixins'
+import {
+  AddBtnMixin,
+  IconMixin,
+  ModalBtnMixin,
+  PageHeaderMixin,
+  RecipeCardGridMixin,
+} from '@/styles/mixins'
 import { IoMdAddCircle } from 'react-icons/io'
 import Loader from '@/components/Loader'
 import Error from '@/components/Error'
@@ -60,6 +66,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
   if (!data && !recipes) {
     return <Loader size={50} fillSpace />
   }
+  console.log(error)
   if (error) {
     return <Error fillSpace />
   }
@@ -118,11 +125,16 @@ const CookbookDetailPage: React.FC<Props> = props => {
 
 export async function getServerSideProps(context: {
   params: { cookbook: string }
-}): Promise<{ props: Props }> {
+}): Promise<{ props: Props } | { notFound: true }> {
   const cookbook = context.params.cookbook
   const recipes = await fetcher(
     `${api}/recipes/cookbook?cookbook=${cookbook}&limit=20&offset=0`
   )
+  if (!recipes) {
+    return {
+      notFound: true,
+    }
+  }
   return { props: { recipes } }
 }
 
