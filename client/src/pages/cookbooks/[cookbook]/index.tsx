@@ -66,7 +66,6 @@ const CookbookDetailPage: React.FC<Props> = props => {
   if (!data && !recipes) {
     return <Loader size={50} fillSpace />
   }
-  console.log(error)
   if (error) {
     return <Error fillSpace />
   }
