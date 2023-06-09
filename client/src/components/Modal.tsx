@@ -62,7 +62,7 @@ const Style = styled.div<StyleProps>`
   transform: translateX(-50%);
   z-index: 10;
   height: ${props => props.dimensions[props.type].height}%;
-  min-height: 600px;
+  min-height: 400px;
   width: ${props => props.dimensions[props.type].width}%;
   background-color: ${({ theme }) => theme.mainBackgroundColor};
   border: 1px solid gray;

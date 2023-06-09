@@ -181,7 +181,6 @@ const Style = styled.div`
       }
       .paste-link {
         width: 100%;
-        height: min-content;
         label {
           .input-ctr {
             display: flex;
