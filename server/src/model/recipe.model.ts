@@ -112,26 +112,11 @@ export async function dbGetRecipe(guid: string) {
 }
 
 export async function dbAddRecipe(recipe: IRecipe) {
-  const {
-    cookbook_guid,
-    name,
-    image,
-    base64Image,
-    description,
-    cook_time,
-    prep_time,
-    total_time,
-    recipeYield,
-    ingredients,
-    instructions,
-    source_url,
-    source_type,
-    is_private,
-    tags,
-  } = transformParsedRecipe(recipe)
+  const { tags, ...transformedRecipe } = transformParsedRecipe(recipe)
 
   try {
-    return await knex.raw(`
+    return await knex.raw(
+      `
       WITH insert_1 AS (
         INSERT INTO recipes(
           cookbook_id,
@@ -152,14 +137,14 @@ export async function dbAddRecipe(recipe: IRecipe) {
           created_at,
           updated_at
           )
-        SELECT id AS cookbook_id, creator_user_id, '${name}', NULLIF('${image}', 'null'),  NULLIF('${base64Image}', 'null'), NULLIF('${description}', 'null'), NULLIF('${cook_time}', 'null'),  NULLIF('${prep_time}', 'null'),  NULLIF('${total_time}', 'null'),  NULLIF('${recipeYield}', 'null'), '${ingredients}', '${instructions}', '${source_url}', '${source_type}', '${is_private}', ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks
-        WHERE cookbooks.guid = '${cookbook_guid}'
+        SELECT id AS cookbook_id, creator_user_id, :name, NULLIF(:image, 'null'),  NULLIF(:base64Image, 'null'), NULLIF(:description, 'null'), NULLIF(:cook_time, 'null'),  NULLIF(:prep_time, 'null'),  NULLIF(:total_time, 'null'),  NULLIF(:recipeYield, 'null'), :ingredients, :instructions, :source_url, :source_type, :is_private, ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks
+        WHERE cookbooks.guid = :cookbook_guid
         RETURNING recipes.id AS recipe_id 
         ),
         update_cookbook AS (
           UPDATE cookbooks c
           SET updated_at = ${knex.fn.now()}
-          WHERE c.guid = '${cookbook_guid}'
+          WHERE c.guid = :cookbook_guid
         )
       INSERT INTO tags(recipe_id, tag_name)
       SELECT (SELECT recipe_id FROM insert_1), tag_name
@@ -172,7 +157,9 @@ export async function dbAddRecipe(recipe: IRecipe) {
       ) s (recipe_id, tag_name)
       WHERE tag_name IS NOT NULL
       RETURNING recipe_id
-    `)
+    `,
+      transformedRecipe
+    )
   } catch (e) {
     console.error(e)
   }
