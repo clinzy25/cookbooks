@@ -2,7 +2,8 @@ import knex from '../db/db'
 
 export async function dbGetCookbooks(user_guid: string) {
   try {
-    return await knex.raw(`
+    return await knex.raw(
+      `
         SELECT
           c.guid,
           u.guid AS creator_user_guid,
@@ -33,7 +34,7 @@ export async function dbGetCookbooks(user_guid: string) {
           WHERE c.id = cm.cookbook_id
           LIMIT 10
         ) member_sub ON member_sub.cookbook_id = c.id
-        WHERE u.guid = '${user_guid}'
+        WHERE u.guid = ?
         OR cm.cookbook_id = c.id
         GROUP BY 
           c.guid,
@@ -44,20 +45,28 @@ export async function dbGetCookbooks(user_guid: string) {
           c.created_at,
           c.updated_at
         ORDER BY c.updated_at DESC
-    `)
+    `,
+      user_guid
+    )
   } catch (e) {
     console.error(e)
   }
 }
 
-export async function dbCreateCookbook(cookbook_name: string, creator_user_guid: string) {
+export async function dbCreateCookbook(params: {
+  cookbook_name: string
+  creator_user_guid: string
+}) {
   try {
-    return await knex.raw(`
+    return await knex.raw(
+      `
       INSERT INTO cookbooks(cookbook_name, creator_user_id, created_at, updated_at)
-      SELECT '${cookbook_name}' AS cookbook_name, id, ${knex.fn.now()}, ${knex.fn.now()} FROM users
-      WHERE users.guid = '${creator_user_guid}'
+      SELECT :cookbook_name AS cookbook_name, id, ${knex.fn.now()}, ${knex.fn.now()} FROM users
+      WHERE users.guid = :creator_user_guid
       RETURNING cookbooks.guid
-    `)
+    `,
+      params
+    )
   } catch (e) {
     console.error(e)
   }

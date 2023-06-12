@@ -27,7 +27,8 @@ export async function httpCreateCookbook(req: Request, res: Response, next: Next
   const { cookbook_name, creator_user_guid } = req.body
   try {
     if (!(cookbook_name || creator_user_guid)) throw new Error(INCOMPLETE_REQUEST_BODY)
-    const result = await dbCreateCookbook(cookbook_name, creator_user_guid)
+    const params = { cookbook_name, creator_user_guid }
+    const result = await dbCreateCookbook(params)
     if (!result) throw new Error(FAILED_TO_CREATE_RESOURCE)
     return res.status(201).json(result.rows[0].guid)
   } catch (e) {
