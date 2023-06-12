@@ -108,7 +108,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     tagsData && handleTags(tagsData)
-  }, [tagsData]) // eslint-disable-line
+  }, [tagsData])
 
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>

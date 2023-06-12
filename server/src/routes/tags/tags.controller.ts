@@ -20,10 +20,12 @@ export async function httpGetTags(req: Request, res: Response, next: NextFunctio
     if (!cookbook_guid && !user_guid) throw new Error(MISSING_REQUIRED_PARAMS)
     let tags = []
     if (user_guid) {
-      const result = await dbGetTagsByUser(user_guid, limit, offset)
+      const params = { user_guid, limit, offset }
+      const result = await dbGetTagsByUser(params)
       tags = result.rows
     } else if (cookbook_guid) {
-      const result = await dbGetTagsByCookbook(cookbook_guid, limit, offset)
+      const params = { cookbook_guid, limit, offset }
+      const result = await dbGetTagsByCookbook(params)
       tags = result.rows
     }
     return res.status(200).json(tags)
