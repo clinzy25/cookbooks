@@ -1,17 +1,19 @@
 import knex from '../db/db'
 import { IUserReq } from '../types/@types.users'
 
-export async function dbCreateUserIfNotExists(user: IUserReq) {
-  const { email, guid, username, avatar } = user
+export async function dbCreateUserIfNotExists(params: IUserReq) {
   try {
-    return await knex.raw(`
+    return await knex.raw(
+      `
       INSERT INTO users (guid, email, username, avatar)
-      SELECT '${guid}', '${email}', '${username}', '${avatar}'
+      SELECT :guid, :email, :username, :avatar
       WHERE NOT EXISTS (
         SELECT * FROM users
-        WHERE guid = '${guid}'
+        WHERE guid = :guid
       )
-    `)
+    `,
+      params
+    )
   } catch (e) {
     console.error(e)
   }
@@ -38,14 +40,17 @@ export async function dbGetCookbookMembers(guid: string) {
   }
 }
 
-export async function dbSendInvite(email: string, cookbook_guid: string) {
+export async function dbSendInvite(params: { email: string; cookbook_guid: string }) {
   try {
-    return await knex.raw(`
+    return await knex.raw(
+      `
       INSERT INTO cookbook_members AS cb (cookbook_id, email, created_at, updated_at)
-      SELECT c.id, '${email}', ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks c
-      WHERE c.guid = '${cookbook_guid}'
+      SELECT c.id, :email, ${knex.fn.now()}, ${knex.fn.now()} FROM cookbooks c
+      WHERE c.guid = :cookbook_guid
       RETURNING cb.guid
-    `)
+    `,
+      params
+    )
   } catch (e) {
     console.error(e)
   }

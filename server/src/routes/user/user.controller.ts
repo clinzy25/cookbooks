@@ -14,7 +14,8 @@ import { transformMembers } from '../../model/transformers'
 export async function httpCreateUser(req: Request, res: Response, next: NextFunction) {
   try {
     if (!req.body) throw new Error(INCOMPLETE_REQUEST_BODY)
-    const result = await dbCreateUserIfNotExists(req.body)
+    const params = req.body
+    const result = await dbCreateUserIfNotExists(params)
     if (result.rowCount > 0) {
       return res.status(201).json('Welcome to cookbooks!')
     }
@@ -45,7 +46,8 @@ export async function httpSendInvite(req: Request, res: Response, next: NextFunc
     for (let i = 0; i < invites.length; i++) {
       const { email, cookbook_guid } = invites[i]
       if (!email || !cookbook_guid) throw new Error(INCOMPLETE_REQUEST_BODY)
-      const result = await dbSendInvite(email, cookbook_guid)
+      const params = { email, cookbook_guid }
+      const result = await dbSendInvite(params)
       const guid = result.rows[0].guid
       if (!guid) {
         throw new Error(FAILED_TO_CREATE_RESOURCE)
