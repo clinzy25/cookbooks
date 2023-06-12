@@ -25,7 +25,7 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     pathname,
   } = useRouter()
   const { user, error: userError, isLoading } = useUser()
-  const [snackbar, setSnackbar] = useState<ISnackbar>({ msg: '', state: '' })
+  const [snackbar, setSnackbar] = useState<ISnackbar>({ msg: '', state: 'success' })
   const [tags, setTags] = useState<ITag[]>([])
   const [tagsLimit] = useState(20)
   const [tagsOffset, setTagsOffset] = useState(0)
@@ -109,14 +109,6 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     tagsData && handleTags(tagsData)
   }, [tagsData])
-
-  useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout>
-    if (snackbar.state) {
-      timeout = setTimeout(() => setSnackbar({ msg: '', state: '' }), SNACKBAR_DURATION_MS)
-    }
-    return () => timeout && clearTimeout(timeout)
-  }, [snackbar])
 
   return (
     <AppContext.Provider

@@ -1,17 +1,37 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import styled from 'styled-components'
-import { ISnackbar } from '@/types/@types.context'
+import { IAppContext, ISnackbar } from '@/types/@types.context'
 import { SNACKBAR_DURATION_MS } from '@/utils/utils.constants'
+import useAppContext from '@/context/app.context'
 
 type Props = {
   snackbar: ISnackbar
 }
 
-const Snackbar: FC<Props> = ({ snackbar }) => (
-  <Style duration={SNACKBAR_DURATION_MS} state={snackbar.state}>
-    {snackbar.msg}
-  </Style>
-)
+const Snackbar: FC<Props> = ({ snackbar }) => {
+  const { setSnackbar } = useAppContext() as IAppContext
+
+  const handleReset = () => {
+    if (snackbar.msg) {
+      let timeout: ReturnType<typeof setTimeout>
+      timeout = setTimeout(
+        () => setSnackbar({ msg: '', state: '' }),
+        SNACKBAR_DURATION_MS - 15
+      )
+      return () => timeout && clearTimeout(timeout)
+    }
+  }
+
+  useEffect(() => {
+    handleReset()
+  }, [])
+
+  return (
+    <Style duration={SNACKBAR_DURATION_MS} state={snackbar.state}>
+      {snackbar.msg}
+    </Style>
+  )
+}
 
 type StyleProps = {
   state: string
@@ -42,22 +62,22 @@ const Style = styled.div<StyleProps>`
         return `${props.theme.neutralColor};`
     }
   }};
-  animation: ${props => `snackbarIn ${props.duration}ms ease-out`};
+  animation: ${props => `snackbarIn ${props.duration}ms`};
   @keyframes snackbarIn {
     0% {
-      transform: translateY(200px);
+      transform: scale(0%);
       opacity: 0;
     }
-    10% {
-      transform: translateY(0);
+    5% {
+      transform: scale(100%);
       opacity: 1;
     }
-    90% {
-      transform: translateY(0);
+    95% {
+      transform: scale(100%);
       opacity: 1;
     }
     100% {
-      transform: translateY(200px);
+      transform: scale(0%);
       opacity: 0;
     }
   }
