@@ -35,7 +35,6 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
           revalidateCookbooks()
           setSnackbar({ msg: 'Cookbook created!', state: 'success' })
           setModalOpen(false)
-          router.push(`/cookbooks/${res.data}?cookbook_name=${cookbook_name}&owner=1`)
         }
       } else {
         setSnackbar({ msg: 'Your cookbook needs a name!', state: 'error' })
