@@ -66,7 +66,6 @@ const Recipe: React.FC<Props> = props => {
   }
 
   useEffect(() => {
-    console.log(instructions)
     data && setRecipe(data)
   }, [data])
 

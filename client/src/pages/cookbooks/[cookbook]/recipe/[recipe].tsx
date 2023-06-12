@@ -17,7 +17,6 @@ export async function getServerSideProps(context: {
 }): Promise<{ props: Props } | { notFound: true }> {
   const guid = context.params.recipe
   const recipe = await fetcher(`${api}/recipes?recipe_guid=${guid}`)
-  console.log(recipe)
   if (!recipe) {
     return {
       notFound: true,

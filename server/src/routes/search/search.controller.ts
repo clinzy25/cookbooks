@@ -17,9 +17,11 @@ export async function httpSearchRecipesByTag(req: Request, res: Response, next: 
     }
     let results = null
     if (cookbook_guid) {
-      results = await dbTagSearchRecipesByCookbook(tag_name, cookbook_guid)
+      const params = { tag_name, cookbook_guid }
+      results = await dbTagSearchRecipesByCookbook(params)
     } else if (user_guid) {
-      results = await dbTagSearchRecipes(tag_name, user_guid)
+      const params = { tag_name, user_guid }
+      results = await dbTagSearchRecipes(params)
     }
     return res.status(200).json(results.rows)
   } catch (e) {
@@ -35,7 +37,8 @@ export async function httpSearchRecipes(req: Request, res: Response, next: NextF
     if (!search_val || !(cookbook_guid || user_guid)) {
       throw new Error(MISSING_REQUIRED_PARAMS)
     }
-    const results = await dbCharSearchRecipes(search_val, user_guid, cookbook_guid)
+    const params = { search_val, user_guid, cookbook_guid }
+    const results = await dbCharSearchRecipes(params)
     const transformedResults = transformSearchResults(results.rows)
     return res.status(200).json(transformedResults)
   } catch (e) {
