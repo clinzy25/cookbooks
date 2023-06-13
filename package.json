@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "babel-preset-next": "^1.4.0",
+    "gsap": "^3.12.1",
     "react-transition-group": "^4.4.5"
   }
 }
