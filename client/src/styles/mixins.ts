@@ -141,11 +141,11 @@ export const DropdownAnimationMixin = css`
 `
 
 export const CardAnimationMixin = css`
-  animation: cardIn 0.2s ease-out;
+  animation: cardIn 0.3s ease-out;
   @keyframes cardIn {
     0% {
       opacity: 0;
-      transform: translateY(50px);
+      transform: translateY(25px);
     }
     100% {
       opacity: 1;

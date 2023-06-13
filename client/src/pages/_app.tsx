@@ -31,7 +31,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   }
 
   const onExit = (exit: gsap.TweenTarget) => {
-    const style = { opacity: 0, duration: 0.1 }
+    const style = { opacity: 0, duration: 0.07 }
     gsap.to(exit, style)
   }
 

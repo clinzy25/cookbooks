@@ -63,7 +63,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
     _cookbook_name.current = decodeURIComponent(cookbook_name?.toString() as string)
   }, [cookbook_name])
 
-  if (!data && !recipes) {
+  if (!data || !recipes) {
     return <Loader size={50} fillSpace />
   }
   if (error) {

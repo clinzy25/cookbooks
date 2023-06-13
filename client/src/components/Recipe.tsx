@@ -69,7 +69,7 @@ const Recipe: React.FC<Props> = props => {
     data && setRecipe(data)
   }, [data])
 
-  if (!data && !recipe) {
+  if (!data || !recipe) {
     return <Loader size={50} fillSpace />
   }
   if (error) {
