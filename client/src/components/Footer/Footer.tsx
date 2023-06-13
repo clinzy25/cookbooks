@@ -50,6 +50,8 @@ const Style = styled.footer`
   box-shadow: ${({ theme }) => theme.boxShadowOverOtherElements};
   position: absolute;
   bottom: -85px;
+  background-color: ${({ theme }) => theme.navBackgroundColor};
+  color: ${({ theme }) => theme.mainTextColor};
   .link {
     cursor: pointer;
     text-decoration: underline;

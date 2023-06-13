@@ -82,6 +82,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
       <EditCookbookModal modalOpen={editModal} setEditModal={setEditModal} />
       <header>
         <h1>{_cookbook_name.current}</h1>
+        <hr />
         <div>
           {Number(owner) === 1 && (
             <AiOutlineEdit className='edit-icon' onClick={() => setEditModal(true)} />
@@ -149,11 +150,6 @@ const Style = styled.main<StyleProps>`
   align-items: center;
   ${PageHeaderMixin}
   header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 15px;
     div {
       position: relative;
       align-items: center;

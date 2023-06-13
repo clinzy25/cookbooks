@@ -1,17 +1,39 @@
 import { css } from 'styled-components'
 
+export const CardMixin = css`
+  transition: ${({ theme }) => theme.cardTransition};
+  background-color: ${({ theme }) => theme.cardBackgroundColor};
+  border-radius: 10px;
+  animation: cardIn 0.3s ease-out;
+  @keyframes cardIn {
+    0% {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  &:hover {
+    transition: ${({ theme }) => theme.cardTransition};
+    background-color: ${({ theme }) => theme.mainBackgroundColorHover};
+  }
+`
+
 export const TagMixin = css`
   display: flex;
   align-items: center;
-  border: 1px solid ${({ theme }) => theme.softBorder};
+  /* border: 1px solid ${({ theme }) => theme.softBorder}; */
   border-radius: 25px;
-  background-color: ${({ theme }) => theme.tagBackground};
+  background-color: ${({ theme }) => theme.buttonBackground};
   margin: 0 5px;
   padding: 0 7px;
   font-family: 'DM Mono', monospace;
-  box-shadow: 2px 2px 2px ${({ theme }) => theme.darkBoxShadowColor};
+  /* box-shadow: 2px 2px 2px ${({ theme }) => theme.darkBoxShadowColor}; */
   transition: ${({ theme }) => theme.buttonTransition};
   white-space: nowrap;
+  color: ${({ theme }) => theme.mainTextColor};
   &:hover {
     text-decoration: underline;
     transition: ${({ theme }) => theme.buttonTransition};
@@ -22,10 +44,10 @@ export const TagMixin = css`
 export const IconMixin = css`
   font-size: 2.5rem;
   background-color: ${({ theme }) => theme.buttonBackground};
-  border: 1px solid ${({ theme }) => theme.softBorder};
   border-radius: 25px;
   padding: 5px;
   transition: ${({ theme }) => theme.buttonTransition};
+  color: ${({ theme }) => theme.mainTextColor};
   cursor: pointer;
   &:hover {
     background-color: ${({ theme }) => theme.buttonBackgroundHover};
@@ -44,6 +66,7 @@ export const AddBtnMixin = css`
   border: 1px solid ${({ theme }) => theme.softBorder};
   padding: 0;
   z-index: 5;
+  color: ${({ theme }) => theme.buttonBackground};
   &:hover {
     ${({ theme }) => theme.buttonTransition};
     transform: scale(1.05);
@@ -51,9 +74,7 @@ export const AddBtnMixin = css`
 `
 
 export const AvatarMixin = css`
-  border: 1px solid ${({ theme }) => theme.softBorder};
   border-radius: 25px;
-  padding: 3px;
 `
 
 export const ModalHeaderMixin = css`
@@ -61,6 +82,7 @@ export const ModalHeaderMixin = css`
   h2 {
     margin-bottom: 10px;
     text-align: center;
+    color: ${({ theme }) => theme.mainTextColor};
     font: ${({ theme }) => theme.modalHeaderFont};
   }
   h3 {
@@ -140,20 +162,6 @@ export const DropdownAnimationMixin = css`
   }
 `
 
-export const CardAnimationMixin = css`
-  animation: cardIn 0.3s ease-out;
-  @keyframes cardIn {
-    0% {
-      opacity: 0;
-      transform: translateY(25px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-`
-
 export const CardGradientMixin = css`
   background: linear-gradient(
     top,
@@ -186,47 +194,35 @@ export const CardGradientMixin = css`
   );
 `
 
-export const CardGradientHoverMixin = css`
-  background: linear-gradient(
-    top,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.97) 70%,
-    rgba(255, 255, 255, 1) 100% 100%
-  );
-  background: -moz-linear-gradient(
-    top,
-    rgba(0, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.97) 70%,
-    rgba(255, 255, 255, 1) 100% 100%
-  );
-  background: -ms-linear-gradient(
-    top,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.97) 70%,
-    rgba(255, 255, 255, 1) 100% 100%
-  );
-  background: -o-linear-gradient(
-    top,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.97) 70%,
-    rgba(255, 255, 255, 1) 100% 100%
-  );
-  background: -webkit-linear-gradient(
-    top,
-    rgba(10, 10, 10, 0) 0%,
-    rgba(240, 240, 240, 0.97) 70%,
-    rgba(240, 240, 240, 1) 100%
-  );
-`
-
 export const PageHeaderMixin = css`
   header {
+    white-space: nowrap;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    hr {
+      margin: 0 20px;
+      background-color: ${({ theme }) => theme.buttonBackground};
+      color: ${({ theme }) => theme.buttonBackground};
+      width: 100%;
+      height: 3px;
+      border: 0;
+      border-radius: 25px;
+    }
     h1 {
+      color: ${({ theme }) => theme.headerTextColor};
       font: ${({ theme }) => theme.pageHeaderFont};
+      
     }
   }
   @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     header {
+      white-space: normal;
+      hr {
+        display: none;
+      }
       h1 {
         font: ${({ theme }) => theme.pageHeaderFontMobile};
       }
@@ -234,10 +230,15 @@ export const PageHeaderMixin = css`
   }
 `
 
+export const CardFontMixin = css`
+  font: ${({ theme }) => theme.cardHeaderFont};
+  color: ${({ theme }) => theme.headerTextColor};
+`
+
 export const RecipeCardGridMixin = css`
   display: grid;
   width: 100%;
-  gap: 10px;
+  gap: 12px;
   grid-template-rows: repeat(1fr);
   grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
   margin-bottom: 50px;

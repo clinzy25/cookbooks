@@ -1,4 +1,9 @@
-import { AvatarMixin, CardGradientMixin, CardGradientHoverMixin, CardAnimationMixin } from '@/styles/mixins'
+import {
+  AvatarMixin,
+  CardGradientMixin,
+  CardFontMixin,
+  CardMixin,
+} from '@/styles/mixins'
 import { ICookbookRes } from '@/types/@types.cookbooks'
 import randomInRange from '@/utils/utils.randomInRange'
 import { useUser } from '@auth0/nextjs-auth0/client'
@@ -89,17 +94,14 @@ const CookbookCard = ({ cookbook }: Props) => {
 }
 
 const Style = styled.div`
-  border-radius: 10px;
-  box-shadow: 2px 2px 5px ${({ theme }) => theme.darkBoxShadowColor};
+  ${CardMixin}
   transition: ${({ theme }) => theme.cardTransition};
-  ${CardAnimationMixin}
   &:hover {
     transition: ${({ theme }) => theme.cardTransition};
-    box-shadow: 4px 4px 7px ${({ theme }) => theme.darkBoxShadowColorHover};
-    a {
-      &::before {
-        ${CardGradientHoverMixin}
-      }
+    filter: brightness(97%);
+    .img-ctr {
+      transform: scale(1.03);
+      filter: brightness(110%);
     }
   }
   a {
@@ -108,6 +110,7 @@ const Style = styled.div`
     position: relative;
     height: 100%;
     border-radius: inherit;
+    overflow: hidden;
     &::before {
       content: '';
       ${CardGradientMixin}
@@ -125,12 +128,11 @@ const Style = styled.div`
       grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
       width: 100%;
       height: 100%;
-      border-radius: 10px;
+      transition: ${({ theme }) => theme.cardTransition};
     }
     .ctr {
       position: relative;
       overflow: hidden;
-      border-radius: 10px;
       &:hover {
         .img {
           transform: scale(1.1);
@@ -143,14 +145,14 @@ const Style = styled.div`
   }
   .meta-ctr {
     width: 100%;
-    padding: 5px;
+    padding: 6px;
     display: flex;
     flex-direction: column;
     position: absolute;
     bottom: 0;
     z-index: 3;
     h3 {
-      font: ${({ theme }) => theme.cardHeaderFont};
+      ${CardFontMixin}
     }
     p {
       margin-bottom: 12px;

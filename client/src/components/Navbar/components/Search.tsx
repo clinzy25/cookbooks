@@ -147,7 +147,6 @@ const Style = styled.div<StyleProps>`
     display: flex;
     flex-direction: column;
     background-color: ${({ theme }) => theme.buttonBackground};
-    border: 1px solid ${({ theme }) => theme.softBorder};
     border-radius: ${props => (props.searchResults ? '10px' : '50px')};
     z-index: 5;
     .ctr {

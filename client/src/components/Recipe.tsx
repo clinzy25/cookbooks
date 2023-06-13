@@ -17,7 +17,6 @@ import Loader from './Loader'
 import Error from './Error'
 import moment from 'moment'
 import Head from 'next/head'
-import { ITag } from '@/types/@types.tags'
 import Link from 'next/link'
 
 type Props = {
@@ -227,11 +226,14 @@ const Style = styled.main`
   margin: auto;
   gap: 15px;
   max-width: 700px;
-  ${PageHeaderMixin}
   header {
-    display: flex;
     flex-direction: column;
+    align-items: space-between;
     justify-content: space-between;
+    h1 {
+      color: ${({ theme }) => theme.headerTextColor};
+      font: ${({ theme }) => theme.pageHeaderFont};
+    }
     div {
       display: flex;
       justify-content: space-between;
@@ -254,7 +256,6 @@ const Style = styled.main`
         gap: 5px;
         .tag {
           ${TagMixin}
-          color: black;
           margin: 0;
           max-height: 23px;
           .hash {
@@ -321,7 +322,6 @@ const Style = styled.main`
     gap: 40px;
     margin-top: 30px;
     line-height: 24px;
-    letter-spacing: 0.5px;
     max-width: 700px;
     #description {
       font-style: italic;
@@ -330,9 +330,11 @@ const Style = styled.main`
     h2 {
       margin-bottom: 10px;
       font: ${({ theme }) => theme.modalHeaderFont};
+      color: ${({ theme }) => theme.headerTextColor};
     }
     h3 {
       margin: 10px 0 5px 0;
+      color: ${({ theme }) => theme.headerTextColor};
     }
     ul,
     ol {
@@ -341,7 +343,7 @@ const Style = styled.main`
         display: flex;
         align-items: flex-start;
         input {
-          margin: 11px 8px 0 0;
+          margin: 9px 8px 0 0;
           transform: scale(1.4);
         }
         li {

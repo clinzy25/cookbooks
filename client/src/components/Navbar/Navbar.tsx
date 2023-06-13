@@ -47,7 +47,7 @@ const Style = styled.nav`
   align-items: center;
   position: sticky;
   z-index: 10;
-  background-color: ${({ theme }) => theme.mainBackgroundColor};
+  background-color: ${({ theme }) => theme.navBackgroundColor};
   top: 0;
   width: 100%;
   gap: 12px;

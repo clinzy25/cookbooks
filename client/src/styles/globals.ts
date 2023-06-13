@@ -93,6 +93,7 @@ const globalStyle = createGlobalStyle`
     overflow-x: hidden;
     position: relative;
     font-family: 'Nunito Sans', sans-serif;
+    letter-spacing: 0.7px;
     background-color: ${({ theme }: GlobalThemeProps) => theme.mainBackgroundColor};
   }
   a {

@@ -1,4 +1,9 @@
-import { AvatarMixin, CardAnimationMixin, TagMixin } from '@/styles/mixins'
+import {
+  AvatarMixin,
+  CardFontMixin,
+  CardMixin,
+  TagMixin,
+} from '@/styles/mixins'
 import { IRecipeRes } from '@/types/@types.recipes'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import Image from 'next/image'
@@ -91,28 +96,17 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
 }
 
 const Style = styled.article`
-  transition: ${({ theme }) => theme.cardTransition};
-  box-shadow: 2px 2px 5px ${({ theme }) => theme.darkBoxShadowColor};
-  background-color: ${({ theme }) => theme.mainBackgroundColor};
-  border-radius: 10px;
-  ${CardAnimationMixin}
-  &:not(.tag) {
-    letter-spacing: 0.5px;
-  }
+  ${CardMixin}
   &:hover {
-    transition: ${({ theme }) => theme.cardTransition};
-    background-color: ${({ theme }) => theme.mainBackgroundColorHover};
-    box-shadow: 4px 4px 7px ${({ theme }) => theme.darkBoxShadowColorHover};
     .img-ctr {
       .img {
         transition: ${({ theme }) => theme.cardTransition};
-        transform: scale(1.01);
+        transform: scale(1.03);
         filter: brightness(105%);
       }
     }
   }
   a {
-    padding: 8px;
     display: inline-block;
     width: 100%;
   }
@@ -134,8 +128,9 @@ const Style = styled.article`
     justify-content: space-between;
     height: 150px;
     gap: 5px;
+    padding: 6px;
     h3 {
-      font: ${({ theme }) => theme.cardHeaderFont};
+      ${CardFontMixin}
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-box-orient: vertical;
@@ -151,15 +146,16 @@ const Style = styled.article`
       gap: 4px;
       overflow: hidden;
       padding-bottom: 5px;
-      -webkit-line-clamp: 2; /* number of lines to show */
+      -webkit-line-clamp: 2;
       .tag {
         ${TagMixin}
         font-size: 0.9rem;
         margin: 0 0px 0 0;
-        padding: 0 4px;
+        padding: 1px 5px;
         width: min-content;
         &:hover {
           text-decoration: none;
+          background-color: ${({ theme }) => theme.buttonBackground};
         }
       }
       .hash {
