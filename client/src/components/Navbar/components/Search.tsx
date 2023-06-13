@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import { BiSearch } from 'react-icons/bi'
 import { useRouter } from 'next/router'
 import { Globals } from '../../../styles/theme'
+import TransitionWrapper from '@/components/TransitionWrapper'
 
 const Search: FC = () => {
   const {
@@ -70,8 +71,8 @@ const Search: FC = () => {
 
   return (
     <Style width={width} searchResults={searchResults}>
-      <div className='search-ctr'>
-        <div>
+      <div ref={resultsRef} className='search-ctr'>
+        <div className='ctr'>
           <input
             type='text'
             placeholder={cookbook ? 'Search this cookbook...' : 'Search all cookbooks...'}
@@ -90,32 +91,36 @@ const Search: FC = () => {
             />
           </div>
         </div>
-        {searchResults?.recipes.map((r: ISearchResult, i) => (
-          <>
-            {i === 0 && <h2>Recipes</h2>}
-            <Link
-              title={r.name}
-              className='search-result'
-              onClick={() => setSearchVal('')}
-              href={handleRecipeHref(r)}
-              key={r.guid}>
-              {r.name}
-            </Link>
-          </>
-        ))}
-        {searchResults?.tags.map((t: ISearchResult, i) => (
-          <>
-            {i === 0 && <h2>Tags</h2>}
-            <Link
-              className='search-result'
-              onClick={() => setSearchVal('')}
-              href={handleTagHref(t)}
-              key={t.guid}>
-              {t.name}
-            </Link>
-          </>
-        ))}
-        {showNoResultsMsg() && <h2>No Results :(</h2>}
+        <TransitionWrapper state={searchResults !== null} ref={resultsRef}>
+          <div ref={resultsRef} className='results'>
+            {searchResults?.recipes.map((r: ISearchResult, i) => (
+              <>
+                {i === 0 && <h2>Recipes</h2>}
+                <Link
+                  title={r.name}
+                  className='search-result'
+                  onClick={() => setSearchVal('')}
+                  href={handleRecipeHref(r)}
+                  key={r.guid}>
+                  {r.name}
+                </Link>
+              </>
+            ))}
+            {searchResults?.tags.map((t: ISearchResult, i) => (
+              <>
+                {i === 0 && <h2>Tags</h2>}
+                <Link
+                  className='search-result'
+                  onClick={() => setSearchVal('')}
+                  href={handleTagHref(t)}
+                  key={t.guid}>
+                  {t.name}
+                </Link>
+              </>
+            ))}
+            {showNoResultsMsg() && <h2>No Results :(</h2>}
+          </div>
+        </TransitionWrapper>
       </div>
     </Style>
   )
@@ -145,7 +150,7 @@ const Style = styled.div<StyleProps>`
     border: 1px solid ${({ theme }) => theme.softBorder};
     border-radius: ${props => (props.searchResults ? '10px' : '50px')};
     z-index: 5;
-    div {
+    .ctr {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -167,6 +172,10 @@ const Style = styled.div<StyleProps>`
       }
       #btn-ctr {
         width: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
         #search-btn {
           height: 100%;
           font-size: 1.4rem;
@@ -176,20 +185,24 @@ const Style = styled.div<StyleProps>`
         }
       }
     }
-    h2 {
-      padding: 5px;
-      font: 1.4rem Montserrat, sans-serif;
-    }
-    .search-result {
-      max-width: calc(${props => handleSearchBarWidth(props)} + 37px);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      padding: 4px;
-      border-radius: 10px;
-      color: ${({ theme }) => theme.secondaryTextColor};
-      &:hover {
-        background-color: ${({ theme }) => theme.buttonBackgroundHover};
+    .results {
+      display: flex;
+      flex-direction: column;
+      h2 {
+        padding: 5px;
+        font: 1.4rem Montserrat, sans-serif;
+      }
+      .search-result {
+        max-width: calc(${props => handleSearchBarWidth(props)} + 37px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 4px;
+        border-radius: 10px;
+        color: ${({ theme }) => theme.secondaryTextColor};
+        &:hover {
+          background-color: ${({ theme }) => theme.buttonBackgroundHover};
+        }
       }
     }
     &:hover > div > input {

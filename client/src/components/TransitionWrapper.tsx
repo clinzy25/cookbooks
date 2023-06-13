@@ -8,15 +8,15 @@ type Props = {
   state: boolean
 }
 
-const TransitionWrapper = forwardRef<HTMLButtonElement, React.PropsWithChildren<Props>>(
-  (props, ref) => (
+const TransitionWrapper = forwardRef<HTMLDivElement, React.PropsWithChildren<Props>>(
+(props, ref) => (
     <Style id='modal'>
       <CSSTransition
         nodeRef={ref}
         in={props.state}
         unmountOnExit
         appear
-        timeout={100}
+        timeout={200}
         classNames='transition'>
         {props.children}
       </CSSTransition>
@@ -30,14 +30,14 @@ const Style = styled.div`
   }
   .transition-enter-active {
     opacity: 1;
-    transition: opacity 100ms;
+    transition: opacity 200ms;
   }
   .transition-exit {
     opacity: 1;
   }
   .transition-exit-active {
     opacity: 0;
-    transition: opacity 100ms;
+    transition: opacity 200ms;
   }
 `
 
