@@ -13,6 +13,7 @@ import Footer from '@/components/Footer/Footer'
 import { useEffect, useState } from 'react'
 import { Transition } from 'react-transition-group'
 import gsap from 'gsap'
+
 const App = ({ Component, pageProps }: AppProps) => {
   const { snackbar } = useAppContext() as IAppContext
   const router = useRouter()
