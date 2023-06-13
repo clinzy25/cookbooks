@@ -53,11 +53,11 @@ const CookbookDetailPage: React.FC<Props> = props => {
 
   useEffect(() => {
     data && handleRecipes()
-  }, [data]) // eslint-disable-line
+  }, [data])
 
   useEffect(() => {
     !editModal && setTagsEditMode(false)
-  }, [editModal]) // eslint-disable-line
+  }, [editModal])
 
   useEffect(() => {
     _cookbook_name.current = decodeURIComponent(cookbook_name?.toString() as string)

@@ -42,7 +42,7 @@ const Style = styled.div<StyleProps>`
   position: fixed;
   width: min-content;
   white-space: nowrap;
-  bottom: 90px;
+  top: 90px;
   left: 0;
   right: 0;
   margin: auto;
