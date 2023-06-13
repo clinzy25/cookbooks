@@ -37,7 +37,7 @@ const CookbooksPage: React.FC = () => {
       <AddCookbookModal modalOpen={addCookbookModal} setModalOpen={setAddcookbookModal} />
       <WelcomeModal modalOpen={welcomeModal} setModalOpen={setWelcomeModal} />
       <header>
-        <h1>YOUR COOKBOOKS</h1>
+        <h1>Your Cookbooks</h1>
       </header>
       <div id='cookbooks-ctr'>
         {cookbooks.map(cb => (

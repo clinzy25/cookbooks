@@ -81,7 +81,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
       />
       <EditCookbookModal modalOpen={editModal} setEditModal={setEditModal} />
       <header>
-        <h1>{_cookbook_name.current?.toUpperCase()}</h1>
+        <h1>{_cookbook_name.current}</h1>
         <div>
           {Number(owner) === 1 && (
             <AiOutlineEdit className='edit-icon' onClick={() => setEditModal(true)} />

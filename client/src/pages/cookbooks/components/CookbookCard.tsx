@@ -55,7 +55,7 @@ const CookbookCard = ({ cookbook }: Props) => {
           )}
         </div>
         <div className='meta-ctr'>
-          <h3>{cookbook?.cookbook_name.toUpperCase()}</h3>
+          <h3>{cookbook?.cookbook_name}</h3>
           <p>{cookbook?.recipe_count} Recipes</p>
           <div>
             <FaCrown className='crown-icon' />
