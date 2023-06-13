@@ -56,7 +56,7 @@ const Style = styled.footer`
     cursor: pointer;
     text-decoration: underline;
     &:hover {
-      color: ${({ theme }) => theme.buttonBackgroundHover};
+      color: ${({ theme }) => theme.iconBackgroundHover};
     }
   }
   .coffee-btn {

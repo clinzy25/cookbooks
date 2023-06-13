@@ -147,7 +147,7 @@ const Style = styled.div`
             transition: ${({ theme }) => theme.buttonTransition};
             &:hover {
               transition: ${({ theme }) => theme.buttonTransition};
-              background-color: ${({ theme }) => theme.buttonBackgroundHover};
+              background-color: ${({ theme }) => theme.iconBackgroundHover};
             }
             &:active {
               background-color: ${({ theme }) => theme.buttonBackgroundActive};

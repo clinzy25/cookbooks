@@ -79,6 +79,10 @@ const Style = styled.div<StyleProps>`
     right: 15px;
     font-size: 1.5rem;
     cursor: pointer;
+    color: ${({ theme }) => theme.buttonBackground};
+    &:hover {
+      color: ${({ theme }) => theme.buttonBackgroundHover};
+    }
   }
   @media screen and (max-width: 1300px) {
     width: 70%;

@@ -43,7 +43,7 @@ export const IconMixin = css`
   color: ${({ theme }) => theme.mainTextColor};
   cursor: pointer;
   &:hover {
-    background-color: ${({ theme }) => theme.buttonBackgroundHover};
+    background-color: ${({ theme }) => theme.iconBackgroundHover};
     color: ${({ theme }) => theme.mainTextColorInverse};
   }
 `
@@ -61,7 +61,7 @@ export const AddBtnMixin = css`
   &:hover {
     ${({ theme }) => theme.buttonTransition};
     transform: scale(1.2);
-    background-color: ${({ theme }) => theme.buttonBackgroundHover};
+    background-color: ${({ theme }) => theme.iconBackgroundHover};
   }
   .add-btn {
     background-color: white;
@@ -87,7 +87,7 @@ export const ModalHeaderMixin = css`
   h2 {
     margin-bottom: 10px;
     text-align: center;
-    color: ${({ theme }) => theme.mainTextColor};
+    color: ${({ theme }) => theme.headerTextColor};
     font: ${({ theme }) => theme.modalHeaderFont};
   }
   h3 {
@@ -109,7 +109,9 @@ export const ModalFieldMixin = css`
     padding-left: 10px;
     border: 1px solid ${({ theme }) => theme.softBorder};
     border-radius: 10px;
-    font-size: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
     &::placeholder {
       margin-left: 10px;
       font-size: 1rem;
@@ -123,6 +125,7 @@ export const ModalBtnMixin = css`
     white-space: nowrap;
     border: 1px solid ${({ theme }) => theme.softBorder};
     background-color: ${({ theme }) => theme.buttonBackground};
+    color: ${({ theme }) => theme.mainTextColor};
     margin-left: 15px;
     border-radius: 10px;
     transition: ${({ theme }) => theme.buttonTransition};
@@ -148,7 +151,7 @@ export const PlannedFeatureMixin = css`
     align-items: center;
     .feature-icon {
       font-size: 8rem;
-      color: ${({ theme }) => theme.buttonBackground};
+      color: ${({ theme }) => theme.secondaryBackgroundColorHover};
     }
   }
 `

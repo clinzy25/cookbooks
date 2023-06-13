@@ -261,7 +261,7 @@ const Style = styled.main`
           &:hover {
             text-decoration: underline;
             transition: ${({ theme }) => theme.buttonTransition};
-            background-color: ${({ theme }) => theme.buttonBackgroundHover};
+            background-color: ${({ theme }) => theme.iconBackgroundHover};
             color: ${({ theme }) => theme.mainTextColorInverse};
             transform: scale(1.2);
             padding: 3px 12px;
