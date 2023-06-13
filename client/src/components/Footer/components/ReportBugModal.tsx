@@ -9,9 +9,10 @@ import { IAppContext } from '@/types/@types.context'
 
 type Props = {
   closeModal: () => void
+  modalOpen: boolean
 }
 
-const ReportBugModal: FC<Props> = ({ closeModal }) => {
+const ReportBugModal: FC<Props> = ({ closeModal, modalOpen }) => {
   const { setSnackbar } = useAppContext() as IAppContext
   const [state, handleSubmit] = useForm('mrgvwyqp')
 
@@ -25,7 +26,7 @@ const ReportBugModal: FC<Props> = ({ closeModal }) => {
   }, [state.succeeded])
 
   return (
-    <Modal type='bug' closeModal={closeModal}>
+    <Modal modalOpen={modalOpen} type='bug' closeModal={closeModal}>
       <Style>
         <h2>Report a Bug</h2>
         <p id='prompt'>

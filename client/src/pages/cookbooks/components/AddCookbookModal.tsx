@@ -18,7 +18,6 @@ type Props = {
 const AddCookbookModal: FC<Props> = ({ setModalOpen, modalOpen }) => {
   const { setSnackbar, handleServerError, revalidateCookbooks } =
     useAppContext() as IAppContext
-  const router = useRouter()
   const { user } = useUser()
   const nameFieldRef = useRef<HTMLInputElement>(null)
 

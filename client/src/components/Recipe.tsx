@@ -80,17 +80,15 @@ const Recipe: React.FC<Props> = props => {
       <Head>
         <title>{name}</title>
       </Head>
-      {confirm && (
-        <Modal type='confirm' closeModal={() => setConfirm(false)}>
-          <div id='confirmation-ctr'>
-            <h2>Are you sure you want to delete this recipe?</h2>
-            <div>
-              <button onClick={handleDelete}>Yes</button>
-              <button onClick={() => setConfirm(false)}>No</button>
-            </div>
+      <Modal modalOpen={confirm} type='confirm' closeModal={() => setConfirm(false)}>
+        <div id='confirmation-ctr'>
+          <h2>Are you sure you want to delete this recipe?</h2>
+          <div>
+            <button onClick={handleDelete}>Yes</button>
+            <button onClick={() => setConfirm(false)}>No</button>
           </div>
-        </Modal>
-      )}
+        </div>
+      </Modal>
       <>
         <header>
           <h1>{name.toUpperCase()}</h1>

@@ -20,17 +20,17 @@ const App = ({ Component, pageProps }: AppProps) => {
   const [route, setRoute] = useState(router.asPath)
 
   const onEnter = (enter: gsap.TweenTarget) => {
-    const style = { opacity: 0, transform: 'translateY(50px)' }
+    const style = { opacity: 0 }
     gsap.set(enter, style)
   }
 
   const onEntered = (entered: gsap.TweenTarget) => {
-    const style = { opacity: 1, transform: 'translateY(0)', duration: 0.1 }
+    const style = { opacity: 1, duration: 0.1 }
     gsap.to(entered, style)
   }
 
   const onExit = (exit: gsap.TweenTarget) => {
-    const style = { opacity: 0, duration: 0.1, transform: 'translateY(50px)' }
+    const style = { opacity: 0, duration: 0.1 }
     gsap.to(exit, style)
   }
 

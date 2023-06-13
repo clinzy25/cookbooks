@@ -8,7 +8,7 @@ const Footer: FC = () => {
 
   return (
     <Style>
-      {bugModal && <ReportBugModal closeModal={() => setBugModal(false)} />}
+      <ReportBugModal modalOpen={bugModal} closeModal={() => setBugModal(false)} />
       <a className='link' target='_blank' href='https://connerlinzy.com/'>
         © Conner Linzy 2023
       </a>
