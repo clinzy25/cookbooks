@@ -1,7 +1,6 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { FAILED_TO_FETCH_IMAGE, S3_UPLOAD_FAILED } from '../../utils/utils.errors'
 import { s3Client } from '../../app'
-import { v4 as uuidv4 } from 'uuid'
 import axios, { AxiosError } from 'axios'
 
 export function toBuffer(arrayBuffer: ArrayBuffer): Buffer {
@@ -13,20 +12,27 @@ export function toBuffer(arrayBuffer: ArrayBuffer): Buffer {
   return buffer
 }
 
+const buildImageKey = (imageUrl: string) =>
+  `${new URL(imageUrl).pathname
+    .substring(1)
+    .replaceAll('/', '-')
+    .replace(/\.[^/.]+$/, '')}.webp`
+
 export async function uploadToS3(imageUrl: string): Promise<string> {
   return await axios
     .get(imageUrl, { responseType: 'arraybuffer' })
     .then(async buffer => {
       if (buffer.status !== 200) throw new Error(FAILED_TO_FETCH_IMAGE)
+      const Key = buildImageKey(imageUrl)
       const params = {
         Body: toBuffer(buffer.data),
         Bucket: process.env.RECIPE_IMAGES_BUCKET,
-        Key: `${uuidv4()}.webp`,
+        Key,
         ContentType: 'image/webp',
       }
       const res = await s3Client.send(new PutObjectCommand(params))
       if (res.$metadata.httpStatusCode === 200) {
-        return `${process.env.NEXT_PUBLIC_RECIPE_IMAGES_BUCKET_LINK}/${params.Key}`
+        return `${process.env.NEXT_PUBLIC_RECIPE_IMAGES_BUCKET_LINK}/${Key}`
       }
       throw new Error(S3_UPLOAD_FAILED)
     })
@@ -42,7 +48,6 @@ export const getRandomFallback = () => {
 }
 
 export const getRecipeImage = async (parsedRecipe: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any
 }): Promise<string> => {
   const possibleUrls = [parsedRecipe.image, parsedRecipe.image?.contentUrl]

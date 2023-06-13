@@ -60,7 +60,6 @@ export async function httpParseRecipe(req: Request, res: Response, next: NextFun
       }
       const imageUrl = await getRecipeImage(parsedRecipe)
       const { base64 } = await getPlaiceholder(imageUrl)
-
       const fullRecipe = {
         ...parsedRecipe,
         image: imageUrl,
