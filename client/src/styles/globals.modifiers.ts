@@ -8,5 +8,9 @@ export const ModalGlobalStyles = createGlobalStyle`
   #breadcrumb-wrapper > *:not(#modal) {
     pointer-events: none;
     filter: blur(4px);
+    transition: 100ms filter linear;
+  }
+  .page-wrapper {
+    margin-right: 15px;
   }
 `

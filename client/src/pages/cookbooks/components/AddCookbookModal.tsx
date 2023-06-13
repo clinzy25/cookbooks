@@ -12,9 +12,10 @@ import { ModalBtnMixin, ModalFieldMixin, ModalHeaderMixin } from '@/styles/mixin
 
 type Props = {
   setModalOpen: (bool: boolean) => void
+  modalOpen: boolean
 }
 
-const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
+const AddCookbookModal: FC<Props> = ({ setModalOpen, modalOpen }) => {
   const { setSnackbar, handleServerError, revalidateCookbooks } =
     useAppContext() as IAppContext
   const router = useRouter()
@@ -45,7 +46,7 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen }) => {
   }
 
   return (
-    <Modal type='default' closeModal={() => setModalOpen(false)}>
+    <Modal modalOpen={modalOpen} type='default' closeModal={() => setModalOpen(false)}>
       <Style>
         <h1>Create a New Cookbook</h1>
         <form autoComplete='off' onSubmit={e => handleSubmit(e)}>

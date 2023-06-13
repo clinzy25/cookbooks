@@ -5,14 +5,16 @@ import { useOutsideAlerter } from '@/utils/utils.hooks'
 import React, { FC, ReactNode, useEffect, useRef, useState } from 'react'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import styled from 'styled-components'
+import TransitionWrapper from './TransitionWrapper'
 
 type Props = {
   closeModal: () => void
   children: ReactNode
   type?: 'confirm' | 'default' | 'welcome' | 'bug'
+  modalOpen: boolean
 }
 
-const Modal: FC<Props> = ({ closeModal, children, type = 'default' }) => {
+const Modal: FC<Props> = ({ closeModal, children, type = 'default', modalOpen }) => {
   const { tagsEditMode } = useAppContext() as IAppContext
   const modalRef = useRef(null)
   const [overrideClose, setOverrideClose] = useState(false)
@@ -42,11 +44,15 @@ const Modal: FC<Props> = ({ closeModal, children, type = 'default' }) => {
   }
 
   return (
-    <Style ref={modalRef} id='modal' type={type} dimensions={dimensions}>
-      <ModalGlobalStyles />
-      {type !== 'welcome' && <AiFillCloseCircle id='close-btn' onClick={closeModal} />}
-      {children}
-    </Style>
+    <TransitionWrapper ref={modalRef} state={modalOpen}>
+      <Style ref={modalRef} type={type} dimensions={dimensions}>
+        <TransitionWrapper ref={modalRef} state={modalOpen}>
+          <ModalGlobalStyles ref={modalRef} />
+        </TransitionWrapper>
+        {type !== 'welcome' && <AiFillCloseCircle id='close-btn' onClick={closeModal} />}
+        {children}
+      </Style>
+    </TransitionWrapper>
   )
 }
 
@@ -67,15 +73,6 @@ const Style = styled.div<StyleProps>`
   border: 1px solid gray;
   border-radius: 15px;
   padding: 15px;
-  animation: fadeIn 0.1s ease-out;
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
   #close-btn {
     position: absolute;
     top: 15px;

@@ -25,9 +25,10 @@ import { BsFillPersonPlusFill } from 'react-icons/bs'
 
 type Props = {
   setModalOpen: (bool: boolean) => void
+  modalOpen: boolean
 }
 
-const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
+const WelcomeModal: FC<Props> = ({ setModalOpen, modalOpen }) => {
   const { setSnackbar, handleServerError, revalidateCookbooks, revalidateTags } =
     useAppContext() as IAppContext
   const { user } = useUser()
@@ -139,7 +140,7 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
   }
 
   return (
-    <Modal type='welcome' closeModal={() => setModalOpen(false)}>
+    <Modal modalOpen={modalOpen} type='welcome' closeModal={() => setModalOpen(false)}>
       <Style>
         <form autoComplete='off' onSubmit={e => handleSubmit(e)}>
           {/* disable enter key submit */}
@@ -179,7 +180,9 @@ const WelcomeModal: FC<Props> = ({ setModalOpen }) => {
                 <h3 className='sub-header'>Recipe Queue (Max 10)</h3>
                 {recipes.map((r, i) => (
                   <li className='pending-list-item' key={r.url}>
-                    <a href={r.url} target='_blank'>{r.url}</a>
+                    <a href={r.url} target='_blank'>
+                      {r.url}
+                    </a>
                     <div>
                       <IoMdClose
                         title='Remove recipe'

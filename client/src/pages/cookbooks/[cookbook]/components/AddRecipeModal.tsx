@@ -11,9 +11,10 @@ import AddRecipeComponent from '@/components/AddRecipeComponent'
 type Props = {
   setRecipeModal: (bool: boolean) => void
   revalidateRecipes: () => void
+  modalOpen: boolean
 }
 
-const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
+const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal, modalOpen }) => {
   const {
     query: { cookbook },
   } = useRouter()
@@ -43,7 +44,7 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal }) => {
   }
 
   return (
-    <Modal type='default' closeModal={() => setRecipeModal(false)}>
+    <Modal modalOpen={modalOpen} type='default' closeModal={() => setRecipeModal(false)}>
       <AddRecipeComponent handleSubmit={parseRecipe} loading={loading} />
     </Modal>
   )

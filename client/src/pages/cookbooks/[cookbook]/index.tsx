@@ -74,10 +74,12 @@ const CookbookDetailPage: React.FC<Props> = props => {
       <Head>
         <title>{_cookbook_name.current}</title>
       </Head>
-      {recipeModal && (
-        <AddRecipeModal revalidateRecipes={mutate} setRecipeModal={setRecipeModal} />
-      )}
-      {editModal && <EditCookbookModal editModal={editModal} setEditModal={setEditModal} />}
+      <AddRecipeModal
+        modalOpen={recipeModal}
+        revalidateRecipes={mutate}
+        setRecipeModal={setRecipeModal}
+      />
+      <EditCookbookModal modalOpen={editModal} setEditModal={setEditModal} />
       <header>
         <h1>{_cookbook_name.current?.toUpperCase()}</h1>
         <div>

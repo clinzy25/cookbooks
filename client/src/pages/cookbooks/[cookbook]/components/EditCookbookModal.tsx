@@ -26,10 +26,10 @@ import packageJson from '../../../../../package.json'
 
 type Props = {
   setEditModal: (bool: boolean) => void
-  editModal: boolean
+  modalOpen: boolean
 }
 
-const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
+const EditCookbookModal: FC<Props> = ({ setEditModal, modalOpen }) => {
   const {
     query,
     query: { cookbook, cookbook_name },
@@ -126,7 +126,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal }) => {
   }, [data])
 
   return (
-    <Modal closeModal={() => setEditModal(false)}>
+    <Modal modalOpen={modalOpen} closeModal={() => setEditModal(false)}>
       <Style tagsEditMode={tagsEditMode}>
         <h2>Edit Cookbook</h2>
         <label htmlFor='cookbook-name'>

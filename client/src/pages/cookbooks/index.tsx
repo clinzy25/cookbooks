@@ -34,8 +34,8 @@ const CookbooksPage: React.FC = () => {
       <Head>
         <title>Your Cookbooks</title>
       </Head>
-      {addCookbookModal && <AddCookbookModal setModalOpen={setAddcookbookModal} />}
-      {welcomeModal && <WelcomeModal setModalOpen={setWelcomeModal} />}
+      <AddCookbookModal modalOpen={addCookbookModal} setModalOpen={setAddcookbookModal} />
+      <WelcomeModal modalOpen={welcomeModal} setModalOpen={setWelcomeModal} />
       <header>
         <h1>YOUR COOKBOOKS</h1>
       </header>
