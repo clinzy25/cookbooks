@@ -8,7 +8,7 @@ type Props = {
   state: boolean
 }
 
-const TransitionWrapper = forwardRef<HTMLDivElement, React.PropsWithChildren<Props>>(
+const TransitionWrapper = forwardRef<HTMLElement, React.PropsWithChildren<Props>>(
 (props, ref) => (
     <Style id='modal'>
       <CSSTransition

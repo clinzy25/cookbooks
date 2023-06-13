@@ -75,6 +75,15 @@ const Style = styled.nav`
     font-weight: 600;
     color: ${({ theme }) => theme.secondaryTextColor};
     white-space: nowrap;
+    animation: breadcrumbIn 0.1s ease-out;
+    @keyframes breadcrumbIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
     .icon {
       vertical-align: middle;
       font-size: 1.1rem;
