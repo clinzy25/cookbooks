@@ -56,18 +56,21 @@ const Style = styled.footer`
     cursor: pointer;
     text-decoration: underline;
     &:hover {
-      color: ${({ theme }) => theme.secondaryTextColor};
+      color: ${({ theme }) => theme.buttonBackgroundHover};
     }
   }
   .coffee-btn {
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    color: ${({ theme }) => theme.textColor};
-    background-color: ${({ theme }) => theme.backgroundColor};
+    color: ${({ theme }) => theme.mainTextColor};
     text-decoration: underline;
     img {
-      height: 20px;
+      background-color: ${({ theme }) => theme.mainBackgroundColor};
+      border-radius: 50px;
+      width: 30px;
+      height: 30px;
+      padding: 6px;
       box-shadow: none;
       border: none;
       vertical-align: middle;

@@ -8,7 +8,7 @@ import RecipeCard from './components/RecipeCard'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import AddRecipeModal from './components/AddRecipeModal'
 import EditCookbookModal from './components/EditCookbookModal'
-import { AiOutlineEdit } from 'react-icons/ai'
+import { AiOutlineEdit, AiOutlineFileAdd } from 'react-icons/ai'
 import {
   AddBtnMixin,
   IconMixin,
@@ -120,7 +120,14 @@ const CookbookDetailPage: React.FC<Props> = props => {
           </button>
         </>
       )}
-      <IoMdAddCircle id='add-recipe-btn' onClick={() => setRecipeModal(true)} />
+      <div className='icon-ctr'>
+        <AiOutlineFileAdd
+          id='add-recipe-btn'
+          className='add-btn'
+          title='New Recipe'
+          onClick={() => setRecipeModal(true)}
+        />
+      </div>
     </Style>
   )
 }
@@ -185,8 +192,8 @@ const Style = styled.main<StyleProps>`
       margin: 15px 0;
     }
   }
-  #add-recipe-btn {
-    ${AddBtnMixin}
+  .icon-ctr {
+   ${AddBtnMixin}
   }
 `
 

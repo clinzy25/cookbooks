@@ -258,8 +258,14 @@ const Style = styled.main`
           ${TagMixin}
           margin: 0;
           max-height: 23px;
-          .hash {
-            margin: 0 3px;
+          &:hover {
+            text-decoration: underline;
+            transition: ${({ theme }) => theme.buttonTransition};
+            background-color: ${({ theme }) => theme.buttonBackgroundHover};
+            color: ${({ theme }) => theme.mainTextColorInverse};
+            transform: scale(1.2);
+            padding: 3px 12px;
+            margin: 0 10px;
           }
         }
       }
@@ -271,7 +277,7 @@ const Style = styled.main`
     min-height: 450px;
     overflow: hidden;
     border-radius: 15px;
-    box-shadow: 2px 2px 5px ${({ theme }) => theme.darkBoxShadowColor};
+    box-shadow: ${({ theme }) => theme.boxShadowOverOtherElements};
     .img {
       object-fit: cover;
     }

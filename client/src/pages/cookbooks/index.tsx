@@ -3,7 +3,7 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useEffect, useState } from 'react'
 import AddCookbookModal from './components/AddCookbookModal'
 import { IoMdAddCircle } from 'react-icons/io'
-import { AddBtnMixin, HrMixin, PageHeaderMixin } from '@/styles/mixins'
+import { AddBtnMixin, PageHeaderMixin } from '@/styles/mixins'
 import CookbookCard from './components/CookbookCard'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
@@ -12,6 +12,7 @@ import { useUser } from '@auth0/nextjs-auth0/client'
 import Loader from '@/components/Loader'
 import Error from '@/components/Error'
 import Head from 'next/head'
+import { BiBookAdd } from 'react-icons/bi'
 
 const CookbooksPage: React.FC = () => {
   const { cookbooks, cookbooksError } = useAppContext() as IAppContext
@@ -44,7 +45,14 @@ const CookbooksPage: React.FC = () => {
           <CookbookCard key={cb.guid} cookbook={cb} />
         ))}
       </div>
-      <IoMdAddCircle id='add-cookbook-btn' onClick={() => setAddcookbookModal(true)} />
+      <div className='icon-ctr'>
+        <BiBookAdd
+          id='add-cookbook-btn'
+          className='add-btn'
+          title='New Cookbook'
+          onClick={() => setAddcookbookModal(true)}
+        />
+      </div>
     </Styles>
   )
 }
@@ -62,7 +70,7 @@ const Styles = styled.main`
     grid-auto-rows: 37vh;
     grid-template-columns: 1fr 1fr;
   }
-  #add-cookbook-btn {
+  .icon-ctr {
     ${AddBtnMixin}
   }
   @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {

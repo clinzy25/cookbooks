@@ -7,10 +7,10 @@ import { useUser } from '@auth0/nextjs-auth0/client'
 import Link from 'next/link'
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { BiSearch } from 'react-icons/bi'
 import { useRouter } from 'next/router'
 import { Globals } from '../../../styles/theme'
 import TransitionWrapper from '@/components/TransitionWrapper'
+import { IoMdSearch } from 'react-icons/io'
 
 const Search: FC = () => {
   const {
@@ -83,7 +83,7 @@ const Search: FC = () => {
             ref={inputRef}
           />
           <div id='btn-ctr'>
-            <BiSearch
+            <IoMdSearch
               onClick={() =>
                 !(document.activeElement === inputRef.current) && inputRef.current?.focus()
               }
@@ -146,7 +146,6 @@ const Style = styled.div<StyleProps>`
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: ${({ theme }) => theme.buttonBackground};
     border-radius: ${props => (props.searchResults ? '10px' : '50px')};
     z-index: 5;
     .ctr {
@@ -154,19 +153,25 @@ const Style = styled.div<StyleProps>`
       justify-content: center;
       align-items: center;
       height: 100%;
+      border-radius: ${props => (props.searchResults ? '10px' : '50px')};
+      background-color: ${({ theme }) => theme.buttonBackground};
+      transition: all 0.2s ease-out;
       input {
         outline: none;
         border: none;
         background: none;
         width: 0;
         padding: 0;
-        transition: all 0.3s ease-out;
         line-height: 40px;
         font-size: 16px;
+        background-color: ${({ theme }) => theme.mainBackgroundColor};
+        border-top-left-radius: ${props => (props.searchResults ? '10px' : '50px')};
+        border-bottom-left-radius: ${props => (props.searchResults ? '10px' : '50px')};
+        transition: all 0.2s ease-out;
         &:focus,
         &:not(:placeholder-shown) {
           width: ${props => handleSearchBarWidth(props)};
-          padding: 0 6px;
+          padding: 0 8px;
         }
       }
       #btn-ctr {
@@ -178,15 +183,18 @@ const Style = styled.div<StyleProps>`
         #search-btn {
           height: 100%;
           font-size: 1.4rem;
-          border-radius: 25px;
-          transition: all 0.3s ease-out;
+          border-radius: 50px;
+          transition: all 0.2s ease-out;
           cursor: pointer;
+          color: ${({ theme }) => theme.mainTextColor};
         }
       }
     }
     .results {
       display: flex;
       flex-direction: column;
+      background-color: ${({ theme }) => theme.mainBackgroundColor};
+      border-radius: 7px;
       h2 {
         padding: 5px;
         font: 1.4rem Montserrat, sans-serif;
@@ -196,7 +204,7 @@ const Style = styled.div<StyleProps>`
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        padding: 4px;
+        padding: 6px 4px;
         border-radius: 10px;
         color: ${({ theme }) => theme.secondaryTextColor};
         &:hover {

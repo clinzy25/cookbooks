@@ -334,7 +334,7 @@ const Style = styled.article<StyleProps>`
         border-radius: 25px;
         padding: 4px 12px;
         background-color: ${({ theme }) => theme.errorColor};
-        color: ${({ theme }) => theme.mainLightTextColor};
+        color: ${({ theme }) => theme.mainTextColorInverse};
       }
       img {
         ${AvatarMixin}
@@ -372,7 +372,7 @@ const Style = styled.article<StyleProps>`
   #delete-btn {
     margin: 0;
     background-color: ${({ theme }) => theme.errorColor};
-    color: ${({ theme }) => theme.mainLightTextColor};
+    color: ${({ theme }) => theme.mainTextColorInverse};
   }
   .confirmation-ctr {
     button:first-of-type {

@@ -24,21 +24,14 @@ export const CardMixin = css`
 export const TagMixin = css`
   display: flex;
   align-items: center;
-  /* border: 1px solid ${({ theme }) => theme.softBorder}; */
   border-radius: 25px;
   background-color: ${({ theme }) => theme.buttonBackground};
   margin: 0 5px;
   padding: 0 7px;
   font-family: 'DM Mono', monospace;
-  /* box-shadow: 2px 2px 2px ${({ theme }) => theme.darkBoxShadowColor}; */
   transition: ${({ theme }) => theme.buttonTransition};
   white-space: nowrap;
   color: ${({ theme }) => theme.mainTextColor};
-  &:hover {
-    text-decoration: underline;
-    transition: ${({ theme }) => theme.buttonTransition};
-    background-color: ${({ theme }) => theme.buttonBackgroundHover};
-  }
 `
 
 export const IconMixin = css`
@@ -51,30 +44,42 @@ export const IconMixin = css`
   cursor: pointer;
   &:hover {
     background-color: ${({ theme }) => theme.buttonBackgroundHover};
+    color: ${({ theme }) => theme.mainTextColorInverse};
   }
 `
 
 export const AddBtnMixin = css`
+  display: flex;
   position: fixed;
   right: 50px;
   bottom: 50px;
-  cursor: pointer;
-  background-color: white;
-  border-radius: 50px;
-  font-size: 4.5rem;
-  transition: ${({ theme }) => theme.buttonTransition};
-  border: 1px solid ${({ theme }) => theme.softBorder};
-  padding: 0;
   z-index: 5;
-  color: ${({ theme }) => theme.buttonBackground};
+  overflow: hidden;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: ${({ theme }) => theme.buttonTransition};
   &:hover {
     ${({ theme }) => theme.buttonTransition};
-    transform: scale(1.05);
+    transform: scale(1.2);
+    background-color: ${({ theme }) => theme.buttonBackgroundHover};
+  }
+  .add-btn {
+    background-color: white;
+    font-size: 4.5rem;
+    padding: 10px;
+    background-color: ${({ theme }) => theme.buttonBackground};
+    color: ${({ theme }) => theme.mainTextColor};
   }
 `
 
 export const AvatarMixin = css`
   border-radius: 25px;
+  cursor: pointer;
+  transition: ${({ theme }) => theme.buttonTransition};
+  &:hover {
+    transition: ${({ theme }) => theme.buttonTransition};
+    filter: brightness(110%);
+  }
 `
 
 export const ModalHeaderMixin = css`
@@ -214,7 +219,6 @@ export const PageHeaderMixin = css`
     h1 {
       color: ${({ theme }) => theme.headerTextColor};
       font: ${({ theme }) => theme.pageHeaderFont};
-      
     }
   }
   @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {

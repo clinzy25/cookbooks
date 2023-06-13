@@ -20,12 +20,13 @@ export const LightTheme: ThemeProps = {
   secondaryBackgroundColorHover: '#d0d0d0',
 
   headerTextColor: '#121420',
-  mainTextColor: '#fffcf2',
+  mainTextColor: '#fff',
+  mainTextColorInverse: '#000',
+  mainTextColorHover: '#e36414',
   secondaryTextColor: '#494949',
 
   buttonBackground: '#e36414',
-  mainLightTextColor: '#ffffff',
-  buttonBackgroundHover: '#e4e4e4',
+  buttonBackgroundHover: '#ffd100',
   buttonBackgroundActive: '#d3d3d3',
   buttonTransition: 'all 0.1s ease-out;',
   cardTransition: 'all 0.15s ease-out',

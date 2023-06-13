@@ -1,9 +1,4 @@
-import {
-  AvatarMixin,
-  CardFontMixin,
-  CardMixin,
-  TagMixin,
-} from '@/styles/mixins'
+import { AvatarMixin, CardFontMixin, CardMixin, TagMixin } from '@/styles/mixins'
 import { IRecipeRes } from '@/types/@types.recipes'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import Image from 'next/image'
@@ -63,8 +58,7 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
             <div className='tags-ctr'>
               {tags?.split(',').map((tag: string) => (
                 <span className='tag' key={tag}>
-                  <span className='hash'>#</span>
-                  {tag}
+                  #{tag}
                 </span>
               ))}
             </div>
@@ -156,10 +150,8 @@ const Style = styled.article`
         &:hover {
           text-decoration: none;
           background-color: ${({ theme }) => theme.buttonBackground};
+          color: ${({ theme }) => theme.mainTextColor};
         }
-      }
-      .hash {
-        margin: 0 1px;
       }
     }
     .meta-ctr {

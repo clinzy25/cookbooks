@@ -51,7 +51,7 @@ const Style = styled.div<StyleProps>`
   box-shadow: ${({ theme }) => theme.boxShadowOverOtherElements};
   border: 1px solid gray;
   z-index: 11;
-  color: ${({ theme }) => theme.mainLightTextColor};
+  color: ${({ theme }) => theme.mainTextColorInverse};
   background-color: ${props => {
     switch (props.state) {
       case 'success':

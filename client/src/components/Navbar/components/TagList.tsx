@@ -4,7 +4,6 @@ import Link from 'next/link'
 import React, { FC, FocusEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { IoMdClose } from 'react-icons/io'
 import { FaUndoAlt } from 'react-icons/fa'
-import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
 import styled from 'styled-components'
 import { api } from '@/api'
 import axios from 'axios'
@@ -15,6 +14,7 @@ import { IconMixin, TagMixin } from '@/styles/mixins'
 import Error from '../../Error'
 import { useWindowSize } from '@/utils/utils.hooks'
 import { Globals } from '@/styles/theme'
+import { BiChevronLeft, BiChevronRight } from 'react-icons/bi'
 
 const TagList: FC = () => {
   const {
@@ -225,7 +225,7 @@ const TagList: FC = () => {
     <Style tagsEditMode={tagsEditMode} right={shadowRight} left={shadowLeft}>
       <div className='icon-ctr'>
         {showPaginBtns && (
-          <BsChevronLeft className='pagin-icon left' onClick={() => handlePaginate(0)} />
+          <BiChevronLeft className='pagin-icon left' onClick={() => handlePaginate(0)} />
         )}
       </div>
       <div id='tags-ctr' ref={scrollRef} onScroll={handleShadow}>
@@ -257,15 +257,14 @@ const TagList: FC = () => {
             </div>
           ) : (
             <Link href={handleTagHref(t)} className='tag' key={t.guid}>
-              <span className='hash'>#</span>
-              {t.tag_name}
+              #{t.tag_name}
             </Link>
           )
         )}
       </div>
       <div className='icon-ctr'>
         {showPaginBtns && (
-          <BsChevronRight className='pagin-icon right' onClick={() => handlePaginate(1)} />
+          <BiChevronRight className='pagin-icon right' onClick={() => handlePaginate(1)} />
         )}
       </div>
     </Style>
@@ -321,8 +320,14 @@ const Style = styled.div<StyleProps>`
         props.tagsEditMode
           ? props.theme.buttonBackgroundActive
           : props.theme.buttonBackground};
-      .hash {
-        margin: 0 3px;
+      &:hover {
+        text-decoration: underline;
+        transition: ${({ theme }) => theme.buttonTransition};
+        background-color: ${({ theme }) => theme.buttonBackgroundHover};
+        color: ${({ theme }) => theme.mainTextColorInverse};
+        transform: scale(1.2);
+        padding: 3px 12px;
+        margin: 0 10px;
       }
     }
     .undo-icon,
