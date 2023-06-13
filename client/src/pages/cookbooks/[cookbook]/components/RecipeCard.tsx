@@ -1,4 +1,4 @@
-import { AvatarMixin, TagMixin } from '@/styles/mixins'
+import { AvatarMixin, CardAnimationMixin, TagMixin } from '@/styles/mixins'
 import { IRecipeRes } from '@/types/@types.recipes'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import Image from 'next/image'
@@ -95,6 +95,7 @@ const Style = styled.article`
   box-shadow: 2px 2px 5px ${({ theme }) => theme.darkBoxShadowColor};
   background-color: ${({ theme }) => theme.mainBackgroundColor};
   border-radius: 10px;
+  ${CardAnimationMixin}
   &:not(.tag) {
     letter-spacing: 0.5px;
   }
