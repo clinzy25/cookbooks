@@ -64,9 +64,9 @@ const Style = styled.nav`
     z-index: 3;
     right: 20px;
     top: 50px;
-    background-color: ${({ theme }) => theme.buttonBackground};
-    border: 1px solid ${({ theme }) => theme.softBorder};
     border-radius: 10px;
+    background-color: ${({ theme }) => theme.mainBackgroundColor};
+    border: 0.5px solid ${({ theme }) => theme.softBorder};
     ${DropdownAnimationMixin}
     ul {
       li {
@@ -74,7 +74,7 @@ const Style = styled.nav`
         list-style: none;
         border-radius: 10px;
         &:hover {
-          background-color: ${({ theme }) => theme.secondaryBackgroundColorHover};
+          background-color: ${({ theme }) => theme.mainBackgroundColorHover};
         }
       }
     }

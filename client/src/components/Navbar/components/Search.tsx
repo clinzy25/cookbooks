@@ -195,12 +195,13 @@ const Style = styled.div<StyleProps>`
       flex-direction: column;
       background-color: ${({ theme }) => theme.mainBackgroundColor};
       border-radius: 7px;
+      border: 0.5px solid ${({ theme }) => theme.softBorder};
       h2 {
         padding: 5px;
         font: 1.4rem Montserrat, sans-serif;
       }
       .search-result {
-        max-width: calc(${props => handleSearchBarWidth(props)} + 37px);
+        max-width: calc(${props => handleSearchBarWidth(props)} + 39px);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -208,7 +209,7 @@ const Style = styled.div<StyleProps>`
         border-radius: 10px;
         color: ${({ theme }) => theme.secondaryTextColor};
         &:hover {
-          background-color: ${({ theme }) => theme.buttonBackgroundHover};
+          background-color: ${({ theme }) => theme.mainBackgroundColorHover};
         }
       }
     }
