@@ -147,11 +147,6 @@ const Style = styled.article`
         margin: 0 0px 0 0;
         padding: 1px 5px;
         width: min-content;
-        background-color: ${({ theme }) => theme.buttonBackground};
-        &:hover {
-          text-decoration: none;
-          color: ${({ theme }) => theme.mainTextColor};
-        }
       }
     }
     .meta-ctr {

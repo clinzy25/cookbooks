@@ -23,17 +23,30 @@ export const CardMixin = css`
   }
 `
 
-export const TagMixin = css`
+export const TagMixin = ({ tagsEditMode }: { tagsEditMode: boolean }) => css`
   display: flex;
   align-items: center;
   border-radius: 25px;
-  background-color: ${({ theme }) => theme.buttonBackground};
   margin: 0 5px;
   padding: 0 7px;
   font-family: 'DM Mono', monospace;
   transition: ${({ theme }) => theme.buttonTransition};
   white-space: nowrap;
-  color: ${({ theme }) => theme.mainTextColor};
+  background-color: ${({ theme }) =>
+    tagsEditMode ? theme.iconBackgroundHover : theme.tagBackgroundColor};
+  color: ${({ theme }) => theme.mainTextColorInverse};
+`
+
+export const TagHoverMixin = css`
+  &:hover {
+    text-decoration: underline;
+    transition: ${({ theme }) => theme.buttonTransition};
+    background-color: ${({ theme }) => theme.iconBackgroundHover};
+    color: ${({ theme }) => theme.mainTextColorInverse};
+    transform: scale(1.2);
+    padding: 3px 12px;
+    margin: 0 10px;
+  }
 `
 
 export const IconMixin = css`

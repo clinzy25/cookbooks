@@ -15,6 +15,7 @@ export const LightTheme: ThemeProps = {
   secondaryBackgroundColor: '#e4e4e4',
   cardBackgroundColor: '#fcfcfc',
   navBackgroundColor: '#212529',
+  tagBackgroundColor: '#e9ecef',
   
   mainBackgroundColorHover: '#f0f0f0',
   secondaryBackgroundColorHover: '#d0d0d0',

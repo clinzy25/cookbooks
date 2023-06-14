@@ -10,7 +10,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import Loader from '../../Loader'
 import { IEditTag, ITag } from '@/types/@types.tags'
-import { IconMixin, TagMixin } from '@/styles/mixins'
+import { IconMixin, TagHoverMixin, TagMixin } from '@/styles/mixins'
 import Error from '../../Error'
 import { useWindowSize } from '@/utils/utils.hooks'
 import { Globals } from '@/styles/theme'
@@ -315,28 +315,9 @@ const Style = styled.div<StyleProps>`
       display: none;
     }
     .tag {
-      ${TagMixin}
-      background-color: ${props =>
-        props.tagsEditMode
-          ? props.theme.buttonBackgroundActive
-          : props.theme.buttonBackground};
-      color: ${props =>
-        props.tagsEditMode ? props.theme.mainTextColorInverse : props.theme.mainTextColor};
+      ${props => TagMixin({ tagsEditMode: props.tagsEditMode })}
       // ignore touch
-      ${props =>
-        props.tagsEditMode
-          ? ``
-          : `@media (hover: hover) and (pointer: fine) {
-              &:hover {
-                text-decoration: underline;
-                transition: ${props.theme.buttonTransition};
-                background-color: ${props.theme.iconBackgroundHover};
-                color: ${props.theme.mainTextColorInverse};
-                transform: scale(1.2);
-                padding: 3px 12px;
-                margin: 0 10px;
-              }
-            }`}
+      ${props => (props.tagsEditMode ? `` : TagHoverMixin)}
     }
     .undo-icon,
     .delete-icon {

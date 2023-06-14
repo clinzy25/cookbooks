@@ -11,7 +11,7 @@ import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import axios from 'axios'
 import Modal from '@/components/Modal'
-import { AvatarMixin, IconMixin, ModalBtnMixin, PageHeaderMixin } from '@/styles/mixins'
+import { AvatarMixin, IconMixin, ModalBtnMixin, PageHeaderMixin, TagHoverMixin } from '@/styles/mixins'
 import { TagMixin } from '@/styles/mixins'
 import Loader from './Loader'
 import Error from './Error'
@@ -258,15 +258,7 @@ const Style = styled.main`
           ${TagMixin}
           margin: 0;
           max-height: 23px;
-          &:hover {
-            text-decoration: underline;
-            transition: ${({ theme }) => theme.buttonTransition};
-            background-color: ${({ theme }) => theme.iconBackgroundHover};
-            color: ${({ theme }) => theme.mainTextColorInverse};
-            transform: scale(1.2);
-            padding: 3px 12px;
-            margin: 0 10px;
-          }
+          ${TagHoverMixin}
         }
       }
     }
