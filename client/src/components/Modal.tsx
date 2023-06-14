@@ -70,9 +70,9 @@ const Style = styled.div<StyleProps>`
   height: ${props => props.dimensions[props.type].height}%;
   width: ${props => props.dimensions[props.type].width}%;
   background-color: ${({ theme }) => theme.mainBackgroundColor};
-  border: 1px solid gray;
   border-radius: 15px;
   padding: 15px;
+  box-shadow: ${({ theme }) => theme.boxShadowOverOtherElements};
   #close-btn {
     position: absolute;
     top: 15px;

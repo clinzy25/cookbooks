@@ -28,7 +28,7 @@ export const LightTheme: ThemeProps = {
   buttonBackground: '#e56a1d',
   buttonBackgroundHover: '#ef7f39',
   iconBackgroundHover: '#ffd100',
-  buttonBackgroundActive: '#e36414',
+  buttonBackgroundActive: '#d15e17',
 
   buttonTransition: 'all 0.1s ease-out;',
   cardTransition: 'all 0.15s ease-out',

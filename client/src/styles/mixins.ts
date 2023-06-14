@@ -124,7 +124,7 @@ export const ModalBtnMixin = css`
     padding: 15px 30px;
     width: min-content;
     white-space: nowrap;
-    border: 1px solid ${({ theme }) => theme.softBorder};
+    border: 0;
     background-color: ${({ theme }) => theme.buttonBackground};
     color: ${({ theme }) => theme.mainTextColor};
     margin-left: 15px;

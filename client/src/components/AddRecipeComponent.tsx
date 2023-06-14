@@ -65,8 +65,6 @@ const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading }) => {
         <section>
           <div className='tab1 paste-link'>
             <label htmlFor='paste-link'>
-              Paste a link to a web page that contains a recipe and we&apos;ll extract the
-              recipe and save it in your cookbook.
               <div className='input-ctr'>
                 <input
                   onPaste={e => handleSubmit(e.clipboardData?.getData('Text'), selection)}
@@ -74,11 +72,13 @@ const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading }) => {
                   type='text'
                   ref={linkFieldRef}
                   name='paste-link'
-                />
+                  />
                 <button type='button' onClick={handleClick}>
                   {loading ? <Loader size={15} /> : 'Add'}
                 </button>
               </div>
+                  Paste a link to a web page that contains a recipe and we&apos;ll extract the
+                  recipe and save it in your cookbook.
             </label>
           </div>
           <div className='tab2 camera'>
@@ -141,13 +141,14 @@ const Style = styled.div`
             width: 100%;
             padding: 15px 25px;
             background-color: ${({ theme }) => theme.buttonBackground};
+            color: ${({ theme }) => theme.mainTextColor};
             margin: 0;
             cursor: pointer;
             white-space: nowrap;
             transition: ${({ theme }) => theme.buttonTransition};
             &:hover {
               transition: ${({ theme }) => theme.buttonTransition};
-              background-color: ${({ theme }) => theme.iconBackgroundHover};
+              background-color: ${({ theme }) => theme.buttonBackgroundHover};
             }
             &:active {
               background-color: ${({ theme }) => theme.buttonBackgroundActive};
@@ -168,7 +169,7 @@ const Style = styled.div`
     #tab2:checked ~ nav .tab2,
     #tab3:checked ~ nav .tab3 {
       label {
-        background: ${({ theme }) => theme.mainBackgroundColor};
+        background: ${({ theme }) => theme.buttonBackgroundHover};
         position: relative;
       }
     }
@@ -184,7 +185,7 @@ const Style = styled.div`
           height: 50px;
           .input-ctr {
             display: flex;
-            margin: 20px 0 10px 0;
+            margin: 10px 0 10px 0;
             ${ModalFieldMixin}
             ${ModalBtnMixin}
           }
