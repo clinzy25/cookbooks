@@ -11,7 +11,13 @@ import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import axios from 'axios'
 import Modal from '@/components/Modal'
-import { AvatarMixin, IconMixin, ModalBtnMixin, PageHeaderMixin, TagHoverMixin } from '@/styles/mixins'
+import {
+  AvatarMixin,
+  IconMixin,
+  ModalBtnMixin,
+  PageHeaderMixin,
+  TagHoverMixin,
+} from '@/styles/mixins'
 import { TagMixin } from '@/styles/mixins'
 import Loader from './Loader'
 import Error from './Error'
@@ -178,10 +184,10 @@ const Recipe: React.FC<Props> = props => {
             <h2>Ingredients</h2>
             <ul id='ingredients'>
               {ingredients.map(ingredient => (
-                <div key={ingredient}>
-                  <input type='checkbox' />
+                <label key={ingredient}>
+                  <input name='checkbox' type='checkbox' />
                   <li key={ingredient}>{ingredient}</li>
-                </div>
+                </label>
               ))}
             </ul>
           </div>
@@ -191,10 +197,10 @@ const Recipe: React.FC<Props> = props => {
               {instructions.map(step => {
                 if (step.type === 'HowToStep') {
                   return (
-                    <div key={step.text}>
+                    <label key={step.text} htmlFor='checkbox'>
                       <input type='checkbox' />
                       <li key={step.text}>{step.text}</li>
-                    </div>
+                    </label>
                   )
                 } else if (step.type === 'HowToSection') {
                   return (
@@ -202,10 +208,10 @@ const Recipe: React.FC<Props> = props => {
                       <h3>{step.name}</h3>
                       <ol>
                         {step.instructions.map(step => (
-                          <div key={step.text}>
+                          <label key={step.text} htmlFor='checkbox'>
+                           {step.text}
                             <input type='checkbox' />
-                            <li key={step.text}>{step.text}</li>
-                          </div>
+                          </label>
                         ))}
                       </ol>
                     </>
@@ -337,12 +343,14 @@ const Style = styled.main`
     ul,
     ol {
       list-style-position: inside;
-      div {
+      label {
         display: flex;
         align-items: flex-start;
+        cursor: pointer;
         input {
           margin: 9px 8px 0 0;
           transform: scale(1.4);
+          min-width: 15px;
         }
         li {
           margin: 5px 0;
