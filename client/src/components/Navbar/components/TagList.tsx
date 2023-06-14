@@ -320,15 +320,23 @@ const Style = styled.div<StyleProps>`
         props.tagsEditMode
           ? props.theme.buttonBackgroundActive
           : props.theme.buttonBackground};
-      &:hover {
-        text-decoration: underline;
-        transition: ${({ theme }) => theme.buttonTransition};
-        background-color: ${({ theme }) => theme.iconBackgroundHover};
-        color: ${({ theme }) => theme.mainTextColorInverse};
-        transform: scale(1.2);
-        padding: 3px 12px;
-        margin: 0 10px;
-      }
+      color: ${props =>
+        props.tagsEditMode ? props.theme.mainTextColorInverse : props.theme.mainTextColor};
+      // ignore touch
+      ${props =>
+        props.tagsEditMode
+          ? ``
+          : `@media (hover: hover) and (pointer: fine) {
+              &:hover {
+                text-decoration: underline;
+                transition: ${props.theme.buttonTransition};
+                background-color: ${props.theme.iconBackgroundHover};
+                color: ${props.theme.mainTextColorInverse};
+                transform: scale(1.2);
+                padding: 3px 12px;
+                margin: 0 10px;
+              }
+            }`}
     }
     .undo-icon,
     .delete-icon {
@@ -369,15 +377,6 @@ const Style = styled.div<StyleProps>`
   }
   .right {
     margin-left: 12px;
-  }
-  .edit-icon {
-    ${IconMixin}
-    background-color: ${props => (props.tagsEditMode ? '#00d600' : 'whitesmoke')};
-    margin-left: 12px;
-    &:hover {
-      transition: all 0.1s ease-out;
-      background-color: ${props => (props.tagsEditMode ? '#69ff69' : '#d2d2d2')};
-    }
   }
 `
 

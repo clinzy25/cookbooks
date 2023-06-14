@@ -56,9 +56,12 @@ export const AddBtnMixin = css`
   cursor: pointer;
   transition: ${({ theme }) => theme.buttonTransition};
   &:hover {
-    ${({ theme }) => theme.buttonTransition};
+    transition: ${({ theme }) => theme.buttonTransition};
     transform: scale(1.2);
-    background-color: ${({ theme }) => theme.iconBackgroundHover};
+    .add-btn {
+      background-color: ${({ theme }) => theme.iconBackgroundHover};
+      color: ${({ theme }) => theme.mainTextColorInverse};
+    }
   }
   .add-btn {
     background-color: white;
@@ -66,6 +69,7 @@ export const AddBtnMixin = css`
     padding: 10px;
     background-color: ${({ theme }) => theme.buttonBackground};
     color: ${({ theme }) => theme.mainTextColor};
+    transition: ${({ theme }) => theme.buttonTransition};
   }
 `
 

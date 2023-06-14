@@ -146,14 +146,14 @@ const Style = styled.div<StyleProps>`
     position: relative;
     display: flex;
     flex-direction: column;
-    border-radius: ${props => (props.searchResults ? '10px' : '50px')};
+    border-radius: 50px;
     z-index: 5;
     .ctr {
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100%;
-      border-radius: ${props => (props.searchResults ? '10px' : '50px')};
+      border-radius: 50px;
       background-color: ${({ theme }) => theme.buttonBackground};
       transition: all 0.2s ease-out;
       input {
@@ -165,8 +165,8 @@ const Style = styled.div<StyleProps>`
         line-height: 40px;
         font-size: 16px;
         background-color: ${({ theme }) => theme.mainBackgroundColor};
-        border-top-left-radius: ${props => (props.searchResults ? '10px' : '50px')};
-        border-bottom-left-radius: ${props => (props.searchResults ? '10px' : '50px')};
+        border-top-left-radius: 50px;
+        border-bottom-left-radius: 50px;
         transition: all 0.2s ease-out;
         &:focus,
         &:not(:placeholder-shown) {

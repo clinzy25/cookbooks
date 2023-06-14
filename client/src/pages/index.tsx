@@ -28,6 +28,7 @@ const Styles = styled.main`
   text-align: center;
   header {
     h1 {
+      color: ${({ theme }) => theme.headerTextColor};
       font: 3.5rem Montserrat, sans-serif;
     }
   }

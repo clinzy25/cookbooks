@@ -25,11 +25,11 @@ export const LightTheme: ThemeProps = {
   mainTextColorHover: '#e36414',
   secondaryTextColor: '#494949',
 
-  buttonBackground: '#e36414',
+  buttonBackground: '#e56a1d',
   buttonBackgroundHover: '#ef7f39',
   iconBackgroundHover: '#ffd100',
+  buttonBackgroundActive: '#e36414',
 
-  buttonBackgroundActive: '#d3d3d3',
   buttonTransition: 'all 0.1s ease-out;',
   cardTransition: 'all 0.15s ease-out',
   softBorder: '#bfbfbf',
