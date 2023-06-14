@@ -198,7 +198,7 @@ const Recipe: React.FC<Props> = props => {
                 if (step.type === 'HowToStep') {
                   return (
                     <label key={step.text} htmlFor='checkbox'>
-                      <input type='checkbox' />
+                      <input name='checkbox' type='checkbox' />
                       <li key={step.text}>{step.text}</li>
                     </label>
                   )
@@ -209,8 +209,8 @@ const Recipe: React.FC<Props> = props => {
                       <ol>
                         {step.instructions.map(step => (
                           <label key={step.text} htmlFor='checkbox'>
-                           {step.text}
-                            <input type='checkbox' />
+                            {step.text}
+                            <input name='checkbox' type='checkbox' />
                           </label>
                         ))}
                       </ol>
