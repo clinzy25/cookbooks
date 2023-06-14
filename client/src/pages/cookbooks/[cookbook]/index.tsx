@@ -24,6 +24,7 @@ import Head from 'next/head'
 import { BiLink } from 'react-icons/bi'
 import { BsFillPencilFill } from 'react-icons/bs'
 import { CSSTransition } from 'react-transition-group'
+import { useOutsideAlerter } from '@/utils/utils.hooks'
 
 type Props = {
   recipes: IRecipeRes[]
@@ -40,10 +41,12 @@ const CookbookDetailPage: React.FC<Props> = props => {
   const [recipeModal, setRecipeModal] = useState(false)
   const [editModal, setEditModal] = useState(false)
   const [iconsExpand, setIconsExpand] = useState(false)
-
+  
   const iconsRef = useRef(null)
   const _cookbook_name = useRef<string>()
-
+  
+  useOutsideAlerter(iconsRef, () => setIconsExpand(false))
+  
   const { data, error, mutate, size, setSize, isValidating, isLoading } = useSWRInfinite(
     (index: number) =>
       `${api}/recipes/cookbook?cookbook=${cookbook}&limit=${limit}&offset=${index * limit}`,

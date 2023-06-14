@@ -9,7 +9,9 @@ export const useOutsideAlerter = (ref: RefObject<HTMLElement>, task: () => void)
         ref?.current &&
         !ref?.current?.contains(e.target as Node) &&
         // @ts-ignore
-        !(e.target.className === 'avatar')
+        !(e.target.className === 'avatar') &&
+        // @ts-ignore
+        !(e.target.id === 'add-recipe-btn')
       if (isOutside) {
         e.stopPropagation()
         task()
