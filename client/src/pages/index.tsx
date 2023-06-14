@@ -11,7 +11,7 @@ const LandingPage: React.FC = () => (
     <header>
       <h1>Cookbooks</h1>
     </header>
-    <p>Create a collaborative cookbook with your friends and family.</p>
+    <p>All your recipes in one place.</p>
     <div id='btn-ctr'>
       <Link href='/api/auth/login'>
         <button>Login / Signup</button>
