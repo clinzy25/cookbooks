@@ -23,7 +23,7 @@ export const CardMixin = css`
   }
 `
 
-export const TagMixin = ({ tagsEditMode }: { tagsEditMode: boolean }) => css`
+export const TagMixin = ({ tagsEditMode }: { tagsEditMode?: boolean }) => css`
   display: flex;
   align-items: center;
   border-radius: 25px;
