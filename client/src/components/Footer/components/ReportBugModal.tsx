@@ -31,7 +31,7 @@ const ReportBugModal: FC<Props> = ({ closeModal, modalOpen }) => {
         <h2>Report a Bug</h2>
         <p id='prompt'>
           Thanks for using Cookbooks! Let me know if you something doesn't work right, or if
-          you'd like to recommend improvements or features. I'll take a look as soon as I can!
+          you'd like to recommend improvements or features.
         </p>
         <form onSubmit={handleSubmit}>
           <input placeholder='Email' id='email' type='email' name='email' />
@@ -55,6 +55,9 @@ const Style = styled.div`
   flex-direction: column;
   gap: 10px;
   height: 100%;
+  #prompt {
+    color: ${({ theme }) => theme.mainTextColorInverse};
+  }
   form {
     display: flex;
     flex-direction: column;
