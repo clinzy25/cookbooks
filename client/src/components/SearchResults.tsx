@@ -33,7 +33,7 @@ const SearchResults: FC<Props> = props => {
     data && setRecipes(data)
   }, [data])
 
-  if (!data || !recipes) {
+  if (!data && !recipes) {
     return <Loader size={50} fillSpace />
   }
   if (error) {
