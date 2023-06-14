@@ -50,9 +50,6 @@ export const IconMixin = css`
 
 export const AddBtnMixin = css`
   display: flex;
-  position: fixed;
-  right: 50px;
-  bottom: 50px;
   z-index: 5;
   overflow: hidden;
   border-radius: 50px;

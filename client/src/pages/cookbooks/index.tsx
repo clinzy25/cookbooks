@@ -72,6 +72,9 @@ const Styles = styled.main`
   }
   .icon-ctr {
     ${AddBtnMixin}
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
   }
   @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
     #cookbooks-ctr {

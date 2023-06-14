@@ -8,7 +8,7 @@ import RecipeCard from './components/RecipeCard'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import AddRecipeModal from './components/AddRecipeModal'
 import EditCookbookModal from './components/EditCookbookModal'
-import { AiOutlineEdit, AiOutlineFileAdd } from 'react-icons/ai'
+import { AiFillCamera, AiOutlineEdit, AiOutlineFileAdd } from 'react-icons/ai'
 import {
   AddBtnMixin,
   IconMixin,
@@ -16,12 +16,14 @@ import {
   PageHeaderMixin,
   RecipeCardGridMixin,
 } from '@/styles/mixins'
-import { IoMdAddCircle } from 'react-icons/io'
 import Loader from '@/components/Loader'
 import Error from '@/components/Error'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import Head from 'next/head'
+import { BiLink } from 'react-icons/bi'
+import { BsFillPencilFill } from 'react-icons/bs'
+import { CSSTransition } from 'react-transition-group'
 
 type Props = {
   recipes: IRecipeRes[]
@@ -37,7 +39,9 @@ const CookbookDetailPage: React.FC<Props> = props => {
   const [endOfList, setEndOfList] = useState(false)
   const [recipeModal, setRecipeModal] = useState(false)
   const [editModal, setEditModal] = useState(false)
+  const [iconsExpand, setIconsExpand] = useState(false)
 
+  const iconsRef = useRef(null)
   const _cookbook_name = useRef<string>()
 
   const { data, error, mutate, size, setSize, isValidating, isLoading } = useSWRInfinite(
@@ -120,12 +124,43 @@ const CookbookDetailPage: React.FC<Props> = props => {
           </button>
         </>
       )}
+      <CSSTransition
+        nodeRef={iconsRef}
+        in={iconsExpand}
+        unmountOnExit
+        appear
+        timeout={200}
+        classNames='icons'>
+        <div ref={iconsRef} className='icons-expand'>
+          <div className='_icon-ctr'>
+            <BiLink
+              className='add-btn'
+              title='Paste Link'
+              onClick={() => setRecipeModal(true)}
+            />
+          </div>
+          <div className='_icon-ctr'>
+            <AiFillCamera
+              className='add-btn'
+              title='From Camera'
+              onClick={() => setRecipeModal(true)}
+            />
+          </div>
+          <div className='_icon-ctr'>
+            <BsFillPencilFill
+              className='add-btn'
+              title='Type a Recipe'
+              onClick={() => setRecipeModal(true)}
+            />
+          </div>
+        </div>
+      </CSSTransition>
       <div className='icon-ctr'>
         <AiOutlineFileAdd
           id='add-recipe-btn'
           className='add-btn'
           title='New Recipe'
-          onClick={() => setRecipeModal(true)}
+          onClick={() => setIconsExpand(!iconsExpand)}
         />
       </div>
     </Style>
@@ -192,8 +227,40 @@ const Style = styled.main<StyleProps>`
       margin: 15px 0;
     }
   }
+  .icons-expand {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    right: 50px;
+    bottom: 132px;
+    gap: 10px;
+    ._icon-ctr {
+      ${AddBtnMixin}
+    }
+  }
+  .icons-enter {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  .icons-enter-active {
+    opacity: 1;
+    transform: translateY(0px);
+    transition: all 200ms;
+  }
+  .icons-exit {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  .icons-exit-active {
+    opacity: 0;
+    transition: all 200ms;
+    transform: translateY(100px);
+  }
   .icon-ctr {
-   ${AddBtnMixin}
+    ${AddBtnMixin}
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
   }
 `
 
