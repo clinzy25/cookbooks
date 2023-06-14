@@ -12,12 +12,13 @@ export const Globals: ThemeProps = {
 export const LightTheme: ThemeProps = {
   ...Globals,
   mainBackgroundColor: '#fcfcfc',
+  secondaryBackgroundColor: '#e4e4e4',
   cardBackgroundColor: '#fcfcfc',
   navBackgroundColor: '#212529',
-
+  
   mainBackgroundColorHover: '#f0f0f0',
-  secondaryBackgroundColor: '#e4e4e4',
   secondaryBackgroundColorHover: '#d0d0d0',
+  navBackgroundColorHover: '#454c54',
 
   headerTextColor: '#121420',
   mainTextColor: '#fff',
@@ -32,6 +33,7 @@ export const LightTheme: ThemeProps = {
 
   buttonTransition: 'all 0.1s ease-out;',
   cardTransition: 'all 0.15s ease-out',
+
   softBorder: '#bfbfbf',
   lightBoxShadowColor: '#e3e3e3',
   darkBoxShadowColor: '#d2d2d2',

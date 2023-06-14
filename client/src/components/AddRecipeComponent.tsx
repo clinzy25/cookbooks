@@ -140,7 +140,7 @@ const Style = styled.div`
             align-items: center;
             width: 100%;
             padding: 15px 25px;
-            background-color: ${({ theme }) => theme.buttonBackground};
+            background-color: ${({ theme }) => theme.navBackgroundColor};
             color: ${({ theme }) => theme.mainTextColor};
             margin: 0;
             cursor: pointer;
@@ -148,7 +148,7 @@ const Style = styled.div`
             transition: ${({ theme }) => theme.buttonTransition};
             &:hover {
               transition: ${({ theme }) => theme.buttonTransition};
-              background-color: ${({ theme }) => theme.buttonBackgroundHover};
+              background-color: ${({ theme }) => theme.navBackgroundColorHover};
             }
             &:active {
               background-color: ${({ theme }) => theme.buttonBackgroundActive};
@@ -169,7 +169,7 @@ const Style = styled.div`
     #tab2:checked ~ nav .tab2,
     #tab3:checked ~ nav .tab3 {
       label {
-        background: ${({ theme }) => theme.buttonBackgroundHover};
+        background: ${({ theme }) => theme.buttonBackground};
         position: relative;
       }
     }
