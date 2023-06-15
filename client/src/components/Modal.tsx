@@ -10,7 +10,7 @@ import TransitionWrapper from './TransitionWrapper'
 type Props = {
   closeModal: () => void
   children: ReactNode
-  type?: 'confirm' | 'default' | 'welcome' | 'bug' | 'create-cookbook'
+  type?: 'confirm' | 'default' | 'welcome' | 'bug' | 'create-cookbook' | 'add-recipe'
   modalOpen: boolean | string
 }
 
@@ -33,8 +33,12 @@ const Modal: FC<Props> = ({ closeModal, children, type = 'default', modalOpen })
       height: 'min-content',
       width: 40,
     },
+    'add-recipe': {
+      height: 'min-content',
+      width: 40,
+    },
     welcome: {
-      height: 80,
+      height: 'min-content',
       width: 50,
     },
     bug: {
@@ -61,7 +65,7 @@ const Modal: FC<Props> = ({ closeModal, children, type = 'default', modalOpen })
 }
 
 type StyleProps = {
-  type: 'confirm' | 'default' | 'welcome' | 'bug' | 'create-cookbook'
+  type: 'confirm' | 'default' | 'welcome' | 'bug' | 'create-cookbook' | 'add-recipe'
   dimensions: { [key: string]: { height: number | string; width: number } }
 }
 
@@ -75,11 +79,11 @@ const Style = styled.div<StyleProps>`
   width: ${props => props.dimensions[props.type].width}%;
   background-color: ${({ theme }) => theme.mainBackgroundColor};
   border-radius: 15px;
-  padding: 15px;
+  padding: 25px;
   box-shadow: ${({ theme }) => theme.boxShadowOverOtherElements};
   #close-btn {
     position: absolute;
-    top: 15px;
+    top: 12px;
     right: 15px;
     font-size: 1.5rem;
     cursor: pointer;

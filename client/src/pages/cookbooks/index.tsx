@@ -21,7 +21,7 @@ const CookbooksPage: React.FC = () => {
 
   useEffect(() => {
     !cookbooks.length && !isLoading && setWelcomeModal(true)
-  }, [cookbooks]) // eslint-disable-line
+  }, [cookbooks])
 
   if (!cookbooks) {
     return <Loader size={50} fillSpace />

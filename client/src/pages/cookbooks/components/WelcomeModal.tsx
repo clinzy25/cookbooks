@@ -152,11 +152,10 @@ const WelcomeModal: FC<Props> = ({ setModalOpen, modalOpen }) => {
               <h1>Welcome to Cookbooks!</h1>
               <p>To get started, let&apos;s create a cookbook.</p>
               <label className='label' htmlFor='cookbook-name'>
-                <h3 className='sub-header'>Name Your Cookbook</h3>
                 <input
                   onKeyDown={e => e.key === 'Enter' && validateCookbook(e)}
                   autoFocus
-                  placeholder='Type a name...'
+                  placeholder='Name Your Cookbook...'
                   type='text'
                   name='cookbook-name'
                   defaultValue={cookbook.cookbook_name}
@@ -165,7 +164,7 @@ const WelcomeModal: FC<Props> = ({ setModalOpen, modalOpen }) => {
               </label>
               <div className='btn-ctr'>
                 <button type='button' onClick={e => validateCookbook(e)}>
-                  Next: Add Recipes
+                  Next
                   <AiOutlineArrowRight className='arrow-icon right' />
                 </button>
               </div>
@@ -175,7 +174,11 @@ const WelcomeModal: FC<Props> = ({ setModalOpen, modalOpen }) => {
           {/* Recipes */}
           {formSteps[step] === 'recipes' && (
             <div id='step-recipes'>
-              <AddRecipeComponent handleSubmit={handleRecipeAdd} loading={false} />
+              <AddRecipeComponent
+                sourceType='link'
+                handleSubmit={handleRecipeAdd}
+                loading={false}
+              />
               <ul className='list'>
                 <h3 className='sub-header'>Recipe Queue (Max 10)</h3>
                 {recipes.map((r, i) => (
@@ -203,7 +206,8 @@ const WelcomeModal: FC<Props> = ({ setModalOpen, modalOpen }) => {
                     Skip
                   </button>
                   <button type='button' onClick={() => setStep(2)}>
-                    Next: Invite people <AiOutlineArrowRight className='arrow-icon right' />
+                    Next
+                    <AiOutlineArrowRight className='arrow-icon right' />
                   </button>
                 </div>
               </div>
@@ -261,7 +265,7 @@ const WelcomeModal: FC<Props> = ({ setModalOpen, modalOpen }) => {
                 <div>
                   <button type='submit'>Skip</button>
                   <button type='submit'>
-                    {createLoading ? <Loader size={14} /> : 'Create Cookbook'}
+                    {createLoading ? <Loader size={14} /> : 'Create'}
                   </button>
                 </div>
               </div>
@@ -293,6 +297,7 @@ const Style = styled.main`
       ${ModalFieldMixin}
       & > p {
         text-align: center;
+        margin-bottom: 10px;
       }
       .label {
         margin: auto;
@@ -313,7 +318,7 @@ const Style = styled.main`
       width: 100%;
       display: flex;
       justify-content: flex-end;
-      margin-top: auto;
+      margin-top: 50px;
       ${ModalBtnMixin}
       .left-btn {
         margin: 0 auto 0 0;
@@ -329,7 +334,8 @@ const Style = styled.main`
     }
     .list {
       flex-grow: 1;
-      width: 70%;
+      width: 69%;
+      min-height: 150px;
       text-align: left;
       list-style-type: none;
       overflow-y: auto;
@@ -372,8 +378,11 @@ const Style = styled.main`
     form {
       #step-cookbook,
       #step-members {
-        label {
+        .label {
           width: 100%;
+          input {
+            width: 100%;
+          }
         }
       }
       .list {
@@ -383,7 +392,7 @@ const Style = styled.main`
     .btn-ctr,
     .input-ctr {
       button {
-        padding: 10px 8px !important;
+        padding: 12px 15px !important;
       }
     }
   }

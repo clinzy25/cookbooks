@@ -44,7 +44,7 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal, modalOpe
   }
 
   return (
-    <Modal modalOpen={modalOpen} type='default' closeModal={() => setRecipeModal('')}>
+    <Modal modalOpen={modalOpen} type='add-recipe' closeModal={() => setRecipeModal('')}>
       <AddRecipeComponent sourceType={modalOpen} handleSubmit={parseRecipe} loading={loading} />
     </Modal>
   )

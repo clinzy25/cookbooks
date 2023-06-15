@@ -4,12 +4,14 @@ import Loader from './Loader'
 import { AiFillCamera, AiOutlineEdit } from 'react-icons/ai'
 import { RecipeSourceTypes } from '@/types/@types.recipes'
 import {
+  IconMixin,
   ModalBtnMixin,
   ModalFieldMixin,
   ModalHeaderMixin,
   PlannedFeatureMixin,
 } from '@/styles/mixins'
 import { BiLink } from 'react-icons/bi'
+import { BsQuestionCircle } from 'react-icons/bs'
 
 type Props = {
   loading: boolean
@@ -19,6 +21,7 @@ type Props = {
 
 const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading, sourceType }) => {
   const [selection, setSelection] = useState<RecipeSourceTypes>(sourceType)
+  const [help, setHelp] = useState(false)
   const linkFieldRef = useRef<HTMLInputElement>(null)
 
   const handleClick = () => {
@@ -66,7 +69,10 @@ const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading, sourceType }) =>
         <section>
           <div className='tab1 paste-link'>
             <label htmlFor='paste-link'>
+              {help &&
+                "Paste a link to a web page that contains a recipe and we'll extract the recipe and save it in your cookbook."}
               <div className='input-ctr'>
+                <BsQuestionCircle onClick={() => setHelp(!help)} className='help-icon' />
                 <input
                   onPaste={e => handleSubmit(e.clipboardData?.getData('Text'), selection)}
                   placeholder='Paste a link with a recipe...'
@@ -78,8 +84,6 @@ const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading, sourceType }) =>
                   {loading ? <Loader size={15} /> : 'Add'}
                 </button>
               </div>
-              Paste a link to a web page that contains a recipe and we&apos;ll extract the
-              recipe and save it in your cookbook.
             </label>
           </div>
           <div className='tab2 camera'>
@@ -104,7 +108,7 @@ const Style = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: 50%;
+  height: 100%;
   background-color: ${({ theme }) => theme.mainBackgroundColor};
   ${ModalHeaderMixin}
   .tab-ctr {
@@ -112,7 +116,7 @@ const Style = styled.div`
     display: flex;
     justify-content: space-between;
     gap: 20px;
-    width: 75%;
+    width: 100%;
     height: 100%;
     & > input,
     & section > div {
@@ -184,9 +188,15 @@ const Style = styled.div`
           height: 50px;
           .input-ctr {
             display: flex;
+            align-items: center;
             margin: 10px 0 10px 0;
             ${ModalFieldMixin}
             ${ModalBtnMixin}
+            .help-icon {
+              ${IconMixin}
+              min-width: 40px;
+              margin-right: 15px;
+            }
           }
         }
       }
@@ -217,7 +227,12 @@ const Style = styled.div`
               flex-wrap: wrap;
               justify-content: center;
               button {
-                margin: 20px 0 0 0;
+                margin: 15px 0 0 0;
+                order: 2;
+              }
+              .help-icon {
+                order: 1;
+                margin-top: 15px;
               }
             }
           }
