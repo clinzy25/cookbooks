@@ -96,6 +96,7 @@ const CookbookCard = ({ cookbook }: Props) => {
 const Style = styled.div`
   ${CardMixin}
   transition: ${({ theme }) => theme.cardTransition};
+  box-shadow: ${({ theme }) => theme.superSoftBoxShadow};
   &:hover {
     transition: ${({ theme }) => theme.cardTransition};
     filter: brightness(97%);
@@ -156,6 +157,7 @@ const Style = styled.div`
     }
     p {
       margin-bottom: 12px;
+      color: ${({ theme }) => theme.secondaryTextColor};
     }
     div {
       position: relative;

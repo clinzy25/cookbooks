@@ -16,7 +16,7 @@ export const LightTheme: ThemeProps = {
   cardBackgroundColor: '#fcfcfc',
   navBackgroundColor: '#212529',
   tagBackgroundColor: '#e9ecef',
-  
+
   mainBackgroundColorHover: '#f0f0f0',
   secondaryBackgroundColorHover: '#d0d0d0',
   navBackgroundColorHover: '#454c54',
@@ -36,10 +36,8 @@ export const LightTheme: ThemeProps = {
   cardTransition: 'all 0.15s ease-out',
 
   softBorder: '#bfbfbf',
-  lightBoxShadowColor: '#e3e3e3',
-  darkBoxShadowColor: '#d2d2d2',
-  darkBoxShadowColorHover: '#b5b5b5',
   boxShadowOverOtherElements: '0 2px 24px 0 rgba(0,0,0,.24)',
+  superSoftBoxShadow: '0 5px 15px 0 rgba(0,0,0,.1)',
 
   pageHeaderFont: '2.4rem Montserrat, sans-serif',
   pageHeaderFontMobile: '1.8rem Montserrat, sans-serif',
