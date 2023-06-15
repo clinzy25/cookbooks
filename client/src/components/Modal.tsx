@@ -26,8 +26,8 @@ const Modal: FC<Props> = ({ closeModal, children, type = 'default', modalOpen })
 
   const dimensions = {
     confirm: {
-      height: 40,
-      width: 40,
+      height: 30,
+      width: 30,
     },
     'create-cookbook': {
       height: 'min-content',
