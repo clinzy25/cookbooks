@@ -6,7 +6,6 @@ import axios from 'axios'
 import useAppContext from '@/context/app.context'
 import { IAppContext } from '@/types/@types.context'
 import Modal from '@/components/Modal'
-import { useRouter } from 'next/router'
 import { ICookbookReq } from '@/types/@types.cookbooks'
 import { ModalBtnMixin, ModalFieldMixin, ModalHeaderMixin } from '@/styles/mixins'
 
@@ -45,11 +44,10 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen, modalOpen }) => {
   }
 
   return (
-    <Modal modalOpen={modalOpen} type='default' closeModal={() => setModalOpen(false)}>
+    <Modal modalOpen={modalOpen} type='create-cookbook' closeModal={() => setModalOpen(false)}>
       <Style>
         <h1>Create a New Cookbook</h1>
         <form autoComplete='off' onSubmit={e => handleSubmit(e)}>
-          <div />
           <label htmlFor='name'>
             <div>
               <input
@@ -61,9 +59,9 @@ const AddCookbookModal: FC<Props> = ({ setModalOpen, modalOpen }) => {
               />
               {/* For enter key */}
               <input type='submit' hidden />
-              <button type='submit'>Create Cookbook</button>
             </div>
           </label>
+          <button type='submit'>Create Cookbook</button>
         </form>
       </Style>
     </Modal>
@@ -79,31 +77,17 @@ const Style = styled.div`
   ${ModalHeaderMixin}
   form {
     width: 100%;
-    height: 80%;
+    height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 15px;
+    ${ModalBtnMixin}
     label {
-      width: 80%;
+      width: 100%;
       div {
-        display: flex;
-        margin-top: 10px;
         ${ModalFieldMixin}
-        ${ModalBtnMixin}
-      }
-    }
-  }
-  @media screen and (max-width: ${({ theme }) => theme.breakpointMobile}px) {
-    form {
-      label {
-        width: 100%;
-        div {
-          flex-wrap: wrap;
-          justify-content: center;
-          button {
-            margin: 20px 0 0 0;
-          }
-        }
       }
     }
   }

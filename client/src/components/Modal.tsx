@@ -10,7 +10,7 @@ import TransitionWrapper from './TransitionWrapper'
 type Props = {
   closeModal: () => void
   children: ReactNode
-  type?: 'confirm' | 'default' | 'welcome' | 'bug'
+  type?: 'confirm' | 'default' | 'welcome' | 'bug' | 'create-cookbook'
   modalOpen: boolean
 }
 
@@ -27,6 +27,10 @@ const Modal: FC<Props> = ({ closeModal, children, type = 'default', modalOpen })
   const dimensions = {
     confirm: {
       height: 40,
+      width: 40,
+    },
+    'create-cookbook': {
+      height: 'min-content',
       width: 40,
     },
     welcome: {
@@ -57,15 +61,15 @@ const Modal: FC<Props> = ({ closeModal, children, type = 'default', modalOpen })
 }
 
 type StyleProps = {
-  type: 'confirm' | 'default' | 'welcome' | 'bug'
+  type: 'confirm' | 'default' | 'welcome' | 'bug' | 'create-cookbook'
   dimensions: { [key: string]: { height: number | string; width: number } }
 }
 
 const Style = styled.div<StyleProps>`
   position: fixed;
-  top: 140px;
   left: 50%;
-  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
   z-index: 10;
   height: ${props => props.dimensions[props.type].height}%;
   width: ${props => props.dimensions[props.type].width}%;
