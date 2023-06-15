@@ -14,10 +14,11 @@ import { BiLink } from 'react-icons/bi'
 type Props = {
   loading: boolean
   handleSubmit: (url: string, selection: RecipeSourceTypes) => void
+  sourceType: RecipeSourceTypes
 }
 
-const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading }) => {
-  const [selection, setSelection] = useState<RecipeSourceTypes>('link')
+const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading, sourceType }) => {
+  const [selection, setSelection] = useState<RecipeSourceTypes>(sourceType)
   const linkFieldRef = useRef<HTMLInputElement>(null)
 
   const handleClick = () => {
@@ -31,9 +32,9 @@ const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading }) => {
     <Style>
       <h1>Add Recipe</h1>
       <div className='tab-ctr'>
-        <input defaultChecked id='tab1' type='radio' name='tab' />
-        <input id='tab2' type='radio' name='tab' />
-        <input id='tab3' type='radio' name='tab' />
+        <input defaultChecked={selection === 'link'} id='tab1' type='radio' name='tab' />
+        <input defaultChecked={selection === 'camera'} id='tab2' type='radio' name='tab' />
+        <input defaultChecked={selection === 'manual'} id='tab3' type='radio' name='tab' />
         <nav>
           <ul>
             <li className='tab1'>
@@ -72,13 +73,13 @@ const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading }) => {
                   type='text'
                   ref={linkFieldRef}
                   name='paste-link'
-                  />
+                />
                 <button type='button' onClick={handleClick}>
                   {loading ? <Loader size={15} /> : 'Add'}
                 </button>
               </div>
-                  Paste a link to a web page that contains a recipe and we&apos;ll extract the
-                  recipe and save it in your cookbook.
+              Paste a link to a web page that contains a recipe and we&apos;ll extract the
+              recipe and save it in your cookbook.
             </label>
           </div>
           <div className='tab2 camera'>
@@ -98,8 +99,6 @@ const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading }) => {
     </Style>
   )
 }
-
-AddRecipeComponent.displayName = 'AddRecipeComponent'
 
 const Style = styled.div`
   display: flex;

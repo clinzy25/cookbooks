@@ -5,7 +5,7 @@ import { CSSTransition } from 'react-transition-group'
 type Props = {
   children: ReactNode
   ref: ReactElement
-  state: boolean
+  state: boolean | string
 }
 
 const TransitionWrapper = forwardRef<HTMLElement, React.PropsWithChildren<Props>>(

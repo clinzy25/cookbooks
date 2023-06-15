@@ -11,7 +11,7 @@ type Props = {
   closeModal: () => void
   children: ReactNode
   type?: 'confirm' | 'default' | 'welcome' | 'bug' | 'create-cookbook'
-  modalOpen: boolean
+  modalOpen: boolean | string
 }
 
 const Modal: FC<Props> = ({ closeModal, children, type = 'default', modalOpen }) => {

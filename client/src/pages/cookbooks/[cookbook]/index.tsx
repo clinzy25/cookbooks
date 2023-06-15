@@ -1,5 +1,5 @@
 import { api, fetcher } from '@/api'
-import { IRecipeRes } from '@/types/@types.recipes'
+import { IRecipeRes, RecipeSourceTypes } from '@/types/@types.recipes'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
@@ -38,7 +38,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
   const [recipes, setRecipes] = useState<IRecipeRes[]>(props.recipes)
   const [limit] = useState(20)
   const [endOfList, setEndOfList] = useState(false)
-  const [recipeModal, setRecipeModal] = useState(false)
+  const [recipeModal, setRecipeModal] = useState<RecipeSourceTypes>('')
   const [editModal, setEditModal] = useState(false)
   const [iconsExpand, setIconsExpand] = useState(false)
   
@@ -139,21 +139,21 @@ const CookbookDetailPage: React.FC<Props> = props => {
             <BiLink
               className='add-btn'
               title='Paste Link'
-              onClick={() => setRecipeModal(true)}
+              onClick={() => setRecipeModal('link')}
             />
           </div>
           <div className='_icon-ctr'>
             <AiFillCamera
               className='add-btn'
               title='From Camera'
-              onClick={() => setRecipeModal(true)}
+              onClick={() => setRecipeModal('camera')}
             />
           </div>
           <div className='_icon-ctr'>
             <BsFillPencilFill
               className='add-btn'
               title='Type a Recipe'
-              onClick={() => setRecipeModal(true)}
+              onClick={() => setRecipeModal('manual')}
             />
           </div>
         </div>

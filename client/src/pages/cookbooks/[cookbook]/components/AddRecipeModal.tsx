@@ -9,9 +9,9 @@ import { useRouter } from 'next/router'
 import AddRecipeComponent from '@/components/AddRecipeComponent'
 
 type Props = {
-  setRecipeModal: (bool: boolean) => void
+  setRecipeModal: (sourceType: RecipeSourceTypes) => void
   revalidateRecipes: () => void
-  modalOpen: boolean
+  modalOpen: RecipeSourceTypes
 }
 
 const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal, modalOpen }) => {
@@ -36,7 +36,7 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal, modalOpe
       setSnackbar({ msg: 'Recipe added!', state: 'success' })
       revalidateRecipes()
       revalidateTags()
-      setRecipeModal(false)
+      setRecipeModal('')
     } catch (e) {
       handleServerError(e)
     }
@@ -44,8 +44,8 @@ const AddRecipeModal: FC<Props> = ({ revalidateRecipes, setRecipeModal, modalOpe
   }
 
   return (
-    <Modal modalOpen={modalOpen} type='default' closeModal={() => setRecipeModal(false)}>
-      <AddRecipeComponent handleSubmit={parseRecipe} loading={loading} />
+    <Modal modalOpen={modalOpen} type='default' closeModal={() => setRecipeModal('')}>
+      <AddRecipeComponent sourceType={modalOpen} handleSubmit={parseRecipe} loading={loading} />
     </Modal>
   )
 }
