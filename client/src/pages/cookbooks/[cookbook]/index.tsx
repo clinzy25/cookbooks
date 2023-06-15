@@ -101,7 +101,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
           <h2>Somethings missing...</h2>
           <p>Don&apos;t forget to add some recipes and invite your friends and family!</p>
           <div>
-            <button className='btn' onClick={() => setRecipeModal(true)}>
+            <button className='btn' onClick={() => setRecipeModal('link')}>
               Add Recipes
             </button>
             <button className='btn' onClick={() => setEditModal(true)}>
