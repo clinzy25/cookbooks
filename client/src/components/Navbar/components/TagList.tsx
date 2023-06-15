@@ -316,7 +316,6 @@ const Style = styled.div<StyleProps>`
     }
     .tag {
       ${props => TagMixin({ tagsEditMode: props.tagsEditMode })}
-      // ignore touch
       ${props => (props.tagsEditMode ? `` : TagHoverMixin)}
     }
     .undo-icon,
