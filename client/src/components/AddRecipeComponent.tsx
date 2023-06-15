@@ -126,6 +126,15 @@ const Style = styled.div`
     #tab2:checked ~ section .tab2,
     #tab3:checked ~ section .tab3 {
       display: block;
+      animation: switchStep 0.3s ease-out;
+      @keyframes switchStep {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
     }
     nav {
       ul {

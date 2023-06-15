@@ -11,8 +11,11 @@ export const useOutsideAlerter = (ref: RefObject<HTMLElement>, task: () => void)
         // @ts-ignore
         !(e.target.className === 'avatar') &&
         // @ts-ignore
-        !(e.target.id === 'add-recipe-btn')
-        console.log(e.target)
+        !(e.target.id === 'add-recipe-btn') &&
+        // svg inside add-recipe-btn
+        // @ts-ignore
+        !(e.target.d === 'M854.6 288.6L639.4 73.4c…-4.4-3.6-8-8-8H544V472z')
+
       if (isOutside) {
         e.stopPropagation()
         task()

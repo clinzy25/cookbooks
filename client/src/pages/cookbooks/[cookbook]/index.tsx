@@ -235,7 +235,7 @@ const Style = styled.main<StyleProps>`
     flex-direction: column;
     position: fixed;
     right: 35px;
-    bottom: 132px;
+    bottom: 118px;
     gap: 10px;
     ._icon-ctr {
       ${AddBtnMixin}

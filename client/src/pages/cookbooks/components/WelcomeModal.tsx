@@ -295,6 +295,15 @@ const Style = styled.main`
       align-items: center;
       justify-content: center;
       ${ModalFieldMixin}
+      animation: switchStep 0.3s ease-out;
+      @keyframes switchStep {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
       & > p {
         text-align: center;
         margin-bottom: 10px;

@@ -46,7 +46,7 @@ const Modal: FC<Props> = ({ closeModal, children, type = 'default', modalOpen })
       width: 40,
     },
     default: {
-      height: 70,
+      height: 'min-content',
       width: 50,
     },
   }
@@ -81,6 +81,7 @@ const Style = styled.div<StyleProps>`
   border-radius: 15px;
   padding: 25px;
   box-shadow: ${({ theme }) => theme.boxShadowOverOtherElements};
+  transition: ${({ theme }) => theme.cardTransition};
   #close-btn {
     position: absolute;
     top: 12px;
