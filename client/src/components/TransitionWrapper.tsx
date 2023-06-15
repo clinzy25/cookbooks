@@ -9,11 +9,12 @@ type Props = {
 }
 
 const TransitionWrapper = forwardRef<HTMLElement, React.PropsWithChildren<Props>>(
-(props, ref) => (
+  (props, ref) => (
     <Style id='modal'>
       <CSSTransition
         nodeRef={ref}
-        in={props.state}
+        // handle state as string from AddRecipeModal
+        in={typeof props.state === 'boolean' ? props.state : props.state ? true : false}
         unmountOnExit
         appear
         timeout={200}
