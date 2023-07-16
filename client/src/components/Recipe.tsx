@@ -183,12 +183,27 @@ const Recipe: React.FC<Props> = props => {
           <div>
             <h2>Ingredients</h2>
             <ul id='ingredients'>
-              {ingredients.map(ingredient => (
-                <label key={ingredient}>
-                  <input name='checkbox' type='checkbox' />
-                  <li key={ingredient}>{ingredient}</li>
-                </label>
-              ))}
+              {ingredients.map(ingredient => {
+                if (typeof ingredient === 'object') {
+                  return (
+                    <>
+                      <h3>{Object.keys(ingredient)[0]}</h3>
+                      {Object.values(ingredient)[0].map(subStep => (
+                        <label key={subStep}>
+                          <input name='checkbox' type='checkbox' />
+                          <li key={subStep}>{subStep}</li>
+                        </label>
+                      ))}
+                    </>
+                  )
+                }
+                return (
+                  <label key={ingredient}>
+                    <input name='checkbox' type='checkbox' />
+                    <li key={ingredient}>{ingredient}</li>
+                  </label>
+                )
+              })}
             </ul>
           </div>
           <div>

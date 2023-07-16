@@ -39,7 +39,7 @@ class Scraper {
     }
 
     try {
-      this.finalRecipe = buildRecipeModel(this.recipeItem)
+      this.finalRecipe = buildRecipeModel(this.recipeItem, this.chtml)
 
       return this.finalRecipe
     } catch (error) {

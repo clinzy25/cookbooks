@@ -1,10 +1,29 @@
 import cleanIngredientAmounts from '../utils/cleanIngredientAmounts'
 import cleanString from '../utils/cleanString'
 
-const transformIngredients = value => {
-  // jsonld
-  if (value && typeof value[0] === 'string') {
-    return value.map(item => cleanString(cleanIngredientAmounts(item)))
+const transformIngredients = (value, _, $) => {
+  const hasIngredientCategories = $('.wprm-recipe-ingredient-group')
+
+  if (hasIngredientCategories) {
+    const ingredients = []
+    let index = 0
+    $('.wprm-recipe-ingredient-group')
+      .toArray()
+      .forEach((el, i) => {
+        const header = $(el).find('.wprm-recipe-group-name').text().trim()
+        const numIngredients = $(el).find('.wprm-recipe-ingredient').toArray().length
+        const ingredientsGroup = value
+          .slice(index, index + numIngredients)
+          .map(item => cleanString(cleanIngredientAmounts(item)))
+        ingredients.push({ [header]: ingredientsGroup })
+        index = numIngredients
+      })
+    return ingredients
+  } else {
+    // jsonld
+    if (value && typeof value[0] === 'string') {
+      return value.map(item => cleanString(cleanIngredientAmounts(item)))
+    }
   }
 
   // array of objects (microdata)

@@ -1,4 +1,4 @@
-export const consolidateRecipeProperties = prospectiveProperties => {
+export const consolidateRecipeProperties = (prospectiveProperties) => {
   const {
     url,
     name,

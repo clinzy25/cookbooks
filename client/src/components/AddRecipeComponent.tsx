@@ -79,6 +79,7 @@ const AddRecipeComponent: FC<Props> = ({ handleSubmit, loading, sourceType }) =>
                   type='text'
                   ref={linkFieldRef}
                   name='paste-link'
+                  autoFocus
                 />
                 <button type='button' onClick={handleClick}>
                   {loading ? <Loader size={15} /> : 'Add'}
