@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Head from 'next/head'
 
 const LandingPage: React.FC = () => (
-  <Styles className='page-wrapper'>
+  <Styles as='main' className='page-wrapper'>
     <Head>
       <title>Cookbooks</title>
     </Head>

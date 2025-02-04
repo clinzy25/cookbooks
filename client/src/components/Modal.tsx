@@ -67,6 +67,8 @@ const Modal: FC<Props> = ({ closeModal, children, type = 'default', modalOpen })
 type StyleProps = {
   type: 'confirm' | 'default' | 'welcome' | 'bug' | 'create-cookbook' | 'add-recipe'
   dimensions: { [key: string]: { height: number | string; width: number } }
+  children?: React.ReactNode
+  ref?: React.RefObject<HTMLDivElement>
 }
 
 const Style = styled.div<StyleProps>`

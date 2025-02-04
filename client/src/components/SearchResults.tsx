@@ -40,7 +40,7 @@ const SearchResults: FC<Props> = props => {
     return <Error fillSpace />
   }
   return (
-    <Style className='page-wrapper'>
+    <Style as='main' className='page-wrapper'>
       <Head>
         <title>Cookbooks - #{value}</title>
       </Head>

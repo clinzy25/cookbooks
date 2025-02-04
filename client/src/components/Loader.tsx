@@ -4,11 +4,13 @@ import styled from 'styled-components'
 type Props = {
   size: number
   fillSpace?: boolean
+  children?: React.ReactNode
+  className?: string
 }
 
-const Loader: FC<Props> = ({ size, fillSpace }) => (
+const Loader: FC<Props> = ({ size, fillSpace, children }) => (
   <Style className={fillSpace ? 'page-wrapper' : ''} fillSpace={fillSpace} size={size}>
-    <div className='loader' />
+    {children || <div className='loader' />}
   </Style>
 )
 

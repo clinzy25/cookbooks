@@ -30,7 +30,7 @@ const CookbooksPage: React.FC = () => {
     return <Error fillSpace />
   }
   return (
-    <Styles className='page-wrapper' id='cookbook-page-wrapper'>
+    <Styles as='main' className='page-wrapper' id='cookbook-page-wrapper'>
       <Head>
         <title>Your Cookbooks</title>
       </Head>

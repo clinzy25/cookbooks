@@ -47,7 +47,7 @@ const Breadcrumb: FC = () => {
   }, [pathname, query]) // eslint-disable-line
 
   return (
-    <Style id='breadcrumb-wrapper'>
+    <Style as='nav' id='breadcrumb-wrapper'>
       {breadcrumb.map((bc, i) => (
         <div key={bc.display}>
           <Link className='breadcrumb' href={i === breadcrumb.length - 1 ? '#' : bc.href}>

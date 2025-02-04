@@ -10,7 +10,7 @@ type Props = {
 
 const TransitionWrapper = forwardRef<HTMLElement, React.PropsWithChildren<Props>>(
   (props, ref) => (
-    <Style id='modal'>
+    <Style as='div' id='modal'>
       <CSSTransition
         nodeRef={ref}
         // handle state as string from AddRecipeModal

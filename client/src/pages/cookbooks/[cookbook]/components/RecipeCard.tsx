@@ -35,7 +35,7 @@ const RecipeCard: React.FC<IRecipeRes> = recipe => {
   }
 
   return (
-    <Style>
+    <Style as='article'>
       <Link href={handleHref()}>
         <div className='img-ctr'>
           {image && (

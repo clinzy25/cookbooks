@@ -275,6 +275,7 @@ type StyleProps = {
   tagsEditMode: boolean
   right: boolean
   left: boolean
+  children?: React.ReactNode
 }
 
 const Style = styled.div<StyleProps>`

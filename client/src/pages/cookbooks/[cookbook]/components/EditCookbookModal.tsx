@@ -259,6 +259,7 @@ const EditCookbookModal: FC<Props> = ({ setEditModal, modalOpen }) => {
 
 type StyleProps = {
   tagsEditMode: boolean
+  children?: React.ReactNode
 }
 
 const Style = styled.article<StyleProps>`

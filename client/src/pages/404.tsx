@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const NotFound = () => {
   return (
-    <Style className='page-wrapper'>
+    <Style as='main' className='page-wrapper'>
       <h1>404</h1>
       <p>Sorry, this page does not exist :(</p>
     </Style>

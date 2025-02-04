@@ -77,7 +77,7 @@ const CookbookDetailPage: React.FC<Props> = props => {
     return <Error fillSpace />
   }
   return (
-    <Style endOfList={endOfList} className='page-wrapper' id='cookbook-detail-page-wrapper'>
+    <Style as='main' endOfList={endOfList} className='page-wrapper' id='cookbook-detail-page-wrapper'>
       <Head>
         <title>{_cookbook_name.current}</title>
       </Head>

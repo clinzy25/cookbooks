@@ -36,6 +36,7 @@ const Snackbar: FC<Props> = ({ snackbar }) => {
 type StyleProps = {
   state: string
   duration: number
+  children?: React.ReactNode
 }
 
 const Style = styled.div<StyleProps>`

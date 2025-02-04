@@ -6,7 +6,7 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
-    'next/babel',
+    'next',
     'prettier',
   ],
   overrides: [],

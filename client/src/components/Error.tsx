@@ -4,15 +4,17 @@ import styled from 'styled-components'
 type Props = {
   fillSpace?: boolean
   fontSize?: number
+  children?: React.ReactNode
+  className?: string
 }
 
-const Error: FC<Props> = ({ fillSpace, fontSize = 1.5 }) => {
+const Error: FC<Props> = ({ fillSpace, fontSize = 1.5, children }) => {
   return (
     <Style
       className={fillSpace ? 'page-wrapper' : ''}
       fillSpace={fillSpace}
       fontSize={fontSize}>
-      Something went wrong :(
+      {children || 'Something went wrong :('}
     </Style>
   )
 }

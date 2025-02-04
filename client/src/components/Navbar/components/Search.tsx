@@ -136,6 +136,7 @@ type StyleProps = {
   searchResults: ISearchResults | null
   width: number | undefined
   theme: typeof Globals
+  children?: React.ReactNode
 }
 
 const Style = styled.div<StyleProps>`

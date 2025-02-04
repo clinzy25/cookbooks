@@ -81,7 +81,7 @@ const Recipe: React.FC<Props> = props => {
     return <Error fillSpace />
   }
   return (
-    <Style className='page-wrapper' id='recipe-page-wrapper'>
+    <Style as='main' className='page-wrapper' id='recipe-page-wrapper'>
       <Head>
         <title>{name}</title>
       </Head>

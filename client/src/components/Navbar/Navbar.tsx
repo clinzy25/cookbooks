@@ -15,7 +15,7 @@ const Navbar: FC = () => {
   const { user } = useUser()
 
   return (
-    <Style id='navbar'>
+    <Style as='nav' id='navbar'>
       <Search />
       <TagList />
       <Image
